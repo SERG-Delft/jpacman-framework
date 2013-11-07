@@ -1,0 +1,10 @@
+# For our emacs users
+*~
+
+# All generated files will be in target thanks to the use of maven
+target/
+
+# for eclipse users
+.classpath
+.project
+.settings/
