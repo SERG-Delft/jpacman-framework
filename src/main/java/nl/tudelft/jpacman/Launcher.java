@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.tudelft.jpacman.board.Board;
-import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.game.Level;
 import nl.tudelft.jpacman.game.Player;
+import nl.tudelft.jpacman.game.SinglePlayerGame;
+import nl.tudelft.jpacman.sprite.Sprite;
 import nl.tudelft.jpacman.ui.Action;
 import nl.tudelft.jpacman.ui.PacManUiBuilder;
 
@@ -47,7 +47,7 @@ public class Launcher {
 			}
 		};
 
-		final Level level = new Level() {
+		Level level = new Level() {
 
 			@Override
 			public Board getBoard() {
@@ -61,71 +61,45 @@ public class Launcher {
 			public int getScore() {
 				return 42;
 			}
+
+			@Override
+			public Sprite getSprite() {
+				return null;
+			}
 		};
 
 		final List<Player> players = new ArrayList<>();
 		players.add(player);
 
-		final Game game = new Game() {
-
-			@Override
-			public void stop() {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void start() {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public boolean isInProgress() {
-				return false;
-			}
-
-			@Override
-			public List<Player> getPlayers() {
-				return players;
-			}
-
-			@Override
-			public Level getLevel() {
-				return level;
-			}
-
-			@Override
-			public void move(Player player, Direction direction) {
-				// TODO Auto-generated method stub
-			}
-		};
+		final SinglePlayerGame game = new SinglePlayerGame(player, level);
 
 		new PacManUiBuilder().withDefaultButtons()
 		.addKey(KeyEvent.VK_UP, new Action() {
 			
 			@Override
 			public void doAction() {
-				game.move(player, Direction.NORTH);
+				game.moveUp();
 			}
 		})
 		.addKey(KeyEvent.VK_DOWN, new Action() {
 			
 			@Override
 			public void doAction() {
-				game.move(player, Direction.SOUTH);
+				game.moveDown();
 			}
 		})
 		.addKey(KeyEvent.VK_LEFT, new Action() {
 			
 			@Override
 			public void doAction() {
-				game.move(player, Direction.WEST);
+				game.moveLeft();
 			}
 		})
 		.addKey(KeyEvent.VK_RIGHT, new Action() {
 			
 			@Override
 			public void doAction() {
-				game.move(player, Direction.EAST);
+				game.moveRight();
 			}
 		})
 		.build(game).start();
