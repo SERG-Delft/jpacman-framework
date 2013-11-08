@@ -37,15 +37,18 @@ public class ImageSprite implements Sprite {
 
 	@Override
 	public Sprite split(int x, int y, int width, int height) {
-		if (image.getWidth(null) < x || image.getHeight(null) < y) {
-			return new EmptySprite();
+		if (withinImage(x, y) && withinImage(x + width, y + width)) {
+			BufferedImage newImage = newImage(width, height);
+			newImage.createGraphics().drawImage(image, 0, 0, width - 1, height - 1,
+					x, y, x + width - 1, y + height - 1, null);
+			
+			return new ImageSprite(newImage);
 		}
-
-		BufferedImage newImage = newImage(width, height);
-		newImage.createGraphics().drawImage(image, 0, 0, width - 1, height - 1,
-				x, y, x + width - 1, y + height - 1, null);
-
-		return new ImageSprite(newImage);
+		return new EmptySprite();
+	}
+	
+	private boolean withinImage(int x, int y) {
+		return x < image.getWidth(null) && x >= 0 && y < image.getHeight(null) && y >= 0; 
 	}
 
 	/**

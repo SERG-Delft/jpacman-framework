@@ -2,6 +2,7 @@ package nl.tudelft.jpacman.sprite;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
@@ -22,8 +23,12 @@ public class SpriteStore {
 	 *             When the resource could not be loaded.
 	 */
 	public Sprite loadSprite(String resource) throws IOException {
-		BufferedImage image = ImageIO.read(SpriteStore.class
-				.getResourceAsStream(resource));
+		InputStream input = SpriteStore.class.getResourceAsStream(resource);
+		if (input == null) {
+			throw new IOException("Unable to load " + resource
+					+ ", resource does not exist.");
+		}
+		BufferedImage image = ImageIO.read(input);
 		return new ImageSprite(image);
 	}
 
@@ -49,8 +54,8 @@ public class SpriteStore {
 
 		Sprite[] animation = new Sprite[frames];
 		for (int i = 0; i < frames; i++) {
-			animation[i] = baseImage.split(i * frameWidth, 0, frameWidth - 1,
-					baseImage.getHeight() - 1);
+			animation[i] = baseImage.split(i * frameWidth, 0, frameWidth,
+					baseImage.getHeight());
 		}
 
 		return new AnimatedSprite(animation, delay, loop);
