@@ -2,6 +2,8 @@ package nl.tudelft.jpacman.game;
 
 import java.util.List;
 
+import nl.tudelft.jpacman.board.Direction;
+
 /**
  * A game of Pac-Man.
  * 
@@ -33,4 +35,14 @@ public interface Game {
 	 * @return The level currently being played.
 	 */
 	Level getLevel();
+
+	/**
+	 * Moves the specified player one square in the given direction.
+	 * 
+	 * @param player
+	 *            The player to move.
+	 * @param direction
+	 *            The direction to move in.
+	 */
+	void move(Player player, Direction direction);
 }

@@ -1,14 +1,17 @@
 package nl.tudelft.jpacman;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 import nl.tudelft.jpacman.board.Board;
+import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.game.Level;
 import nl.tudelft.jpacman.game.Player;
+import nl.tudelft.jpacman.ui.Action;
 import nl.tudelft.jpacman.ui.PacManUiBuilder;
 
 /**
@@ -52,16 +55,18 @@ public class Launcher {
 			}
 		};
 
-		final List<Player> players = new ArrayList<>();
-		players.add(new Player() {
-
+		final Player player = new Player() {
+			
 			@Override
 			public int getScore() {
 				return 42;
 			}
-		});
+		};
 
-		Game game = new Game() {
+		final List<Player> players = new ArrayList<>();
+		players.add(player);
+
+		final Game game = new Game() {
 
 			@Override
 			public void stop() {
@@ -87,8 +92,42 @@ public class Launcher {
 			public Level getLevel() {
 				return level;
 			}
+
+			@Override
+			public void move(Player player, Direction direction) {
+				// TODO Auto-generated method stub
+			}
 		};
 
-		new PacManUiBuilder().withDefaultButtons().build(game).start();
+		new PacManUiBuilder().withDefaultButtons()
+		.addKey(KeyEvent.VK_UP, new Action() {
+			
+			@Override
+			public void doAction() {
+				game.move(player, Direction.NORTH);
+			}
+		})
+		.addKey(KeyEvent.VK_DOWN, new Action() {
+			
+			@Override
+			public void doAction() {
+				game.move(player, Direction.SOUTH);
+			}
+		})
+		.addKey(KeyEvent.VK_LEFT, new Action() {
+			
+			@Override
+			public void doAction() {
+				game.move(player, Direction.WEST);
+			}
+		})
+		.addKey(KeyEvent.VK_RIGHT, new Action() {
+			
+			@Override
+			public void doAction() {
+				game.move(player, Direction.EAST);
+			}
+		})
+		.build(game).start();
 	}
 }
