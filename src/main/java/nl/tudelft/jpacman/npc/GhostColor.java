@@ -1,4 +1,4 @@
-package nl.tudelft.jpacman.game;
+package nl.tudelft.jpacman.npc;
 
 public enum GhostColor {
 

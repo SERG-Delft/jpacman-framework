@@ -10,6 +10,7 @@ import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.Player;
 import nl.tudelft.jpacman.game.SinglePlayerGame;
 import nl.tudelft.jpacman.level.Level;
+import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.sprite.Sprite;
 import nl.tudelft.jpacman.ui.Action;
 import nl.tudelft.jpacman.ui.PacManUiBuilder;
@@ -47,7 +48,15 @@ public class Launcher {
 			}
 		};
 
-		Level level = new Level(board);
+		List<Square> startSquares = new ArrayList<>();
+		startSquares.add(new Square() {
+			
+			@Override
+			public List<Unit> getOccupants() {
+				return new ArrayList<>();
+			}
+		});
+		Level level = new Level(board, new ArrayList<NPC>(), startSquares );
 
 		final Player player = new Player() {
 			
