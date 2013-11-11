@@ -10,7 +10,6 @@ import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.sprite.Sprite;
 
 /**
  * Panel displaying a game.
@@ -29,7 +28,7 @@ class BoardPanel extends JPanel {
 	 * The background colour of the board.
 	 */
 	private static final Color BACKGROUND_COLOR = Color.BLACK;
-	
+
 	/**
 	 * The size (in pixels) of a square on the board. The initial size of this
 	 * panel will scale to fit a board with square of this size.
@@ -84,7 +83,7 @@ class BoardPanel extends JPanel {
 
 		g.setColor(BACKGROUND_COLOR);
 		g.fillRect(0, 0, window.width, window.height);
-		
+
 		for (int y = 0; y < board.getHeight(); y++) {
 			for (int x = 0; x < board.getWidth(); x++) {
 				int cellX = x * cellW;
