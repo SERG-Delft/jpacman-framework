@@ -8,7 +8,7 @@ import nl.tudelft.jpacman.board.Unit;
  * 
  * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
  */
-public abstract class NPC implements Unit {
+public abstract class NPC extends Unit {
 
 	/**
 	 * The strategy to figure out where to go next.

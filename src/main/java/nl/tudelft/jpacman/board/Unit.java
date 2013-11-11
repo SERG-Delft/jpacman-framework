@@ -7,14 +7,23 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * 
  * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
  */
-public interface Unit {
+public abstract class Unit {
 
 	/**
-	 * Returns the sprite of this unit.
-	 * 
-	 * @return The sprite of this unit.
+	 * The square this unit is currently occupying.
 	 */
-	Sprite getSprite();
+	private Square square;
+
+	/**
+	 * Returns the square this unit is currently occupying.
+	 * 
+	 * @return The square this unit is currently occupying, or <code>null</code>
+	 *         if this unit is not on a square.
+	 */
+	public Square getSquare() {
+		assert invariant();
+		return square;
+	}
 
 	/**
 	 * Occupies the target square iff this unit is allowed to as decided by
@@ -23,14 +32,35 @@ public interface Unit {
 	 * @param target
 	 *            The square to occupy.
 	 */
-	void occupy(Square target);
+	public void occupy(Square target) {
+		if (square != null) {
+			square.remove(this);
+		}
+		square = target;
+		target.put(this);
+		assert invariant();
+	}
 
 	/**
-	 * Returns the square this unit is currently occupying.
+	 * Tests whether the square this unit is occupying has this unit listed as
+	 * one of its occupiers.
 	 * 
-	 * @return The square this unit is currently occupying, or <code>null</code>
-	 *         if this unit is not on a square.
+	 * @return <code>true</code> if the square this unit is occupying has this
+	 *         unit listed as one of its occupiers, or if this unit is currently
+	 *         not occupying any square.
 	 */
-	Square getSquare();
+	protected boolean invariant() {
+		if (square != null) {
+			return square.getOccupants().contains(this);
+		}
+		return true;
+	}
+
+	/**
+	 * Returns the sprite of this unit.
+	 * 
+	 * @return The sprite of this unit.
+	 */
+	public abstract Sprite getSprite();
 
 }
