@@ -38,7 +38,7 @@ public abstract class Game {
 				return;
 			}
 			inProgress = true;
-			getLevel().start(this);
+			getLevel().start();
 		}
 	}
 

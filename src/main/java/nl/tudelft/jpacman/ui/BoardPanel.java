@@ -113,9 +113,9 @@ class BoardPanel extends JPanel {
 	 *            The height of this square (in pixels.)
 	 */
 	private void render(Square square, Graphics g, int x, int y, int w, int h) {
-		for (Unit u : square.getOccupants()) {
-			Sprite occupantSprite = u.getSprite();
-			occupantSprite.draw(g, x, y, w, h);
+		square.getSprite().draw(g, x, y, w, h);
+		for (Unit unit : square.getOccupants()) {
+			unit.getSprite().draw(g, x, y, w, h);
 		}
 	}
 }

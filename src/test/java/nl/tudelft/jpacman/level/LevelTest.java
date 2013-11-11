@@ -8,7 +8,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.game.Player;
 import nl.tudelft.jpacman.npc.NPC;
 
@@ -82,8 +81,7 @@ public class LevelTest {
 	 */
 	@Test
 	public void start() {
-		Game game = mock(Game.class);
-		level.start(game);
+		level.start();
 		assertTrue(level.isInProgress());
 	}
 
@@ -92,8 +90,7 @@ public class LevelTest {
 	 */
 	@Test
 	public void startStop() {
-		Game game = mock(Game.class);
-		level.start(game);
+		level.start();
 		level.stop();
 		assertFalse(level.isInProgress());
 	}

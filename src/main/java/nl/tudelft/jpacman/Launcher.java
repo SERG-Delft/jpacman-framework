@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.tudelft.jpacman.board.Board;
+import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.Player;
 import nl.tudelft.jpacman.game.SinglePlayerGame;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.sprite.EmptySprite;
 import nl.tudelft.jpacman.sprite.Sprite;
 import nl.tudelft.jpacman.ui.Action;
 import nl.tudelft.jpacman.ui.PacManUiBuilder;
@@ -34,6 +36,24 @@ public class Launcher {
 					public List<Unit> getOccupants() {
 						return new ArrayList<>();
 					}
+
+					@Override
+					public Square getSquareAt(Direction direction) {
+						// TODO Auto-generated method stub
+						return null;
+					}
+
+					@Override
+					public boolean isAccessibleTo(Unit unit) {
+						// TODO Auto-generated method stub
+						return false;
+					}
+
+					@Override
+					public Sprite getSprite() {
+						// TODO Auto-generated method stub
+						return new EmptySprite();
+					}
 				};
 			}
 
@@ -55,6 +75,24 @@ public class Launcher {
 			public List<Unit> getOccupants() {
 				return new ArrayList<>();
 			}
+
+			@Override
+			public Square getSquareAt(Direction direction) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean isAccessibleTo(Unit unit) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public Sprite getSprite() {
+				// TODO Auto-generated method stub
+				return new EmptySprite();
+			}
 		});
 		Level level = new Level(board, new ArrayList<NPC>(), startSquares );
 
@@ -74,6 +112,12 @@ public class Launcher {
 			public void occupy(Square target) {
 				// TODO Auto-generated method stub
 				
+			}
+
+			@Override
+			public Square getSquare() {
+				// TODO Auto-generated method stub
+				return null;
 			}
 		};
 

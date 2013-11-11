@@ -13,7 +13,6 @@ import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.game.Player;
 import nl.tudelft.jpacman.npc.NPC;
 
@@ -73,6 +72,11 @@ public class Level {
 	private final List<Player> players;
 
 	/**
+	 * The table of possible collisions between units.
+	 */
+	private final CollisionTable collisions;
+
+	/**
 	 * Creates a new level for the board.
 	 * 
 	 * @param b
@@ -97,6 +101,8 @@ public class Level {
 		this.startSquares = startPositions;
 		this.startSquareIndex = 0;
 		this.players = new ArrayList<>();
+		
+		this.collisions = new CollisionInteractionMap();
 	}
 
 	/**
@@ -143,23 +149,29 @@ public class Level {
 		assert unit != null;
 		assert direction != null;
 
+		if (!isInProgress()) {
+			return;
+		}
+
 		synchronized (moveLock) {
-			if (!isInProgress()) {
-				return;
+			Square location = unit.getSquare();
+			Square destination = location.getSquareAt(direction);
+			
+			if (destination.isAccessibleTo(unit)) {
+				unit.occupy(destination);
+				List<Unit> occupants = destination.getOccupants();
+				for (Unit occupant : occupants) {
+					collisions.collide(unit, occupant);
+				}
 			}
 		}
 	}
-
+	
 	/**
 	 * Starts or resumes this level, allowing movement and (re)starting the
 	 * NPCs.
-	 * 
-	 * @param game
-	 *            The game that is running this level.
 	 */
-	public void start(Game game) {
-		assert game != null;
-
+	public void start() {
 		synchronized (startStopLock) {
 			if (isInProgress()) {
 				return;
@@ -220,5 +232,4 @@ public class Level {
 	public boolean isInProgress() {
 		return inProgress;
 	}
-
 }
