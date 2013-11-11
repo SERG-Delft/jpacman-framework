@@ -5,5 +5,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
 public interface Unit {
 
 	Sprite getSprite();
+	
+	void occupy(Square target);
 
 }

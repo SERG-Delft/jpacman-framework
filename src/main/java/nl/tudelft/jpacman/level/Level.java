@@ -87,7 +87,7 @@ public class Level {
 		assert ghosts != null;
 		assert startPositions != null && !startPositions.isEmpty();
 
-		this.service = Executors.newSingleThreadScheduledExecutor();
+		this.service = Executors.newScheduledThreadPool(1);
 		this.board = b;
 		this.inProgress = false;
 		this.npcs = new HashMap<>();
@@ -100,17 +100,23 @@ public class Level {
 	}
 
 	/**
-	 * Registers a player on this level, assigning him to a starting position.
+	 * Registers a player on this level, assigning him to a starting position. A
+	 * player can only be registered once, registering a player again will have
+	 * no effect.
 	 * 
 	 * @param p
 	 *            The player to register.
 	 */
 	public void registerPlayer(Player p) {
+		assert p != null;
+		
+		if (players.contains(p)) {
+			return;
+		}
+		
 		players.add(p);
 		Square square = startSquares.get(startSquareIndex);
-
-		// TODO put player on square.
-
+		p.occupy(square);
 		startSquareIndex++;
 		startSquareIndex %= startSquares.size();
 	}

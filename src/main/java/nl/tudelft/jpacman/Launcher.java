@@ -69,6 +69,12 @@ public class Launcher {
 			public Sprite getSprite() {
 				return null;
 			}
+
+			@Override
+			public void occupy(Square target) {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 
 		final List<Player> players = new ArrayList<>();
