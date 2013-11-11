@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.tudelft.jpacman.board.Board;
+import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
@@ -13,6 +14,7 @@ import nl.tudelft.jpacman.game.SinglePlayerGame;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.sprite.EmptySprite;
+import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
 import nl.tudelft.jpacman.ui.Action;
 import nl.tudelft.jpacman.ui.PacManUiBuilder;
@@ -26,6 +28,8 @@ public class Launcher {
 
 	public static void main(String[] args) {
 
+		PacManSprites sprites = new PacManSprites();
+		
 		Square square = new Square() {
 			
 			@Override
@@ -41,7 +45,7 @@ public class Launcher {
 		};
 		Square[][] grid = new Square[][] {{square}};
 		
-		final Board board = new Board(grid);
+		final Board board = new BoardFactory(sprites).createBoard(grid);
 		
 		List<Square> startSquares = new ArrayList<>();
 		startSquares.add(new Square() {
