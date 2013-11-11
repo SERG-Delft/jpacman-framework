@@ -26,48 +26,23 @@ public class Launcher {
 
 	public static void main(String[] args) {
 
-		final Board board = new Board() {
-
+		Square square = new Square() {
+			
 			@Override
-			public Square squareAt(int x, int y) {
-				return new Square() {
-
-					@Override
-					public List<Unit> getOccupants() {
-						return new ArrayList<>();
-					}
-
-					@Override
-					public Square getSquareAt(Direction direction) {
-						// TODO Auto-generated method stub
-						return null;
-					}
-
-					@Override
-					public boolean isAccessibleTo(Unit unit) {
-						// TODO Auto-generated method stub
-						return false;
-					}
-
-					@Override
-					public Sprite getSprite() {
-						// TODO Auto-generated method stub
-						return new EmptySprite();
-					}
-				};
+			public boolean isAccessibleTo(Unit unit) {
+				// TODO Auto-generated method stub
+				return false;
 			}
-
+			
 			@Override
-			public int getWidth() {
-				return 10;
-			}
-
-			@Override
-			public int getHeight() {
-				return 10;
+			public Sprite getSprite() {
+				return new EmptySprite();
 			}
 		};
-
+		Square[][] grid = new Square[][] {{square}};
+		
+		final Board board = new Board(grid);
+		
 		List<Square> startSquares = new ArrayList<>();
 		startSquares.add(new Square() {
 			
