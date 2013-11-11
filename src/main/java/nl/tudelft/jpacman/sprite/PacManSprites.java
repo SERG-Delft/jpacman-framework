@@ -97,7 +97,8 @@ public class PacManSprites extends SpriteStore {
 	public Map<Direction, Sprite> getGhostSprite(GhostColor color) {
 		assert color != null;
 
-		String resource = "/sprite/ghost_" + color.name().toLowerCase() + ".png";
+		String resource = "/sprite/ghost_" + color.name().toLowerCase()
+				+ ".png";
 		return directionSprite(resource, GHOST_ANIMATION_FRAMES);
 	}
 
@@ -107,7 +108,7 @@ public class PacManSprites extends SpriteStore {
 	public Sprite getWallSprite() {
 		return loadSprite("/sprite/wall.png");
 	}
-	
+
 	/**
 	 * @return The sprite for the ground.
 	 */
