@@ -7,9 +7,9 @@ import java.util.List;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.game.Level;
 import nl.tudelft.jpacman.game.Player;
 import nl.tudelft.jpacman.game.SinglePlayerGame;
+import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.sprite.Sprite;
 import nl.tudelft.jpacman.ui.Action;
 import nl.tudelft.jpacman.ui.PacManUiBuilder;
@@ -47,13 +47,7 @@ public class Launcher {
 			}
 		};
 
-		Level level = new Level() {
-
-			@Override
-			public Board getBoard() {
-				return board;
-			}
-		};
+		Level level = new Level(board);
 
 		final Player player = new Player() {
 			

@@ -3,6 +3,7 @@ package nl.tudelft.jpacman.game;
 import java.util.List;
 
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.level.Level;
 
 import com.google.common.collect.ImmutableList;
 
@@ -11,7 +12,7 @@ import com.google.common.collect.ImmutableList;
  * 
  * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
  */
-public class SinglePlayerGame implements Game {
+public class SinglePlayerGame extends Game {
 
 	/**
 	 * The player of this game.
@@ -22,11 +23,6 @@ public class SinglePlayerGame implements Game {
 	 * The level of this game.
 	 */
 	private final Level level;
-
-	/**
-	 * <code>true</code> if the game is in progress.
-	 */
-	private boolean inProgress;
 
 	/**
 	 * Create a new single player game for the provided level and player.
@@ -42,22 +38,6 @@ public class SinglePlayerGame implements Game {
 
 		this.player = p;
 		this.level = l;
-		this.inProgress = false;
-	}
-
-	@Override
-	public void start() {
-		inProgress = true;
-	}
-
-	@Override
-	public void stop() {
-		inProgress = false;
-	}
-
-	@Override
-	public boolean isInProgress() {
-		return inProgress;
 	}
 
 	@Override
@@ -98,10 +78,4 @@ public class SinglePlayerGame implements Game {
 		move(player, Direction.EAST);
 	}
 
-	@Override
-	public void move(Player player, Direction direction) {
-		if (isInProgress()) {
-			// execute player move.
-		}
-	}
 }
