@@ -1,19 +1,17 @@
 package nl.tudelft.jpacman;
 
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.BoardFactory;
-import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.Player;
 import nl.tudelft.jpacman.game.SinglePlayerGame;
 import nl.tudelft.jpacman.level.Level;
-import nl.tudelft.jpacman.npc.NPC;
-import nl.tudelft.jpacman.sprite.EmptySprite;
+import nl.tudelft.jpacman.level.LevelFactory;
+import nl.tudelft.jpacman.level.MapParser;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
 import nl.tudelft.jpacman.ui.Action;
@@ -26,55 +24,16 @@ import nl.tudelft.jpacman.ui.PacManUiBuilder;
  */
 public class Launcher {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
 		PacManSprites sprites = new PacManSprites();
 		
-		Square square = new Square() {
-			
-			@Override
-			public boolean isAccessibleTo(Unit unit) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-			
-			@Override
-			public Sprite getSprite() {
-				return new EmptySprite();
-			}
-		};
-		Square[][] grid = new Square[][] {{square}};
+		LevelFactory lf = new LevelFactory(sprites);
+		BoardFactory bf = new BoardFactory(sprites);
 		
-		final Board board = new BoardFactory(sprites).createBoard(grid);
+		MapParser parser = new MapParser(lf, bf);
+		Level level = parser.parseMap(Launcher.class.getResourceAsStream("/board.txt"));
 		
-		List<Square> startSquares = new ArrayList<>();
-		startSquares.add(new Square() {
-			
-			@Override
-			public List<Unit> getOccupants() {
-				return new ArrayList<>();
-			}
-
-			@Override
-			public Square getSquareAt(Direction direction) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public boolean isAccessibleTo(Unit unit) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public Sprite getSprite() {
-				// TODO Auto-generated method stub
-				return new EmptySprite();
-			}
-		});
-		Level level = new Level(board, new ArrayList<NPC>(), startSquares );
-
 		final Player player = new Player() {
 			
 			@Override

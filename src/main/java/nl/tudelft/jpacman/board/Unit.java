@@ -13,7 +13,35 @@ public abstract class Unit {
 	 * The square this unit is currently occupying.
 	 */
 	private Square square;
+	
+	/**
+	 * The direction this unit is facing.
+	 */
+	private Direction direction;
 
+	/**
+	 * Creates a unit that is facing east.
+	 */
+	public Unit() {
+		this.direction = Direction.EAST;
+	}
+	
+	/**
+	 * Sets this unit to face the new direction.
+	 * @param newDirection The new direction this unit is facing.
+	 */
+	public void setDirection(Direction newDirection) {
+		this.direction = newDirection;
+	}
+	
+	/**
+	 * Returns the current direction this unit is facing.
+	 * @return The current direction this unit is facing.
+	 */
+	public Direction getDirection() {
+		return this.direction;
+	}
+	
 	/**
 	 * Returns the square this unit is currently occupying.
 	 * 
