@@ -38,6 +38,7 @@ public class SinglePlayerGame extends Game {
 
 		this.player = p;
 		this.level = l;
+		level.registerPlayer(p);
 	}
 
 	@Override

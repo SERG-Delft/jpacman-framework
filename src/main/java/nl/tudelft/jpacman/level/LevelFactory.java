@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.npc.Ghost;
 import nl.tudelft.jpacman.npc.GhostColor;
 import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.sprite.PacManSprites;
@@ -72,7 +73,7 @@ public class LevelFactory {
 	 * 
 	 * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
 	 */
-	private class RandomGhost extends NPC {
+	private class RandomGhost extends Ghost {
 
 		/**
 		 * The suggested delay between moves.
@@ -80,16 +81,11 @@ public class LevelFactory {
 		private static final long DELAY = 200L;
 		
 		/**
-		 * The sprite of this unit.
-		 */
-		private final Map<Direction, Sprite> sprite;
-		
-		/**
 		 * Creates a new random ghost.
 		 * @param ghostSprite The sprite for the ghost.
 		 */
 		private RandomGhost(Map<Direction, Sprite> ghostSprite) {
-			this.sprite = ghostSprite;
+			super(ghostSprite);
 		}
 		
 		@Override
@@ -109,11 +105,6 @@ public class LevelFactory {
 				}
 			}
 			return null;
-		}
-
-		@Override
-		public Sprite getSprite() {
-			return sprite.get(getDirection());
 		}
 	}
 }

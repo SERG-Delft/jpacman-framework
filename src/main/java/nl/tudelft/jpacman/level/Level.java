@@ -154,6 +154,7 @@ public class Level {
 		}
 
 		synchronized (moveLock) {
+			unit.setDirection(direction);
 			Square location = unit.getSquare();
 			Square destination = location.getSquareAt(direction);
 			
