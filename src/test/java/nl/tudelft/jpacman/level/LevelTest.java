@@ -46,6 +46,11 @@ public class LevelTest {
 	 * The board for this level.
 	 */
 	private final Board board = mock(Board.class);
+	
+	/**
+	 * The collision map.
+	 */
+	private final CollisionMap collisions = mock(CollisionMap.class);
 
 	/**
 	 * Sets up the level with the default board, a single NPC and a starting
@@ -54,7 +59,7 @@ public class LevelTest {
 	@Before
 	public void setup() {
 		level = new Level(board, Lists.newArrayList(ghost), Lists.newArrayList(
-				square1, square2));
+				square1, square2), collisions);
 		when(ghost.getInterval()).thenReturn(100L);
 	}
 
