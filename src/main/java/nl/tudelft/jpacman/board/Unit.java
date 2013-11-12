@@ -61,12 +61,24 @@ public abstract class Unit {
 	 *            The square to occupy.
 	 */
 	public void occupy(Square target) {
+		assert target != null;
+		
 		if (square != null) {
 			square.remove(this);
 		}
 		square = target;
 		target.put(this);
 		assert invariant();
+	}
+	
+	/**
+	 * Leaves the currently occupying square, thus removing this unit from the board.
+	 */
+	public void leaveSquare() {
+		if (square != null) {
+			square.remove(this);
+			square = null;
+		}
 	}
 
 	/**

@@ -8,7 +8,7 @@ import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import nl.tudelft.jpacman.game.Player;
+import nl.tudelft.jpacman.level.Player;
 
 /**
  * A panel consisting of a column for each player, with the numbered players on

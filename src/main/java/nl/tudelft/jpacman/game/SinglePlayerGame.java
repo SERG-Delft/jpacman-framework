@@ -4,6 +4,7 @@ import java.util.List;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.level.Level;
+import nl.tudelft.jpacman.level.Player;
 
 import com.google.common.collect.ImmutableList;
 

@@ -13,7 +13,6 @@ import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.game.Player;
 import nl.tudelft.jpacman.npc.NPC;
 
 /**
@@ -74,7 +73,12 @@ public class Level {
 	/**
 	 * The table of possible collisions between units.
 	 */
-	private final CollisionTable collisions;
+	private final CollisionMap collisions;
+
+	/**
+	 * The objects observing this level.
+	 */
+	private final List<LevelObserver> observers;
 
 	/**
 	 * Creates a new level for the board.
@@ -85,8 +89,11 @@ public class Level {
 	 *            The ghosts on the board.
 	 * @param startPositions
 	 *            The squares on which players start on this board.
+	 * @param collisionMap
+	 *            The collection of collisions that should be handled.
 	 */
-	public Level(Board b, List<NPC> ghosts, List<Square> startPositions) {
+	public Level(Board b, List<NPC> ghosts, List<Square> startPositions,
+			CollisionMap collisionMap) {
 		assert b != null;
 		assert ghosts != null;
 		assert startPositions != null && !startPositions.isEmpty();
@@ -101,8 +108,31 @@ public class Level {
 		this.startSquares = startPositions;
 		this.startSquareIndex = 0;
 		this.players = new ArrayList<>();
-		
-		this.collisions = new CollisionInteractionMap();
+		this.collisions = collisionMap;
+		this.observers = new ArrayList<>();
+	}
+
+	/**
+	 * Adds an observer that will be notified when the level is won or lost.
+	 * 
+	 * @param observer
+	 *            The observer that will be notified.
+	 */
+	public void addObserver(LevelObserver observer) {
+		if (observers.contains(observer)) {
+			return;
+		}
+		observers.add(observer);
+	}
+
+	/**
+	 * Removes an observer if it was listed.
+	 * 
+	 * @param observer
+	 *            The observer to be removed.
+	 */
+	public void removeObserver(LevelObserver observer) {
+		observers.remove(observer);
 	}
 
 	/**
@@ -115,11 +145,11 @@ public class Level {
 	 */
 	public void registerPlayer(Player p) {
 		assert p != null;
-		
+
 		if (players.contains(p)) {
 			return;
 		}
-		
+
 		players.add(p);
 		Square square = startSquares.get(startSquareIndex);
 		p.occupy(square);
@@ -157,7 +187,7 @@ public class Level {
 			unit.setDirection(direction);
 			Square location = unit.getSquare();
 			Square destination = location.getSquareAt(direction);
-			
+
 			if (destination.isAccessibleTo(unit)) {
 				unit.occupy(destination);
 				List<Unit> occupants = destination.getOccupants();
@@ -165,9 +195,10 @@ public class Level {
 					collisions.collide(unit, occupant);
 				}
 			}
+			updateObservers();
 		}
 	}
-	
+
 	/**
 	 * Starts or resumes this level, allowing movement and (re)starting the
 	 * NPCs.
@@ -179,6 +210,7 @@ public class Level {
 			}
 			startNPCs();
 			inProgress = true;
+			updateObservers();
 		}
 	}
 
@@ -232,5 +264,77 @@ public class Level {
 	 */
 	public boolean isInProgress() {
 		return inProgress;
+	}
+
+	/**
+	 * Updates the observers about the state of this level.
+	 */
+	private void updateObservers() {
+		if (!isAnyPlayerAlive()) {
+			for (LevelObserver o : observers) {
+				o.levelLost();
+			}
+		}
+		if (remainingPellets() == 0) {
+			for (LevelObserver o : observers) {
+				o.levelWon();
+			}
+		}
+	}
+
+	/**
+	 * Returns <code>true</code> iff at least one of the players in this level
+	 * is alive.
+	 * 
+	 * @return <code>true</code> if at least one of the registered players is
+	 *         alive.
+	 */
+	private boolean isAnyPlayerAlive() {
+		for (Player p : players) {
+			if (p.isAlive()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Counts the pellets remaining on the board.
+	 * 
+	 * @return The amount of pellets remaining on the board.
+	 */
+	private int remainingPellets() {
+		Board b = getBoard();
+		int pellets = 0;
+		for (int x = 0; x < b.getWidth(); x++) {
+			for (int y = 0; y < b.getHeight(); y++) {
+				for (Unit u : b.squareAt(x, y).getOccupants()) {
+					if (u instanceof Pellet) {
+						pellets++;
+					}
+				}
+			}
+		}
+		return pellets;
+	}
+
+	/**
+	 * An observer that will be notified when the level is won or lost.
+	 * 
+	 * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+	 */
+	public static interface LevelObserver {
+
+		/**
+		 * The level has been won. Typically the level should be stopped when
+		 * this event is received.
+		 */
+		void levelWon();
+
+		/**
+		 * The level has been lost. Typically the level should be stopped when
+		 * this event is received.
+		 */
+		void levelLost();
 	}
 }

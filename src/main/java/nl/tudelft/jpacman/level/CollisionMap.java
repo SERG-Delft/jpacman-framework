@@ -8,7 +8,7 @@ import nl.tudelft.jpacman.board.Unit;
  * 
  * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
  */
-public interface CollisionTable {
+public interface CollisionMap {
 
 	/**
 	 * Collides the two units and handles the result of the collision, which

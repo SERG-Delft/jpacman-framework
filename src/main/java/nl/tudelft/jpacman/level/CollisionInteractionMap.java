@@ -13,7 +13,7 @@ import nl.tudelft.jpacman.board.Unit;
  * @author Michael de Jong <m.dejong-2@student.tudelft.nl>
  * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
  */
-public class CollisionInteractionMap implements CollisionTable {
+public class CollisionInteractionMap implements CollisionMap {
 
 	/**
 	 * The collection of collision handlers.

@@ -4,13 +4,15 @@ import java.util.List;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.level.Level;
+import nl.tudelft.jpacman.level.Level.LevelObserver;
+import nl.tudelft.jpacman.level.Player;
 
 /**
  * A basic implementation of a Pac-Man game.
  * 
  * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
  */
-public abstract class Game {
+public abstract class Game implements LevelObserver {
 
 	/**
 	 * <code>true</code> if the game is in progress.
@@ -38,6 +40,7 @@ public abstract class Game {
 				return;
 			}
 			inProgress = true;
+			getLevel().addObserver(this);
 			getLevel().start();
 		}
 	}
@@ -85,5 +88,15 @@ public abstract class Game {
 			// execute player move.
 			getLevel().move(player, direction);
 		}
+	}
+	
+	@Override
+	public void levelWon() {
+		stop();
+	}
+	
+	@Override
+	public void levelLost() {
+		stop();
 	}
 }
