@@ -11,6 +11,10 @@ import nl.tudelft.jpacman.level.CollisionInteractionMap.CollisionHandler;
 import nl.tudelft.jpacman.npc.Ghost;
 import nl.tudelft.jpacman.npc.GhostColor;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.Blinky;
+import nl.tudelft.jpacman.npc.ghost.Clyde;
+import nl.tudelft.jpacman.npc.ghost.Inky;
+import nl.tudelft.jpacman.npc.ghost.Pinky;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
 
@@ -34,6 +38,11 @@ public class LevelFactory {
 	private PacManSprites sprites;
 
 	/**
+	 * Used to cycle through the various ghost types.
+	 */
+	private int ghostIndex;
+
+	/**
 	 * Creates a new level factory.
 	 * 
 	 * @param spriteStore
@@ -41,6 +50,7 @@ public class LevelFactory {
 	 */
 	public LevelFactory(PacManSprites spriteStore) {
 		this.sprites = spriteStore;
+		this.ghostIndex = -1;
 	}
 
 	/**
@@ -87,7 +97,20 @@ public class LevelFactory {
 	 * @return The new ghost.
 	 */
 	public NPC createGhost() {
-		return new RandomGhost(sprites.getGhostSprite(GhostColor.RED));
+		ghostIndex++;
+		ghostIndex %= 4;
+		switch (ghostIndex) {
+		case 0:
+			return new Blinky(sprites);
+		case 1:
+			return new Inky(sprites);
+		case 2:
+			return new Pinky(sprites);
+		case 3:
+			return new Clyde(sprites);
+		default:
+			return new RandomGhost(sprites.getGhostSprite(GhostColor.RED));
+		}
 	}
 
 	/**

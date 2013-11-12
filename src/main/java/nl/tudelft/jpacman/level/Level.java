@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import nl.tudelft.jpacman.board.Board;
@@ -40,14 +39,9 @@ public class Level {
 	private final Object startStopLock = new Object();
 
 	/**
-	 * The service that executes the NPC moves.
-	 */
-	private final ScheduledExecutorService service;
-
-	/**
 	 * The NPCs of this level and, if they are running, their schedules.
 	 */
-	private final Map<NPC, ScheduledFuture<?>> npcs;
+	private final Map<NPC, ScheduledExecutorService> npcs;
 
 	/**
 	 * <code>true</code> iff this level is currently in progress, i.e. players
@@ -98,7 +92,6 @@ public class Level {
 		assert ghosts != null;
 		assert startPositions != null && !startPositions.isEmpty();
 
-		this.service = Executors.newScheduledThreadPool(1);
 		this.board = b;
 		this.inProgress = false;
 		this.npcs = new HashMap<>();
@@ -233,16 +226,11 @@ public class Level {
 	 */
 	private void startNPCs() {
 		for (final NPC npc : npcs.keySet()) {
-			long interval = npc.getInterval();
-			ScheduledFuture<?> schedule = service.scheduleAtFixedRate(
-					new Runnable() {
-
-						@Override
-						public void run() {
-							move(npc, npc.nextMove());
-						}
-					}, interval / 2, interval, TimeUnit.MILLISECONDS);
-			npcs.put(npc, schedule);
+			ScheduledExecutorService service = Executors
+					.newSingleThreadScheduledExecutor();
+			service.schedule(new NpcMoveTask(service, npc),
+					npc.getInterval() / 2, TimeUnit.MILLISECONDS);
+			npcs.put(npc, service);
 		}
 	}
 
@@ -251,8 +239,8 @@ public class Level {
 	 * executed.
 	 */
 	private void stopNPCs() {
-		for (ScheduledFuture<?> schedule : npcs.values()) {
-			schedule.cancel(true);
+		for (ScheduledExecutorService service : npcs.values()) {
+			service.shutdown();
 		}
 	}
 
@@ -316,6 +304,46 @@ public class Level {
 			}
 		}
 		return pellets;
+	}
+
+	/**
+	 * A task that moves an NPC and reschedules itself after it finished.
+	 * 
+	 * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+	 */
+	private class NpcMoveTask implements Runnable {
+
+		/**
+		 * The service executing the task.
+		 */
+		private final ScheduledExecutorService service;
+
+		/**
+		 * The NPC to move.
+		 */
+		private final NPC npc;
+
+		/**
+		 * Creates a new task.
+		 * 
+		 * @param s
+		 *            The service that executes the task.
+		 * @param n
+		 *            The NPC to move.
+		 */
+		private NpcMoveTask(ScheduledExecutorService s, NPC n) {
+			this.service = s;
+			this.npc = n;
+		}
+
+		@Override
+		public void run() {
+			Direction nextMove = npc.nextMove();
+			if (nextMove != null) {
+				move(npc, nextMove);
+			}
+			service.schedule(this, npc.getInterval(), TimeUnit.MILLISECONDS);
+		}
 	}
 
 	/**
