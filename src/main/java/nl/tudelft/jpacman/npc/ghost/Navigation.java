@@ -1,14 +1,16 @@
 package nl.tudelft.jpacman.npc.ghost;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Set;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Navigation provides utility to nagivate on {@link Square}s.
@@ -90,12 +92,13 @@ public final class Navigation {
 	public static Unit findNearest(Class<? extends Unit> T,
 			Square currentLocation) {
 		long t0 = System.currentTimeMillis();
-		List<Square> targets = new ArrayList<>();
-		List<Square> visited = new ArrayList<>();
-		targets.add(currentLocation);
+		List<Square> toDo = new ArrayList<>();
+		Set<Square> visited = new HashSet<>();
+		
+		toDo.add(currentLocation);
 
-		while (!targets.isEmpty()) {
-			Square square = targets.remove(0);
+		while (!toDo.isEmpty()) {
+			Square square = toDo.remove(0);
 			Unit unit = findUnit(T, square);
 			if (unit != null) {
 				log.debug("Found unit in {}ms.", System.currentTimeMillis()
@@ -105,8 +108,8 @@ public final class Navigation {
 			visited.add(square);
 			for (Direction d : Direction.values()) {
 				Square newTarget = square.getSquareAt(d);
-				if (!visited.contains(newTarget)) {
-					targets.add(newTarget);
+				if (!visited.contains(newTarget) && !toDo.contains(newTarget)) {
+					toDo.add(newTarget);
 				}
 			}
 		}
