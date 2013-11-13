@@ -1,16 +1,17 @@
 package nl.tudelft.jpacman.npc.ghost;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.sprite.PacManSprites;
+import nl.tudelft.jpacman.sprite.Sprite;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -48,15 +49,16 @@ public class Inky extends Ghost {
 	private static final int SQUARES_AHEAD = 2;
 
 	/**
-	 * The variation in intervals, this makes the ghosts look more dynamic and less predictable.
+	 * The variation in intervals, this makes the ghosts look more dynamic and
+	 * less predictable.
 	 */
 	private static final int INTERVAL_VARIATION = 50;
-	
+
 	/**
 	 * The base movement interval.
 	 */
 	private static final int MOVE_INTERVAL = 175;
-	
+
 	/**
 	 * The log.
 	 */
@@ -64,10 +66,12 @@ public class Inky extends Ghost {
 
 	/**
 	 * Creates a new "Inky", a.k.a. Bashful.
-	 * @param spriteStore The sprite store containing sprites for the ghosts.
+	 * 
+	 * @param spriteMap
+	 *            The sprites for this ghost.
 	 */
-	public Inky(PacManSprites spriteStore) {
-		super(spriteStore.getGhostSprite(GhostColor.CYAN));
+	public Inky(Map<Direction, Sprite> spriteMap) {
+		super(spriteMap);
 	}
 
 	@Override
@@ -103,11 +107,13 @@ public class Inky extends Ghost {
 	 */
 	@Override
 	public Direction nextMove() {
+		long t0 = System.currentTimeMillis();
 		Unit blinky = Navigation.findNearest(Blinky.class, getSquare());
 		if (blinky == null) {
 			LOG.debug("Could not find Blinky, will move around randomly.");
 			Direction d = randomMove();
-			LOG.debug("Moving {}", d);
+			LOG.debug("Moving {} (calculated in {}ms)", d,
+					System.currentTimeMillis() - t0);
 			return d;
 		}
 		LOG.debug("Found Blinky (position A)");
@@ -116,7 +122,8 @@ public class Inky extends Ghost {
 		if (player == null) {
 			LOG.debug("Could not find Player, will move around randomly.");
 			Direction d = randomMove();
-			LOG.debug("Moving {}", d);
+			LOG.debug("Moving {} (calculated in {}ms)", d,
+					System.currentTimeMillis() - t0);
 			return d;
 		}
 		LOG.debug("Player found.");
@@ -126,7 +133,8 @@ public class Inky extends Ghost {
 		for (int i = 0; i < SQUARES_AHEAD; i++) {
 			playerDestination = playerDestination.getSquareAt(targetDirection);
 		}
-		LOG.debug("Calculated position B: {} squares {} of Player.", SQUARES_AHEAD, targetDirection);
+		LOG.debug("Calculated position B: {} squares {} of Player.",
+				SQUARES_AHEAD, targetDirection);
 
 		Square destination = playerDestination;
 		List<Direction> firstHalf = Navigation.shortestPath(blinky.getSquare(),
@@ -134,10 +142,11 @@ public class Inky extends Ghost {
 		if (firstHalf == null) {
 			LOG.debug("Could not find a path from (Pos A) to (Pos B), will move randomly.");
 			Direction d = randomMove();
-			LOG.debug("Moving {}", d);
+			LOG.debug("Moving {} (calculated in {}ms)", d,
+					System.currentTimeMillis() - t0);
 			return d;
 		}
-		
+
 		for (Direction d : firstHalf) {
 			destination = playerDestination.getSquareAt(d);
 		}
@@ -147,12 +156,15 @@ public class Inky extends Ghost {
 				destination, this);
 		if (path != null && !path.isEmpty()) {
 			Direction d = path.get(0);
-			LOG.debug("Found path to destination. Moving {}", d);
+			LOG.debug(
+					"Found path to destination. Moving {} (calculated in {}ms)",
+					d, System.currentTimeMillis() - t0);
 			return d;
 		}
 		LOG.debug("Could not find path to destination, will move around randomly.");
 		Direction d = randomMove();
-		LOG.debug("Moving {}", d);
+		LOG.debug("Moving {} (calculated in {}ms)", d,
+				System.currentTimeMillis() - t0);
 		return d;
 	}
 

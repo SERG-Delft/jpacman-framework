@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.sprite.PacManSprites;
+import nl.tudelft.jpacman.sprite.Sprite;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -75,11 +75,11 @@ public class Clyde extends Ghost {
 	/**
 	 * Creates a new "Clyde", a.k.a. "Pokey".
 	 * 
-	 * @param spriteStore
-	 *            The sprite store containing sprites for the ghosts.
+	 * @param spriteMap
+	 *            The sprites for this ghost.
 	 */
-	public Clyde(PacManSprites spriteStore) {
-		super(spriteStore.getGhostSprite(GhostColor.ORANGE));
+	public Clyde(Map<Direction, Sprite> spriteMap) {
+		super(spriteMap);
 	}
 
 	@Override
@@ -106,12 +106,14 @@ public class Clyde extends Ghost {
 	 */
 	@Override
 	public Direction nextMove() {
+		long t0 = System.currentTimeMillis();
 		Square target = Navigation.findNearest(Player.class, getSquare())
 				.getSquare();
 		if (target == null) {
 			LOG.debug("No player found, will move around randomly.");
 			Direction d = randomMove();
-			LOG.debug("Moving {}", d);
+			LOG.debug("Moving {} (calculated in {}ms)", d,
+					System.currentTimeMillis() - t0);
 			return d;
 		}
 		LOG.debug("Player found.");
@@ -127,12 +129,14 @@ public class Clyde extends Ghost {
 						oppositeDir);
 				return oppositeDir;
 			}
-			LOG.debug("Found path to player. Moving {}", d);
+			LOG.debug("Found path to player. Moving {} (calculated in {}ms)",
+					d, System.currentTimeMillis() - t0);
 			return d;
 		}
 		LOG.debug("Could not find path to player, will move around randomly.");
 		Direction d = randomMove();
-		LOG.debug("Moving {}", d);
+		LOG.debug("Moving {} (calculated in {}ms)", d,
+				System.currentTimeMillis() - t0);
 		return d;
 	}
 }

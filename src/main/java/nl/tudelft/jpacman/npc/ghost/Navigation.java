@@ -3,6 +3,9 @@ package nl.tudelft.jpacman.npc.ghost;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
@@ -13,6 +16,11 @@ import nl.tudelft.jpacman.board.Unit;
  * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
  */
 public final class Navigation {
+
+	/**
+	 * The log.
+	 */
+	private static final Logger log = LoggerFactory.getLogger(Navigation.class);
 
 	/**
 	 * Calculates the shortest path. This is done by BFS. This search ensures
@@ -35,6 +43,7 @@ public final class Navigation {
 	 */
 	public static List<Direction> shortestPath(Square from, Square to,
 			Unit traveller) {
+		long t0 = System.currentTimeMillis();
 		if (from == to) {
 			return new ArrayList<>();
 		}
@@ -46,7 +55,10 @@ public final class Navigation {
 			Node n = targets.remove(0);
 			Square s = n.getSquare();
 			if (s == to) {
-				return n.getPath();
+				List<Direction> path = n.getPath();
+				log.debug("Calculated shortest path for {} in {}ms.",
+						traveller, System.currentTimeMillis() - t0);
+				return path;
 			}
 			visited.add(s);
 			for (Direction d : Direction.values()) {
@@ -58,6 +70,8 @@ public final class Navigation {
 				}
 			}
 		}
+		log.debug("Failed to find shortest path, took {}ms.",
+				System.currentTimeMillis() - t0);
 		return null;
 	}
 
@@ -75,6 +89,7 @@ public final class Navigation {
 	 */
 	public static Unit findNearest(Class<? extends Unit> T,
 			Square currentLocation) {
+		long t0 = System.currentTimeMillis();
 		List<Square> targets = new ArrayList<>();
 		List<Square> visited = new ArrayList<>();
 		targets.add(currentLocation);
@@ -83,6 +98,8 @@ public final class Navigation {
 			Square square = targets.remove(0);
 			Unit unit = findUnit(T, square);
 			if (unit != null) {
+				log.debug("Found unit in {}ms.", System.currentTimeMillis()
+						- t0);
 				return unit;
 			}
 			visited.add(square);
@@ -93,6 +110,8 @@ public final class Navigation {
 				}
 			}
 		}
+		log.debug("Failed to find unit, took {}ms.", System.currentTimeMillis()
+				- t0);
 		return null;
 	}
 
