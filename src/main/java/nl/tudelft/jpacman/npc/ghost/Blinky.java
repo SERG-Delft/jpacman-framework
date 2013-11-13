@@ -52,7 +52,7 @@ public class Blinky extends Ghost {
 	/**
 	 * The base movement interval.
 	 */
-	private static final int MOVE_INTERVAL = 175;
+	private static final int MOVE_INTERVAL = 250;
 
 	/**
 	 * The log.

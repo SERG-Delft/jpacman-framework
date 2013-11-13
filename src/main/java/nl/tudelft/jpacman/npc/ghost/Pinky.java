@@ -63,7 +63,7 @@ public class Pinky extends Ghost {
 	/**
 	 * The base movement interval.
 	 */
-	private static final int MOVE_INTERVAL = 125;
+	private static final int MOVE_INTERVAL = 200;
 
 	/**
 	 * The log.

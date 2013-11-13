@@ -51,7 +51,7 @@ public final class Navigation {
 		}
 
 		List<Node> targets = new ArrayList<>();
-		List<Square> visited = new ArrayList<>();
+		Set<Square> visited = new HashSet<>();
 		targets.add(new Node(null, from, null));
 		while (!targets.isEmpty()) {
 			Node n = targets.remove(0);
@@ -94,7 +94,7 @@ public final class Navigation {
 		long t0 = System.currentTimeMillis();
 		List<Square> toDo = new ArrayList<>();
 		Set<Square> visited = new HashSet<>();
-		
+
 		toDo.add(currentLocation);
 
 		while (!toDo.isEmpty()) {
