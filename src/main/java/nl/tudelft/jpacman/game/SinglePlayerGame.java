@@ -33,7 +33,7 @@ public class SinglePlayerGame extends Game {
 	 * @param l
 	 *            The level.
 	 */
-	public SinglePlayerGame(Player p, Level l) {
+	SinglePlayerGame(Player p, Level l) {
 		assert p != null;
 		assert l != null;
 

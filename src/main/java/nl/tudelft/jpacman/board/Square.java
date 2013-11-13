@@ -30,7 +30,7 @@ public abstract class Square {
 	/**
 	 * Creates a new, empty square.
 	 */
-	public Square() {
+	protected Square() {
 		this.occupants = new ArrayList<>();
 		this.neighbours = new EnumMap<>(Direction.class);
 	}

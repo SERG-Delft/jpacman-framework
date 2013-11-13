@@ -22,7 +22,7 @@ public abstract class Unit {
 	/**
 	 * Creates a unit that is facing east.
 	 */
-	public Unit() {
+	protected Unit() {
 		this.direction = Direction.EAST;
 	}
 	

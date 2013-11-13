@@ -96,7 +96,7 @@ public class Level {
 	 * @param collisionMap
 	 *            The collection of collisions that should be handled.
 	 */
-	public Level(Board b, List<NPC> ghosts, List<Square> startPositions,
+	Level(Board b, List<NPC> ghosts, List<Square> startPositions,
 			CollisionMap collisionMap) {
 		assert b != null;
 		assert ghosts != null;
@@ -260,7 +260,7 @@ public class Level {
 	private void stopNPCs() {
 		for (Entry<NPC, ScheduledExecutorService> e : npcs.entrySet()) {
 			LOG.debug("Shutting down NPC thread for {}", e.getKey());
-			e.getValue().shutdown();
+			e.getValue().shutdownNow();
 		}
 	}
 
@@ -336,9 +336,24 @@ public class Level {
 	private class NpcMoveTask implements Runnable {
 
 		/**
+		 * Log for this inner class.
+		 */
+		private final Logger L = LoggerFactory.getLogger(NpcMoveTask.class);
+
+		/**
 		 * The service executing the task.
 		 */
 		private final ScheduledExecutorService service;
+
+		/**
+		 * Time stamp of last execution.
+		 */
+		private long lastExecution = 0;
+
+		/**
+		 * The supposed interval between the last move and this one.
+		 */
+		private long lastDelay = 0;
 
 		/**
 		 * The NPC to move.
@@ -364,10 +379,21 @@ public class Level {
 			if (nextMove != null) {
 				move(npc, nextMove);
 			}
+			debugLogging();
 			long interval = npc.getInterval();
-			LOG.debug("Executed move for {}, next move in {} ms.", npc,
-					interval);
+			L.debug("Executed move for {}, next move in {} ms.", npc, interval);
 			service.schedule(this, interval, TimeUnit.MILLISECONDS);
+			lastDelay = interval;
+			lastExecution = System.currentTimeMillis();
+		}
+
+		private void debugLogging() {
+			if (lastExecution == 0) {
+				lastExecution = System.currentTimeMillis();
+			}
+			long diff = System.currentTimeMillis() - lastExecution;
+			L.debug("Time since last move for {}: {}ms, expected interval: {}ms (diff = {}ms)",
+					npc, diff, lastDelay, diff - lastDelay);
 		}
 	}
 

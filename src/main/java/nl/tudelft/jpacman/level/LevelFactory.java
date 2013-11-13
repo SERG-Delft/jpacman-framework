@@ -2,19 +2,15 @@ package nl.tudelft.jpacman.level;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.level.CollisionInteractionMap.CollisionHandler;
 import nl.tudelft.jpacman.npc.NPC;
-import nl.tudelft.jpacman.npc.ghost.Blinky;
-import nl.tudelft.jpacman.npc.ghost.Clyde;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
-import nl.tudelft.jpacman.npc.ghost.Inky;
-import nl.tudelft.jpacman.npc.ghost.Pinky;
+import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
 
@@ -33,7 +29,7 @@ public class LevelFactory {
 	/**
 	 * The sprite store that provides sprites for units.
 	 */
-	private PacManSprites sprites;
+	private final PacManSprites sprites;
 
 	/**
 	 * Used to cycle through the various ghost types.
@@ -41,14 +37,22 @@ public class LevelFactory {
 	private int ghostIndex;
 
 	/**
+	 * The factory providing ghosts.
+	 */
+	private final GhostFactory ghostFact;
+
+	/**
 	 * Creates a new level factory.
 	 * 
 	 * @param spriteStore
 	 *            The sprite store providing the sprites for units.
+	 * @param ghostFactory
+	 *            The factory providing ghosts.
 	 */
-	public LevelFactory(PacManSprites spriteStore) {
+	public LevelFactory(PacManSprites spriteStore, GhostFactory ghostFactory) {
 		this.sprites = spriteStore;
 		this.ghostIndex = -1;
+		this.ghostFact = ghostFactory;
 	}
 
 	/**
@@ -105,18 +109,18 @@ public class LevelFactory {
 	 * 
 	 * @return The new ghost.
 	 */
-	public NPC createGhost() {
+	NPC createGhost() {
 		ghostIndex++;
 		ghostIndex %= 4;
 		switch (ghostIndex) {
 		case 0:
-			return new Blinky(sprites);
+			return ghostFact.createBlinky();
 		case 1:
-			return new Inky(sprites);
+			return ghostFact.createInky();
 		case 2:
-			return new Pinky(sprites);
+			return ghostFact.createPinky();
 		case 3:
-			return new Clyde(sprites);
+			return ghostFact.createClyde();
 		default:
 			return new RandomGhost(sprites.getGhostSprite(GhostColor.RED));
 		}
@@ -141,7 +145,7 @@ public class LevelFactory {
 		/**
 		 * The suggested delay between moves.
 		 */
-		private static final long DELAY = 200L;
+		private static final long DELAY = 175L;
 
 		/**
 		 * Creates a new random ghost.
@@ -155,7 +159,7 @@ public class LevelFactory {
 
 		@Override
 		public long getInterval() {
-			return (long) (DELAY * .75 + new Random().nextInt((int) DELAY / 2));
+			return DELAY;
 		}
 
 		@Override

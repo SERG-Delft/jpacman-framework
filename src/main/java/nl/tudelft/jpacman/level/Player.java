@@ -37,7 +37,7 @@ public class Player extends Unit {
 	/**
 	 * Creates a new player with a score of 0 points.
 	 */
-	public Player(Map<Direction, Sprite> spriteMap,
+	Player(Map<Direction, Sprite> spriteMap,
 			AnimatedSprite deathAnimation) {
 		this.score = 0;
 		this.alive = true;

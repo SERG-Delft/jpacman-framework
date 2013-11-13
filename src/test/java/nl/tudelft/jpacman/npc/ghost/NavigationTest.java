@@ -41,8 +41,8 @@ public class NavigationTest {
 	@Before
 	public void setup() {
 		PacManSprites sprites = new PacManSprites();
-		parser = new MapParser(new LevelFactory(sprites), new BoardFactory(
-				sprites));
+		parser = new MapParser(new LevelFactory(sprites, new GhostFactory(
+				sprites)), new BoardFactory(sprites));
 	}
 
 	/**
@@ -53,7 +53,8 @@ public class NavigationTest {
 		Board b = parser.parseMap(Lists.newArrayList(" ")).getBoard();
 		Square s1 = b.squareAt(0, 0);
 		Square s2 = b.squareAt(0, 0);
-		List<Direction> path = Navigation.shortestPath(s1, s2, mock(Unit.class));
+		List<Direction> path = Navigation
+				.shortestPath(s1, s2, mock(Unit.class));
 		assertEquals(0, path.size());
 	}
 
@@ -67,10 +68,11 @@ public class NavigationTest {
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(3, 1);
-		List<Direction> path = Navigation.shortestPath(s1, s2, mock(Unit.class));
+		List<Direction> path = Navigation
+				.shortestPath(s1, s2, mock(Unit.class));
 		assertNull(path);
 	}
-	
+
 	/**
 	 * Verifies that having no traveller ignores terrain.
 	 */
@@ -95,7 +97,8 @@ public class NavigationTest {
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(2, 1);
-		List<Direction> path = Navigation.shortestPath(s1, s2, mock(Unit.class));
+		List<Direction> path = Navigation
+				.shortestPath(s1, s2, mock(Unit.class));
 		assertArrayEquals(new Direction[] { Direction.EAST },
 				path.toArray(new Direction[] {}));
 	}
@@ -109,7 +112,8 @@ public class NavigationTest {
 				Lists.newArrayList("####", "#  #", "## #", "####")).getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(2, 2);
-		List<Direction> path = Navigation.shortestPath(s1, s2, mock(Unit.class));
+		List<Direction> path = Navigation
+				.shortestPath(s1, s2, mock(Unit.class));
 		assertArrayEquals(new Direction[] { Direction.EAST, Direction.SOUTH },
 				path.toArray(new Direction[] {}));
 	}
