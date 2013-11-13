@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.npc.Ghost;
-import nl.tudelft.jpacman.npc.GhostColor;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 
 /**
@@ -43,6 +44,25 @@ import nl.tudelft.jpacman.sprite.PacManSprites;
  */
 public class Clyde extends Ghost {
 
+	/**
+	 * The variation in intervals, this makes the ghosts look more dynamic and
+	 * less predictable.
+	 */
+	private static final int INTERVAL_VARIATION = 50;
+
+	/**
+	 * The base movement interval.
+	 */
+	private static final int MOVE_INTERVAL = 175;
+
+	/**
+	 * The log.
+	 */
+	private final static Logger LOG = LoggerFactory.getLogger(Clyde.class);
+
+	/**
+	 * A map of opposite directions.
+	 */
 	private static final Map<Direction, Direction> OPPOSITES = new EnumMap<Direction, Direction>(
 			Direction.class);
 	{
@@ -52,13 +72,19 @@ public class Clyde extends Ghost {
 		OPPOSITES.put(Direction.EAST, Direction.WEST);
 	}
 
+	/**
+	 * Creates a new "Clyde", a.k.a. "Pokey".
+	 * 
+	 * @param spriteStore
+	 *            The sprite store containing sprites for the ghosts.
+	 */
 	public Clyde(PacManSprites spriteStore) {
 		super(spriteStore.getGhostSprite(GhostColor.ORANGE));
 	}
 
 	@Override
 	public long getInterval() {
-		return 175 + new Random().nextInt(50);
+		return MOVE_INTERVAL + new Random().nextInt(INTERVAL_VARIATION);
 	}
 
 	/**
@@ -83,18 +109,30 @@ public class Clyde extends Ghost {
 		Square target = Navigation.findNearest(Player.class, getSquare())
 				.getSquare();
 		if (target == null) {
-			return null;
+			LOG.debug("No player found, will move around randomly.");
+			Direction d = randomMove();
+			LOG.debug("Moving {}", d);
+			return d;
 		}
+		LOG.debug("Player found.");
 
 		List<Direction> path = Navigation.shortestPath(getSquare(), target,
 				this);
 		if (path != null && !path.isEmpty()) {
-			Direction direction = path.get(0);
+			Direction d = path.get(0);
 			if (path.size() <= 8) {
-				return OPPOSITES.get(direction);
+				Direction oppositeDir = OPPOSITES.get(d);
+				LOG.debug(
+						"Player is very close, moving in the other direction. Moving {}",
+						oppositeDir);
+				return oppositeDir;
 			}
-			return direction;
+			LOG.debug("Found path to player. Moving {}", d);
+			return d;
 		}
-		return null;
+		LOG.debug("Could not find path to player, will move around randomly.");
+		Direction d = randomMove();
+		LOG.debug("Moving {}", d);
+		return d;
 	}
 }

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.npc.GhostColor;
+import nl.tudelft.jpacman.npc.ghost.GhostColor;
 
 /**
  * Sprite Store containing the classic Pac-Man sprites.

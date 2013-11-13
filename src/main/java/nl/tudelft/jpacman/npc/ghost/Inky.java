@@ -3,12 +3,13 @@ package nl.tudelft.jpacman.npc.ghost;
 import java.util.List;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.npc.Ghost;
-import nl.tudelft.jpacman.npc.GhostColor;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 
 /**
@@ -44,14 +45,34 @@ import nl.tudelft.jpacman.sprite.PacManSprites;
  */
 public class Inky extends Ghost {
 
+	private static final int SQUARES_AHEAD = 2;
+
+	/**
+	 * The variation in intervals, this makes the ghosts look more dynamic and less predictable.
+	 */
+	private static final int INTERVAL_VARIATION = 50;
+	
+	/**
+	 * The base movement interval.
+	 */
+	private static final int MOVE_INTERVAL = 175;
+	
+	/**
+	 * The log.
+	 */
+	private final static Logger LOG = LoggerFactory.getLogger(Inky.class);
+
+	/**
+	 * Creates a new "Inky", a.k.a. Bashful.
+	 * @param spriteStore The sprite store containing sprites for the ghosts.
+	 */
 	public Inky(PacManSprites spriteStore) {
 		super(spriteStore.getGhostSprite(GhostColor.CYAN));
 	}
 
 	@Override
 	public long getInterval() {
-		// TODO Auto-generated method stub
-		return 175 + new Random().nextInt(50);
+		return MOVE_INTERVAL + new Random().nextInt(INTERVAL_VARIATION);
 	}
 
 	/**
@@ -84,36 +105,55 @@ public class Inky extends Ghost {
 	public Direction nextMove() {
 		Unit blinky = Navigation.findNearest(Blinky.class, getSquare());
 		if (blinky == null) {
-			return null;
+			LOG.debug("Could not find Blinky, will move around randomly.");
+			Direction d = randomMove();
+			LOG.debug("Moving {}", d);
+			return d;
 		}
+		LOG.debug("Found Blinky (position A)");
 
 		Unit player = Navigation.findNearest(Player.class, getSquare());
 		if (player == null) {
-			return null;
+			LOG.debug("Could not find Player, will move around randomly.");
+			Direction d = randomMove();
+			LOG.debug("Moving {}", d);
+			return d;
 		}
+		LOG.debug("Player found.");
 
 		Direction targetDirection = player.getDirection();
 		Square playerDestination = player.getSquare();
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < SQUARES_AHEAD; i++) {
 			playerDestination = playerDestination.getSquareAt(targetDirection);
 		}
+		LOG.debug("Calculated position B: {} squares {} of Player.", SQUARES_AHEAD, targetDirection);
 
 		Square destination = playerDestination;
-		List<Direction> path = Navigation.shortestPath(blinky.getSquare(),
+		List<Direction> firstHalf = Navigation.shortestPath(blinky.getSquare(),
 				playerDestination, null);
-		if (path == null) {
-			return null;
+		if (firstHalf == null) {
+			LOG.debug("Could not find a path from (Pos A) to (Pos B), will move randomly.");
+			Direction d = randomMove();
+			LOG.debug("Moving {}", d);
+			return d;
 		}
-		for (Direction d : path) {
+		
+		for (Direction d : firstHalf) {
 			destination = playerDestination.getSquareAt(d);
 		}
+		LOG.debug("Calculated position C, moving there.");
 
-		List<Direction> route = Navigation.shortestPath(getSquare(),
+		List<Direction> path = Navigation.shortestPath(getSquare(),
 				destination, this);
-		if (route != null && !route.isEmpty()) {
-			return route.get(0);
+		if (path != null && !path.isEmpty()) {
+			Direction d = path.get(0);
+			LOG.debug("Found path to destination. Moving {}", d);
+			return d;
 		}
-		return null;
+		LOG.debug("Could not find path to destination, will move around randomly.");
+		Direction d = randomMove();
+		LOG.debug("Moving {}", d);
+		return d;
 	}
 
 }

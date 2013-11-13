@@ -8,17 +8,15 @@ import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.level.CollisionInteractionMap.CollisionHandler;
-import nl.tudelft.jpacman.npc.Ghost;
-import nl.tudelft.jpacman.npc.GhostColor;
 import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.npc.ghost.Blinky;
 import nl.tudelft.jpacman.npc.ghost.Clyde;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.npc.ghost.GhostColor;
 import nl.tudelft.jpacman.npc.ghost.Inky;
 import nl.tudelft.jpacman.npc.ghost.Pinky;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
-
-import com.google.common.collect.Lists;
 
 /**
  * Factory that creates levels and units.
@@ -67,9 +65,21 @@ public class LevelFactory {
 	public Level createLevel(Board board, List<NPC> ghosts,
 			List<Square> startPositions) {
 
+		CollisionInteractionMap collisionMap = defaultCollisions();
+
+		return new Level(board, ghosts, startPositions, collisionMap);
+	}
+
+	/**
+	 * Creates the default collisions Player-Ghost and Player-Pellet.
+	 * 
+	 * @return The collision map containing collisions for Player-Ghost and
+	 *         Player-Pellet.
+	 */
+	private CollisionInteractionMap defaultCollisions() {
 		CollisionInteractionMap collisionMap = new CollisionInteractionMap();
 
-		collisionMap.onCollision(Player.class, Ghost.class, true,
+		collisionMap.onCollision(Player.class, Ghost.class,
 				new CollisionHandler<Player, Ghost>() {
 
 					@Override
@@ -87,8 +97,7 @@ public class LevelFactory {
 						player.addPoints(pellet.getValue());
 					}
 				});
-
-		return new Level(board, ghosts, startPositions, collisionMap);
+		return collisionMap;
 	}
 
 	/**
@@ -151,16 +160,7 @@ public class LevelFactory {
 
 		@Override
 		public Direction nextMove() {
-			Square square = getSquare();
-			Random r = new Random();
-			List<Direction> dirs = Lists.newArrayList(Direction.values());
-			while (!dirs.isEmpty()) {
-				Direction d = dirs.get(r.nextInt(dirs.size()));
-				if (square.getSquareAt(d).isAccessibleTo(this)) {
-					return d;
-				}
-			}
-			return null;
+			return randomMove();
 		}
 	}
 }

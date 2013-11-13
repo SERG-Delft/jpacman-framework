@@ -3,12 +3,13 @@ package nl.tudelft.jpacman.npc.ghost;
 import java.util.List;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.npc.Ghost;
-import nl.tudelft.jpacman.npc.GhostColor;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 
 /**
@@ -50,14 +51,34 @@ import nl.tudelft.jpacman.sprite.PacManSprites;
  */
 public class Pinky extends Ghost {
 
+	private static final int SQUARES_AHEAD = 4;
+
+	/**
+	 * The variation in intervals, this makes the ghosts look more dynamic and less predictable.
+	 */
+	private static final int INTERVAL_VARIATION = 50;
+	
+	/**
+	 * The base movement interval.
+	 */
+	private static final int MOVE_INTERVAL = 125;
+	
+	/**
+	 * The log.
+	 */
+	private final static Logger LOG = LoggerFactory.getLogger(Pinky.class);
+	
+	/**
+	 * Creates a new "Pinky", a.k.a. "Speedy".
+	 * @param spriteStore The sprite store containing ghost sprites.
+	 */
 	public Pinky(PacManSprites spriteStore) {
 		super(spriteStore.getGhostSprite(GhostColor.PINK));
 	}
 
 	@Override
 	public long getInterval() {
-		// TODO Auto-generated method stub
-		return 125 + new Random().nextInt(50);
+		return MOVE_INTERVAL + new Random().nextInt(INTERVAL_VARIATION);
 	}
 
 	/**
@@ -77,23 +98,33 @@ public class Pinky extends Ghost {
 	@Override
 	public Direction nextMove() {
 
-		Unit u = Navigation.findNearest(Player.class, getSquare());
-		if (u == null) {
-			return null;
+		Unit player = Navigation.findNearest(Player.class, getSquare());
+		if (player == null) {
+			LOG.debug("No player found, will move around randomly.");
+			Direction d = randomMove();
+			LOG.debug("Moving {}", d);
+			return d;
 		}
+		LOG.debug("Player found!");
 
-		Direction targetDirection = u.getDirection();
-		Square destination = u.getSquare();
-		for (int i = 0; i < 4; i++) {
+		Direction targetDirection = player.getDirection();
+		Square destination = player.getSquare();
+		for (int i = 0; i < SQUARES_AHEAD; i++) {
 			destination = destination.getSquareAt(targetDirection);
 		}
+		LOG.debug("Calculated destination: {} squares {} of Player.", SQUARES_AHEAD, targetDirection);
 
 		List<Direction> path = Navigation.shortestPath(getSquare(),
 				destination, this);
 		if (path != null && !path.isEmpty()) {
-			return path.get(0);
+			Direction d = path.get(0);
+			LOG.debug("Found path to destination. Moving {}", d);
+			return d;
 		}
-		return null;
+		LOG.debug("Could not find path to destination, will move around randomly.");
+		Direction d = randomMove();
+		LOG.debug("Moving {}", d);
+		return d;
 	}
 
 }

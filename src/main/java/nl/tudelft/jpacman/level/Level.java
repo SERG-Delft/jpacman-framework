@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import org.slf4j.LoggerFactory;
+
+import org.slf4j.Logger;
 
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
@@ -21,6 +26,11 @@ import nl.tudelft.jpacman.npc.NPC;
  * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
  */
 public class Level {
+
+	/**
+	 * The log.
+	 */
+	private static final Logger LOG = LoggerFactory.getLogger(Level.class);
 
 	/**
 	 * The board of this level.
@@ -142,7 +152,8 @@ public class Level {
 		if (players.contains(p)) {
 			return;
 		}
-
+		LOG.info("Registered player and put him on position {}",
+				startSquareIndex);
 		players.add(p);
 		Square square = startSquares.get(startSquareIndex);
 		p.occupy(square);
@@ -177,16 +188,21 @@ public class Level {
 		}
 
 		synchronized (moveLock) {
+			LOG.debug("Move: {} to the {}", unit, direction);
 			unit.setDirection(direction);
 			Square location = unit.getSquare();
 			Square destination = location.getSquareAt(direction);
 
 			if (destination.isAccessibleTo(unit)) {
-				unit.occupy(destination);
 				List<Unit> occupants = destination.getOccupants();
+				unit.occupy(destination);
+				LOG.debug("Unit moved, resolving collisions.");
 				for (Unit occupant : occupants) {
+					LOG.debug("Colliding {} with {}", unit, occupant);
 					collisions.collide(unit, occupant);
 				}
+			} else {
+				LOG.debug("Destination square not accessible to {}", unit);
 			}
 			updateObservers();
 		}
@@ -201,6 +217,7 @@ public class Level {
 			if (isInProgress()) {
 				return;
 			}
+			LOG.info("Starting or resuming level.");
 			startNPCs();
 			inProgress = true;
 			updateObservers();
@@ -216,6 +233,7 @@ public class Level {
 			if (!isInProgress()) {
 				return;
 			}
+			LOG.info("Stopping level.");
 			stopNPCs();
 			inProgress = false;
 		}
@@ -228,6 +246,7 @@ public class Level {
 		for (final NPC npc : npcs.keySet()) {
 			ScheduledExecutorService service = Executors
 					.newSingleThreadScheduledExecutor();
+			LOG.debug("Starting NPC thread for {}", npc);
 			service.schedule(new NpcMoveTask(service, npc),
 					npc.getInterval() / 2, TimeUnit.MILLISECONDS);
 			npcs.put(npc, service);
@@ -239,8 +258,9 @@ public class Level {
 	 * executed.
 	 */
 	private void stopNPCs() {
-		for (ScheduledExecutorService service : npcs.values()) {
-			service.shutdown();
+		for (Entry<NPC, ScheduledExecutorService> e : npcs.entrySet()) {
+			LOG.debug("Shutting down NPC thread for {}", e.getKey());
+			e.getValue().shutdown();
 		}
 	}
 
@@ -259,11 +279,13 @@ public class Level {
 	 */
 	private void updateObservers() {
 		if (!isAnyPlayerAlive()) {
+			LOG.info("No players alive. Game over (lost)");
 			for (LevelObserver o : observers) {
 				o.levelLost();
 			}
 		}
 		if (remainingPellets() == 0) {
+			LOG.info("No pellets remaining. Game over (won).");
 			for (LevelObserver o : observers) {
 				o.levelWon();
 			}
@@ -342,7 +364,10 @@ public class Level {
 			if (nextMove != null) {
 				move(npc, nextMove);
 			}
-			service.schedule(this, npc.getInterval(), TimeUnit.MILLISECONDS);
+			long interval = npc.getInterval();
+			LOG.debug("Executed move for {}, next move in {} ms.", npc,
+					interval);
+			service.schedule(this, interval, TimeUnit.MILLISECONDS);
 		}
 	}
 

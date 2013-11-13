@@ -3,11 +3,12 @@ package nl.tudelft.jpacman.npc.ghost;
 import java.util.List;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.npc.Ghost;
-import nl.tudelft.jpacman.npc.GhostColor;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 
 /**
@@ -41,6 +42,28 @@ import nl.tudelft.jpacman.sprite.PacManSprites;
  */
 public class Blinky extends Ghost {
 
+	/**
+	 * The variation in intervals, this makes the ghosts look more dynamic and
+	 * less predictable.
+	 */
+	private static final int INTERVAL_VARIATION = 50;
+
+	/**
+	 * The base movement interval.
+	 */
+	private static final int MOVE_INTERVAL = 175;
+
+	/**
+	 * The log.
+	 */
+	private final static Logger LOG = LoggerFactory.getLogger(Blinky.class);
+
+	/**
+	 * Creates a new "Blinky", a.k.a. "Shadow".
+	 * 
+	 * @param spriteStore
+	 *            The sprite store containing sprites for ghosts.
+	 */
 	public Blinky(PacManSprites spriteStore) {
 		super(spriteStore.getGhostSprite(GhostColor.RED));
 	}
@@ -49,7 +72,7 @@ public class Blinky extends Ghost {
 	public long getInterval() {
 		// TODO Blinky should speed up when there are a few pellets left, but he
 		// has no way to find out how many there are.
-		return 175 + new Random().nextInt(50);
+		return MOVE_INTERVAL + new Random().nextInt(INTERVAL_VARIATION);
 	}
 
 	/**
@@ -74,14 +97,23 @@ public class Blinky extends Ghost {
 				.getSquare();
 
 		if (target == null) {
-			return null;
+			LOG.debug("No player found, will move around randomly.");
+			Direction d = randomMove();
+			LOG.debug("Moving {}", d);
+			return d;
 		}
+		LOG.debug("Player found.");
 
 		List<Direction> path = Navigation.shortestPath(getSquare(), target,
 				this);
 		if (path != null && !path.isEmpty()) {
-			return path.get(0);
+			Direction d = path.get(0);
+			LOG.debug("Found path to player. Moving {}", d);
+			return d;
 		}
-		return null;
+		LOG.debug("Could not find path to player, will move around randomly.");
+		Direction d = randomMove();
+		LOG.debug("Moving {}", d);
+		return d;
 	}
 }
