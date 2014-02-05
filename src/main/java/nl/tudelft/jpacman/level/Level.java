@@ -100,7 +100,7 @@ public class Level {
 			CollisionMap collisionMap) {
 		assert b != null;
 		assert ghosts != null;
-		assert startPositions != null && !startPositions.isEmpty();
+		assert startPositions != null;
 
 		this.board = b;
 		this.inProgress = false;
@@ -148,6 +148,7 @@ public class Level {
 	 */
 	public void registerPlayer(Player p) {
 		assert p != null;
+		assert !startSquares.isEmpty();
 
 		if (players.contains(p)) {
 			return;
