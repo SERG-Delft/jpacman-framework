@@ -339,7 +339,7 @@ public class Level {
 		/**
 		 * Log for this inner class.
 		 */
-		private final Logger L = LoggerFactory.getLogger(NpcMoveTask.class);
+		private final Logger LOG = LoggerFactory.getLogger(NpcMoveTask.class);
 
 		/**
 		 * The service executing the task.
@@ -382,7 +382,7 @@ public class Level {
 			}
 			debugLogging();
 			long interval = npc.getInterval();
-			L.debug("Executed move for {}, next move in {} ms.", npc, interval);
+			LOG.debug("Executed move for {}, next move in {} ms.", npc, interval);
 			service.schedule(this, interval, TimeUnit.MILLISECONDS);
 			lastDelay = interval;
 			lastExecution = System.currentTimeMillis();
@@ -393,7 +393,7 @@ public class Level {
 				lastExecution = System.currentTimeMillis();
 			}
 			long diff = System.currentTimeMillis() - lastExecution;
-			L.debug("Time since last move for {}: {}ms, expected interval: {}ms (diff = {}ms)",
+			LOG.debug("Time since last move for {}: {}ms, expected interval: {}ms (diff = {}ms)",
 					npc, diff, lastDelay, diff - lastDelay);
 		}
 	}
