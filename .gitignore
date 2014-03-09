@@ -8,3 +8,7 @@ target/
 .classpath
 .project
 .settings/
+
+# for intellij users
+.idea/
+*.iml
