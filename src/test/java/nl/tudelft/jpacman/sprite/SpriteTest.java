@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -14,55 +15,55 @@ import org.junit.Test;
  */
 public class SpriteTest {
 
+    private Sprite sprite;
+    private SpriteStore store;
+
+    /**
+     * The common fixture of this test class is
+     * a 64 by 64 pixel white sprite.
+     *
+     * @throws java.io.IOException
+     *      when the sprite could not be loaded.
+     */
+    @Before
+    public void setUp() throws IOException {
+        store = new SpriteStore();
+        sprite = store.loadSprite("/sprite/64x64white.png");
+    }
+
 	/**
 	 * Verifies the width of a static sprite.
-	 * 
-	 * @throws IOException
-	 *             when the sprite could not be loaded.
 	 */
 	@Test
-	public void spriteWidth() throws IOException {
-		SpriteStore store = new SpriteStore();
-		Sprite sprite = store.loadSprite("/sprite/64x64white.png");
+	public void spriteWidth() {
 		assertEquals(64, sprite.getWidth());
 	}
 
 	/**
 	 * Verifies the height of a static sprite.
-	 * 
-	 * @throws IOException
-	 *             when the sprite could not be loaded.
 	 */
 	@Test
-	public void spriteHeight() throws IOException {
-		SpriteStore store = new SpriteStore();
-		Sprite sprite = store.loadSprite("/sprite/64x64white.png");
+	public void spriteHeight() {
 		assertEquals(64, sprite.getHeight());
 	}
 
 	/**
 	 * Verifies that an IOException is thrown when the resource could not be
 	 * loaded.
-	 * 
-	 * @throws IOException
-	 *             when the sprite could not be loaded.
+	 *
+	 * @throws java.io.IOException
+	 *             since the sprite cannot be loaded.
 	 */
 	@Test(expected = IOException.class)
 	public void resourceMissing() throws IOException {
-		SpriteStore store = new SpriteStore();
 		store.loadSprite("/sprite/nonexistingresource.png");
 	}
 
 	/**
 	 * Verifies that an animated sprite is correctly cut from its base image.
-	 * 
-	 * @throws IOException
-	 *             When the sprite could not be loaded.
 	 */
 	@Test
-	public void animationWidth() throws IOException {
-		SpriteStore store = new SpriteStore();
-		Sprite sprite = store.loadSprite("/sprite/64x64white.png");
+	public void animationWidth() {
 		AnimatedSprite animation = store.createAnimatedSprite(sprite, 4, 0,
 				false);
 		assertEquals(16, animation.getWidth());
@@ -70,14 +71,9 @@ public class SpriteTest {
 	
 	/**
 	 * Verifies that an animated sprite is correctly cut from its base image.
-	 * 
-	 * @throws IOException
-	 *             When the sprite could not be loaded.
 	 */
 	@Test
-	public void animationHeight() throws IOException {
-		SpriteStore store = new SpriteStore();
-		Sprite sprite = store.loadSprite("/sprite/64x64white.png");
+	public void animationHeight() {
 		AnimatedSprite animation = store.createAnimatedSprite(sprite, 4, 0,
 				false);
 		assertEquals(64, animation.getHeight());
@@ -85,42 +81,27 @@ public class SpriteTest {
 	
 	/**
 	 * Verifies that an split sprite is correctly cut from its base image.
-	 * 
-	 * @throws IOException
-	 *             When the sprite could not be loaded.
 	 */
 	@Test
-	public void splitWidth() throws IOException {
-		SpriteStore store = new SpriteStore();
-		Sprite sprite = store.loadSprite("/sprite/64x64white.png");
+	public void splitWidth() {
 		Sprite split = sprite.split(10, 11, 12, 13);
 		assertEquals(12, split.getWidth());
 	}
 	
 	/**
 	 * Verifies that an split sprite is correctly cut from its base image.
-	 * 
-	 * @throws IOException
-	 *             When the sprite could not be loaded.
 	 */
 	@Test
-	public void splitHeight() throws IOException {
-		SpriteStore store = new SpriteStore();
-		Sprite sprite = store.loadSprite("/sprite/64x64white.png");
+	public void splitHeight() {
 		Sprite split = sprite.split(10, 11, 12, 13);
 		assertEquals(13, split.getHeight());
 	}
 	
 	/**
 	 * Verifies that a split that isn't within the actual sprite returns an empty sprite.
-	 * 
-	 * @throws IOException
-	 *             When the sprite could not be loaded.
 	 */
 	@Test
-	public void splitOutOfBounds() throws IOException {
-		SpriteStore store = new SpriteStore();
-		Sprite sprite = store.loadSprite("/sprite/64x64white.png");
+	public void splitOutOfBounds() {
 		Sprite split = sprite.split(10, 10, 64, 10);
 		assertTrue(split instanceof EmptySprite);
 	}
