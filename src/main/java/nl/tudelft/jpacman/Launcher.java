@@ -110,11 +110,12 @@ public class Launcher {
 
 	}
 
-	public void launch() {
+	public Game launch() {
 		Game game = makeGame();
 		PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
 		addSinglePlayerKeys(builder, game);
 		builder.build(game).start();
+        return game;
 	}
 
 	public static void main(String[] args) throws IOException {
