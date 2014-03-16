@@ -16,6 +16,7 @@ import nl.tudelft.jpacman.level.PlayerFactory;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.ui.Action;
+import nl.tudelft.jpacman.ui.PacManUI;
 import nl.tudelft.jpacman.ui.PacManUiBuilder;
 
 /**
@@ -27,8 +28,11 @@ public class Launcher {
 
 	private static final PacManSprites SPRITE_STORE = new PacManSprites();
 
-	public Launcher() {
+	private PacManUI pacManUI;
+	private Game game;
 
+	public Game getGame() {
+		return game;
 	}
 
 	private Game makeGame() {
@@ -110,12 +114,16 @@ public class Launcher {
 
 	}
 
-	public Game launch() {
-		Game game = makeGame();
+	public void launch() {
+		game = makeGame();
 		PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
 		addSinglePlayerKeys(builder, game);
-		builder.build(game).start();
-        return game;
+		pacManUI = builder.build(game);
+		pacManUI.start();
+	}
+	
+	public void dispose() {
+		pacManUI.dispose();
 	}
 
 	public static void main(String[] args) throws IOException {
