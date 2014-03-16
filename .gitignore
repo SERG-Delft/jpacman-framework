@@ -12,3 +12,4 @@ target/
 # for intellij users
 .idea/
 *.iml
+/bin
