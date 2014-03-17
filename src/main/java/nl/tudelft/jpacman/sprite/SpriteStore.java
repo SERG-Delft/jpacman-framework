@@ -3,6 +3,8 @@ package nl.tudelft.jpacman.sprite;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -12,6 +14,36 @@ import javax.imageio.ImageIO;
  * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
  */
 public class SpriteStore {
+	
+	/**
+	 * We only need to load images once, so we keep track
+	 * of them in a hash map.
+	 */
+	private Map<String, Sprite> spriteMap;
+	
+	public SpriteStore() {
+		spriteMap = new HashMap<String, Sprite>();
+	}
+	
+	/**
+	 * Loads a sprite from a resource on the class path.
+	 * Sprites are loaded once, and then stored in the store
+	 * so that they can be efficiently retrieved.
+	 * 
+	 * @param resource
+	 *            The resource path.
+	 * @return The sprite for the resource.
+	 * @throws IOException
+	 *             When the resource could not be loaded.
+	 */
+	public Sprite loadSprite(String resource) throws IOException {
+		Sprite result = spriteMap.get(resource);
+		if (result == null) {
+			result = loadSpriteFromResource(resource);
+			spriteMap.put(resource, result);
+		}
+		return result;
+	}
 
 	/**
 	 * Loads a sprite from a resource on the class path.
@@ -22,7 +54,7 @@ public class SpriteStore {
 	 * @throws IOException
 	 *             When the resource could not be loaded.
 	 */
-	public Sprite loadSprite(String resource) throws IOException {
+	private Sprite loadSpriteFromResource(String resource) throws IOException {
 		InputStream input = SpriteStore.class.getResourceAsStream(resource);
 		if (input == null) {
 			throw new IOException("Unable to load " + resource
