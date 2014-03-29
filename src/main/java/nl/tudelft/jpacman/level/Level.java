@@ -9,15 +9,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.LoggerFactory;
-
-import org.slf4j.Logger;
-
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.NPC;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A level of Pac-Man. A level consists of the board with the players and the
@@ -75,11 +74,6 @@ public class Level {
 	private final List<Player> players;
 
 	/**
-	 * The table of possible collisions between units.
-	 */
-	private final CollisionMap collisions;
-
-	/**
 	 * The objects observing this level.
 	 */
 	private final List<LevelObserver> observers;
@@ -93,11 +87,8 @@ public class Level {
 	 *            The ghosts on the board.
 	 * @param startPositions
 	 *            The squares on which players start on this board.
-	 * @param collisionMap
-	 *            The collection of collisions that should be handled.
 	 */
-	protected Level(Board b, List<NPC> ghosts, List<Square> startPositions,
-			CollisionMap collisionMap) {
+	protected Level(Board b, List<NPC> ghosts, List<Square> startPositions) {
 		assert b != null;
 		assert ghosts != null;
 		assert startPositions != null;
@@ -111,7 +102,6 @@ public class Level {
 		this.startSquares = startPositions;
 		this.startSquareIndex = 0;
 		this.players = new ArrayList<>();
-		this.collisions = collisionMap;
 		this.observers = new ArrayList<>();
 	}
 
@@ -200,7 +190,8 @@ public class Level {
 				LOG.debug("Unit moved, resolving collisions.");
 				for (Unit occupant : occupants) {
 					LOG.debug("Colliding {} with {}", unit, occupant);
-					collisions.collide(unit, occupant);
+					unit.collideWith(occupant);
+					occupant.collideWith(unit);
 				}
 			} else {
 				LOG.debug("Destination square not accessible to {}", unit);
