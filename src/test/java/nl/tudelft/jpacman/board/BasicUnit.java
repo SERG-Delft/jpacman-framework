@@ -20,4 +20,5 @@ class BasicUnit extends Unit {
 	public Sprite getSprite() {
 		return null;
 	}
+
 }

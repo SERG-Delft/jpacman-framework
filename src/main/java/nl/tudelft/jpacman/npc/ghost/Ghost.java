@@ -5,13 +5,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.sprite.Sprite;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An antagonist in the game of Pac-Man, a ghost.
@@ -66,4 +68,13 @@ public abstract class Ghost extends NPC {
 		int i = new Random().nextInt(directions.size());
 		return directions.get(i);
 	}
+	
+	@Override
+	public void collideWith(Unit occupant) {
+		if (occupant instanceof Player) {
+			Player player = (Player) occupant;
+			player.setAlive(false);
+		}
+	}
+	
 }

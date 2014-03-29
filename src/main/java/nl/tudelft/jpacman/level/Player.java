@@ -98,4 +98,14 @@ public class Player extends Unit {
 	public void addPoints(int points) {
 		score += points;
 	}
+	
+	@Override
+	public void collideWith(Unit occupant) {
+		if (occupant instanceof Pellet) {
+			Pellet pellet = (Pellet) occupant;
+			pellet.leaveSquare();
+			addPoints(pellet.getValue());
+		}
+	}
+	
 }
