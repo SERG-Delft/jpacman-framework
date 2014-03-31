@@ -30,7 +30,7 @@ public class DefaultPlayerInteractionMap implements CollisionMap {
 	 * @return The collision map containing collisions for Player-Ghost and
 	 *         Player-Pellet.
 	 */
-	private CollisionInteractionMap defaultCollisions() {
+	private static CollisionInteractionMap defaultCollisions() {
 		CollisionInteractionMap collisionMap = new CollisionInteractionMap();
 
 		collisionMap.onCollision(Player.class, Ghost.class,
