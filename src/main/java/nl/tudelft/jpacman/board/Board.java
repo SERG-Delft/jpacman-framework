@@ -52,6 +52,20 @@ public class Board {
 	 * @return The square at the given <code>x,y</code> position.
 	 */
 	public Square squareAt(int x, int y) {
+		assert withinBorders(x, y);
 		return board[x][y];
+	}
+
+	/**
+	 * Determines whether the given <code>x,y</code> position is on this board.
+	 * 
+	 * @param x
+	 *            The <code>x</code> position (row) to test.
+	 * @param y
+	 *            The <code>y</code> position (column) to test.
+	 * @return <code>true</code> iff the position is on this board.
+	 */
+	public boolean withinBorders(int x, int y) {
+		return x >= 0 && x < getWidth() && y >= 0 && y < getHeight();
 	}
 }
