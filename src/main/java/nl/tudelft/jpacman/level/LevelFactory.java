@@ -6,7 +6,6 @@ import java.util.Map;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.level.CollisionInteractionMap.CollisionHandler;
 import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
@@ -69,39 +68,10 @@ public class LevelFactory {
 	public Level createLevel(Board board, List<NPC> ghosts,
 			List<Square> startPositions) {
 
-		CollisionInteractionMap collisionMap = defaultCollisions();
-
+		// We'll adopt the simple collision map for now.
+		CollisionMap collisionMap = new PlayerCollisions();
+		
 		return new Level(board, ghosts, startPositions, collisionMap);
-	}
-
-	/**
-	 * Creates the default collisions Player-Ghost and Player-Pellet.
-	 * 
-	 * @return The collision map containing collisions for Player-Ghost and
-	 *         Player-Pellet.
-	 */
-	protected CollisionInteractionMap defaultCollisions() {
-		CollisionInteractionMap collisionMap = new CollisionInteractionMap();
-
-		collisionMap.onCollision(Player.class, Ghost.class,
-				new CollisionHandler<Player, Ghost>() {
-
-					@Override
-					public void handleCollision(Player player, Ghost ghost) {
-						player.setAlive(false);
-					}
-				});
-
-		collisionMap.onCollision(Player.class, Pellet.class,
-				new CollisionHandler<Player, Pellet>() {
-
-					@Override
-					public void handleCollision(Player player, Pellet pellet) {
-						pellet.leaveSquare();
-						player.addPoints(pellet.getValue());
-					}
-				});
-		return collisionMap;
 	}
 
 	/**
