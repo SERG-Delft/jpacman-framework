@@ -330,24 +330,9 @@ public class Level {
 	private class NpcMoveTask implements Runnable {
 
 		/**
-		 * Log for this inner class.
-		 */
-		private final Logger LOG = LoggerFactory.getLogger(NpcMoveTask.class);
-
-		/**
 		 * The service executing the task.
 		 */
 		private final ScheduledExecutorService service;
-
-		/**
-		 * Time stamp of last execution.
-		 */
-		private long lastExecution = 0;
-
-		/**
-		 * The supposed interval between the last move and this one.
-		 */
-		private long lastDelay = 0;
 
 		/**
 		 * The NPC to move.
@@ -375,8 +360,6 @@ public class Level {
 			}
 			long interval = npc.getInterval();
 			service.schedule(this, interval, TimeUnit.MILLISECONDS);
-			lastDelay = interval;
-			lastExecution = System.currentTimeMillis();
 		}
 	}
 
