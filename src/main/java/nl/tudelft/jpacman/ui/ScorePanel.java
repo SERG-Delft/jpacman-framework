@@ -57,8 +57,8 @@ class ScorePanel extends JPanel {
 	 */
 	void refresh() {
 		for (Player p : scoreLabels.keySet()) {
-			String score = p.isAlive() ? "" : "You died. Your points: ";
-			score += String.valueOf(p.getScore());
+			String score = p.isAlive() ? "" : "You died. ";
+			score += String.format("Score: %3d", p.getScore());
 			scoreLabels.get(p).setText(score);
 		}
 	}
