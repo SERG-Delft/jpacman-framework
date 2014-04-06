@@ -293,7 +293,7 @@ public class Level {
 	 * @return <code>true</code> if at least one of the registered players is
 	 *         alive.
 	 */
-	private boolean isAnyPlayerAlive() {
+	public boolean isAnyPlayerAlive() {
 		for (Player p : players) {
 			if (p.isAlive()) {
 				return true;
@@ -307,7 +307,7 @@ public class Level {
 	 * 
 	 * @return The amount of pellets remaining on the board.
 	 */
-	private int remainingPellets() {
+	public int remainingPellets() {
 		Board b = getBoard();
 		int pellets = 0;
 		for (int x = 0; x < b.getWidth(); x++) {
