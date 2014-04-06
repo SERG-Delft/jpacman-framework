@@ -189,7 +189,6 @@ public class Level {
 		}
 
 		synchronized (moveLock) {
-			LOG.debug("Move: {} to the {}", unit, direction);
 			unit.setDirection(direction);
 			Square location = unit.getSquare();
 			Square destination = location.getSquareAt(direction);
@@ -197,13 +196,9 @@ public class Level {
 			if (destination.isAccessibleTo(unit)) {
 				List<Unit> occupants = destination.getOccupants();
 				unit.occupy(destination);
-				LOG.debug("Unit moved, resolving collisions.");
 				for (Unit occupant : occupants) {
-					LOG.debug("Colliding {} with {}", unit, occupant);
 					collisions.collide(unit, occupant);
 				}
-			} else {
-				LOG.debug("Destination square not accessible to {}", unit);
 			}
 			updateObservers();
 		}
@@ -247,7 +242,6 @@ public class Level {
 		for (final NPC npc : npcs.keySet()) {
 			ScheduledExecutorService service = Executors
 					.newSingleThreadScheduledExecutor();
-			LOG.debug("Starting NPC thread for {}", npc);
 			service.schedule(new NpcMoveTask(service, npc),
 					npc.getInterval() / 2, TimeUnit.MILLISECONDS);
 			npcs.put(npc, service);
@@ -260,7 +254,6 @@ public class Level {
 	 */
 	private void stopNPCs() {
 		for (Entry<NPC, ScheduledExecutorService> e : npcs.entrySet()) {
-			LOG.debug("Shutting down NPC thread for {}", e.getKey());
 			e.getValue().shutdownNow();
 		}
 	}
@@ -300,7 +293,7 @@ public class Level {
 	 * @return <code>true</code> if at least one of the registered players is
 	 *         alive.
 	 */
-	private boolean isAnyPlayerAlive() {
+	public boolean isAnyPlayerAlive() {
 		for (Player p : players) {
 			if (p.isAlive()) {
 				return true;
@@ -314,7 +307,7 @@ public class Level {
 	 * 
 	 * @return The amount of pellets remaining on the board.
 	 */
-	private int remainingPellets() {
+	public int remainingPellets() {
 		Board b = getBoard();
 		int pellets = 0;
 		for (int x = 0; x < b.getWidth(); x++) {
@@ -337,24 +330,9 @@ public class Level {
 	private class NpcMoveTask implements Runnable {
 
 		/**
-		 * Log for this inner class.
-		 */
-		private final Logger LOG = LoggerFactory.getLogger(NpcMoveTask.class);
-
-		/**
 		 * The service executing the task.
 		 */
 		private final ScheduledExecutorService service;
-
-		/**
-		 * Time stamp of last execution.
-		 */
-		private long lastExecution = 0;
-
-		/**
-		 * The supposed interval between the last move and this one.
-		 */
-		private long lastDelay = 0;
 
 		/**
 		 * The NPC to move.
@@ -380,21 +358,8 @@ public class Level {
 			if (nextMove != null) {
 				move(npc, nextMove);
 			}
-			debugLogging();
 			long interval = npc.getInterval();
-			LOG.debug("Executed move for {}, next move in {} ms.", npc, interval);
 			service.schedule(this, interval, TimeUnit.MILLISECONDS);
-			lastDelay = interval;
-			lastExecution = System.currentTimeMillis();
-		}
-
-		private void debugLogging() {
-			if (lastExecution == 0) {
-				lastExecution = System.currentTimeMillis();
-			}
-			long diff = System.currentTimeMillis() - lastExecution;
-			LOG.debug("Time since last move for {}: {}ms, expected interval: {}ms (diff = {}ms)",
-					npc, diff, lastDelay, diff - lastDelay);
 		}
 	}
 

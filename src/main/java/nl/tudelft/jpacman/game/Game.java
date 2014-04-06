@@ -39,9 +39,12 @@ public abstract class Game implements LevelObserver {
 			if (isInProgress()) {
 				return;
 			}
-			inProgress = true;
-			getLevel().addObserver(this);
-			getLevel().start();
+			if (getLevel().isAnyPlayerAlive()
+					&& getLevel().remainingPellets() > 0) {
+				inProgress = true;
+				getLevel().addObserver(this);
+				getLevel().start();
+			}
 		}
 	}
 
