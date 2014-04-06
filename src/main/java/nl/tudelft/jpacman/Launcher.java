@@ -35,13 +35,13 @@ public class Launcher {
 		return game;
 	}
 
-	private Game makeGame() {
+	public Game makeGame() {
 		GameFactory gf = getGameFactory();
 		Level level = makeLevel();
 		return gf.createSinglePlayerGame(level);
 	}
 
-	private Level makeLevel() {
+	public Level makeLevel() {
 		MapParser parser = getMapParser();
 		try {
 			return parser.parseMap(Launcher.class.getResourceAsStream("/board.txt"));
@@ -50,7 +50,7 @@ public class Launcher {
 		}
 	}
 
-	private MapParser getMapParser() {
+	protected MapParser getMapParser() {
 		return new MapParser(getLevelFactory(), getBoardFactory());
 	}
 
