@@ -41,7 +41,7 @@ public class Launcher {
 		return gf.createSinglePlayerGame(level);
 	}
 
-	public Level makeLevel() {
+	protected Level makeLevel() {
 		MapParser parser = getMapParser();
 		try {
 			return parser.parseMap(Launcher.class.getResourceAsStream("/board.txt"));
@@ -54,31 +54,31 @@ public class Launcher {
 		return new MapParser(getLevelFactory(), getBoardFactory());
 	}
 
-	private BoardFactory getBoardFactory() {
+	protected BoardFactory getBoardFactory() {
 		return new BoardFactory(getSpriteStore());
 	}
 
-	private PacManSprites getSpriteStore() {
+	protected PacManSprites getSpriteStore() {
 		return SPRITE_STORE;
 	}
 
-	private LevelFactory getLevelFactory() {
+	protected LevelFactory getLevelFactory() {
 		return new LevelFactory(getSpriteStore(), getGhostFactory());
 	}
 
-	private GhostFactory getGhostFactory() {
+	protected GhostFactory getGhostFactory() {
 		return new GhostFactory(getSpriteStore());
 	}
 
-	private GameFactory getGameFactory() {
+	protected GameFactory getGameFactory() {
 		return new GameFactory(getPlayerFactory());
 	}
 
-	private PlayerFactory getPlayerFactory() {
+	protected PlayerFactory getPlayerFactory() {
 		return new PlayerFactory(getSpriteStore());
 	}
 
-	private void addSinglePlayerKeys(final PacManUiBuilder builder,
+	protected void addSinglePlayerKeys(final PacManUiBuilder builder,
 			final Game game) {
 		List<Player> players = game.getPlayers();
 		if (players.isEmpty()) {
