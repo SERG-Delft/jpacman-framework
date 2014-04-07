@@ -20,6 +20,12 @@ import nl.tudelft.jpacman.sprite.Sprite;
  */
 public class LevelFactory {
 
+	private static final int GHOSTS = 4;
+	private static final int BLINKY = 0;
+	private static final int INKY = 1;
+	private static final int PINKY = 2;
+	private static final int CLYDE = 3;
+
 	/**
 	 * The default value of a pellet.
 	 */
@@ -81,15 +87,15 @@ public class LevelFactory {
 	 */
 	NPC createGhost() {
 		ghostIndex++;
-		ghostIndex %= 4;
+		ghostIndex %= GHOSTS;
 		switch (ghostIndex) {
-		case 0:
+		case BLINKY:
 			return ghostFact.createBlinky();
-		case 1:
+		case INKY:
 			return ghostFact.createInky();
-		case 2:
+		case PINKY:
 			return ghostFact.createPinky();
-		case 3:
+		case CLYDE:
 			return ghostFact.createClyde();
 		default:
 			return new RandomGhost(sprites.getGhostSprite(GhostColor.RED));
@@ -110,7 +116,7 @@ public class LevelFactory {
 	 * 
 	 * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
 	 */
-	private class RandomGhost extends Ghost {
+	private final class RandomGhost extends Ghost {
 
 		/**
 		 * The suggested delay between moves.

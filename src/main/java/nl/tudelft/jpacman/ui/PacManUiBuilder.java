@@ -1,6 +1,5 @@
 package nl.tudelft.jpacman.ui;
 
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -51,6 +50,8 @@ public class PacManUiBuilder {
 	/**
 	 * Creates a new Pac-Man UI with the set keys and buttons.
 	 * 
+	 * @param game
+	 *            The game to build the UI for.
 	 * @return A new Pac-Man UI with the set keys and buttons.
 	 */
 	public PacManUI build(final Game game) {
@@ -127,7 +128,7 @@ public class PacManUiBuilder {
 	 */
 	public PacManUiBuilder addButton(String caption, Action action) {
 		assert caption != null;
-		assert caption.isEmpty() == false;
+		assert !caption.isEmpty();
 		assert action != null;
 
 		buttons.put(caption, action);

@@ -22,8 +22,11 @@ public final class Navigation {
 	/**
 	 * The log.
 	 */
-	private static final Logger log = LoggerFactory.getLogger(Navigation.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Navigation.class);
 
+	private Navigation() {
+	}
+	
 	/**
 	 * Calculates the shortest path. This is done by BFS. This search ensures
 	 * the traveller is allowed to occupy the squares on the way, or returns the
@@ -58,23 +61,28 @@ public final class Navigation {
 			Square s = n.getSquare();
 			if (s == to) {
 				List<Direction> path = n.getPath();
-				log.debug("Calculated shortest path for {} in {}ms.",
+				LOG.debug("Calculated shortest path for {} in {}ms.",
 						traveller, System.currentTimeMillis() - t0);
 				return path;
 			}
 			visited.add(s);
-			for (Direction d : Direction.values()) {
-				Square target = s.getSquareAt(d);
-				if (!visited.contains(target)
-						&& (traveller == null || target
-								.isAccessibleTo(traveller))) {
-					targets.add(new Node(d, target, n));
-				}
-			}
+			addNewTargets(traveller, targets, visited, n, s);
 		}
-		log.debug("Failed to find shortest path, took {}ms.",
+		LOG.debug("Failed to find shortest path, took {}ms.",
 				System.currentTimeMillis() - t0);
 		return null;
+	}
+
+	private static void addNewTargets(Unit traveller, List<Node> targets,
+			Set<Square> visited, Node n, Square s) {
+		for (Direction d : Direction.values()) {
+			Square target = s.getSquareAt(d);
+			if (!visited.contains(target)
+					&& (traveller == null || target
+							.isAccessibleTo(traveller))) {
+				targets.add(new Node(d, target, n));
+			}
+		}
 	}
 
 	/**
@@ -82,14 +90,14 @@ public final class Navigation {
 	 * method will perform a breadth first search starting from the given
 	 * square.
 	 * 
-	 * @param T
+	 * @param type
 	 *            The type of unit to search for.
 	 * @param currentLocation
 	 *            The starting location for the search.
 	 * @return The nearest unit of the given type, or <code>null</code> if no
 	 *         such unit could be found.
 	 */
-	public static Unit findNearest(Class<? extends Unit> T,
+	public static Unit findNearest(Class<? extends Unit> type,
 			Square currentLocation) {
 		long t0 = System.currentTimeMillis();
 		List<Square> toDo = new ArrayList<>();
@@ -99,9 +107,9 @@ public final class Navigation {
 
 		while (!toDo.isEmpty()) {
 			Square square = toDo.remove(0);
-			Unit unit = findUnit(T, square);
+			Unit unit = findUnit(type, square);
 			if (unit != null) {
-				log.debug("Found unit in {}ms.", System.currentTimeMillis()
+				LOG.debug("Found unit in {}ms.", System.currentTimeMillis()
 						- t0);
 				return unit;
 			}
@@ -113,7 +121,7 @@ public final class Navigation {
 				}
 			}
 		}
-		log.debug("Failed to find unit, took {}ms.", System.currentTimeMillis()
+		LOG.debug("Failed to find unit, took {}ms.", System.currentTimeMillis()
 				- t0);
 		return null;
 	}
@@ -121,16 +129,16 @@ public final class Navigation {
 	/**
 	 * Determines whether a square has an occupant of a certain type.
 	 * 
-	 * @param T
+	 * @param type
 	 *            The type to search for.
 	 * @param square
 	 *            The square to search.
 	 * @return A unit of type T, iff such a unit occupies this square, or
 	 *         <code>null</code> of none does.
 	 */
-	private static Unit findUnit(Class<? extends Unit> T, Square square) {
+	private static Unit findUnit(Class<? extends Unit> type, Square square) {
 		for (Unit u : square.getOccupants()) {
-			if (T.isInstance(u)) {
+			if (type.isInstance(u)) {
 				return u;
 			}
 		}
@@ -142,7 +150,7 @@ public final class Navigation {
 	 * 
 	 * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
 	 */
-	private static class Node {
+	private static final class Node {
 
 		/**
 		 * The direction for this node, which is <code>null</code> for the root

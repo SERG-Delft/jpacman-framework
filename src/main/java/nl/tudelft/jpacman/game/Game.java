@@ -71,12 +71,12 @@ public abstract class Game implements LevelObserver {
 	/**
 	 * @return An immutable list of the participants of this game.
 	 */
-	abstract public List<Player> getPlayers();
+	public abstract List<Player> getPlayers();
 
 	/**
 	 * @return The level currently being played.
 	 */
-	abstract public Level getLevel();
+	public abstract Level getLevel();
 
 	/**
 	 * Moves the specified player one square in the given direction.

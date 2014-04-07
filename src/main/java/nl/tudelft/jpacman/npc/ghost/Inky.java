@@ -62,7 +62,7 @@ public class Inky extends Ghost {
 	/**
 	 * The log.
 	 */
-	private final static Logger LOG = LoggerFactory.getLogger(Inky.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Inky.class);
 
 	/**
 	 * Creates a new "Inky", a.k.a. Bashful.
@@ -105,6 +105,7 @@ public class Inky extends Ghost {
 	 * destination.
 	 * </p>
 	 */
+	// CHECKSTYLE:OFF To keep this more readable.
 	@Override
 	public Direction nextMove() {
 		long t0 = System.currentTimeMillis();
@@ -167,5 +168,6 @@ public class Inky extends Ghost {
 				System.currentTimeMillis() - t0);
 		return d;
 	}
+	// CHECKSTYLE:ON
 
 }

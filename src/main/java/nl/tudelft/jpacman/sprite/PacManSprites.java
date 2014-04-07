@@ -32,6 +32,11 @@ public class PacManSprites extends SpriteStore {
 	private static final int PACMAN_ANIMATION_FRAMES = 4;
 
 	/**
+	 * The amount of frames in the pacman dying animation.
+	 */
+	private static final int PACMAN_DEATH_FRAMES = 11;
+	
+	/**
 	 * The amount of frames in the ghost animation.
 	 */
 	private static final int GHOST_ANIMATION_FRAMES = 2;
@@ -55,7 +60,7 @@ public class PacManSprites extends SpriteStore {
 		String resource = "/sprite/dead.png";
 
 		Sprite baseImage = loadSprite(resource);
-		AnimatedSprite animation = createAnimatedSprite(baseImage, 11,
+		AnimatedSprite animation = createAnimatedSprite(baseImage, PACMAN_DEATH_FRAMES,
 				ANIMATION_DELAY, false);
 		animation.setAnimating(false);
 

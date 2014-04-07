@@ -6,7 +6,7 @@
  * 
  * <ul>
  * <lh>The original AIs for Pac-Man are fairly well described on strategy
- * wiki.org.</lh>
+ * wiki.org.
  * <li>Information on locations on the original board:
  * http://strategywiki.org/wiki/Pac-Man/Tips
  * <li>Detailed specs on the ghost AIs:

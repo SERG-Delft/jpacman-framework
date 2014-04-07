@@ -327,7 +327,7 @@ public class Level {
 	 * 
 	 * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
 	 */
-	private class NpcMoveTask implements Runnable {
+	private final class NpcMoveTask implements Runnable {
 
 		/**
 		 * The service executing the task.
@@ -368,7 +368,7 @@ public class Level {
 	 * 
 	 * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
 	 */
-	public static interface LevelObserver {
+	public interface LevelObserver {
 
 		/**
 		 * The level has been won. Typically the level should be stopped when

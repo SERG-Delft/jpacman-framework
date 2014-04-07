@@ -36,9 +36,13 @@ public class Player extends Unit {
 
 	/**
 	 * Creates a new player with a score of 0 points.
+	 * 
+	 * @param spriteMap
+	 *            A map containing a sprite for this player for every direction.
+	 * @param deathAnimation
+	 *            The sprite to be shown when this player dies.
 	 */
-	Player(Map<Direction, Sprite> spriteMap,
-			AnimatedSprite deathAnimation) {
+	Player(Map<Direction, Sprite> spriteMap, AnimatedSprite deathAnimation) {
 		this.score = 0;
 		this.alive = true;
 		this.sprites = spriteMap;

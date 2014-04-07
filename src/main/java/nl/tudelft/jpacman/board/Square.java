@@ -88,7 +88,7 @@ public abstract class Square {
 	}
 
 	/**
-	 * Removes the unit from this square (if it was present.)
+	 * Removes the unit from this square if it was present.
 	 * 
 	 * @param occupant
 	 *            The unit to be removed from this square.

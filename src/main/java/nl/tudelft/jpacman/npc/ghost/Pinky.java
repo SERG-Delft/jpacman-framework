@@ -68,7 +68,7 @@ public class Pinky extends Ghost {
 	/**
 	 * The log.
 	 */
-	private final static Logger LOG = LoggerFactory.getLogger(Pinky.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Pinky.class);
 
 	/**
 	 * Creates a new "Pinky", a.k.a. "Speedy".
@@ -99,6 +99,7 @@ public class Pinky extends Ghost {
 	 * spaces.
 	 * </p>
 	 */
+	// CHECKSTYLE:OFF ignoring the method length style to preserve readability.
 	@Override
 	public Direction nextMove() {
 		long t0 = System.currentTimeMillis();
@@ -135,5 +136,6 @@ public class Pinky extends Ghost {
 				System.currentTimeMillis() - t0);
 		return d;
 	}
+	// CHECKSTYLE:ON
 
 }

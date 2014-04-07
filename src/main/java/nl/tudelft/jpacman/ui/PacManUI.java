@@ -34,9 +34,10 @@ public class PacManUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * The desired frame rate for the graphics.
+	 * The desired frame rate interval for the graphics in milliseconds, 40
+	 * being 25 fps.
 	 */
-	private static final int FRAMES_PER_SECOND = 25;
+	private static final int FRAME_INTERVAL = 40;
 
 	/**
 	 * The panel displaying the player scores.
@@ -96,15 +97,13 @@ public class PacManUI extends JFrame {
 		ScheduledExecutorService service = Executors
 				.newSingleThreadScheduledExecutor();
 
-		long interval = 1000 / FRAMES_PER_SECOND;
-
 		service.scheduleAtFixedRate(new Runnable() {
 
 			@Override
 			public void run() {
 				nextFrame();
 			}
-		}, 0, interval, TimeUnit.MILLISECONDS);
+		}, 0, FRAME_INTERVAL, TimeUnit.MILLISECONDS);
 
 	}
 

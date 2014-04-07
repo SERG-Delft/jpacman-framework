@@ -15,9 +15,9 @@ public class GhostFactory {
 	private final PacManSprites sprites;
 
 	/**
-	 * Creates a new ghost factory;
+	 * Creates a new ghost factory.
 	 * 
-	 * @param spriteStore
+	 * @param spriteStore The sprite provider.
 	 */
 	public GhostFactory(PacManSprites spriteStore) {
 		this.sprites = spriteStore;

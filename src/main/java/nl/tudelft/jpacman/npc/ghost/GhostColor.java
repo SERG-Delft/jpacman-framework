@@ -1,5 +1,10 @@
 package nl.tudelft.jpacman.npc.ghost;
 
+/**
+ * A list of supported ghost colors.
+ * 
+ * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ */
 public enum GhostColor {
 
 	/**

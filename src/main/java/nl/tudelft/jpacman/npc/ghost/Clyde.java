@@ -45,6 +45,11 @@ import org.slf4j.LoggerFactory;
 public class Clyde extends Ghost {
 
 	/**
+	 * The amount of cells Clyde wants to stay away from Pac Man.
+	 */
+	private static final int SHYNESS = 8;
+
+	/**
 	 * The variation in intervals, this makes the ghosts look more dynamic and
 	 * less predictable.
 	 */
@@ -58,7 +63,7 @@ public class Clyde extends Ghost {
 	/**
 	 * The log.
 	 */
-	private final static Logger LOG = LoggerFactory.getLogger(Clyde.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Clyde.class);
 
 	/**
 	 * A map of opposite directions.
@@ -110,11 +115,7 @@ public class Clyde extends Ghost {
 		Square target = Navigation.findNearest(Player.class, getSquare())
 				.getSquare();
 		if (target == null) {
-			LOG.debug("No player found, will move around randomly.");
-			Direction d = randomMove();
-			LOG.debug("Moving {} (calculated in {}ms)", d,
-					System.currentTimeMillis() - t0);
-			return d;
+			return randomMove(t0);
 		}
 		LOG.debug("Player found.");
 
@@ -122,7 +123,7 @@ public class Clyde extends Ghost {
 				this);
 		if (path != null && !path.isEmpty()) {
 			Direction d = path.get(0);
-			if (path.size() <= 8) {
+			if (path.size() <= SHYNESS) {
 				Direction oppositeDir = OPPOSITES.get(d);
 				LOG.debug(
 						"Player is very close, moving in the other direction. Moving {}",
@@ -134,6 +135,14 @@ public class Clyde extends Ghost {
 			return d;
 		}
 		LOG.debug("Could not find path to player, will move around randomly.");
+		Direction d = randomMove();
+		LOG.debug("Moving {} (calculated in {}ms)", d,
+				System.currentTimeMillis() - t0);
+		return d;
+	}
+
+	private Direction randomMove(long t0) {
+		LOG.debug("No player found, will move around randomly.");
 		Direction d = randomMove();
 		LOG.debug("Moving {} (calculated in {}ms)", d,
 				System.currentTimeMillis() - t0);

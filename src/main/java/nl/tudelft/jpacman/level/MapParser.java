@@ -46,7 +46,7 @@ public class MapParser {
 	 * Parses the text representation of the board into an actual level.
 	 * 
 	 * <ul>
-	 * <lh>Supported characters:</lh>
+	 * <lh>Supported characters:
 	 * <li>' ' (space) an empty square.
 	 * <li>'#' (bracket) a wall.
 	 * <li>'.' (period) a square with a pellet.
@@ -58,9 +58,6 @@ public class MapParser {
 	 *            The text representation of the board, with map[x][y]
 	 *            representing the square at position x,y.
 	 * @return The level as represented by this text.
-	 * @throws IllegalArgumentException
-	 *             when the amount of rows or columns is less than 1, the grid
-	 *             isn't rectangular or consists unsupported characters.
 	 */
 	public Level parseMap(char[][] map) {
 		int width = map.length;
@@ -68,45 +65,60 @@ public class MapParser {
 
 		Square[][] grid = new Square[width][height];
 
-		// parse map
 		List<NPC> ghosts = new ArrayList<>();
 		List<Square> startPositions = new ArrayList<>();
 
+		makeGrid(map, width, height, grid, ghosts, startPositions);
+		
+		Board board = boardCreator.createBoard(grid);
+		return levelCreator.createLevel(board, ghosts, startPositions);
+	}
+
+	private void makeGrid(char[][] map, int width, int height,
+			Square[][] grid, List<NPC> ghosts, List<Square> startPositions) {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				char c = map[x][y];
-				switch (c) {
-				case ' ':
-					grid[x][y] = boardCreator.createGround();
-					break;
-				case '#':
-					grid[x][y] = boardCreator.createWall();
-					break;
-				case '.':
-					Square pelletSquare = boardCreator.createGround();
-					grid[x][y] = pelletSquare;
-					levelCreator.createPellet().occupy(pelletSquare);
-					break;
-				case 'G':
-					Square ghostSquare = boardCreator.createGround();
-					grid[x][y] = ghostSquare;
-					NPC ghost = levelCreator.createGhost();
-					ghosts.add(ghost);
-					ghost.occupy(ghostSquare);
-					break;
-				case 'P':
-					Square playerSquare = boardCreator.createGround();
-					grid[x][y] = playerSquare;
-					startPositions.add(playerSquare);
-					break;
-				default:
-					throw new IllegalArgumentException("Invalid character at "
-							+ x + "," + y + ": " + c);
-				}
+				addSquare(grid, ghosts, startPositions, x, y, c);
 			}
 		}
-		Board board = boardCreator.createBoard(grid);
-		return levelCreator.createLevel(board, ghosts, startPositions);
+	}
+
+	private void addSquare(Square[][] grid, List<NPC> ghosts,
+			List<Square> startPositions, int x, int y, char c) {
+		switch (c) {
+		case ' ':
+			grid[x][y] = boardCreator.createGround();
+			break;
+		case '#':
+			grid[x][y] = boardCreator.createWall();
+			break;
+		case '.':
+			Square pelletSquare = boardCreator.createGround();
+			grid[x][y] = pelletSquare;
+			levelCreator.createPellet().occupy(pelletSquare);
+			break;
+		case 'G':
+			Square ghostSquare = makeGhostSquare(ghosts);
+			grid[x][y] = ghostSquare;
+			break;
+		case 'P':
+			Square playerSquare = boardCreator.createGround();
+			grid[x][y] = playerSquare;
+			startPositions.add(playerSquare);
+			break;
+		default:
+			throw new IllegalArgumentException("Invalid character at "
+					+ x + "," + y + ": " + c);
+		}
+	}
+
+	private Square makeGhostSquare(List<NPC> ghosts) {
+		Square ghostSquare = boardCreator.createGround();
+		NPC ghost = levelCreator.createGhost();
+		ghosts.add(ghost);
+		ghost.occupy(ghostSquare);
+		return ghostSquare;
 	}
 
 	/**
@@ -118,10 +130,6 @@ public class MapParser {
 	 *            sized row of squares on the board and the first element being
 	 *            the top row.
 	 * @return The level as represented by the text.
-	 * @throws IllegalArgumentException
-	 *             when the amount of lines is less than 1 or the lines are not
-	 *             of equal size, or when the text contains unsupported
-	 *             characters.
 	 */
 	public Level parseMap(List<String> text) {
 		assert text != null;

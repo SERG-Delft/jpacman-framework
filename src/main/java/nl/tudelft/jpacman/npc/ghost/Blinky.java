@@ -57,7 +57,7 @@ public class Blinky extends Ghost {
 	/**
 	 * The log.
 	 */
-	private final static Logger LOG = LoggerFactory.getLogger(Blinky.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Blinky.class);
 
 	/**
 	 * Creates a new "Blinky", a.k.a. "Shadow".
@@ -94,7 +94,6 @@ public class Blinky extends Ghost {
 		// TODO Blinky should patrol his corner every once in a while
 		// TODO Implement his actual behaviour instead of simply chasing.
 		long t0 = System.currentTimeMillis();
-
 		Square target = Navigation.findNearest(Player.class, getSquare())
 				.getSquare();
 

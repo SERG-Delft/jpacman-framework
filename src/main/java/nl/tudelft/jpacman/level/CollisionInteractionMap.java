@@ -18,19 +18,30 @@ public class CollisionInteractionMap implements CollisionMap {
 	/**
 	 * The collection of collision handlers.
 	 */
-	private final Map<Class<? extends Unit>, Map<Class<? extends Unit>, CollisionHandler<?, ?>>> handlers;
+	private final Map<
+			Class<? extends Unit>,
+			Map<Class<? extends Unit>, CollisionHandler<?, ?>>
+	> handlers;
 
 	/**
 	 * Creates a new, empty collision map.
 	 */
 	public CollisionInteractionMap() {
-		this.handlers = new HashMap<Class<? extends Unit>, Map<Class<? extends Unit>, CollisionHandler<?, ?>>>();
+		this.handlers = new HashMap<
+				Class<? extends Unit>,
+				Map<Class<? extends Unit>, CollisionHandler<?, ?>>
+		>();
 	}
 
 	/**
 	 * Adds a two-way collision interaction to this collection, i.e. the
 	 * collision handler will be used for both <code>C1 -> C2</code> and
 	 * <code>C2 -> C1</code>.
+	 * 
+	 * @param <C1>
+	 *            The collider type.
+	 * @param <C2>
+	 *            The collidee (unit that was moved into) type.
 	 * 
 	 * @param collider
 	 *            The collider type.
@@ -47,6 +58,11 @@ public class CollisionInteractionMap implements CollisionMap {
 
 	/**
 	 * Adds a collision interaction to this collection.
+	 * 
+	 * @param <C1>
+	 *            The collider type.
+	 * @param <C2>
+	 *            The collidee (unit that was moved into) type.
 	 * 
 	 * @param collider
 	 *            The collider type.
@@ -95,6 +111,11 @@ public class CollisionInteractionMap implements CollisionMap {
 	/**
 	 * Handles the collision between two colliding parties, if a suitable
 	 * collision handler is listed.
+	 * 
+	 * @param <C1>
+	 *            The collider type.
+	 * @param <C2>
+	 *            The collidee (unit that was moved into) type.
 	 * 
 	 * @param collider
 	 *            The collider.
@@ -167,8 +188,7 @@ public class CollisionInteractionMap implements CollisionMap {
 		while (found.size() > index) {
 			Class<?> current = found.get(index);
 			Class<?> superClass = current.getSuperclass();
-			if (superClass != null
-					&& Unit.class.isAssignableFrom(superClass)) {
+			if (superClass != null && Unit.class.isAssignableFrom(superClass)) {
 				found.add((Class<? extends Unit>) superClass);
 			}
 			for (Class<?> classInterface : current.getInterfaces()) {
@@ -192,7 +212,7 @@ public class CollisionInteractionMap implements CollisionMap {
 	 * @param <C2>
 	 *            The collidee type.
 	 */
-	public static interface CollisionHandler<C1 extends Unit, C2 extends Unit> {
+	public interface CollisionHandler<C1 extends Unit, C2 extends Unit> {
 
 		/**
 		 * Handles the collision between two colliding parties.
