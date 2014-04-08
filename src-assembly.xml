@@ -1,0 +1,33 @@
+<!-- Assembly intended for mvn package task in order to create the source 
+	distribution. -->
+
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+	<id>src</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+
+	<includeBaseDirectory>true</includeBaseDirectory>
+
+	<!-- We're producing a source distribution, so quite a bit needs to be included. -->
+	<fileSets>
+		<!-- The actual sources. -->
+		<fileSet>
+			<directory>src</directory>
+			<outputDirectory>src</outputDirectory>
+		</fileSet>
+		<!--Get misc user files -->
+		<fileSet>
+			<directory>${project.basedir}</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>*.xml</include>
+				<include>.checkstyle</include>
+				<include>.pmd</include>
+				<include>LICENSE.txt</include>
+				<include>docs/*.*</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+</assembly>
