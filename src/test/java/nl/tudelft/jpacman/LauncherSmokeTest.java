@@ -28,7 +28,7 @@ import org.junit.Test;
  */
 public class LauncherSmokeTest {
 	
-	Launcher launcher;
+	private Launcher launcher;
 	
 	@Before
 	public void setUpPacman() {
