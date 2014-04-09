@@ -13,7 +13,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * A square on a {@link Board}, which can (or cannot, depending on the type) be
  * occupied by units.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public abstract class Square {
 

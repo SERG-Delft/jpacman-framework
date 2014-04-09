@@ -6,7 +6,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
 /**
  * A pellet, one of the little dots Pac-Man has to collect.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class Pellet extends Unit {
 

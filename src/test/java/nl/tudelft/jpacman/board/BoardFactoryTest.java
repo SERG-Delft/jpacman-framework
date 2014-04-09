@@ -10,7 +10,7 @@ import org.junit.Test;
 /**
  * Tests the linking of squares done by the board factory.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class BoardFactoryTest {
 

@@ -10,7 +10,7 @@ import org.junit.Test;
 /**
  * Test suite to confirm that {@link Unit}s correctly (de)occupy squares.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  * 
  */
 public class OccupantTest {

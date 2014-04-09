@@ -10,7 +10,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
 /**
  * A player operated unit in our game.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class Player extends Unit {
 

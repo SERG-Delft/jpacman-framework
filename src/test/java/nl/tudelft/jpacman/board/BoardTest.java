@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * Test various aspects of board.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class BoardTest {
 

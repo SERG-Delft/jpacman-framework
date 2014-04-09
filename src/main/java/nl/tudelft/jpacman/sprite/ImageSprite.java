@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 /**
  * Basic implementation of a Sprite, it merely consists of a static image.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class ImageSprite implements Sprite {
 

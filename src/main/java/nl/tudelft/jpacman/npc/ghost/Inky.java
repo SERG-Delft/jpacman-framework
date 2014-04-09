@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
  * Source: http://strategywiki.org/wiki/Pac-Man/Getting_Started
  * </p>
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  * 
  */
 public class Inky extends Ghost {

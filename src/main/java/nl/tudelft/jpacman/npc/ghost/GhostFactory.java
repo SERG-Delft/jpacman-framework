@@ -5,7 +5,7 @@ import nl.tudelft.jpacman.sprite.PacManSprites;
 /**
  * Factory that creates ghosts.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class GhostFactory {
 

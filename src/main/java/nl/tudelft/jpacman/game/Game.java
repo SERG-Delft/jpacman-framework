@@ -10,7 +10,7 @@ import nl.tudelft.jpacman.level.Player;
 /**
  * A basic implementation of a Pac-Man game.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public abstract class Game implements LevelObserver {
 

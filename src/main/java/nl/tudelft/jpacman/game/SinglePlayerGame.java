@@ -11,7 +11,7 @@ import com.google.common.collect.ImmutableList;
 /**
  * A game with one player and a single level.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class SinglePlayerGame extends Game {
 

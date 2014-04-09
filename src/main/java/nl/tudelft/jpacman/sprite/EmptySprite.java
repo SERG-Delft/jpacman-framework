@@ -6,7 +6,7 @@ import java.awt.Graphics;
  * Empty Sprite which does not contain any data. When this sprite is drawn,
  * nothing happens.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class EmptySprite implements Sprite {
 

@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 /**
  * Utility to load {@link Sprite}s.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class SpriteStore {
 	

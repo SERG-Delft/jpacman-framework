@@ -3,7 +3,7 @@ package nl.tudelft.jpacman.board;
 /**
  * An enumeration of possible directions on a two-dimensional square grid.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public enum Direction {
 

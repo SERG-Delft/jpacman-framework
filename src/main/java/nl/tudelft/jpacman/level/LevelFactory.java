@@ -16,7 +16,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
 /**
  * Factory that creates levels and units.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class LevelFactory {
 
@@ -114,7 +114,7 @@ public class LevelFactory {
 	/**
 	 * Implementation of an NPC that wanders around randomly.
 	 * 
-	 * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+	 * @author Jeroen Roosen 
 	 */
 	private final class RandomGhost extends Ghost {
 

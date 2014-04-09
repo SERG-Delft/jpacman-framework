@@ -18,7 +18,7 @@ import com.google.common.collect.Lists;
 /**
  * Tests various aspects of level.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class LevelTest {
 

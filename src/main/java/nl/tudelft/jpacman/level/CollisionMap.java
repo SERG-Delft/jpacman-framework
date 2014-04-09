@@ -6,7 +6,7 @@ import nl.tudelft.jpacman.board.Unit;
  * A table containing all (relevant) collisions between different types of
  * units.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public interface CollisionMap {
 

@@ -3,7 +3,7 @@ package nl.tudelft.jpacman.ui;
 /**
  * An action that can be executed.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public interface Action {
 

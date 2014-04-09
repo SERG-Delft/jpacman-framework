@@ -6,7 +6,7 @@ import nl.tudelft.jpacman.board.Unit;
 /**
  * A non-player unit.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public abstract class NPC extends Unit {
 

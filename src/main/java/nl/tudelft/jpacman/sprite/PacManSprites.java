@@ -10,7 +10,7 @@ import nl.tudelft.jpacman.npc.ghost.GhostColor;
 /**
  * Sprite Store containing the classic Pac-Man sprites.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class PacManSprites extends SpriteStore {
 

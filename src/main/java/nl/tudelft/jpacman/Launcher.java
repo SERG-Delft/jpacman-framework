@@ -22,7 +22,7 @@ import nl.tudelft.jpacman.ui.PacManUiBuilder;
 /**
  * Creates and launches the JPacMan UI.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class Launcher {
 

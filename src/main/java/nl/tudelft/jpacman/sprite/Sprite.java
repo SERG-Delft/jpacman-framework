@@ -5,7 +5,7 @@ import java.awt.Graphics;
 /**
  * Visual representation of some object.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public interface Sprite {
 

@@ -14,7 +14,7 @@ import nl.tudelft.jpacman.level.Player;
  * A panel consisting of a column for each player, with the numbered players on
  * top and their respective scores underneath.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  * 
  */
 class ScorePanel extends JPanel {

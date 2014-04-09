@@ -9,7 +9,7 @@ import nl.tudelft.jpacman.game.Game;
 /**
  * Builder for the JPac-Man UI.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class PacManUiBuilder {
 
