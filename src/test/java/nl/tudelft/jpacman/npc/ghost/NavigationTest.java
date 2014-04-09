@@ -27,7 +27,7 @@ import com.google.common.collect.Lists;
 /**
  * Tests the various methods provided by the {@link Navigation} class.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  * 
  */
 public class NavigationTest {

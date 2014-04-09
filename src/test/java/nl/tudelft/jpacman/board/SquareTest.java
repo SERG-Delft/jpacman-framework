@@ -11,7 +11,7 @@ import org.junit.Test;
 /**
  * Test suite to confirm the public API of {@link Square} works as desired.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class SquareTest {
 

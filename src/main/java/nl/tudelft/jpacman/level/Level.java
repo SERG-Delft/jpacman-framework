@@ -23,7 +23,7 @@ import nl.tudelft.jpacman.npc.NPC;
  * A level of Pac-Man. A level consists of the board with the players and the
  * AIs on it.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class Level {
 
@@ -325,7 +325,7 @@ public class Level {
 	/**
 	 * A task that moves an NPC and reschedules itself after it finished.
 	 * 
-	 * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+	 * @author Jeroen Roosen 
 	 */
 	private final class NpcMoveTask implements Runnable {
 
@@ -366,7 +366,7 @@ public class Level {
 	/**
 	 * An observer that will be notified when the level is won or lost.
 	 * 
-	 * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+	 * @author Jeroen Roosen 
 	 */
 	public interface LevelObserver {
 

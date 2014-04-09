@@ -11,7 +11,7 @@ import org.junit.Test;
 /**
  * Verifies the loading of sprites.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class SpriteTest {
 

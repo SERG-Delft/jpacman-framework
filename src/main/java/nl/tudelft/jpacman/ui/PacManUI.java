@@ -23,7 +23,7 @@ import nl.tudelft.jpacman.game.Game;
  * <li>A button panel, containing all buttons provided upon creation.
  * </ul>
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  * 
  */
 public class PacManUI extends JFrame {

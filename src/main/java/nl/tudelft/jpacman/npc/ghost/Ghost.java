@@ -16,7 +16,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
 /**
  * An antagonist in the game of Pac-Man, a ghost.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public abstract class Ghost extends NPC {
 	

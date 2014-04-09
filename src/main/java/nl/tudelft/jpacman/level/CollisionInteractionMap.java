@@ -10,8 +10,8 @@ import nl.tudelft.jpacman.board.Unit;
 /**
  * A map of possible collisions and their handlers.
  * 
- * @author Michael de Jong <m.dejong-2@student.tudelft.nl>
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Michael de Jong
+ * @author Jeroen Roosen 
  */
 public class CollisionInteractionMap implements CollisionMap {
 
@@ -205,7 +205,7 @@ public class CollisionInteractionMap implements CollisionMap {
 	/**
 	 * Handles the collision between two colliding parties.
 	 * 
-	 * @author Michael de Jong <m.dejong-2@student.tudelft.nl>
+	 * @author Michael de Jong
 	 * 
 	 * @param <C1>
 	 *            The collider type.
@@ -228,7 +228,7 @@ public class CollisionInteractionMap implements CollisionMap {
 	/**
 	 * An symmetrical copy of a collision hander.
 	 * 
-	 * @author Michael de Jong <m.dejong-2@student.tudelft.nl>
+	 * @author Michael de Jong
 	 * 
 	 * @param <C1>
 	 *            The collider type.

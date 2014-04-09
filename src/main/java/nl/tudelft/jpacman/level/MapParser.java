@@ -15,7 +15,7 @@ import nl.tudelft.jpacman.npc.NPC;
 /**
  * Creates new {@link Level}s from text representations.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class MapParser {
 

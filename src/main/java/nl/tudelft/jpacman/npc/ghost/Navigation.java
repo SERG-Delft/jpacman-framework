@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Navigation provides utility to nagivate on {@link Square}s.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public final class Navigation {
 
@@ -148,7 +148,7 @@ public final class Navigation {
 	/**
 	 * Helper class to keep track of the path.
 	 * 
-	 * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+	 * @author Jeroen Roosen 
 	 */
 	private static final class Node {
 

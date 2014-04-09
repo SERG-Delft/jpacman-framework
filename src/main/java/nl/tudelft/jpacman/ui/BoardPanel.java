@@ -14,7 +14,7 @@ import nl.tudelft.jpacman.game.Game;
 /**
  * Panel displaying a game.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  * 
  */
 class BoardPanel extends JPanel {

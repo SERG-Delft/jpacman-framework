@@ -6,7 +6,7 @@ import nl.tudelft.jpacman.level.PlayerFactory;
 /**
  * Factory that provides Game objects.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class GameFactory {
 

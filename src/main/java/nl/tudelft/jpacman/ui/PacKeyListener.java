@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * A key listener based on a set of keyCode-action pairs.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 class PacKeyListener implements KeyListener {
 

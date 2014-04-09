@@ -5,7 +5,7 @@ import nl.tudelft.jpacman.sprite.PacManSprites;
 /**
  * Factory that creates Players.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class PlayerFactory {
 
