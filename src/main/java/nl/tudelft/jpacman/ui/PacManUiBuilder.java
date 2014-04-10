@@ -104,7 +104,7 @@ public class PacManUiBuilder {
 	 * Adds a key listener to the UI.
 	 * 
 	 * @param keyCode
-	 *            The key code of the key as used by {@link KeyEvent}.
+	 *            The key code of the key as used by {@link java.awt.event.KeyEvent}.
 	 * @param action
 	 *            The action to perform when the key is pressed.
 	 * @return The builder.

@@ -22,7 +22,7 @@ public class Board {
 	Board(Square[][] grid) {
 		assert grid != null;
 		this.board = grid;
-		assert invariant();
+		assert invariant() : "Initial grid cannot contain null squares";
 	}
 	
 	/**

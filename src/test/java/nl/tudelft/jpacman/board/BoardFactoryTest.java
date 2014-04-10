@@ -49,7 +49,7 @@ public class BoardFactoryTest {
 	public void connectedEast() {
 		Square s1 = new BasicSquare();
 		Square s2 = new BasicSquare();
-		Square[][] grid = new Square[][]{{s1},{s2}};
+		Square[][] grid = new Square[][]{{s1}, {s2}};
 		factory.createBoard(grid);
 		assertEquals(s2, s1.getSquareAt(Direction.EAST));
 		assertEquals(s1, s2.getSquareAt(Direction.EAST));
@@ -62,7 +62,7 @@ public class BoardFactoryTest {
 	public void connectedWest() {
 		Square s1 = new BasicSquare();
 		Square s2 = new BasicSquare();
-		Square[][] grid = new Square[][]{{s1},{s2}};
+		Square[][] grid = new Square[][]{{s1}, {s2}};
 		factory.createBoard(grid);
 		assertEquals(s2, s1.getSquareAt(Direction.WEST));
 		assertEquals(s1, s2.getSquareAt(Direction.WEST));

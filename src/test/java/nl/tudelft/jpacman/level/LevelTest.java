@@ -72,7 +72,7 @@ public class LevelTest {
 	}
 
 	/**
-	 * Validates the state of the level when it is stopped without starting
+	 * Validates the state of the level when it is stopped without starting.
 	 */
 	@Test
 	public void stop() {
