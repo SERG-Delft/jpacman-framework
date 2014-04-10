@@ -14,12 +14,12 @@ import org.junit.Test;
 /**
  * Smoke test launching the full game,
  * and attempting to make a number of typical moves.
- *
+ * <p/>
  * This is <strong>not</strong> a <em>unit</em> test -- it is an end-to-end test
  * trying to execute as much behavior as possible directly from the
  * user interface. It uses the actual sprites and monster AI, and hence
  * has little control over what is happening in the game.
- *
+ * <p/>
  * Because it is an end-to-end test, it is somewhat longer
  * and has more assert statements than what would be good
  * for a small and focused <em>unit</em> test.
@@ -44,6 +44,7 @@ public class LauncherSmokeTest {
     /**
      * Launch the game, and imitate what would happen
      * in a typical game.
+     * @throws InterruptedException Since we're sleeping in this test.
      */
     @Test
     public void smokeTest() throws InterruptedException {

@@ -56,7 +56,7 @@ public class Launcher {
 	 * 
 	 * @return A new level.
 	 */
-	protected Level makeLevel() {
+	public Level makeLevel() {
 		MapParser parser = getMapParser();
 		try {
 			return parser.parseMap(Launcher.class
