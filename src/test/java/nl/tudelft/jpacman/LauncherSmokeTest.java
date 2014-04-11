@@ -16,7 +16,7 @@ import org.junit.Test;
  * and attempting to make a number of typical moves.
  * <p/>
  * This is <strong>not</strong> a <em>unit</em> test -- it is an end-to-end test
- * trying to execute as much behavior as possible directly from the
+ * trying to execute a large portion of the system's behavior directly from the
  * user interface. It uses the actual sprites and monster AI, and hence
  * has little control over what is happening in the game.
  * <p/>
