@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
@@ -20,11 +17,6 @@ import nl.tudelft.jpacman.sprite.Sprite;
  */
 public abstract class Ghost extends NPC {
 	
-	/**
-	 * The log.
-	 */
-	private static final Logger LOG = LoggerFactory.getLogger(Ghost.class);
-
 	/**
 	 * The sprite map, one sprite for each direction.
 	 */
@@ -59,7 +51,6 @@ public abstract class Ghost extends NPC {
 				directions.add(d);
 			}
 		}
-		LOG.debug("Found {} possible directions to move in.", directions.size());
 		if (directions.isEmpty()) {
 			return null;
 		}

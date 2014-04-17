@@ -9,9 +9,6 @@ import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.sprite.Sprite;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * <p>
  * An implementation of the classic Pac-Man ghost Shadow.
@@ -55,11 +52,6 @@ public class Blinky extends Ghost {
 	private static final int MOVE_INTERVAL = 250;
 
 	/**
-	 * The log.
-	 */
-	private static final Logger LOG = LoggerFactory.getLogger(Blinky.class);
-
-	/**
 	 * Creates a new "Blinky", a.k.a. "Shadow".
 	 * 
 	 * @param spriteMap
@@ -93,31 +85,21 @@ public class Blinky extends Ghost {
 	public Direction nextMove() {
 		// TODO Blinky should patrol his corner every once in a while
 		// TODO Implement his actual behaviour instead of simply chasing.
-		long t0 = System.currentTimeMillis();
 		Square target = Navigation.findNearest(Player.class, getSquare())
 				.getSquare();
 
 		if (target == null) {
-			LOG.debug("No player found, will move around randomly.");
 			Direction d = randomMove();
-			LOG.debug("Moving {} (calculated in {}ms)", d,
-					System.currentTimeMillis() - t0);
 			return d;
 		}
-		LOG.debug("Player found.");
-
+		
 		List<Direction> path = Navigation.shortestPath(getSquare(), target,
 				this);
 		if (path != null && !path.isEmpty()) {
 			Direction d = path.get(0);
-			LOG.debug("Found path to player. Moving {} (calculated in {}ms)",
-					d, System.currentTimeMillis() - t0);
 			return d;
 		}
-		LOG.debug("Could not find path to player, will move around randomly.");
 		Direction d = randomMove();
-		LOG.debug("Moving {} (calculated in {}ms)", d,
-				System.currentTimeMillis() - t0);
 		return d;
 	}
 }

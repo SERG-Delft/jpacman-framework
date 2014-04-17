@@ -9,10 +9,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.LoggerFactory;
-
-import org.slf4j.Logger;
-
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
@@ -26,11 +22,6 @@ import nl.tudelft.jpacman.npc.NPC;
  * @author Jeroen Roosen 
  */
 public class Level {
-
-	/**
-	 * The log.
-	 */
-	private static final Logger LOG = LoggerFactory.getLogger(Level.class);
 
 	/**
 	 * The board of this level.
@@ -153,8 +144,6 @@ public class Level {
 		if (players.contains(p)) {
 			return;
 		}
-		LOG.info("Registered player and put him on position {}",
-				startSquareIndex);
 		players.add(p);
 		Square square = startSquares.get(startSquareIndex);
 		p.occupy(square);
@@ -213,7 +202,6 @@ public class Level {
 			if (isInProgress()) {
 				return;
 			}
-			LOG.info("Starting or resuming level.");
 			startNPCs();
 			inProgress = true;
 			updateObservers();
@@ -229,7 +217,6 @@ public class Level {
 			if (!isInProgress()) {
 				return;
 			}
-			LOG.info("Stopping level.");
 			stopNPCs();
 			inProgress = false;
 		}
@@ -273,13 +260,11 @@ public class Level {
 	 */
 	private void updateObservers() {
 		if (!isAnyPlayerAlive()) {
-			LOG.info("No players alive. Game over (lost)");
 			for (LevelObserver o : observers) {
 				o.levelLost();
 			}
 		}
 		if (remainingPellets() == 0) {
-			LOG.info("No pellets remaining. Game over (won).");
 			for (LevelObserver o : observers) {
 				o.levelWon();
 			}
