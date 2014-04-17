@@ -10,9 +10,6 @@ import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.sprite.Sprite;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * <p>
  * An implementation of the classic Pac-Man ghost Pokey.
@@ -61,11 +58,6 @@ public class Clyde extends Ghost {
 	private static final int MOVE_INTERVAL = 250;
 
 	/**
-	 * The log.
-	 */
-	private static final Logger LOG = LoggerFactory.getLogger(Clyde.class);
-
-	/**
 	 * A map of opposite directions.
 	 */
 	private static final Map<Direction, Direction> OPPOSITES = new EnumMap<Direction, Direction>(
@@ -111,13 +103,11 @@ public class Clyde extends Ghost {
 	 */
 	@Override
 	public Direction nextMove() {
-		long t0 = System.currentTimeMillis();
 		Square target = Navigation.findNearest(Player.class, getSquare())
 				.getSquare();
 		if (target == null) {
-			return randomMove(t0);
+			return randomMove();
 		}
-		LOG.debug("Player found.");
 
 		List<Direction> path = Navigation.shortestPath(getSquare(), target,
 				this);
@@ -125,27 +115,11 @@ public class Clyde extends Ghost {
 			Direction d = path.get(0);
 			if (path.size() <= SHYNESS) {
 				Direction oppositeDir = OPPOSITES.get(d);
-				LOG.debug(
-						"Player is very close, moving in the other direction. Moving {}",
-						oppositeDir);
 				return oppositeDir;
 			}
-			LOG.debug("Found path to player. Moving {} (calculated in {}ms)",
-					d, System.currentTimeMillis() - t0);
 			return d;
 		}
-		LOG.debug("Could not find path to player, will move around randomly.");
 		Direction d = randomMove();
-		LOG.debug("Moving {} (calculated in {}ms)", d,
-				System.currentTimeMillis() - t0);
-		return d;
-	}
-
-	private Direction randomMove(long t0) {
-		LOG.debug("No player found, will move around randomly.");
-		Direction d = randomMove();
-		LOG.debug("Moving {} (calculated in {}ms)", d,
-				System.currentTimeMillis() - t0);
 		return d;
 	}
 }

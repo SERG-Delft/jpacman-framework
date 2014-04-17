@@ -10,9 +10,6 @@ import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.sprite.Sprite;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * <p>
  * An implementation of the classic Pac-Man ghost Bashful.
@@ -60,11 +57,6 @@ public class Inky extends Ghost {
 	private static final int MOVE_INTERVAL = 250;
 
 	/**
-	 * The log.
-	 */
-	private static final Logger LOG = LoggerFactory.getLogger(Inky.class);
-
-	/**
 	 * Creates a new "Inky", a.k.a. Bashful.
 	 * 
 	 * @param spriteMap
@@ -108,64 +100,43 @@ public class Inky extends Ghost {
 	// CHECKSTYLE:OFF To keep this more readable.
 	@Override
 	public Direction nextMove() {
-		long t0 = System.currentTimeMillis();
 		Unit blinky = Navigation.findNearest(Blinky.class, getSquare());
 		if (blinky == null) {
-			LOG.debug("Could not find Blinky, will move around randomly.");
 			Direction d = randomMove();
-			LOG.debug("Moving {} (calculated in {}ms)", d,
-					System.currentTimeMillis() - t0);
 			return d;
 		}
-		LOG.debug("Found Blinky (position A)");
 
 		Unit player = Navigation.findNearest(Player.class, getSquare());
 		if (player == null) {
-			LOG.debug("Could not find Player, will move around randomly.");
 			Direction d = randomMove();
-			LOG.debug("Moving {} (calculated in {}ms)", d,
-					System.currentTimeMillis() - t0);
 			return d;
 		}
-		LOG.debug("Player found.");
 
 		Direction targetDirection = player.getDirection();
 		Square playerDestination = player.getSquare();
 		for (int i = 0; i < SQUARES_AHEAD; i++) {
 			playerDestination = playerDestination.getSquareAt(targetDirection);
 		}
-		LOG.debug("Calculated position B: {} squares {} of Player.",
-				SQUARES_AHEAD, targetDirection);
 
 		Square destination = playerDestination;
 		List<Direction> firstHalf = Navigation.shortestPath(blinky.getSquare(),
 				playerDestination, null);
 		if (firstHalf == null) {
-			LOG.debug("Could not find a path from (Pos A) to (Pos B), will move randomly.");
 			Direction d = randomMove();
-			LOG.debug("Moving {} (calculated in {}ms)", d,
-					System.currentTimeMillis() - t0);
 			return d;
 		}
 
 		for (Direction d : firstHalf) {
 			destination = playerDestination.getSquareAt(d);
 		}
-		LOG.debug("Calculated position C, moving there.");
 
 		List<Direction> path = Navigation.shortestPath(getSquare(),
 				destination, this);
 		if (path != null && !path.isEmpty()) {
 			Direction d = path.get(0);
-			LOG.debug(
-					"Found path to destination. Moving {} (calculated in {}ms)",
-					d, System.currentTimeMillis() - t0);
 			return d;
 		}
-		LOG.debug("Could not find path to destination, will move around randomly.");
 		Direction d = randomMove();
-		LOG.debug("Moving {} (calculated in {}ms)", d,
-				System.currentTimeMillis() - t0);
 		return d;
 	}
 	// CHECKSTYLE:ON

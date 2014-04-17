@@ -10,9 +10,6 @@ import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.sprite.Sprite;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * <p>
  * An implementation of the classic Pac-Man ghost Speedy.
@@ -66,11 +63,6 @@ public class Pinky extends Ghost {
 	private static final int MOVE_INTERVAL = 200;
 
 	/**
-	 * The log.
-	 */
-	private static final Logger LOG = LoggerFactory.getLogger(Pinky.class);
-
-	/**
 	 * Creates a new "Pinky", a.k.a. "Speedy".
 	 * 
 	 * @param spriteMap
@@ -99,43 +91,27 @@ public class Pinky extends Ghost {
 	 * spaces.
 	 * </p>
 	 */
-	// CHECKSTYLE:OFF ignoring the method length style to preserve readability.
 	@Override
 	public Direction nextMove() {
-		long t0 = System.currentTimeMillis();
 		Unit player = Navigation.findNearest(Player.class, getSquare());
 		if (player == null) {
-			LOG.debug("No player found, will move around randomly.");
 			Direction d = randomMove();
-			LOG.debug("Moving {} (calculated in {}ms)", d,
-					System.currentTimeMillis() - t0);
 			return d;
 		}
-		LOG.debug("Player found!");
 
 		Direction targetDirection = player.getDirection();
 		Square destination = player.getSquare();
 		for (int i = 0; i < SQUARES_AHEAD; i++) {
 			destination = destination.getSquareAt(targetDirection);
 		}
-		LOG.debug("Calculated destination: {} squares {} of Player.",
-				SQUARES_AHEAD, targetDirection);
 
 		List<Direction> path = Navigation.shortestPath(getSquare(),
 				destination, this);
 		if (path != null && !path.isEmpty()) {
 			Direction d = path.get(0);
-			LOG.debug(
-					"Found path to destination. Moving {} (calculated in {}ms)",
-					d, System.currentTimeMillis() - t0);
 			return d;
 		}
-		LOG.debug("Could not find path to destination, will move around randomly.");
 		Direction d = randomMove();
-		LOG.debug("Moving {} (calculated in {}ms)", d,
-				System.currentTimeMillis() - t0);
 		return d;
 	}
-	// CHECKSTYLE:ON
-
 }

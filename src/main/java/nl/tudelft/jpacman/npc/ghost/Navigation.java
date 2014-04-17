@@ -9,20 +9,12 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Navigation provides utility to nagivate on {@link Square}s.
  * 
  * @author Jeroen Roosen 
  */
 public final class Navigation {
-
-	/**
-	 * The log.
-	 */
-	private static final Logger LOG = LoggerFactory.getLogger(Navigation.class);
 
 	private Navigation() {
 	}
@@ -48,7 +40,6 @@ public final class Navigation {
 	 */
 	public static List<Direction> shortestPath(Square from, Square to,
 			Unit traveller) {
-		long t0 = System.currentTimeMillis();
 		if (from == to) {
 			return new ArrayList<>();
 		}
@@ -61,15 +52,11 @@ public final class Navigation {
 			Square s = n.getSquare();
 			if (s == to) {
 				List<Direction> path = n.getPath();
-				LOG.debug("Calculated shortest path for {} in {}ms.",
-						traveller, System.currentTimeMillis() - t0);
 				return path;
 			}
 			visited.add(s);
 			addNewTargets(traveller, targets, visited, n, s);
 		}
-		LOG.debug("Failed to find shortest path, took {}ms.",
-				System.currentTimeMillis() - t0);
 		return null;
 	}
 
@@ -99,7 +86,6 @@ public final class Navigation {
 	 */
 	public static Unit findNearest(Class<? extends Unit> type,
 			Square currentLocation) {
-		long t0 = System.currentTimeMillis();
 		List<Square> toDo = new ArrayList<>();
 		Set<Square> visited = new HashSet<>();
 
@@ -109,8 +95,6 @@ public final class Navigation {
 			Square square = toDo.remove(0);
 			Unit unit = findUnit(type, square);
 			if (unit != null) {
-				LOG.debug("Found unit in {}ms.", System.currentTimeMillis()
-						- t0);
 				return unit;
 			}
 			visited.add(square);
@@ -121,8 +105,6 @@ public final class Navigation {
 				}
 			}
 		}
-		LOG.debug("Failed to find unit, took {}ms.", System.currentTimeMillis()
-				- t0);
 		return null;
 	}
 
