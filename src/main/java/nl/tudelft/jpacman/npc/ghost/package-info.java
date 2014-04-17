@@ -5,7 +5,7 @@
  * </p>
  * 
  * <ul>
- * <lh>The original AIs for Pac-Man are fairly well described on strategy
+ * <li>The original AIs for Pac-Man are fairly well described on strategy
  * wiki.org.
  * <li>Information on locations on the original board:
  * http://strategywiki.org/wiki/Pac-Man/Tips
@@ -13,6 +13,6 @@
  * http://strategywiki.org/wiki/Pac-Man/Getting_Started
  * </ul>
  * 
- * @author Jeroen Roosen <jeroen@jarinsoffice.com>
+ * @author Jeroen Roosen, 2014.
  */
 package nl.tudelft.jpacman.npc.ghost;

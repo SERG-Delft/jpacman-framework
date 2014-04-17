@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
  * </p>
  * <p>
  * <i>Note: In the original arcade series, the ghosts' genders are unspecified
- * and assumed to be male. In 1999, the USA division of Namco & Namco Hometech
+ * and assumed to be male. In 1999, the USA division of Namco and Namco Hometech
  * developed the Pac-Man World series and declared Pinky to be female.</i>
  * </p>
  * <p>
