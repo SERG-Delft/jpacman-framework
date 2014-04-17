@@ -130,24 +130,14 @@ public class MapParser {
 	 *            sized row of squares on the board and the first element being
 	 *            the top row.
 	 * @return The level as represented by the text.
+	 * @throws IllegalArgumentException If text lines are not properly formatted.
 	 */
 	public Level parseMap(List<String> text) {
-		assert text != null;
-
-		if (text.isEmpty()) {
-			throw new IllegalArgumentException(
-					"Input text must consist of at least 1 row.");
-		}
+		
+		checkMapFormat(text);
 
 		int height = text.size();
 		int width = text.get(0).length();
-
-		for (String line : text) {
-			if (line.length() != width) {
-				throw new IllegalArgumentException(
-						"Input text lines are not of equal width.");
-			}
-		}
 
 		char[][] map = new char[width][height];
 		for (int x = 0; x < width; x++) {
@@ -156,6 +146,37 @@ public class MapParser {
 			}
 		}
 		return parseMap(map);
+	}
+	
+	/**
+	 * Check the correctness of the map lines in the text.
+	 * @param text Map to be checked
+	 * @throws IllegalArgumentException if map is not OK.
+	 */
+	private void checkMapFormat(List<String> text) {	
+		if (text == null) {
+			throw new IllegalArgumentException(
+					"Input text cannot be null.");
+		}
+
+		if (text.isEmpty()) {
+			throw new IllegalArgumentException(
+					"Input text must consist of at least 1 row.");
+		}
+
+		int width = text.get(0).length();
+
+		if (width == 0) {
+			throw new IllegalArgumentException(
+				"Input text lines cannot be empty.");
+		}
+
+		for (String line : text) {
+			if (line.length() != width) {
+				throw new IllegalArgumentException(
+					"Input text lines are not of equal width.");
+			}
+		}		
 	}
 
 	/**
