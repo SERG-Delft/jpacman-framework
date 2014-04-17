@@ -35,8 +35,7 @@ public class CollisionInteractionMap implements CollisionMap {
 
 	/**
 	 * Adds a two-way collision interaction to this collection, i.e. the
-	 * collision handler will be used for both <code>C1 -> C2</code> and
-	 * <code>C2 -> C1</code>.
+	 * collision handler will be used for both C1 versus C2 and C2 versus C1.
 	 * 
 	 * @param <C1>
 	 *            The collider type.
@@ -70,8 +69,8 @@ public class CollisionInteractionMap implements CollisionMap {
 	 *            The collidee type.
 	 * @param symetric
 	 *            <code>true</code> if this collision is used for both
-	 *            <code>C1 -> C2</code> and <code>C2 -> C1</code>,
-	 *            <code>false</code> if only for <code>C1 -> C2</code>.
+	 *            C1 against C2 and vice versa;
+	 *            <code>false</code> if only for C1 against C2.
 	 * @param handler
 	 *            The handler that handles the collision.
 	 */

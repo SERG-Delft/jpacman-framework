@@ -46,7 +46,7 @@ public class MapParser {
 	 * Parses the text representation of the board into an actual level.
 	 * 
 	 * <ul>
-	 * <lh>Supported characters:
+	 * <li>Supported characters:
 	 * <li>' ' (space) an empty square.
 	 * <li>'#' (bracket) a wall.
 	 * <li>'.' (period) a square with a pellet.
