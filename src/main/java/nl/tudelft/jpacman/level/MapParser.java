@@ -154,7 +154,7 @@ public class MapParser {
 	 * @throws IllegalArgumentException if map is not OK.
 	 */
 	private void checkMapFormat(List<String> text) {	
-		if (null == text) {
+		if (text == null) {
 			throw new IllegalArgumentException(
 					"Input text cannot be null.");
 		}
@@ -166,15 +166,15 @@ public class MapParser {
 
 		int width = text.get(0).length();
 
-        if (0 == width) {
-            throw new IllegalArgumentException(
-                    "Input text lines cannot be empty.");
-        }
+		if (width == 0) {
+			throw new IllegalArgumentException(
+				"Input text lines cannot be empty.");
+		}
 
-        for (String line : text) {
+		for (String line : text) {
 			if (line.length() != width) {
 				throw new IllegalArgumentException(
-						"Input text lines are not of equal width.");
+					"Input text lines are not of equal width.");
 			}
 		}		
 	}
