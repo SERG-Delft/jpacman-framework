@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.tudelft.jpacman.PacmanConfigurationException;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Square;
@@ -108,7 +109,7 @@ public class MapParser {
 			startPositions.add(playerSquare);
 			break;
 		default:
-			throw new IllegalArgumentException("Invalid character at "
+			throw new PacmanConfigurationException("Invalid character at "
 					+ x + "," + y + ": " + c);
 		}
 	}
@@ -130,7 +131,7 @@ public class MapParser {
 	 *            sized row of squares on the board and the first element being
 	 *            the top row.
 	 * @return The level as represented by the text.
-	 * @throws IllegalArgumentException If text lines are not properly formatted.
+	 * @throws PacmanConfigurationException If text lines are not properly formatted.
 	 */
 	public Level parseMap(List<String> text) {
 		
@@ -151,29 +152,29 @@ public class MapParser {
 	/**
 	 * Check the correctness of the map lines in the text.
 	 * @param text Map to be checked
-	 * @throws IllegalArgumentException if map is not OK.
+	 * @throws PacmanConfigurationException if map is not OK.
 	 */
 	private void checkMapFormat(List<String> text) {	
 		if (text == null) {
-			throw new IllegalArgumentException(
+			throw new PacmanConfigurationException(
 					"Input text cannot be null.");
 		}
 
 		if (text.isEmpty()) {
-			throw new IllegalArgumentException(
+			throw new PacmanConfigurationException(
 					"Input text must consist of at least 1 row.");
 		}
 
 		int width = text.get(0).length();
 
 		if (width == 0) {
-			throw new IllegalArgumentException(
+			throw new PacmanConfigurationException(
 				"Input text lines cannot be empty.");
 		}
 
 		for (String line : text) {
 			if (line.length() != width) {
-				throw new IllegalArgumentException(
+				throw new PacmanConfigurationException(
 					"Input text lines are not of equal width.");
 			}
 		}		

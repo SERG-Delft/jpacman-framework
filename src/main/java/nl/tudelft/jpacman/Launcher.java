@@ -62,7 +62,7 @@ public class Launcher {
 			return parser.parseMap(Launcher.class
 					.getResourceAsStream("/board.txt"));
 		} catch (IOException e) {
-			throw new RuntimeException("Unable to create level.", e);
+			throw new PacmanConfigurationException("Unable to create level.", e);
 		}
 	}
 
