@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import nl.tudelft.jpacman.PacmanConfigurationException;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
 
@@ -129,7 +130,7 @@ public class PacManSprites extends SpriteStore {
 	}
 
 	/**
-	 * Overloads the default sprite loading, negating the exception. This class
+	 * Overloads the default sprite loading, ignoring the exception. This class
 	 * assumes all sprites are provided, hence the exception will be thrown as a
 	 * {@link RuntimeException}.
 	 * 
@@ -140,7 +141,7 @@ public class PacManSprites extends SpriteStore {
 		try {
 			return super.loadSprite(resource);
 		} catch (IOException e) {
-			throw new RuntimeException("Unable to load sprite: " + resource, e);
+			throw new PacmanConfigurationException("Unable to load sprite: " + resource, e);
 		}
 	}
 }

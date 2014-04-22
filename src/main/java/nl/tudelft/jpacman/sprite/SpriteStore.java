@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import nl.tudelft.jpacman.PacmanConfigurationException;
+
 /**
  * Utility to load {@link Sprite}s.
  * 
@@ -58,13 +60,14 @@ public class SpriteStore {
 	 *             When the resource could not be loaded.
 	 */
 	private Sprite loadSpriteFromResource(String resource) throws IOException {
-		InputStream input = SpriteStore.class.getResourceAsStream(resource);
-		if (input == null) {
-			throw new IOException("Unable to load " + resource
+		try (InputStream input = SpriteStore.class.getResourceAsStream(resource)) {
+			if (input == null) {
+				throw new IOException("Unable to load " + resource
 					+ ", resource does not exist.");
+			}
+			BufferedImage image = ImageIO.read(input);
+			return new ImageSprite(image);
 		}
-		BufferedImage image = ImageIO.read(input);
-		return new ImageSprite(image);
 	}
 
 	/**
