@@ -15,6 +15,7 @@ public class LauncherWithOutPlayer extends Launcher {
 	
 	/**
 	 * Creates a mapdesign without player.  
+	 * @return Level 
 	 */
 	@Override
 	public Level makeLevel() {
@@ -26,5 +27,8 @@ public class LauncherWithOutPlayer extends Launcher {
 		return parser.parseMap(mapDesign);
 		
 	}
+
+
+	
 	
 }
