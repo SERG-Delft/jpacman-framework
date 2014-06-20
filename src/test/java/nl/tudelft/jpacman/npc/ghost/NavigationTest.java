@@ -52,7 +52,7 @@ public class NavigationTest {
 	 */
 	@Test
 	public void testShortestPathEmpty() {
-		Board b = parser.parseMap(Lists.newArrayList(" ")).getBoard();
+		Board b = parser.parseMap(Lists.newArrayList(" ",  "#", "P")).getBoard();
 		Square s1 = b.squareAt(0, 0);
 		Square s2 = b.squareAt(0, 0);
 		List<Direction> path = Navigation
@@ -66,7 +66,7 @@ public class NavigationTest {
 	@Test
 	public void testNoShortestPath() {
 		Board b = parser
-				.parseMap(Lists.newArrayList("#####", "# # #", "#####"))
+				.parseMap(Lists.newArrayList("#####", "# # #", "#####", "P####"))
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(3, 1);
@@ -81,7 +81,7 @@ public class NavigationTest {
 	@Test
 	public void testNoTraveller() {
 		Board b = parser
-				.parseMap(Lists.newArrayList("#####", "# # #", "#####"))
+				.parseMap(Lists.newArrayList("#####", "# # #", "#####", "P####"))
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(3, 1);
@@ -95,7 +95,7 @@ public class NavigationTest {
 	 */
 	@Test
 	public void testSimplePath() {
-		Board b = parser.parseMap(Lists.newArrayList("####", "#  #", "####"))
+		Board b = parser.parseMap(Lists.newArrayList("####", "#  #", "####", "P###"))
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(2, 1);
@@ -111,7 +111,7 @@ public class NavigationTest {
 	@Test
 	public void testCornerPath() {
 		Board b = parser.parseMap(
-				Lists.newArrayList("####", "#  #", "## #", "####")).getBoard();
+				Lists.newArrayList("####", "#  #", "## #", "####", "P###")).getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(2, 2);
 		List<Direction> path = Navigation
@@ -126,7 +126,7 @@ public class NavigationTest {
 	@Test
 	public void testNearestUnit() {
 		Board b = parser
-				.parseMap(Lists.newArrayList("#####", "# ..#", "#####"))
+				.parseMap(Lists.newArrayList("#####", "# ..#", "#####", "P####"))
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(2, 1);
@@ -139,7 +139,7 @@ public class NavigationTest {
 	 */
 	@Test
 	public void testNoNearestUnit() {
-		Board b = parser.parseMap(Lists.newArrayList(" ")).getBoard();
+		Board b = parser.parseMap(Lists.newArrayList(" ", "#", "P")).getBoard();
 		Square s1 = b.squareAt(0, 0);
 		Unit unit = Navigation.findNearest(Pellet.class, s1);
 		assertNull(unit);
