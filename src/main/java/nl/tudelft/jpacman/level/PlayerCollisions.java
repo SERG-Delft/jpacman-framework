@@ -47,7 +47,7 @@ public class PlayerCollisions implements CollisionMap {
 	/**
 	 * Actual case of player bumping into ghost or vice versa.
 	 */
-	private void playerVersusGhost(Player player, Ghost ghost) {
+	public void playerVersusGhost(Player player, Ghost ghost) {
 		player.setAlive(false);
 	}
 	
