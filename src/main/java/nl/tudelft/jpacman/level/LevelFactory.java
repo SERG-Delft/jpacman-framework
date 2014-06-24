@@ -30,6 +30,11 @@ public class LevelFactory {
 	 * The default value of a pellet.
 	 */
 	private static final int PELLET_VALUE = 10;
+	
+	/**
+	 * The default value of a fruit.
+	 */
+	private static final int FRUIT_VALUE = 50;
 
 	/**
 	 * The sprite store that provides sprites for units.
@@ -110,7 +115,14 @@ public class LevelFactory {
 	public Pellet createPellet() {
 		return new Pellet(PELLET_VALUE, sprites.getPelletSprite());
 	}
-
+	/**
+	 * Creates a new fruit.
+	 * 
+	 * @return The new fruit.
+	 */
+	public Fruit createFruit(){
+		return new Fruit(FRUIT_VALUE, sprites.getFruitSprite());
+	}
 	/**
 	 * Implementation of an NPC that wanders around randomly.
 	 * 
