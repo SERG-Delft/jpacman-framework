@@ -46,6 +46,9 @@ public class PlayerCollisions implements CollisionMap {
 	
 	/**
 	 * Actual case of player bumping into ghost or vice versa.
+     *
+     * @param player The player involved in the collision.
+     * @param ghost The ghost involved in the collision.
 	 */
 	public void playerVersusGhost(Player player, Ghost ghost) {
 		player.setAlive(false);
@@ -53,8 +56,11 @@ public class PlayerCollisions implements CollisionMap {
 	
 	/**
 	 * Actual case of player consuming a pellet.
+     *
+     * @param player The player involved in the collision.
+     * @param pellet The pellet involved in the collision.
 	 */
-	private void playerVersusPellet(Player player, Pellet pellet) {
+	public void playerVersusPellet(Player player, Pellet pellet) {
 		pellet.leaveSquare();
 		player.addPoints(pellet.getValue());		
 	}
