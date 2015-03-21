@@ -9,27 +9,42 @@
 
 	<groupId>nl.tudelft.jpacman</groupId>
 	<artifactId>jpacman-framework</artifactId>
-	<version>6.0.1-SNAPSHOT</version>
+	<version>6.1.0-SNAPSHOT</version>
+    <url>https://github.com/serg-delft/jpacman-framework</url>
+    <description>
+        Pacman-inspired game, for teaching testing purposes.
+    </description>
+    <organization>
+        <url>http://www.tudelft.nl</url>
+        <name>Delft University of Technology</name>
+    </organization>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
 	<prerequisites>
-		<maven>2.2.1</maven>
+		<maven>3.0.1</maven>
 	</prerequisites>
 
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.12</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>16.0.1</version>
+			<version>18.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>1.9.5</version>
+			<version>2.0.5-beta</version>
 		</dependency>
 	</dependencies>
 
@@ -38,7 +53,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.2</version>
 				<configuration>
 					<target>1.7</target>
 					<source>1.7</source>
@@ -66,7 +81,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
+				<version>2.6</version>
 				<configuration>
 					<useDefaultManifestFile>true</useDefaultManifestFile>
 				</configuration>
@@ -84,72 +99,71 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>				
-			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.3</version>
-				<configuration>
-					<reportPlugins>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-project-info-reports-plugin</artifactId>
-							<version>2.4</version>
-						</plugin>
-
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-javadoc-plugin</artifactId>
-							<version>2.9.1</version>
-						</plugin>
-
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-jxr-plugin</artifactId>
-							<configuration>
-								<linkJavadoc>true</linkJavadoc>
-							</configuration>
-							<version>2.4</version>
-						</plugin>
-
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-checkstyle-plugin</artifactId>
-							<version>2.12</version>
-							<configuration>
-								<configLocation>${basedir}/checkstyle.xml</configLocation>
-								<includeTestSourceDirectory> true </includeTestSourceDirectory>
-							</configuration>
-						</plugin>
-
--						<plugin>
--							<groupId>org.codehaus.mojo</groupId>
--							<artifactId>findbugs-maven-plugin</artifactId>
--							<version>3.0.0</version>
--						</plugin>
-
-						<plugin> <!-- JUnit report -->
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-surefire-report-plugin</artifactId>
-							<version>2.17</version>
-						</plugin>
-						
-						<plugin>
-							<groupId>org.codehaus.mojo</groupId>
-							<artifactId>cobertura-maven-plugin</artifactId>
-							<version>2.6</version>
-							<configuration>
-								<formats>
-									<format>html</format>
-									<format>xml</format>
-								</formats>
-							</configuration>
-						</plugin>
-						
-					</reportPlugins>
-				</configuration>
 			</plugin>
-		</plugins>
+ 		</plugins>
 	</build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.8</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.1</version>
+                <configuration>
+                    <failOnError>false</failOnError>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <id>default</id>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <configuration>
+                    <linkJavadoc>true</linkJavadoc>
+                </configuration>
+                <version>2.5</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.14</version>
+                <configuration>
+                    <configLocation>${basedir}/checkstyle.xml</configLocation>
+                    <includeTestSourceDirectory> true </includeTestSourceDirectory>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>3.0.0</version>
+            </plugin>
+
+            <plugin> <!-- JUnit report -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.18.1</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.7</version>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
