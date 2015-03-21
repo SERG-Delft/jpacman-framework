@@ -9,7 +9,7 @@
 
 	<groupId>nl.tudelft.jpacman</groupId>
 	<artifactId>jpacman-framework</artifactId>
-	<version>6.0.1-SNAPSHOT</version>
+	<version>6.1.0-SNAPSHOT</version>
     <url>https://github.com/serg-delft/jpacman-framework</url>
     <description>
         Pacman-inspired game, for teaching testing purposes.
