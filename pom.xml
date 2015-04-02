@@ -35,6 +35,10 @@
 			<id>jpacman-deployment</id>
 			<url>https://devhub.ewi.tudelft.nl/nexus/content/repositories/releases/</url>
 		</repository>
+		<snapshotRepository>
+			<id>jpacman-deployment</id>
+			<url>https://devhub.ewi.tudelft.nl/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
 	</distributionManagement>
 
 	<dependencies>
