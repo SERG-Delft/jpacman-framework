@@ -30,12 +30,18 @@ public class LauncherSmokeTest {
 	
 	private Launcher launcher;
 	
+	/**
+	 * Launch the user interface.
+	 */
 	@Before
 	public void setUpPacman() {
 		launcher = new Launcher();
 		launcher.launch();
 	}
 	
+	/**
+	 * Quit the user interface when we're done.
+	 */
 	@After
 	public void tearDown() {
 		launcher.dispose();

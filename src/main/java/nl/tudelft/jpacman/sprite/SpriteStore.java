@@ -8,8 +8,6 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import nl.tudelft.jpacman.PacmanConfigurationException;
-
 /**
  * Utility to load {@link Sprite}s.
  * 
