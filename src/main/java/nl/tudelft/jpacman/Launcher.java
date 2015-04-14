@@ -2,6 +2,7 @@ package nl.tudelft.jpacman;
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import nl.tudelft.jpacman.board.BoardFactory;
@@ -58,9 +59,9 @@ public class Launcher {
 	 */
 	public Level makeLevel() {
 		MapParser parser = getMapParser();
-		try {
-			return parser.parseMap(Launcher.class
-					.getResourceAsStream("/board.txt"));
+		try (InputStream boardStream = Launcher.class
+				.getResourceAsStream("/board.txt")) {
+			return parser.parseMap(boardStream);
 		} catch (IOException e) {
 			throw new PacmanConfigurationException("Unable to create level.", e);
 		}
