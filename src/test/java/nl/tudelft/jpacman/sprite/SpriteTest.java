@@ -17,6 +17,8 @@ public class SpriteTest {
 
     private Sprite sprite;
     private SpriteStore store;
+    
+    private final int spriteSize = 64;
 
     /**
      * The common fixture of this test class is
@@ -36,7 +38,7 @@ public class SpriteTest {
 	 */
 	@Test
 	public void spriteWidth() {
-		assertEquals(64, sprite.getWidth());
+		assertEquals(spriteSize, sprite.getWidth());
 	}
 
 	/**
@@ -44,7 +46,7 @@ public class SpriteTest {
 	 */
 	@Test
 	public void spriteHeight() {
-		assertEquals(64, sprite.getHeight());
+		assertEquals(spriteSize, sprite.getHeight());
 	}
 
 	/**

@@ -145,6 +145,12 @@ public class NavigationTest {
 		assertNull(unit);
 	}
 	
+	/**
+	 * Verifies that there is ghost on the default board
+	 * next to cell [1, 1].
+	 *  
+	 * @throws IOException if board reading fails.
+	 */
 	@Test
 	public void testFullSizedLevel() throws IOException {
 		Board b = parser.parseMap(getClass().getResourceAsStream("/board.txt")).getBoard();

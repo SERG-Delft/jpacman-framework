@@ -20,7 +20,7 @@
 		<!--Get misc user files -->
 		<fileSet>
 			<directory>${project.basedir}</directory>
-			<outputDirectory>/</outputDirectory>
+			<outputDirectory></outputDirectory>
 			<includes>
 				<include>*.xml</include>
 				<include>.checkstyle</include>
