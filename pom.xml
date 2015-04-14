@@ -9,7 +9,7 @@
 
 	<groupId>nl.tudelft.jpacman</groupId>
 	<artifactId>jpacman-framework</artifactId>
-	<version>6.1.1</version>
+	<version>6.2.0</version>
     <url>https://github.com/serg-delft/jpacman-framework</url>
     <description>
         Pacman-inspired game, for teaching testing purposes.
@@ -66,8 +66,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.2</version>
 				<configuration>
-					<target>1.8</target>
-					<source>1.8</source>
+					<target>1.7</target>
+					<source>1.7</source>
 				</configuration>
 			</plugin>
 
