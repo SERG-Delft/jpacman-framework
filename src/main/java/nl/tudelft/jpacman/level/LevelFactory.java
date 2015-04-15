@@ -116,7 +116,7 @@ public class LevelFactory {
 	 * 
 	 * @author Jeroen Roosen 
 	 */
-	private final class RandomGhost extends Ghost {
+	private static final class RandomGhost extends Ghost {
 
 		/**
 		 * The suggested delay between moves.
