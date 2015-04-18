@@ -76,7 +76,7 @@ public class AnimatedSprite implements Sprite {
 			boolean isAnimating) {
 		assert frames.length > 0;
 
-		this.animationFrames = frames;
+		this.animationFrames = frames.clone();
 		this.animationDelay = delay;
 		this.looping = loop;
 		this.animating = isAnimating;

@@ -80,7 +80,7 @@ public class BoardFactory {
 	 * 
 	 * @author Jeroen Roosen 
 	 */
-	private final class Wall extends Square {
+	private static final class Wall extends Square {
 
 		/**
 		 * The background for this square.
@@ -113,7 +113,7 @@ public class BoardFactory {
 	 * 
 	 * @author Jeroen Roosen 
 	 */
-	private final class Ground extends Square {
+	private static final class Ground extends Square {
 
 		/**
 		 * The background for this square.
