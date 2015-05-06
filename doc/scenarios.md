@@ -109,18 +109,18 @@ Given the game has started,
 When  a tick event occurs;
 Then  the ghost can move to that cell.
 
-Scenario S3.2: The ghost moves over food.
+Scenario S3.2: The ghost moves over a square with a pellet.
 Given the game has started,
- and  a ghost is next to a cell containing food;
+ and  a ghost is next to a cell containing a pellet;
 When  a tick event occurs;
-Then  the ghost can move to the food cell,
- and  the food on that cell is not visible anymore.
+Then  the ghost can move to the cell with the pellet,
+ and  the pellet on that cell is not visible anymore.
 
-Scenario S3.3: The ghost leaves a food cell.
-Given a ghost is on a food cell (see S3.2);
+Scenario S3.3: The ghost leaves a cell with a pellet.
+Given a ghost is on a cell with a pellet (see S3.2);
 When  a tick even occurs;
-Then  the ghost can move to away from the food cell,
- and  the food on that cell is is visible again.
+Then  the ghost can move away from the cell with the pellet,
+ and  the pellet on that cell is is visible again.
 
 Scenario S3.4: The player dies.
 Given the game has started,
