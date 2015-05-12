@@ -26,6 +26,7 @@ import org.junit.Test;
  *
  * @author Arie van Deursen, March 2014.
  */
+@SuppressWarnings("magicnumber")
 public class LauncherSmokeTest {
 	
 	private Launcher launcher;

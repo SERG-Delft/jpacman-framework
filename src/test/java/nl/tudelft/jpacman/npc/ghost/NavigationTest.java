@@ -30,6 +30,7 @@ import com.google.common.collect.Lists;
  * @author Jeroen Roosen 
  * 
  */
+@SuppressWarnings("magicnumber")
 public class NavigationTest {
 
 	/**
