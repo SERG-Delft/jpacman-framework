@@ -25,6 +25,9 @@ public class PlayerCollisions implements CollisionMap {
 		else if (mover instanceof Ghost) {
 			ghostColliding((Ghost) mover, collidedOn);
 		}
+		else if (mover instanceof Pellet) {
+			pelletColliding((Pellet) mover, collidedOn);
+		}
 	}
 	
 	private void playerColliding(Player player, Unit collidedOn) {
@@ -41,6 +44,12 @@ public class PlayerCollisions implements CollisionMap {
 		if (collidedOn instanceof Player) {
 			playerVersusGhost((Player) collidedOn, ghost);
 		}
+	}
+	
+	private void pelletColliding(Pellet pellet, Unit collidedOn) {
+		if (collidedOn instanceof Player) {
+			playerVersusPellet((Player) collidedOn, pellet);
+		}		
 	}
 	
 	
