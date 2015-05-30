@@ -105,6 +105,7 @@ public class LevelTest {
 	 * square.
 	 */
 	@Test
+	@SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
 	public void registerPlayer() {
 		Player p = mock(Player.class);
 		level.registerPlayer(p);
@@ -115,6 +116,7 @@ public class LevelTest {
 	 * Verifies registering a player twice does not do anything.
 	 */
 	@Test
+	@SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
 	public void registerPlayerTwice() {
 		Player p = mock(Player.class);
 		level.registerPlayer(p);
@@ -127,6 +129,7 @@ public class LevelTest {
 	 * starting square.
 	 */
 	@Test
+	@SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
 	public void registerSecondPlayer() {
 		Player p1 = mock(Player.class);
 		Player p2 = mock(Player.class);
@@ -140,6 +143,7 @@ public class LevelTest {
 	 * starting square.
 	 */
 	@Test
+	@SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
 	public void registerThirdPlayer() {
 		Player p1 = mock(Player.class);
 		Player p2 = mock(Player.class);
