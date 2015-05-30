@@ -13,6 +13,7 @@ import org.junit.Test;
  * 
  * @author Jeroen Roosen 
  */
+@SuppressWarnings("magicnumber")
 public class SpriteTest {
 
     private Sprite sprite;

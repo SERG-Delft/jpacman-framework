@@ -11,6 +11,7 @@
 <module name="Checker">
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
+    <module name="SuppressWarningsHolder" />
     <property name="tabWidth" value="4"/>
     <module name="FileContentsHolder"/>
     <module name="JavadocMethod">
@@ -120,4 +121,5 @@
   </module>
   <module name="SuppressionCommentFilter"/>
   <module name="SuppressWithNearbyCommentFilter"/>
+  <module name="SuppressWarningsFilter" />
 </module>
