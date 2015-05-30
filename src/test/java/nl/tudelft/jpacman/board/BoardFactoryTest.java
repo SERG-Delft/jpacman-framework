@@ -23,7 +23,7 @@ public class BoardFactoryTest {
 	 * Resets the factory under test.
 	 */
 	@Before
-	public void setup() {
+	public void setUp() {
 		PacManSprites sprites = mock(PacManSprites.class);
 		factory = new BoardFactory(sprites);
 	}

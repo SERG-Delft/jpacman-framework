@@ -57,7 +57,7 @@ public class LevelTest {
 	 * square.
 	 */
 	@Before
-	public void setup() {
+	public void setUp() {
 		final long defaultInterval = 100L;
 		level = new Level(board, Lists.newArrayList(ghost), Lists.newArrayList(
 				square1, square2), collisions);

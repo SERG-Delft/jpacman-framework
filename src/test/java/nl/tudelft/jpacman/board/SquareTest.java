@@ -24,7 +24,7 @@ public class SquareTest {
 	 * Resets the square under test.
 	 */
 	@Before
-	public void setup() {
+	public void setUp() {
 		square = new BasicSquare();
 	}
 
