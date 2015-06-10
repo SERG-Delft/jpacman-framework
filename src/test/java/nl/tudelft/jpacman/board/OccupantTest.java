@@ -24,7 +24,7 @@ public class OccupantTest {
 	 * Resets the unit under test.
 	 */
 	@Before
-	public void setup() {
+	public void setUp() {
 		unit = new BasicUnit();
 	}
 

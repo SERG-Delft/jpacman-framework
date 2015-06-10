@@ -29,7 +29,7 @@ public class BoardTest {
 	 * Setup a board that can be used for testing.
 	 */
 	@Before
-	public void setup() {
+	public void setUp() {
 		Square[][] grid = new Square[maxWidth][maxHeight];
 		grid[0][0] = x0y0;
 		grid[0][1] = x0y1;

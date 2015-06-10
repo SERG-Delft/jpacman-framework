@@ -30,7 +30,7 @@ import com.google.common.collect.Lists;
  * @author Jeroen Roosen 
  * 
  */
-@SuppressWarnings("magicnumber")
+@SuppressWarnings({"magicnumber", "PMD.AvoidDuplicateLiterals"})
 public class NavigationTest {
 
 	/**
@@ -42,7 +42,7 @@ public class NavigationTest {
 	 * Set up the map parser.
 	 */
 	@Before
-	public void setup() {
+	public void setUp() {
 		PacManSprites sprites = new PacManSprites();
 		parser = new MapParser(new LevelFactory(sprites, new GhostFactory(
 				sprites)), new BoardFactory(sprites));
