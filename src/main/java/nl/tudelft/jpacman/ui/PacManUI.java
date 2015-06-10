@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
 
 /**
  * The default JPacMan UI frame. The PacManUI consists of the following
@@ -60,9 +61,11 @@ public class PacManUI extends JFrame {
 	 * @param keyMappings
 	 *            The map of keyCode-to-action entries that will be added as key
 	 *            listeners to the interface.
+	 * @param sf
+	 *            The formatter used to display the current score. 
 	 */
 	public PacManUI(final Game game, final Map<String, Action> buttons,
-			final Map<Integer, Action> keyMappings) {
+			final Map<Integer, Action> keyMappings, ScoreFormatter sf) {
 		super("JPac-Man");
 		assert game != null;
 		assert buttons != null;
@@ -76,8 +79,12 @@ public class PacManUI extends JFrame {
 		JPanel buttonPanel = new ButtonPanel(buttons, this);
 
 		scorePanel = new ScorePanel(game.getPlayers());
+		if (sf != null) {
+			scorePanel.setScoreFormatter(sf);
+		}
+		
 		boardPanel = new BoardPanel(game);
-
+		
 		Container contentPanel = getContentPane();
 		contentPanel.setLayout(new BorderLayout());
 		contentPanel.add(buttonPanel, BorderLayout.SOUTH);

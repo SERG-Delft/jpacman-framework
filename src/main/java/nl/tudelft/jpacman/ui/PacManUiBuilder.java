@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
 
 /**
  * Builder for the JPac-Man UI.
@@ -37,6 +38,11 @@ public class PacManUiBuilder {
 	 * <code>true</code> iff this UI has the default buttons.
 	 */
 	private boolean defaultButtons;
+	
+	/**
+	 * Way to format the score.
+	 */
+	private ScoreFormatter scoreFormatter = null;
 
 	/**
 	 * Creates a new Pac-Man UI builder without any mapped keys or buttons.
@@ -61,7 +67,7 @@ public class PacManUiBuilder {
 			addStartButton(game);
 			addStopButton(game);
 		}
-		return new PacManUI(game, buttons, keyMappings);
+		return new PacManUI(game, buttons, keyMappings, scoreFormatter);
 	}
 
 	/**
@@ -145,6 +151,19 @@ public class PacManUiBuilder {
 		defaultButtons = true;
 		buttons.put(START_CAPTION, null);
 		buttons.put(STOP_CAPTION, null);
+		return this;
+	}
+	
+	/**
+	 * Provide formatter for the score.
+	 * 
+	 * @param sf
+	 *         The score formatter to be used.
+	 * 
+	 * @return The builder.
+	 */
+	public PacManUiBuilder withScoreFormatter(ScoreFormatter sf) {
+		scoreFormatter = sf;
 		return this;
 	}
 }
