@@ -130,7 +130,7 @@ Then  the ghost can move to the player,
  and  the game is over.
 ```
 
-#### Story 4: Suspsend the Game
+#### Story 4: Suspend the Game
 
 ```
 As a player,
