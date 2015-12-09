@@ -53,9 +53,8 @@ As with any project, the project itself plays a big role. That said, for unit te
 
 
 ## Bugs
-In the issues we found out that there are lots of cases in which integer suffixes aren't needed at all. Usually audits are needed to make sure the intended type is inferred, and disabling the fallback to _i32_ wouldn't really work for tests. A solution would be to modify the compiler to dump the equivalent of _--pretty=typed_ (with pretty-printing showing no suffixes on expressions) into some temporary directory, then compare the results from two make check runs, one with all the suffixes removed. 
 
-However, we didn't really knew how to fix the bug and we only found it thanks to the discussion on the issue, the bug was kind of solved by the author of the issue but only for some cases.
+By analising jpacman i
 
 ## Critical Analysis
 **Rust** is a well organized project with a lot of contributors and very active. Despite this it was a little hard to gatter all information and if it weren't for [Rust's Reddit] and the their [official forum] it would be impossible to do any of the reports. This last report was a little bit more difficult because we had to work with the repository in a more specific way, the testing part of Rust required a lot of stuff that we didn't had any ideia how to use. 
