@@ -54,6 +54,12 @@ As you can see in the next image there are some areas that are not very well cov
 
 ![alt tag](https://raw.githubusercontent.com/hpnog/jpacman-framework/master/ESOF-docs/test.png)
 
+The Level area isnt well covered because there are some problems covering the interactions between colisions in all the map as you can see in the following image :
+
+![alt tag](https://raw.githubusercontent.com/hpnog/jpacman-framework/master/ESOF-docs/test.png)
+
+We talked with the collobaroters of the project about this matter and they told us that this happens because its very difficult to control all the active actors on the map they told us they were still trying to find the ideal solution to solve this prolem and if we can help them they would appreciate it.
+
 
 ## Bugs
 
