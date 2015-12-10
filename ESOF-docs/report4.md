@@ -63,8 +63,12 @@ In other matter we foun out that the game also doesnt recognize end-game situati
 Also from what we discovered in the Testability chapter the program doesnt handle very well when an exception appears.
 
 ## Critical Analysis
-**JPacman** is a well organized project with a lot of contributors and very active. The information was very easy to obtain and from all the information we gathered together we can say that the project is well organized and structured.
+**JPacman** is a well organized project with a lot of contributors and very active. 
+
+The information was very easy to obtain and from all the information we gathered together we can say that the project is well organized and structured.
+
  The code is organized in different packages(level,board,enemy,player,sprite,etc) what makes even more easy to analyze the different tests made for this project.
+ 
  In the end we can say tha beside some bugs the project may have we enjoyed even more working in this project because the theme is very motivating and the language in which the project was made(Java) is very acessible and atractive to work with.
 
 Regarding the _test statistics_ we used Eclemma to discouver the test coverage regardin any information about any _test statistics_ related to tests run on JPacman.
