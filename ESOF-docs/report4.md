@@ -17,13 +17,13 @@
 >  _Definition from [Wikipedia]_
 [Wikipedia]: https://en.wikipedia.org/wiki/Software_testability
 
-In this report we will check **JPacman**'s degree of testability by analising some factors like:
-- **Controllability**: The degree to which it is possible to control the state of the component under test (CUT) as required for testing.
-- **Observability**: The degree to which it is possible to observe (intermediate and final) test results.
-- **Isolateability**: The degree to which the component under test (CUT) can be tested in isolation.
-- **Separation of concerns**: The degree to which the component under test has a single, well defined responsibility.
-- **Understandability**: The degree to which the component under test is documented or self-explaining.
-- **Heterogeneity**: The degree to which the use of diverse technologies requires to use diverse test methods and tools in parallel.
+In this report we will analyse **JPacman Framework**. 
+
+**JPacman** is an open source project developed by DELF College at United States of America with the objective of teaching students how to do Unitary Tests in a more efficient way.
+
+The project consists like the name says in a Pacman-like game for 1 person that is missing some features to make the game more efficient.
+
+The objective of the project is by testing all the functionalitys that are developed until now to check if they are working well and if they can be improved in some way 
 
 
 
@@ -54,12 +54,15 @@ As you can see in the next image there are some areas that do not have that much
 
 ![alt tag](https://raw.githubusercontent.com/hpnog/jpacman-framework/master/ESOF-docs/test.png)
 
+**Level**
+
 The Level area isn't well covered because there are some problems covering the interactions between colisions in all the map as you can see in the following image :
 
 ![alt tag](https://raw.githubusercontent.com/hpnog/jpacman-framework/master/ESOF-docs/level.png)
 
 We talked with the collobaroters of the project about this matter and they told us that this happens because its very difficult to control all the active actors on the map they told us they were still trying to find the ideal solution to solve this prolem and if we can help them they would appreciate it.
 
+**Board**
 
 In another perspective we also detected that the board also doesnt aim to the right range of value since the coverage is below 75%.
 This is due to the fact that some function of the Board arent tested.
@@ -72,7 +75,16 @@ But in this case we can solve this problem in a very easy way because the test t
 * If all the actors of the game are placed inside the Board;
 
 
+**Exception**
 
+Finally we noticed that the project doesnt tests the most part of the exceptions that are trowhn in this program like in this case:
+
+![alt tag](https://raw.githubusercontent.com/hpnog/jpacman-framework/master/ESOF-docs/exception.png) 
+
+
+The most eficient solution to solve this problem is being discussed by all the coloborators by a long time but they still didn´t reached a full agreement to which is the best solution to this problem.
+
+In the end what we can say is that by analysing all the test statistics we could gathered we notice that it is possible to raise the test coverage of the project in a efficient way and with not so much work.
 
 
 ## Bugs
