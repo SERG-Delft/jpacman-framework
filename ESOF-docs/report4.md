@@ -17,7 +17,7 @@
 >  _Definition from [Wikipedia]_
 [Wikipedia]: https://en.wikipedia.org/wiki/Software_testability
 
-In this report we will check **Rust**'s degree of testability by analising some factors like:
+In this report we will check **JPacman**'s degree of testability by analising some factors like:
 - **Controllability**: The degree to which it is possible to control the state of the component under test (CUT) as required for testing.
 - **Observability**: The degree to which it is possible to observe (intermediate and final) test results.
 - **Isolateability**: The degree to which the component under test (CUT) can be tested in isolation.
@@ -29,24 +29,19 @@ In this report we will check **Rust**'s degree of testability by analising some 
 
 ## Testability 
 
-By talking with some contributtors to the **Rust Project** and by reading the [Test chapter] on **Rust** blog we learned that Rust turns the test driven approach very easy and that the language lends itself well to testing because first Rust has no inheritance or other convoluted form of dependency which makes the testing of isolated componentes much easier. For example, when we want to give a certain behavior to a set of types, we create a trait and implement it for each type and the trait itself can be tested independently. 
+By talking with some contributtors to the **JPacman Project** and by reading some information about the project on **Google** we learned that **JPacman** turns the test driven approach very easy and that the language lends itself well to testing because first **JPacman** project is written in Java that is a language with an easy approach and because the project itself is very well organized in different packages that turn a lot more easy tofind the information we are looking for to test. 
+
+This distribution makes also very easy to issolate the different components of the project we want to test that by consequence makes more easy to analyse the information gathered after testing which makes more easy to raise the Test Coverage and to find new bugs. For example, when we want to give a certain behavior to a set of types, we create a trait and implement it for each type and the trait itself can be tested independently. 
 
 During the tests, the compiler performs the heavy lifting when it comes to common bugs, so you can focus on other things and the language is a good match with unitary tests which leads to easily composable code. It is very simple to maintain coverage and to deploying the service. 
 
-For Rust, the usual practice is having tests right below where something is defined. 
+For JPacman the usual practice is to have tests for some specific action like create board,move player,capture food,collision,etc.
 
-One of the biggest concerns about the testability of Rust is the lack of support for coverage analysis tools. 
-
-Its is very easy to isolate components in Rust because there is no inheritance or ohter convulted form of dependency.
-If you want to create an hierarchy that reuses data, you must compose the types explicitly (include the supertype as a field), this is called "composition over inheritance".
-
-Another thing that makes Rust easier to test is that it has no exceptions. On some languages, it's hard to understand which set of exceptions you need to test for each piece of code. (Rust has panics, that typically terminate the program; but panics aren't an usual technique for error handling, and instead signal that the program encountered an error that isn't recoverable).
-
-As with any project, the project itself plays a big role. That said, for unit testing Rust's existing test tools are more than adequate. Integration testing may be more difficult, depending on what you're integrating, but Cargo supports custom tests that don't use the built-in harness, so it's not too hard to write tests that do what you need.
+One of the biggest concerns about the testability of JPacman is the lack of support for handeling Exceptions and some type of Collisions. 
 
 
+As with any project, the project itself plays a big role. That said, for unit testing JPacman´s existing test tools are more than adequate. Integration testing may be more difficult, depending on what you're integrating, but Eclipse supports all the tools to create custom tests that sometimes may be hard to write but that in the end work very well.
 
-[Test chapter]:https://doc.rust-lang.org/book/testing.html
 
 
 ## Test Statistics
