@@ -19,11 +19,11 @@
 
 In this report we will analyse **JPacman Framework**. 
 
-**JPacman** is an open source project developed by DELF College at United States of America with the objective of teaching students how to do Unitary Tests in a more efficient way.
+**JPacman** is an open source project developed by DELF College at the United States of America with the goal of teaching students how to do Unitary Tests in a more efficient way.
 
-The project consists like the name says in a Pacman-like game for 1 person that is missing some features to make the game more efficient.
+Like the name says, this project consists of a Pacman-like game for 1 person that is missing some features to make the game more efficient.
 
-The objective of the project is by testing all the functionalitys that are developed until now to check if they are working well and if they can be improved in some way 
+Therefore, the purpose of this project is to test all the functionalities that are developed until now to check if they are working well and if they can be improved in some way. 
 
 
 
