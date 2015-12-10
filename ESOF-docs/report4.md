@@ -48,13 +48,13 @@ As with any project, the project itself plays a big role. That said, for unit te
 
 In this Chapter we will analyse all the statistics gathered during the analyze of **JPacman** project.
 
-We used JUnit plgu-in of Eclipse to run unitary tests made to the project and we found that we can reach the maximum coverage 82% due to the problems we explained in the previous chapter.
+We used JUnit on Eclipse to run unitary tests made to the project and we found that we can reach the maximum coverage 82% due to the problems we explained in the previous chapter.
 
-As you can see in the next image there are some areas that are not very well covered in this project:
+As you can see in the next image there are some areas that do not have that much coverage in this project:
 
 ![alt tag](https://raw.githubusercontent.com/hpnog/jpacman-framework/master/ESOF-docs/test.png)
 
-The Level area isnt well covered because there are some problems covering the interactions between colisions in all the map as you can see in the following image :
+The Level area isn't well covered because there are some problems covering the interactions between colisions in all the map as you can see in the following image :
 
 ![alt tag](https://raw.githubusercontent.com/hpnog/jpacman-framework/master/ESOF-docs/level.png)
 
@@ -65,11 +65,11 @@ We talked with the collobaroters of the project about this matter and they told 
 
 By analising jpacman we found out that the game has some bugs in the colision matter. 
 
-The game doesnt handle bery well the colissions between ghosts and pacman itself and sometimes during the gameplay pacman passes by a ghost and nothing happens situation that isnt very correct.
+The game doesn't handle very well the collisions between ghosts and pacman itself and sometimes during the gameplay pacman passes by a ghost and nothing happens.
 
-In other matter we foun out that the game also doesnt recognize end-game situation because every time you win or loose the game stops working and the screen stays static until you close the apllication.
+In other matter we found out that the game also doesnt recognize end-game situation because every time you win or lose, the game stops working and the screen stays static until you close the apllication.
 
-Also from what we discovered in the Testability chapter the program doesnt handle very well when an exception appears.
+Also from what we discovered in the Testability chapter the program doesn't handle very well when an exception appears.
 
 ## Critical Analysis
 **JPacman** is a well organized project with a lot of contributors and very active. 
