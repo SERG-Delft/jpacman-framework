@@ -54,7 +54,9 @@ As with any project, the project itself plays a big role. That said, for unit te
 
 ## Bugs
 
-By analising jpacman i
+By analising jpacman we found out that the game has some bugs in the colision matter. The game doesnt handle bery well the colissions between ghosts and pacman itself and sometimes during the gameplay pacman passes by a ghost and nothing happens situation that isnt very correct.
+In other matter we foun out that the game also doesnt recognize end-game situation because every time you win or loose the game stops working and the screen stays static until you close the apllication.
+Also from what we discovered in the Testability chapter the program doesnt handle very well when an exception appears.
 
 ## Critical Analysis
 **Rust** is a well organized project with a lot of contributors and very active. Despite this it was a little hard to gatter all information and if it weren't for [Rust's Reddit] and the their [official forum] it would be impossible to do any of the reports. This last report was a little bit more difficult because we had to work with the repository in a more specific way, the testing part of Rust required a lot of stuff that we didn't had any ideia how to use. 
