@@ -61,6 +61,20 @@ The Level area isn't well covered because there are some problems covering the i
 We talked with the collobaroters of the project about this matter and they told us that this happens because its very difficult to control all the active actors on the map they told us they were still trying to find the ideal solution to solve this prolem and if we can help them they would appreciate it.
 
 
+In another perspective we also detected that the board also doesnt aim to the right range of value since the coverage is below 75%.
+This is due to the fact that some function of the Board arent tested.
+ 
+![alt tag](https://raw.githubusercontent.com/hpnog/jpacman-framework/master/ESOF-docs/board.png) 
+
+But in this case we can solve this problem in a very easy way because the test that are missing are very easy to implement since we only need to implement functions that test: 
+
+* If the value of the cell where the pacman is placed in is null;
+* If all the actors of the game are placed inside the Board;
+
+
+
+
+
 ## Bugs
 
 By analising jpacman we found out that the game has some bugs in the colision matter. 
