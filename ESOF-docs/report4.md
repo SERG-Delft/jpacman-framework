@@ -46,6 +46,14 @@ As with any project, the project itself plays a big role. That said, for unit te
 
 ## Test Statistics
 
+In this Chapter we will analyse all the statistics gathered during the analyze of **JPacman** project.
+
+We used JUnit plgu-in of Eclipse to run unitary tests made to the project and we found that we can reach the maximum coverage 82% due to the problems we explained in the previous chapter.
+
+As you can see in the next image there are some areas that are not very well covered in this project:
+
+![alt tag](https://raw.githubusercontent.com/hpnog/jpacman-framework/master/ESOF-docs/test.png)
+
 
 ## Bugs
 
