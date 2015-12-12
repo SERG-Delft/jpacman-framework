@@ -102,4 +102,8 @@ public abstract class Game implements LevelObserver {
 	public void levelLost() {
 		stop();
 	}
+	
+	public void endGame() {
+		System.exit(0);
+	}
 }

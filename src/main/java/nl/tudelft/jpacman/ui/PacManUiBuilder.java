@@ -18,6 +18,16 @@ public class PacManUiBuilder {
 	 * Caption for the default stop button.
 	 */
 	private static final String STOP_CAPTION = "Stop";
+	
+	/**
+	 * Caption for the default stop button.
+	 */
+	private static final String RETRY_CAPTION = "Retry";
+	
+	/**
+	 * Caption for the default stop button.
+	 */
+	private static final String EXIT_CAPTION = "Exit";
 
 	/**
 	 * Caption for the default start button.
@@ -66,6 +76,8 @@ public class PacManUiBuilder {
 		if (defaultButtons) {
 			addStartButton(game);
 			addStopButton(game);
+			addRetryButton(game);
+			addExitButton(game);
 		}
 		return new PacManUI(game, buttons, keyMappings, scoreFormatter);
 	}
@@ -102,6 +114,42 @@ public class PacManUiBuilder {
 			@Override
 			public void doAction() {
 				game.start();
+			}
+		});
+	}
+	
+	/**
+	 * Adds a button with the caption {@value #RETRY_CAPTION} that resets the
+	 * game.
+	 * 
+	 * @param game
+	 *            The game resets.
+	 */
+	private void addRetryButton(final Game game) {
+		assert game != null;
+
+		buttons.put(RETRY_CAPTION, new Action() {
+			@Override
+			public void doAction() {
+				game.endGame();
+			}
+		});
+	}
+	
+	/**
+	 * Adds a button with the caption {@value #EXIT_CAPTION} that ends the
+	 * programs.
+	 * 
+	 * @param game
+	 *            The program ends.
+	 */
+	private void addExitButton(final Game game) {
+		assert game != null;
+
+		buttons.put(EXIT_CAPTION, new Action() {
+			@Override
+			public void doAction() {
+				game.endGame();
 			}
 		});
 	}
@@ -151,6 +199,8 @@ public class PacManUiBuilder {
 		defaultButtons = true;
 		buttons.put(START_CAPTION, null);
 		buttons.put(STOP_CAPTION, null);
+		buttons.put(RETRY_CAPTION, null);
+		buttons.put(EXIT_CAPTION, null);
 		return this;
 	}
 	
