@@ -17,6 +17,7 @@ import nl.tudelft.jpacman.level.PlayerFactory;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.ui.Action;
+import nl.tudelft.jpacman.ui.MainMenu;
 import nl.tudelft.jpacman.ui.PacManUI;
 import nl.tudelft.jpacman.ui.PacManUiBuilder;
 
@@ -29,7 +30,7 @@ public class Launcher {
 
 	private static final PacManSprites SPRITE_STORE = new PacManSprites();
 
-	private PacManUI pacManUI;
+	private static PacManUI pacManUI;
 	private Game game;
 
 	/**
@@ -182,19 +183,8 @@ public class Launcher {
 	/**
 	 * Disposes of the UI. For more information see {@link javax.swing.JFrame#dispose()}.
 	 */
-	public void dispose() {
+	public static void dispose() {
 		pacManUI.dispose();
-	}
-
-	/**
-	 * Main execution method for the Launcher.
-	 * 
-	 * @param args
-	 *            The command line arguments - which are ignored.
-	 * @throws IOException
-	 *             When a resource could not be read.
-	 */
-	public static void main(String[] args) throws IOException {
-		new Launcher().launch();
+		MainMenu.main(null);
 	}
 }
