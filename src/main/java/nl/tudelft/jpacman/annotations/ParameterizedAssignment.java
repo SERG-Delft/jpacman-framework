@@ -1,4 +1,4 @@
-package nl.tudelft;
+package nl.tudelft.jpacman.annotations;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
