@@ -1,5 +1,11 @@
 package nl.tudelft.jpacman.level;
 
+import nl.tudelft.jpacman.board.Board;
+import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.npc.NPC;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,12 +14,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import nl.tudelft.jpacman.board.Board;
-import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.npc.NPC;
 
 /**
  * A level of Pac-Man. A level consists of the board with the players and the
@@ -261,12 +261,12 @@ public class Level {
 	private void updateObservers() {
 		if (!isAnyPlayerAlive()) {
 			for (LevelObserver o : observers) {
-				o.levelLost();
+				o.levelLost(this);
 			}
 		}
 		if (remainingPellets() == 0) {
 			for (LevelObserver o : observers) {
-				o.levelWon();
+				o.levelWon(this);
 			}
 		}
 	}
@@ -353,18 +353,22 @@ public class Level {
 	 * 
 	 * @author Jeroen Roosen 
 	 */
-	public interface LevelObserver {
+	public interface WinObserver<T> {
 
 		/**
 		 * The level has been won. Typically the level should be stopped when
 		 * this event is received.
 		 */
-		void levelWon();
+		void levelWon(T t);
 
 		/**
 		 * The level has been lost. Typically the level should be stopped when
 		 * this event is received.
 		 */
-		void levelLost();
+		void levelLost(T t);
+	}
+
+	public interface LevelObserver extends WinObserver<Level> {
+
 	}
 }
