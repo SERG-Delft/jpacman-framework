@@ -1,12 +1,12 @@
 package nl.tudelft.jpacman.game;
 
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.sprite.WinAnimation;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
 
 /**
  * A game with one player and a single level.
@@ -40,6 +40,7 @@ public class SinglePlayerGame extends Game {
 		this.player = p;
 		this.level = l;
 		level.registerPlayer(p);
+		level.addObserver(new AnimationLevelObserver(this, new  WinAnimation()));
 	}
 
 	@Override
