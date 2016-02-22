@@ -76,6 +76,11 @@ public class Level {
 	private final List<LevelObserver> observers;
 
 	/**
+	 * The total amount of pellets that need to be eaten to win the game.
+	 */
+	private final int totalPellets;
+
+	/**
 	 * Creates a new level for the board.
 	 * 
 	 * @param b
@@ -104,6 +109,7 @@ public class Level {
 		this.players = new ArrayList<>();
 		this.collisions = collisionMap;
 		this.observers = new ArrayList<>();
+		this.totalPellets = remainingPellets();
 	}
 
 	/**
@@ -307,6 +313,10 @@ public class Level {
 		return pellets;
 	}
 
+
+	public int getTotalPellets() {
+		return totalPellets;
+	}
 	/**
 	 * A task that moves an NPC and reschedules itself after it finished.
 	 * 
