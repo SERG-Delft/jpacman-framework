@@ -109,6 +109,20 @@ public class PacManSprites extends SpriteStore {
 	}
 
 	/**
+	 * @return The animation of a dying Ghost.
+	 */
+	public AnimatedSprite getGhostDeathAnimation(GhostColor color) {//TODO change animation sprites
+		String resource = "/sprite/dead.png";
+
+		Sprite baseImage = loadSprite(resource);
+		AnimatedSprite animation = createAnimatedSprite(baseImage, PACMAN_DEATH_FRAMES,
+				ANIMATION_DELAY, false);
+		animation.setAnimating(false);
+
+		return animation;
+	}
+
+	/**
 	 * @return The sprite for the wall.
 	 */
 	public Sprite getWallSprite() {

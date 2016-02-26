@@ -27,13 +27,24 @@ public class GameFactory {
 
 	/**
 	 * Creates a game for a single level with one player.
-	 * 
+	 *
 	 * @param level
 	 *            The level to create a game for.
 	 * @return A new single player game.
 	 */
 	public Game createSinglePlayerGame(Level level) {
 		return new SinglePlayerGame(playerFact.createPacMan(), level);
+	}
+
+	/**
+	 * Creates a game for a single level with up to four players.
+	 *
+	 * @param level The level to create a game for.
+	 * @param numberOfPlayers the number of players that are in the game.
+	 * @return A new multi player game.
+	 */
+	public Game createMultiGhostPlayerGame(Level level, int numberOfPlayers) {
+		return new MultiGhostPlayerGame(playerFact.createGhostPlayers(numberOfPlayers), level);
 	}
 
 	/**

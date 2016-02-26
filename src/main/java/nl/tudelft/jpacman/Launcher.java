@@ -60,7 +60,7 @@ public class Launcher {
 	public Level makeLevel() {
 		MapParser parser = getMapParser();
 		try (InputStream boardStream = Launcher.class
-				.getResourceAsStream("/board.txt")) {
+				.getResourceAsStream("/boardMultiGhost.txt")) {//TODO changed here
 			return parser.parseMap(boardStream);
 		} catch (IOException e) {
 			throw new PacmanConfigurationException("Unable to create level.", e);
