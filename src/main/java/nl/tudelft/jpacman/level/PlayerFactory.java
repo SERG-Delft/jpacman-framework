@@ -1,9 +1,11 @@
 package nl.tudelft.jpacman.level;
 
+import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Factory that creates Players.
@@ -37,16 +39,16 @@ public class PlayerFactory {
 				sprites.getPacManDeathAnimation());
 	}
 
-	public ArrayList<Player> createGhostPlayers(int numberOfPlayers) {
-		ArrayList<Player> players = new ArrayList<>();
+	public ArrayList<GhostPlayer> createGhostPlayers(int numberOfPlayers) {
+		ArrayList<GhostPlayer> players = new ArrayList<>();
 		switch (numberOfPlayers){
             case 4:
-                players.add(new Player(sprites.getGhostSprite(GhostColor.RED), sprites.getGhostDeathAnimation(GhostColor.RED)));
+                players.add(new GhostPlayer(sprites.getGhostSprite(GhostColor.RED), sprites.getGhostDeathAnimation(GhostColor.RED)));
             case 3:
-                players.add(new Player(sprites.getGhostSprite(GhostColor.PINK), sprites.getGhostDeathAnimation(GhostColor.PINK)));
+                players.add(new GhostPlayer(sprites.getGhostSprite(GhostColor.PINK), sprites.getGhostDeathAnimation(GhostColor.PINK)));
 			case 2:
-				players.add(new Player(sprites.getGhostSprite(GhostColor.CYAN), sprites.getGhostDeathAnimation(GhostColor.CYAN)));
-                players.add(new Player(sprites.getGhostSprite(GhostColor.ORANGE), sprites.getGhostDeathAnimation(GhostColor.ORANGE)));
+				players.add(new GhostPlayer(sprites.getGhostSprite(GhostColor.CYAN), sprites.getGhostDeathAnimation(GhostColor.CYAN)));
+                players.add(new GhostPlayer(sprites.getGhostSprite(GhostColor.ORANGE), sprites.getGhostDeathAnimation(GhostColor.ORANGE)));
                 break;
             default:
                 throw new RuntimeException("Wrong number of players (must be 2,3 or 4 got "+numberOfPlayers+")");

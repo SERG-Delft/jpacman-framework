@@ -68,7 +68,7 @@ public class Level {
 	/**
 	 * The table of possible collisions between units.
 	 */
-	private final CollisionMap collisions;
+	private CollisionMap collisions;
 
 	/**
 	 * The objects observing this level.
@@ -305,6 +305,10 @@ public class Level {
 			}
 		}
 		return pellets;
+	}
+
+	public void setCollisions(CollisionMap collisions) {
+		this.collisions = collisions;
 	}
 
 	/**

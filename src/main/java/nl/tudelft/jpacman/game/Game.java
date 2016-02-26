@@ -1,11 +1,11 @@
 package nl.tudelft.jpacman.game;
 
-import java.util.List;
-
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Player;
+
+import java.util.List;
 
 /**
  * A basic implementation of a Pac-Man game.
@@ -44,9 +44,12 @@ public abstract class Game implements LevelObserver {
 				inProgress = true;
 				getLevel().addObserver(this);
 				getLevel().start();
+				customStart();
 			}
 		}
 	}
+
+	abstract void customStart();
 
 	/**
 	 * Pauses the game.
