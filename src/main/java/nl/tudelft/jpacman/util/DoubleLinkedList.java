@@ -1,17 +1,36 @@
 package nl.tudelft.jpacman.util;
 
+import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Angeall on 26/02/2016.
  * Class defining a double linked list composed of {@link Node} containing data.
  */
-public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>, List<E>, Queue<E> {
+@SuppressWarnings("NullableProblems")
+public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>, Queue<E> {
     private static final String EMPTY_MESSAGE = "The list is empty";
     private int size;
     private Node<E> head;
-    private Node<E> current;
     private Node<E> tail;
+    private Integer hash;
+
+    public DoubleLinkedList(List<E> list) {
+        super();
+        addAll(list);
+    }
+
+    public DoubleLinkedList() {
+        super();
+    }
+
+    public DoubleLinkedList(Node<E> head, Node<E> tail){
+        this.head = head;
+        this.tail = tail;
+        this.size = 0;
+        for(E element : this) size++;
+    }
 
     @Override
     public int size() {
@@ -25,42 +44,65 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
 
     @Override
     public boolean contains(Object o) {
-        int index = indexOf(o);
-        if(index == -1) return false;
-        return true;
+        for(E e : this){
+            if(o == null) {
+                if(e == null) return true;
+            }
+            else if(o.equals(e)){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
-            Node<E> iteratorCurrent = head;
+            Node<E> lastNodeReturned;
+            Node<E> cursor = head;
             @Override
             public boolean hasNext() {
-                return iteratorCurrent.hasNext();
+                return size != 0 && cursor != null;
             }
 
             @Override
             public E next() {
-                E data = iteratorCurrent.getData();
-                iteratorCurrent = iteratorCurrent.getNext();
+                if(cursor==null || size == 0) {
+                    throw new NoSuchElementException();
+                }
+                E data = cursor.getData();
+                lastNodeReturned = cursor;
+                cursor = cursor.getNext();
                 return data;
             }
+
+            @Override
+            public void remove(){
+                if(lastNodeReturned == null || size == 0){
+                    throw new IllegalStateException();
+                }
+                deleteNode(lastNodeReturned);
+                lastNodeReturned = null;
+                }
         };
     }
 
     @Override
     public Iterator<E> descendingIterator() {
         return new Iterator<E>() {
-            Node<E> iteratorCurrent = tail;
+            Node<E> cursor = tail;
             @Override
             public boolean hasNext() {
-                return iteratorCurrent.hasPrevious();
+                return size != 0 && cursor != null;
             }
 
             @Override
             public E next() {
-                E data = iteratorCurrent.getData();
-                iteratorCurrent = iteratorCurrent.getPrevious();
+                if(cursor==null || size == 0) {
+                    throw new NoSuchElementException();
+                }
+                E data = cursor.getData();
+                cursor = cursor.getPrevious();
                 return data;
             }
         };
@@ -78,27 +120,40 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a) throws ClassCastException {
-        assert a.length == size;
+        int size = size();
+        T[] array = a.length >= size
+                ? a
+                : (T[]) Array.newInstance(a.getClass().getComponentType(), size);
         int i = 0;
         for (E data : this) {
-            a[i] = (T) data;
+            array[i] = (T) data;
             i++;
         }
-        return a;
+        if(i < array.length){
+            array[i] = null;
+        }
+        return array;
     }
 
     @Override
     public void addFirst(E e) {
-        this.head = new Node<>(e, this.head, null);
+        Node<E> newNode = new Node<>(e, this.head, null);
+        if(this.head != null) this.head.setPrevious(newNode);
+        this.head = newNode;
+        if(size == 0) this.tail = this.head;
         this.size++;
     }
 
     @Override
     public void addLast(E e) {
-        this.tail = new Node<>(e, null, this.tail);
+        Node<E> newNode = new Node<>(e, null, this.tail);
+        if(this.tail != null) this.tail.setNext(newNode);
+        this.tail = newNode;
+        if(size == 0) this.head = this.tail;
         this.size++;
-    }
+        }
 
     @Override
     public boolean offerFirst(E e) {
@@ -124,18 +179,20 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
 
     @Override
     public E removeFirst() {
+        if(isEmpty()) throw new NoSuchElementException(EMPTY_MESSAGE);
         E data = getFirst();
         this.head = this.head.getNext();
-        this.head.setPrevious(null);
+        if(this.head != null) this.head.setPrevious(null);
         this.size--;
         return data;
     }
 
     @Override
     public E removeLast() {
+        if(isEmpty()) throw new NoSuchElementException(EMPTY_MESSAGE);
         E data = getLast();
         this.tail = this.tail.getPrevious();
-        this.tail.setNext(null);
+        if(this.tail != null) this.tail.setNext(null);
         this.size--;
         return data;
     }
@@ -144,7 +201,7 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
     public E pollFirst() {
         try{
             return removeFirst();
-        } catch(IllegalStateException exc){
+        } catch(NoSuchElementException exc){
             return null;
         }
     }
@@ -153,20 +210,20 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
     public E pollLast() {
         try{
             return removeLast();
-        } catch(IllegalStateException exc){
+        } catch(NoSuchElementException exc){
             return null;
         }
     }
 
     @Override
     public E getFirst() {
-        if(isEmpty()) throw new IllegalStateException(EMPTY_MESSAGE);
+        if(isEmpty()) throw new NoSuchElementException();
         return this.head.getData();
     }
 
     @Override
     public E getLast() {
-        if(isEmpty()) throw new IllegalStateException(EMPTY_MESSAGE);
+        if(isEmpty()) throw new NoSuchElementException();
         return this.tail.getData();
     }
 
@@ -174,7 +231,7 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
     public E peekFirst() {
         try{
             return getFirst();
-        } catch(IllegalStateException exc){
+        } catch(NoSuchElementException exc){
             return null;
         }
     }
@@ -183,7 +240,7 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
     public E peekLast() {
         try{
             return getLast();
-        } catch(IllegalStateException exc){
+        } catch(NoSuchElementException exc){
             return null;
         }
     }
@@ -266,16 +323,21 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
     @Override
     public boolean remove(Object o) {
         if(isEmpty()) return false;
-        else if(o.equals(head.getData())){
+        else if((o == null && this.head.getData() == null) || (o != null && o.equals(head.getData()))){
             removeFirst();
             return true;
         }
         Node<E> explorer = this.head;
         while(explorer.hasNext()){
             explorer = explorer.getNext();
-            if(o.equals(explorer.getData())){
-                explorer.getPrevious().setNext(explorer.getNext());
-                size--;
+            if(o == null){
+                if(explorer.getData() == null){
+                    deleteNode(explorer);
+                    return true;
+                }
+            }
+            else if(o.equals(explorer.getData())){
+                deleteNode(explorer);
                 return true;
             }
         }
@@ -299,10 +361,9 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
+        if(c.isEmpty()) return false;
         try {
-            for (E e : c) {
-                addLast(e);
-            }
+            c.forEach(this::addLast);
             return true;
         }catch(Exception exc){
             return false;
@@ -310,225 +371,140 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends E> c) {
-        return false;
-    }
-
-    @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        if(size == 0) return false;
+        Node<E> explorer = this.head;
+        boolean modified = false;
+        while(explorer != null){
+            E data = explorer.getData();
+            if(c.contains(data)){
+                deleteNode(explorer);
+                modified = true;
+            }
+            explorer = explorer.getNext();
+        }
+        return modified;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        if(size == 0) return false;
+        Node<E> explorer = this.head;
+        boolean modified = false;
+        while(explorer != null){
+            E data = explorer.getData();
+            if(!c.contains(data)){
+                deleteNode(explorer);
+                modified = true;
+            }
+            explorer = explorer.getNext();
+        }
+        return modified;
     }
 
     @Override
     public void clear() {
-
-    }
-
-    @Override
-    public E get(int index) {
-        return null;
-    }
-
-    @Override
-    public E set(int index, E element) {
-        return null;
-    }
-
-    @Override
-    public void add(int index, E element) {
-        if(index >= size || index < 0){
-            throw new IndexOutOfBoundsException();
-        }
-        if(index == 0){
-            addFirst(element);
-            return;
-        }
-        if(index == size-1){
-            addLast(element);
-            return;
-        }
-        Node<E> explorer = this.head;
-        int i = 0;
-        while(explorer.hasNext()){
-            explorer = explorer.getNext();
-            i++;
-            if(index == i){
-                Node<E> newNode = new Node<E>(element, explorer, explorer.getPrevious());
-                explorer.getPrevious().setNext(newNode);
-                explorer.getNext().setPrevious(newNode);
-                break;
-            }
-        }
-    }
-
-    @Override
-    public E remove(int index) {
-        if(index >= size || index < 0){
-            throw new IndexOutOfBoundsException();
-        }
-        if(index == 0){
-            return removeFirst();
-        }
-        if(index == size-1){
-            return removeLast();
-        }
-        Node<E> explorer = this.head;
-        int i = 0;
-        while(explorer.hasNext()){
-            explorer = explorer.getNext();
-            i++;
-            if(index == i){
-                explorer.getPrevious().setNext(explorer.getNext());
-                explorer.getNext().setPrevious(explorer.getPrevious());
-                return explorer.getData();
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public int indexOf(Object o) {
-        int i = 0;
-        boolean found = false;
-        for(E data: this){
-            if(o.equals(data)){
-                found = true;
-                break;
-            }
-            i++;
-        }
-        if(found){
-            return i;
-        }
-        return -1;
-    }
-
-    @Override
-    public int lastIndexOf(Object o) {
-        if(o.equals(this.tail.getData())) return this.size-1;
-        int i = size-1;
-        boolean found = false;
-        Node<E> explorer = this.tail;
-        while(tail.hasPrevious()){
-            explorer = explorer.getPrevious();
-            i--;
-            if(o.equals(explorer.getData())){
-                found = true;
-                break;
-            }
-        }
-        if(found){
-            return i;
-        }
-        return -1;
-    }
-
-    @Override
-    public ListIterator<E> listIterator() {
-        return listIterator(0);
-    }
-
-    @Override
-    public ListIterator<E> listIterator(int index) {
-        return new ListIterator<E>() {
-            Node<E> iteratorCurrent = getNodeAt(index);
-            boolean start = true;
-            int i = 0;
-            Boolean previous = null;
-
-            @Override
-            public boolean hasNext() {
-                return iteratorCurrent.hasNext();
-            }
-
-            @Override
-            public E next() {
-                E data = iteratorCurrent.getData();
-                iteratorCurrent = iteratorCurrent.getNext();
-                i++;
-                previous = false;
-                return data;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return iteratorCurrent.hasPrevious();
-            }
-
-            @Override
-            public E previous() {
-                E data = iteratorCurrent.getData();
-                iteratorCurrent = iteratorCurrent.getPrevious();
-                previous = true;
-                i--;
-                return data;
-            }
-
-            @Override
-            public int nextIndex() {
-                return i;
-            }
-
-            @Override
-            public int previousIndex() {
-                return i;
-            }
-
-            @Override
-            public void remove() {
-                if(previous != null){
-                    if(previous){
-                        iteratorCurrent.getNext().getNext().setPrevious(iteratorCurrent);
-                        iteratorCurrent.setNext(iteratorCurrent.getNext().getNext());
-                    }
-                    else{
-                        iteratorCurrent.getPrevious().getPrevious().setNext(iteratorCurrent);
-                        iteratorCurrent.setPrevious(iteratorCurrent.getPrevious().getPrevious());
-                    }
-                }
-            }
-
-            @Override
-            public void set(E e) {
-                if(previous != null){
-                    if(previous){
-                        iteratorCurrent.getNext().setData(e);
-                    }
-                    else{
-                        iteratorCurrent.getPrevious().setData(e);
-                    }
-                }
-            }
-
-            @Override
-            public void add(E e) {
-                Node<E> newNode = new Node<>(e, iteratorCurrent, iteratorCurrent.getPrevious());
-                iteratorCurrent.getPrevious().setNext(iteratorCurrent);
-                iteratorCurrent.setPrevious(iteratorCurrent.getPrevious());
-            }
-        };
-    }
-
-    @Override
-    public List<E> subList(int fromIndex, int toIndex) {
-        List<E> list = new ArrayList<>();
-        Node<E> explorer = getNodeAt(fromIndex);
-        for(int i=fromIndex; i<toIndex; i++){
-            list.add(explorer.getData());
-        }
-        return list;
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
     }
 
     public Node<E> getNodeAt(int index) {
-        Node<E> currentNode = this.head;
-        for(int i = 1; i<=index; i++){
-            currentNode = currentNode.getNext();
+        Node<E> currentNode;
+        if(index > size || index < 0){
+            throw new IndexOutOfBoundsException();
+        }
+        if(index > size/2) {
+            currentNode = this.head;
+            for (int i = 1; i <= index; i++) {
+                currentNode = currentNode.getNext();
+            }
+        }
+        else{
+            currentNode = this.tail;
+            for (int i = size-1; i > index; i--) {
+                currentNode = currentNode.getPrevious();
+            }
         }
         return currentNode;
+    }
+
+    @Override
+    public String toString(){
+        if(isEmpty()) {
+            return "[]";
+        }
+        String str = "";
+        for(E data : this){
+            if(data == null) str += "[null]";
+            else str += "[" + data.toString() + "]";
+        }
+
+        return str;
+    }
+
+    private void deleteNode(Node<E> cursor) {
+        if(cursor==null) {
+            throw new IllegalStateException();
+        }
+        else{
+            size --;
+            if (cursor.hasNext()){
+                cursor.getNext().setPrevious(cursor.getPrevious());
+            }
+            if (cursor.hasPrevious()) cursor.getPrevious().setNext(cursor.getNext());
+            if(size == 0){
+                this.head = null;
+                this.tail = null;
+            }
+            else if (size == 1){
+                if(cursor.hasNext()) {
+                    this.head = cursor.getNext();
+                    this.tail = cursor.getNext();
+                }
+                else{
+                    this.head = cursor.getPrevious();
+                    this.tail = cursor.getPrevious();
+                }
+            }
+            if(cursor == this.head){
+                this.head = cursor.getNext();
+            }
+            if(cursor == this.tail) {
+                this.tail = cursor.getPrevious();
+            }
+        }
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof DoubleLinkedList){
+            HashMap<Object, Boolean> container = new HashMap<>();
+            for(Object object : (DoubleLinkedList) o){
+                container.put(object, false);
+            }
+            for(E element : this){
+                if(!container.containsKey(element)){
+                    return false;
+                }
+                else{
+                    container.put(element, true);
+                }
+            }
+            return !container.values().contains(false);
+        }
+        else{
+            ArrayList<E> arrayList = this.stream().collect(Collectors.toCollection(ArrayList::new));
+            return arrayList.equals(o);
+        }
+    }
+
+    @Override
+    public int hashCode(){
+        if (hash == null) {
+            ArrayList<E> arrayList = this.stream().collect(Collectors.toCollection(ArrayList::new));
+            hash = arrayList.hashCode();
+        }
+        return hash;
     }
 }

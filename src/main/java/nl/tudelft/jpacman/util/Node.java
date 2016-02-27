@@ -100,4 +100,10 @@ public class Node<E> {
     public void setPrevious(Node<E> previous) {
         this.previous = previous;
     }
+
+    @Override
+    public String toString(){
+        if(data == null) return "[ null ]";
+        return "[ " + data.toString() + " ]";
+    }
 }
