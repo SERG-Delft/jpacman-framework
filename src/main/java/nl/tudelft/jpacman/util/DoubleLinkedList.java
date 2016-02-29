@@ -379,10 +379,7 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
         this.stream().filter(data -> contained.keySet().contains(data)).forEach(data -> {
             contained.put(data, true);
         });
-        if(contained.values().contains(false)){
-            return false;
-        }
-        return true;
+        return !contained.values().contains(false);
     }
 
     @Override
