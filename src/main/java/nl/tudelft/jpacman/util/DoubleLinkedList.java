@@ -7,6 +7,18 @@ import java.util.stream.Collectors;
 /**
  * Created by Angeall on 26/02/2016.
  * Class defining a double linked list composed of {@link Node} containing data.
+ * The list is defined by a head and a tail node. Every other node in the list can be accessed through the
+ * head or the tail by exploring their next or previous attributes. \n\n
+ *
+ * The node linked "previously" to the head is null.
+ * The node linked "next" to the tail is null\n\n
+ *
+ * Each node has a next and a previous node linked to it (that can be null)
+ * and each node can contain a Data of the generic type E.\n\n
+ *
+ * The implemented methods mostly retrieve data, hence, type E.
+ * But some method allow to retrieve the nodes that define this list : see {getNodeAt(int index)},
+ * {getHead()} and {getTail()}
  */
 @SuppressWarnings("NullableProblems")
 public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>, Queue<E> {
@@ -376,9 +388,7 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
         for(Object o : c){
             contained.put(o, false);
         }
-        this.stream().filter(data -> contained.keySet().contains(data)).forEach(data -> {
-            contained.put(data, true);
-        });
+        this.stream().filter(data -> contained.keySet().contains(data)).forEach(data -> contained.put(data, true));
         return !contained.values().contains(false);
     }
 
@@ -425,6 +435,16 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
         return modified;
     }
 
+    /**
+     * Get the data at position index
+     * @param index
+     *                  The index of the object to retrieve
+     * @return The data of generic type E located at the given index
+     */
+    public E get(int index){
+        return getNodeAt(index).getData();
+    }
+
     @Override
     public void clear() {
         this.head = null;
@@ -432,25 +452,6 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
         this.size = 0;
     }
 
-    public Node<E> getNodeAt(int index) {
-        Node<E> currentNode;
-        if(index > size || index < 0){
-            throw new IndexOutOfBoundsException();
-        }
-        if(index > size/2) {
-            currentNode = this.head;
-            for (int i = 1; i <= index; i++) {
-                currentNode = currentNode.getNext();
-            }
-        }
-        else{
-            currentNode = this.tail;
-            for (int i = size-1; i > index; i--) {
-                currentNode = currentNode.getPrevious();
-            }
-        }
-        return currentNode;
-    }
 
     @Override
     public String toString(){
@@ -464,38 +465,6 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
         }
 
         return str;
-    }
-
-    protected void deleteNode(Node<E> cursor) {
-        if(cursor==null) {
-            throw new IllegalStateException();
-        }
-        else{
-            size --;
-            if (cursor.hasNext()){
-                cursor.getNext().setPrevious(cursor.getPrevious());
-            }
-            if (cursor.hasPrevious()) cursor.getPrevious().setNext(cursor.getNext());
-            if(size == 0){
-                clear();
-            }
-            else if (size == 1){
-                if(cursor.hasNext()) {
-                    this.head = cursor.getNext();
-                    this.tail = cursor.getNext();
-                }
-                else{
-                    this.head = cursor.getPrevious();
-                    this.tail = cursor.getPrevious();
-                }
-            }
-            if(cursor == this.head){
-                this.head = cursor.getNext();
-            }
-            if(cursor == this.tail) {
-                this.tail = cursor.getPrevious();
-            }
-        }
     }
 
     @Override
@@ -530,10 +499,83 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
         return hash;
     }
 
+    /**
+     * Deletes a node inside the double linked list.
+     * Does not check that the node was indeed in the list.
+     * @param cursor
+     *                  The node to delete inside the list
+     */
+    protected void deleteNode(Node<E> cursor) {
+        if(cursor==null) {
+            throw new IllegalStateException();
+        }
+        else{
+            size --;
+            if (cursor.hasNext()){
+                cursor.getNext().setPrevious(cursor.getPrevious());
+            }
+            if (cursor.hasPrevious()) cursor.getPrevious().setNext(cursor.getNext());
+            if(size == 0){
+                clear();
+            }
+            else if (size == 1){
+                if(cursor.hasNext()) {
+                    this.head = cursor.getNext();
+                    this.tail = cursor.getNext();
+                }
+                else{
+                    this.head = cursor.getPrevious();
+                    this.tail = cursor.getPrevious();
+                }
+            }
+            if(cursor == this.head){
+                this.head = cursor.getNext();
+            }
+            if(cursor == this.tail) {
+                this.tail = cursor.getPrevious();
+            }
+        }
+    }
+
+
+    /**
+     * Get the node located at the given index. See the {@link Node} class for more information
+     * @param index
+     *                  The index of the node to retrieve
+     * @return The node located at the given index
+     */
+    public Node<E> getNodeAt(int index) {
+        Node<E> currentNode;
+        if(index > size || index < 0){
+            throw new IndexOutOfBoundsException();
+        }
+        if(index > size/2) {
+            currentNode = this.head;
+            for (int i = 1; i <= index; i++) {
+                currentNode = currentNode.getNext();
+            }
+        }
+        else{
+            currentNode = this.tail;
+            for (int i = size-1; i > index; i--) {
+                currentNode = currentNode.getPrevious();
+            }
+        }
+        return currentNode;
+    }
+
+    /**
+     * Get the tail node of the double linked list
+     * @return The tail node of the linked list
+     */
     public Node<E> getTail() {
         return tail;
     }
 
+    /**
+     * Get the head node of the double linked list
+     * @return The head node of the linked list
+     */
     public Node<E> getHead() {
         return head;
     }

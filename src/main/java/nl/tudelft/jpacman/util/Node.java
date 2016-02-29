@@ -3,7 +3,7 @@ package nl.tudelft.jpacman.util;
 /**
  * Created by Angeall on 26/02/2016.
  * Class Node to be used with {@link DoubleLinkedList}.
- * It can contain data, a next Node and a previous node.
+ * It can contain data of the generic type E, a next node and a previous node.
  */
 public class Node<E> {
     private E data;

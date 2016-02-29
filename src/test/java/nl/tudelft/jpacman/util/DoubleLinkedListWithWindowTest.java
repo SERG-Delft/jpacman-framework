@@ -24,11 +24,15 @@ public class DoubleLinkedListWithWindowTest {
         linkedList.add("b");
         linkedList.add("c");
         linkedList.add("d");
-        ArrayList<Node<String>> window = linkedList.setWindow(1, 3);
+        int headIndex = 1;
+        int tailIndex = 3;
+        ArrayList<Node<String>> window = linkedList.setWindow(headIndex, tailIndex);
         assertEquals("b", window.get(0).getData()); // assert the data of the window head is "b"
         assertEquals(window.get(0), linkedList.getWindow().get(0)); // assert the window is well set
+        assertEquals(headIndex,  linkedList.getWindowHeadIndex());
         assertEquals("d", window.get(1).getData()); // assert the data of the window tail is "d"
         assertEquals(window.get(1), linkedList.getWindow().get(1)); // assert the window is well set
+        assertEquals(tailIndex,  linkedList.getWindowTailIndex());
     }
 
     @Test
@@ -103,6 +107,8 @@ public class DoubleLinkedListWithWindowTest {
         linkedList.slideWindowRight(); // slide the windows to the right
         assertEquals("b", linkedList.getWindow().get(0).getData()); // assert the head of the window contains "b"
         assertEquals("c", linkedList.getWindow().get(1).getData()); // assert the tail of the window contains "c"
+        assertEquals(1, linkedList.getWindowHeadIndex());
+        assertEquals(2, linkedList.getWindowTailIndex());
     }
 
     @Test
@@ -115,6 +121,8 @@ public class DoubleLinkedListWithWindowTest {
         linkedList.slideWindowLeft(); // slide the windows to the right
         assertEquals("a", linkedList.getWindow().get(0).getData()); // assert the head of the window contains "a"
         assertEquals("b", linkedList.getWindow().get(1).getData()); // assert the tail of the window contains "b"
+        assertEquals(0, linkedList.getWindowHeadIndex());
+        assertEquals(1, linkedList.getWindowTailIndex());
     }
 
     @Test
@@ -127,6 +135,8 @@ public class DoubleLinkedListWithWindowTest {
         linkedList.slideWindowRight(); // slide the windows to the right
         assertEquals("d", linkedList.getWindow().get(0).getData()); // assert the head of the window contains "d"
         assertEquals("d", linkedList.getWindow().get(1).getData()); // assert the tail of the window contains "d"
+        assertEquals(linkedList.getWindowHeadIndex(), linkedList.getWindowTailIndex());
+        assertEquals(3, linkedList.getWindowHeadIndex());
     }
 
     @Test
@@ -139,6 +149,8 @@ public class DoubleLinkedListWithWindowTest {
         linkedList.slideWindowLeft(); // slide the windows to the right
         assertEquals("a", linkedList.getWindow().get(0).getData()); // assert the head of the window contains "a"
         assertEquals("a", linkedList.getWindow().get(1).getData()); // assert the tail of the window contains "a"
+        assertEquals(linkedList.getWindowHeadIndex(), linkedList.getWindowTailIndex());
+        assertEquals(0, linkedList.getWindowHeadIndex());
     }
 
     @Test
@@ -148,6 +160,8 @@ public class DoubleLinkedListWithWindowTest {
         linkedList.slideWindowRight(); // slide the windows to the right
         assertEquals("d", linkedList.getWindow().get(0).getData()); // assert the head of the window till contains "d"
         assertEquals("d", linkedList.getWindow().get(1).getData()); // assert the tail of the window still contains "d"
+        assertEquals(linkedList.getWindowHeadIndex(), linkedList.getWindowTailIndex());
+        assertEquals(0, linkedList.getWindowHeadIndex());
     }
 
     @Test
@@ -157,6 +171,8 @@ public class DoubleLinkedListWithWindowTest {
         linkedList.slideWindowLeft(); // slide the windows to the right
         assertEquals("a", linkedList.getWindow().get(0).getData()); // assert the head of the window still contains "a"
         assertEquals("a", linkedList.getWindow().get(1).getData()); // assert the tail of the window stil contains "a"
+        assertEquals(linkedList.getWindowHeadIndex(), linkedList.getWindowTailIndex());
+        assertEquals(0, linkedList.getWindowHeadIndex());
     }
 
 }

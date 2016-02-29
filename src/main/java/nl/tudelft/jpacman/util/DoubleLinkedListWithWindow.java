@@ -9,12 +9,13 @@ import java.util.List;
  */
 public class DoubleLinkedListWithWindow<E> extends DoubleLinkedList<E> {
     protected Node<E> windowHead;
+    protected int windowHeadIndex;
     protected Node<E> windowTail;
+    protected int windowTailIndex;
 
     public DoubleLinkedListWithWindow(List<E> list) {
         super(list);
-        this.windowHead = this.head;
-        this.windowTail = this.tail;
+        initWindow();
     }
 
     public DoubleLinkedListWithWindow() {
@@ -23,6 +24,21 @@ public class DoubleLinkedListWithWindow<E> extends DoubleLinkedList<E> {
 
     public DoubleLinkedListWithWindow(Node<E> head, Node<E> tail) {
         super(head, tail);
+        initWindow();
+    }
+
+    /**
+     * Initialize the window head and tail and their index
+     */
+    private void initWindow() {
+        if(!isEmpty()){
+            windowHeadIndex = 0;
+            windowTailIndex = size-1;
+        }
+        else{
+            windowHeadIndex = -1;
+            windowTailIndex = -1;
+        }
         this.windowHead = this.head;
         this.windowTail = this.tail;
     }
@@ -33,7 +49,10 @@ public class DoubleLinkedListWithWindow<E> extends DoubleLinkedList<E> {
         boolean headsEqual = this.windowHead == this.head;
         if(this.head != null) temp = this.head.getNext();
         E data = super.removeFirst();
-        if (headsEqual) this.windowHead = temp;
+        if (headsEqual) {
+            this.windowHead = temp;
+            this.windowTailIndex -= 1;
+        }
         return data;
     }
 
@@ -43,28 +62,17 @@ public class DoubleLinkedListWithWindow<E> extends DoubleLinkedList<E> {
         boolean tailsEqual = this.windowTail == this.tail;
         if (this.tail != null) temp = this.tail.getPrevious();
         E data =  super.removeLast();
-        if (tailsEqual) this.windowTail = temp;
+        if (tailsEqual) {
+            this.windowTail = temp;
+            this.windowTailIndex -=1;
+        }
         return data;
     }
 
     @Override
-    public boolean addAll(Collection<? extends E> c) {
-        if(c.isEmpty()) return false;
-        try {
-            c.forEach(this::addLast);
-            return true;
-        }catch(Exception exc){
-            return false;
-        }
-    }
-
-    @Override
     public void clear() {
-        this.head = null;
-        this.tail = null;
-        this.windowHead = null;
-        this.windowTail = null;
-        this.size = 0;
+        super.clear();
+        initWindow();
     }
 
     @Override
@@ -90,15 +98,30 @@ public class DoubleLinkedListWithWindow<E> extends DoubleLinkedList<E> {
         }
     }
 
+    /**
+     * Set the window inside the double linked list.
+     * The window is a double linked list inside the double linked list.
+     * @param windowHeadIndex
+     *                          The index of the head of the window
+     * @param windowTailIndex
+     *                          The index of the tail of the window
+     * @return An ArrayList containing the head and the tail (in this order) of the window.
+     */
     public ArrayList<Node<E>> setWindow(int windowHeadIndex, int windowTailIndex){
         assert windowHeadIndex <= windowTailIndex;
         assert windowHeadIndex >= 0 && windowTailIndex >= 0;
         if(windowHeadIndex >= size || windowTailIndex >= size) throw new IndexOutOfBoundsException();
         this.windowHead = getNodeAt(windowHeadIndex);
+        this.windowHeadIndex = windowHeadIndex;
         this.windowTail = getNodeAt(windowTailIndex);
+        this.windowTailIndex = windowTailIndex;
         return getWindow();
     }
 
+    /**
+     * Get the head and the tail of the window inside the double linked list
+     * @return An ArrayList containing the head and the tail (in this order) of the window.
+     */
     public ArrayList<Node<E>> getWindow(){
         ArrayList<Node<E>> list = new ArrayList<>();
         list.add(this.windowHead);
@@ -106,23 +129,78 @@ public class DoubleLinkedListWithWindow<E> extends DoubleLinkedList<E> {
         return list;
     }
 
+    /**
+     * Slide the window to the right. If the tail is already the end of the double linked list,
+     * the window size will decrease of one following this operation.
+     * Example :
+     * 3 => 5 => 7 => << 9 => 11 => 13 => >>
+     *     slided to the right becomes
+     * 3 => 5 => 7 => 9 => << 11 => 13 => >>
+     * @return An ArrayList containing the head and the tail (in this order) of the slided window.
+     */
+    public ArrayList<Node<E>> slideWindowRight(){
+        if(windowHead != null && windowHead.hasNext()) {
+            this.windowHead = this.windowHead.getNext();
+            this.windowHeadIndex++;
+        }
+        if(windowTail != null && windowTail.hasNext()) {
+            this.windowTail = this.windowTail.getNext();
+            this.windowTailIndex++;
+        }
+        return getWindow();
+    }
+
+    /**
+     * Slide the window to the left. If the tail is already the end of the double linked list,
+     * the window size will decrease of one following this operation.
+     * Example :
+     * << 3 => 5 => 7 => >> 9 => 11 => 13 =>
+     *     slided to the right becomes
+     * << 3 => 5 => >> 7 => 9 => 11 => 13 =>
+     * @return An ArrayList containing the head and the tail (in this order) of the slided window.
+     */
+    public ArrayList<Node<E>> slideWindowLeft(){
+        if(windowHead != null && windowHead.hasPrevious()){
+            this.windowHead = this.windowHead.getPrevious();
+            this.windowHeadIndex--;
+        }
+        if(windowTail != null && windowTail.hasPrevious()){
+            this.windowTail = this.windowTail.getPrevious();
+            this.windowTailIndex--;
+        }
+        return getWindow();
+    }
+
+
+    /**
+     * Get the head of the window inside the double linked list
+     * @return The head of the window
+     */
     public Node<E> getWindowHead() {
         return windowHead;
     }
 
+    /**
+     * Get the tail of the window inside the double linked list
+     * @return The tail of the window
+     */
     public Node<E> getWindowTail() {
         return windowTail;
     }
 
-    public ArrayList<Node<E>> slideWindowRight(){
-        if(windowHead != null && windowHead.hasNext()) this.windowHead = this.windowHead.getNext();
-        if(windowTail != null && windowTail.hasNext()) this.windowTail = this.windowTail.getNext();
-        return getWindow();
+    /**
+     * Get the current index of the window head node
+     * @return The current index of the window head node
+     */
+    public int getWindowHeadIndex() {
+        return windowHeadIndex;
     }
 
-    public ArrayList<Node<E>> slideWindowLeft(){
-        if(windowHead != null && windowHead.hasPrevious()) this.windowHead = this.windowHead.getPrevious();
-        if(windowTail != null && windowTail.hasPrevious()) this.windowTail = this.windowTail.getPrevious();
-        return getWindow();
+    /**
+     * Get the current index of the window tail node
+     * @return The current index of the window tail node
+     */
+    public int getWindowTailIndex() {
+        return windowTailIndex;
     }
 }
