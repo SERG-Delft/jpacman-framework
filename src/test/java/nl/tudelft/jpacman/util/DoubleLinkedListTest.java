@@ -3,12 +3,16 @@ package nl.tudelft.jpacman.util;
 import com.google.common.collect.testing.*;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.AllTests;
 import org.junit.runners.Suite;
 import java.util.Arrays;
 import java.util.Queue;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Your test class must be annotated with {@link RunWith} to specify that it's a
@@ -19,25 +23,75 @@ import java.util.Queue;
  * We need to use static inner classes as JUnit only allows for empty "holder"
  * suite classes.
  */
-@Suite.SuiteClasses(value={DoubleLinkedListTest.class})
+@Suite.SuiteClasses(value={DoubleLinkedListTest.class,
+                           DoubleLinkedListTest.OtherTests.class})
 
 
 /**
  * Created by Angeall on 27/02/2016.
  */
 public class DoubleLinkedListTest {
-//    public static class GuavaTests {
-//
-//        /**
-//         * The method responsible for returning the {@link TestSuite} generated
-//         * by one of the {@link FeatureSpecificTestSuiteBuilder} classes.
-//         * This method must be public static method with no arguments named
-//         * "suite()".
-//         *
-//         * @return An instance of {@link TestSuite} for collection testing.
-//         */
+        public static class OtherTests extends TestCase {
+            public void testHeadTail() {
+                DoubleLinkedList<String> linkedList = new DoubleLinkedList<>();
+                linkedList.add("a");
+                assertEquals("a", linkedList.getHead().getData());
+                assertEquals("a", linkedList.getTail().getData());
+            }
+
+            public void testHeadTailWithRemoveFirst() {
+                DoubleLinkedList<String> linkedList = new DoubleLinkedList<>();
+                linkedList.add("a");
+                linkedList.add("b");
+                linkedList.add("c");
+                linkedList.removeFirst();
+                assertEquals("b", linkedList.getHead().getData());
+                assertEquals("c", linkedList.getTail().getData());
+            }
+
+            public void testHeadTailWithRemoveLast() {
+                DoubleLinkedList<String> linkedList = new DoubleLinkedList<>();
+                linkedList.add("a");
+                linkedList.add("b");
+                linkedList.add("c");
+                linkedList.removeLast();
+                assertEquals("a", linkedList.getHead().getData());
+                assertEquals("b", linkedList.getTail().getData());
+            }
+
+            public void testGetNextGetPreviousWithRemove(){
+                DoubleLinkedList<String> linkedList = new DoubleLinkedList<>();
+                linkedList.add("a");
+                linkedList.add("b");
+                linkedList.add("c");
+                linkedList.remove("b");
+                assertEquals("c", linkedList.getHead().getNext().getData());
+                assertEquals("a", linkedList.getTail().getPrevious().getData());
+            }
+
+            public void testHeadTailWithRemoveOfHead(){
+                DoubleLinkedList<String> linkedList = new DoubleLinkedList<>();
+                linkedList.add("a");
+                linkedList.add("b");
+                linkedList.add("c");
+                linkedList.remove("a");
+                assertEquals("b", linkedList.getHead().getData());
+                assertEquals(null, linkedList.getHead().getPrevious());
+            }
+
+            public void testHeadTailWithRemoveOfTail(){
+                DoubleLinkedList<String> linkedList = new DoubleLinkedList<>();
+                linkedList.add("a");
+                linkedList.add("b");
+                linkedList.add("c");
+                linkedList.remove("c");
+                assertEquals("b", linkedList.getTail().getData());
+                assertEquals(null, linkedList.getTail().getNext());
+            }
+
+        }
         public static TestSuite suite() {
-            /**&
+            /**
              * guava-testlib has a host of test suite builders available,
              * all descending from {@link FeatureSpecificTestSuiteBuilder}.
              * The
@@ -51,7 +105,7 @@ public class DoubleLinkedListTest {
              * of creating a builder.
              *
              */
-            return QueueTestSuiteBuilder
+            TestSuite testSuite = QueueTestSuiteBuilder
                     // The create method is called with an array of elements
                     // that should populate the collection.
                     .using(new TestStringQueueGenerator() {
@@ -77,9 +131,7 @@ public class DoubleLinkedListTest {
                             CollectionFeature.GENERAL_PURPOSE,
                             CollectionSize.ANY
                     ).createTestSuite();
+            testSuite.addTestSuite(DoubleLinkedListTest.OtherTests.class);
+            return testSuite;
         }
-
-
-//    }
-
 }

@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
  */
 @SuppressWarnings("NullableProblems")
 public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>, Queue<E> {
-    private static final String EMPTY_MESSAGE = "The list is empty";
-    private int size;
-    private Node<E> head;
-    private Node<E> tail;
-    private Integer hash;
+    protected static final String EMPTY_MESSAGE = "The list is empty";
+    protected int size;
+    protected Node<E> head;
+    protected Node<E> tail;
+    protected Integer hash;
 
     public DoubleLinkedList(List<E> list) {
         super();
@@ -25,11 +25,30 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
         super();
     }
 
+    /**
+     * Create a double linked list with the head and the tail already set (it is expected that the links
+     * between head and tail are well defined)
+     * @param head
+     *              The head of the chain (must be linked as the x th previous of tail)
+     * @param tail
+     *              The tail of the chain (must be linked as the x th next of head)
+     */
     public DoubleLinkedList(Node<E> head, Node<E> tail){
+        if((head == null || tail == null) && head != tail) {
+            throw new IllegalArgumentException("Head and Tail are inconsistent");
+        }
+
         this.head = head;
         this.tail = tail;
         this.size = 0;
-        for(E element : this) size++;
+        Node<E> explorer = head;
+        boolean tailReached = false;
+        while(explorer!=null && !tailReached){
+            if(explorer == tail) tailReached = true;
+            explorer = explorer.getNext();
+            size++;
+        }
+        if(!tailReached) throw new IllegalArgumentException("Head and Tail are inconsistent");
     }
 
     @Override
@@ -181,9 +200,13 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
     public E removeFirst() {
         if(isEmpty()) throw new NoSuchElementException(EMPTY_MESSAGE);
         E data = getFirst();
-        this.head = this.head.getNext();
-        if(this.head != null) this.head.setPrevious(null);
         this.size--;
+        if(size == 0){
+            clear();
+            return data;
+        }
+        this.head = this.head.getNext();
+        this.head.setPrevious(null);
         return data;
     }
 
@@ -191,9 +214,13 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
     public E removeLast() {
         if(isEmpty()) throw new NoSuchElementException(EMPTY_MESSAGE);
         E data = getLast();
-        this.tail = this.tail.getPrevious();
-        if(this.tail != null) this.tail.setNext(null);
         this.size--;
+        if(size == 0){
+            clear();
+            return data;
+        }
+        this.tail = this.tail.getPrevious();
+        this.tail.setNext(null);
         return data;
     }
 
@@ -262,8 +289,7 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
         while(explorer.hasPrevious()){
             explorer = explorer.getPrevious();
             if(o.equals(explorer.getData())){
-                explorer.getNext().setPrevious(explorer.getPrevious());
-                size--;
+                deleteNode(explorer);
                 return true;
             }
         }
@@ -443,7 +469,7 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
         return str;
     }
 
-    private void deleteNode(Node<E> cursor) {
+    protected void deleteNode(Node<E> cursor) {
         if(cursor==null) {
             throw new IllegalStateException();
         }
@@ -454,8 +480,7 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
             }
             if (cursor.hasPrevious()) cursor.getPrevious().setNext(cursor.getNext());
             if(size == 0){
-                this.head = null;
-                this.tail = null;
+                clear();
             }
             else if (size == 1){
                 if(cursor.hasNext()) {
@@ -506,5 +531,13 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
             hash = arrayList.hashCode();
         }
         return hash;
+    }
+
+    public Node<E> getTail() {
+        return tail;
+    }
+
+    public Node<E> getHead() {
+        return head;
     }
 }
