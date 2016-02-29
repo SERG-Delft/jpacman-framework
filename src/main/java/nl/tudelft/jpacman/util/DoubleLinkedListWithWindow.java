@@ -1,7 +1,8 @@
 package nl.tudelft.jpacman.util;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Angeall on 27/02/2016.

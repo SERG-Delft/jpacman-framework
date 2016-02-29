@@ -1,17 +1,18 @@
 package nl.tudelft.jpacman.util;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Angeall on 28/02/2016.
  */
 public class DoubleLinkedListWithWindowTest {
-    DoubleLinkedListWithWindow<String> linkedList = new DoubleLinkedListWithWindow<>();
+    private DoubleLinkedListWithWindow<String> linkedList = new DoubleLinkedListWithWindow<>();
+
     @Before
     public void setUp(){
         linkedList.clear();

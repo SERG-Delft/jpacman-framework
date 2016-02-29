@@ -5,14 +5,12 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.AllTests;
 import org.junit.runners.Suite;
+
 import java.util.Arrays;
 import java.util.Queue;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * Your test class must be annotated with {@link RunWith} to specify that it's a
