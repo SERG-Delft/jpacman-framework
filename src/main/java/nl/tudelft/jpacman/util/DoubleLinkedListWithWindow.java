@@ -18,6 +18,11 @@ public class DoubleLinkedListWithWindow<E> extends DoubleLinkedList<E> {
         initWindow();
     }
 
+    public DoubleLinkedListWithWindow(List<E> list, int windowHeadIndex, int windowTailIndex) {
+        super(list);
+        setWindow(windowHeadIndex, windowTailIndex);
+    }
+
     public DoubleLinkedListWithWindow() {
         super();
     }
