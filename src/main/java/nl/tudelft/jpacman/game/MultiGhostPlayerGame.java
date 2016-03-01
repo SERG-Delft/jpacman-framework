@@ -1,10 +1,9 @@
 package nl.tudelft.jpacman.game;
 
-import nl.tudelft.jpacman.level.GhostPlayer;
+import nl.tudelft.jpacman.level.HunterGhostPlayer;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.MultiGhostPlayerCollisions;
 import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +17,7 @@ public class MultiGhostPlayerGame extends Game {
     /**
      * The players of this game.
      */
-    private final ArrayList<GhostPlayer> players;
+    private final ArrayList<HunterGhostPlayer> players;
 
     /**
      * The level of this game.
@@ -31,7 +30,7 @@ public class MultiGhostPlayerGame extends Game {
      * @param _players The players.
      * @param l The level.
      */
-    protected MultiGhostPlayerGame(ArrayList<GhostPlayer> _players, Level l) {
+    protected MultiGhostPlayerGame(ArrayList<HunterGhostPlayer> _players, Level l) {
         assert _players != null;
         assert l != null;
 
