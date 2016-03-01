@@ -1,7 +1,6 @@
 package nl.tudelft.jpacman.util;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -46,6 +45,13 @@ public class DoubleLinkedListWithWindow<E> extends DoubleLinkedList<E> {
         }
         this.windowHead = this.head;
         this.windowTail = this.tail;
+    }
+
+    @Override
+    public void addFirst(E element){
+        super.addFirst(element);
+        this.windowHeadIndex++;
+        this.windowTailIndex++;
     }
 
     @Override
@@ -150,7 +156,7 @@ public class DoubleLinkedListWithWindow<E> extends DoubleLinkedList<E> {
         }
         if(windowTail != null && windowTail.hasNext()) {
             this.windowTail = this.windowTail.getNext();
-            this.windowTailIndex++;
+            if(this.windowTailIndex != size-1) this.windowTailIndex++;
         }
         return getWindow();
     }
@@ -167,7 +173,7 @@ public class DoubleLinkedListWithWindow<E> extends DoubleLinkedList<E> {
     public ArrayList<Node<E>> slideWindowLeft(){
         if(windowHead != null && windowHead.hasPrevious()){
             this.windowHead = this.windowHead.getPrevious();
-            this.windowHeadIndex--;
+            if(this.windowHeadIndex != 0) this.windowHeadIndex--;
         }
         if(windowTail != null && windowTail.hasPrevious()){
             this.windowTail = this.windowTail.getPrevious();
@@ -207,5 +213,16 @@ public class DoubleLinkedListWithWindow<E> extends DoubleLinkedList<E> {
      */
     public int getWindowTailIndex() {
         return windowTailIndex;
+    }
+
+    public E getFromWindow(int x) {
+        if(x > size-1-windowHeadIndex) throw new IndexOutOfBoundsException();
+       Node<E> explorerNode = windowHead;
+        int i = 0;
+        while(i < x){
+            explorerNode = explorerNode.getNext();
+            i++;
+        }
+        return explorerNode.getData();
     }
 }
