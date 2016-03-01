@@ -56,4 +56,11 @@ public class HunterGhostPlayer extends GhostPlayer {
     public boolean isActive() {
         return active;
     }
+
+    public void setHunter(boolean hunter) {
+        if(hunter){
+            
+        }
+        this.hunter = hunter;
+    }
 }
