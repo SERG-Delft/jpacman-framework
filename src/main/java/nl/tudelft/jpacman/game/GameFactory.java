@@ -14,7 +14,6 @@ public class GameFactory {
 	 * The factory providing the player objects.
 	 */
 	private final PlayerFactory playerFact;
-
 	/**
 	 * Creates a new game factory.
 	 * 
@@ -34,6 +33,10 @@ public class GameFactory {
 	 */
 	public Game createSinglePlayerGame(Level level) {
 		return new SinglePlayerGame(playerFact.createPacMan(), level);
+	}
+
+	public Game createDoublePlayersGame(Level level){
+		return new DoublePlayerGame(playerFact.createPacMan(), playerFact.createGhostPlayer(GhostColor.PINK), level);
 	}
 
 	/**

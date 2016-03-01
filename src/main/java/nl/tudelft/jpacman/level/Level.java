@@ -14,6 +14,8 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.Blinky;
+import nl.tudelft.jpacman.npc.ghost.Pinky;
 
 /**
  * A level of Pac-Man. A level consists of the board with the players and the
@@ -172,11 +174,9 @@ public class Level {
 	public void move(Unit unit, Direction direction) {
 		assert unit != null;
 		assert direction != null;
-
 		if (!isInProgress()) {
 			return;
 		}
-
 		synchronized (moveLock) {
 			unit.setDirection(direction);
 			Square location = unit.getSquare();

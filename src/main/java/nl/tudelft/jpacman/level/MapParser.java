@@ -12,6 +12,9 @@ import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.npc.ghost.GhostColor;
+import nl.tudelft.jpacman.npc.ghost.Pinky;
 
 /**
  * Creates new {@link Level}s from text representations.
@@ -100,7 +103,7 @@ public class MapParser {
 			levelCreator.createPellet().occupy(pelletSquare);
 			break;
 		case 'G':
-			Square ghostSquare = makeGhostSquare(ghosts);
+			Square ghostSquare = makeGhostSquareDoublePlayers(ghosts, Pinky.class);// a remplacer par le fantome jouer par le joueur 2
 			grid[x][y] = ghostSquare;
 			break;
 		case 'P':
@@ -119,6 +122,16 @@ public class MapParser {
 		NPC ghost = levelCreator.createGhost();
 		ghosts.add(ghost);
 		ghost.occupy(ghostSquare);
+		return ghostSquare;
+	}
+
+	private Square makeGhostSquareDoublePlayers(List<NPC> ghosts, Class c){
+		Square ghostSquare = boardCreator.createGround();
+		NPC ghost = levelCreator.createGhost();
+		if(!(ghost.getClass() == c)) {
+			ghosts.add(ghost);
+			ghost.occupy(ghostSquare);
+		}
 		return ghostSquare;
 	}
 

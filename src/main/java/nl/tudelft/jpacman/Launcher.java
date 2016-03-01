@@ -15,11 +15,7 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.game.GameFactory;
-import nl.tudelft.jpacman.level.Level;
-import nl.tudelft.jpacman.level.LevelFactory;
-import nl.tudelft.jpacman.level.MapParser;
-import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.level.PlayerFactory;
+import nl.tudelft.jpacman.level.*;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.ui.Action;
@@ -54,7 +50,8 @@ public class Launcher {
 	public Game makeGame() {
 		GameFactory gf = getGameFactory();
 		Level level = makeLevel();
-		return gf.createSinglePlayerGame(level);
+		return gf.createDoublePlayersGame(level);
+		//return gf.createSinglePlayerGame(level);
 	}
 
 	/**
@@ -181,7 +178,8 @@ public class Launcher {
 		game = makeGame();
 		PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
 		//addSinglePlayerKeys(builder, game);
-		addSinglePlayerKeysContinuousMove(builder, game);
+		//addSinglePlayerKeysContinuousMove(builder, game);
+		addDoublePlayersKeys(builder, game);
 		pacManUI = builder.build(game);
 		pacManUI.start();
 	}
@@ -207,7 +205,7 @@ public class Launcher {
 
 	/* !!!!!!!!!!! NEW FUNCTIONALITY : CONTINUOUS MOVE  !!!!!!!!!!! !! */
 
-	protected Direction direction;
+	protected Direction directionPlayer;
 
 	protected void addSinglePlayerKeysContinuousMove(final PacManUiBuilder builder,
 													 final Game game) {
@@ -223,29 +221,29 @@ public class Launcher {
 
 			@Override
 			public void doAction() {
-				if(isAccessible(Direction.NORTH))
-					direction = Direction.NORTH;
+				if(isAccessible(Direction.NORTH, p1))
+					directionPlayer = Direction.NORTH;
 			}
 		}).addKey(KeyEvent.VK_DOWN, new Action() {
 
 			@Override
 			public void doAction() {
-				if(isAccessible(Direction.SOUTH))
-					direction = Direction.SOUTH;
+				if(isAccessible(Direction.SOUTH, p1))
+					directionPlayer = Direction.SOUTH;
 			}
 		}).addKey(KeyEvent.VK_LEFT, new Action() {
 
 			@Override
 			public void doAction() {
-				if(isAccessible(Direction.WEST))
-					direction = Direction.WEST;
+				if(isAccessible(Direction.WEST, p1))
+					directionPlayer = Direction.WEST;
 			}
 		}).addKey(KeyEvent.VK_RIGHT, new Action() {
 
 			@Override
 			public void doAction() {
-				if(isAccessible(Direction.EAST))
-					direction = Direction.EAST;
+				if(isAccessible(Direction.EAST, p1))
+					directionPlayer = Direction.EAST;
 			}
 		});
 
@@ -264,15 +262,35 @@ public class Launcher {
 
 		@Override
 		public void run() {
-			Direction nextMove = direction;
+			Direction nextMove = directionPlayer;
 			if(nextMove != null)
 				game.move(player, nextMove);
 			service.schedule(this, 200, TimeUnit.MILLISECONDS);
 		}
 	}
 
-	boolean isAccessible(Direction direction){
-		Square square = getSinglePlayer(game).getSquare();
+	private final class GhostPlayerMoveTask implements Runnable{
+
+		private final  GhostPlayer gp;
+
+		private final ScheduledExecutorService service;
+
+		private GhostPlayerMoveTask(GhostPlayer gp, ScheduledExecutorService service) {
+			this.gp = gp;
+			this.service = service;
+		}
+
+		@Override
+		public void run() {
+			Direction nextMove = directionGhostPlayer;
+			if(nextMove != null)
+				game.move(gp, nextMove);
+			service.schedule(this, 200, TimeUnit.MILLISECONDS);
+		}
+	}
+
+	boolean isAccessible(Direction direction, Player player){
+		Square square = player.getSquare();
 		List<Direction> directions = new ArrayList<>();
 		for (Direction d : Direction.values()) {
 			if (square.getSquareAt(d).isAccessibleTo(getSinglePlayer(game))) {
@@ -285,5 +303,87 @@ public class Launcher {
 		else{
 			return false;
 		}
+	}
+
+	protected Direction directionGhostPlayer;
+
+	protected void addDoublePlayersKeys(final PacManUiBuilder builder,
+									   final Game game){
+
+		final Player p = game.getPlayers().get(0);
+		final GhostPlayer gp = (GhostPlayer)game.getPlayers().get(1);
+
+		ScheduledExecutorService service1 = Executors
+				.newSingleThreadScheduledExecutor();
+
+		ScheduledExecutorService service2 = Executors
+				.newSingleThreadScheduledExecutor();
+
+		service1.schedule(new PlayerMoveTask(p, service1),
+				200, TimeUnit.MILLISECONDS);
+
+		service2.schedule(new GhostPlayerMoveTask(gp, service2),
+				200, TimeUnit.MILLISECONDS);
+
+		builder.addKey(KeyEvent.VK_UP, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.NORTH, p))
+					directionPlayer = Direction.NORTH;
+			}
+		}).addKey(KeyEvent.VK_DOWN, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.SOUTH, p))
+					directionPlayer = Direction.SOUTH;
+			}
+		}).addKey(KeyEvent.VK_LEFT, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.WEST, p))
+					directionPlayer = Direction.WEST;
+			}
+		}).addKey(KeyEvent.VK_RIGHT, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.EAST, p))
+					directionPlayer = Direction.EAST;
+			}
+		});
+
+
+		builder.addKey(KeyEvent.VK_Z, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.NORTH, gp))
+					directionGhostPlayer = Direction.NORTH;
+			}
+		}).addKey(KeyEvent.VK_S, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.SOUTH, gp))
+					directionGhostPlayer = Direction.SOUTH;
+			}
+		}).addKey(KeyEvent.VK_Q, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.WEST, gp))
+					directionGhostPlayer = Direction.WEST;
+			}
+		}).addKey(KeyEvent.VK_D, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.EAST, gp))
+					directionGhostPlayer = Direction.EAST;
+			}
+		});
 	}
 }
