@@ -1,6 +1,7 @@
 package nl.tudelft.jpacman.game;
 
 import nl.tudelft.jpacman.level.*;
+import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 import java.util.*;
@@ -42,6 +43,9 @@ public class MultiGhostPlayerGame extends Game {
         this.level.setCollisions(new MultiGhostPlayerCollisions());
         for (Player p : players) {
             level.registerPlayer(p);
+        }
+        for (NPC g : l.getGhosts()) {
+            level.registerUnitOnStartSquare(g);
         }
     }
 

@@ -42,7 +42,7 @@ public class PlayerFactory {
 	public ArrayList<HunterGhostPlayer> createGhostPlayers(ArrayList<GhostColor> colorsChosen) {
 		ArrayList<HunterGhostPlayer> players = new ArrayList<>();
 		for (int i = 0; i < colorsChosen.size(); i++) {
-            players.add(new HunterGhostPlayer(sprites, colorsChosen.get(0)));
+            players.add(new HunterGhostPlayer(sprites, colorsChosen.get(i)));
 		}
 		return players;
 	}

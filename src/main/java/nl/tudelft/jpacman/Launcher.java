@@ -62,11 +62,11 @@ public class Launcher {
 				// ask players color
 				ArrayList<GhostColor> playerColors = new ArrayList<>();
                 playerColors.add(GhostColor.RED);
-                playerColors.add(GhostColor.ORANGE);
+                playerColors.add(GhostColor.CYAN);
 				// create game
                 gf = getGameFactory();
                 level = makeLevel("/boardMultiGhost.txt");
-				level.setNPCs(getLevelFactory().createGhost(GhostColor.getOtherColors(playerColors)));
+				level.setNPCs(getLevelFactory().createGhosts(GhostColor.getOtherColors(playerColors)));
                 return gf.createMultiGhostPlayerGame(level, playerColors); //TODO add number of player choice
             default:
                 return null;

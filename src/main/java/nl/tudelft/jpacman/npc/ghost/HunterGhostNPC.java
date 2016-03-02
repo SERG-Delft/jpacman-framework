@@ -5,6 +5,7 @@ import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.game.MultiGhostPlayerGame;
 import nl.tudelft.jpacman.level.HunterGameModePlayer;
 import nl.tudelft.jpacman.level.HunterGhostPlayer;
+import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.sprite.PacManSprites;
@@ -33,6 +34,7 @@ public class HunterGhostNPC extends Ghost implements HunterGameModePlayer {
     private boolean active = true;
     
     private Map<Direction,Sprite> originalsprites;
+    private int points = 0;
 
     public HunterGhostNPC(Map<Direction, Sprite> ghostSprite) {
         super(ghostSprite);
@@ -54,18 +56,18 @@ public class HunterGhostNPC extends Ghost implements HunterGameModePlayer {
      */
     @Override
     public Direction nextMove() {
-        if(isActive()){
-            Square target = Navigation.findNearest(Player.class, getSquare()).getSquare();
+        if(isActive() && new Random().nextInt(10) != 5){
+            Square target;
+            if (isHunter()) {
+                target = Navigation.findNearest(Player.class, getSquare()).getSquare();
+            } else {
+                target = Navigation.findNearest(Pellet.class, getSquare()).getSquare();
+            }
             if (target != null) {
                 List<Direction> path = Navigation.shortestPath(getSquare(), target, this);
                 if (path != null && !path.isEmpty()) {
-                    if (isHunter()) {
-                        Direction d = path.get(0);
-                        return d;
-                    } else {
-                        Direction d = path.get(0);
-                        return d.getOpposite();
-                    }
+                    Direction d = path.get(0);
+                    return d;
                 }
             }
         }
@@ -91,6 +93,11 @@ public class HunterGhostNPC extends Ghost implements HunterGameModePlayer {
 
     public boolean isActive() {
         return active;
+    }
+    
+    @Override
+    public void addPoints(int n) {
+        this.points += n;
     }
 
     @Override

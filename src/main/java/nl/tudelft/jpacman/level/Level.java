@@ -140,8 +140,11 @@ public class Level {
 			return;
 		}
 		players.add(p);
+		registerUnitOnStartSquare(p);
+	}
+	public void registerUnitOnStartSquare(Unit u){
 		Square square = startSquares.get(startSquareIndex);
-		p.occupy(square);
+		u.occupy(square);
 		startSquareIndex++;
 		startSquareIndex %= startSquares.size();
 	}

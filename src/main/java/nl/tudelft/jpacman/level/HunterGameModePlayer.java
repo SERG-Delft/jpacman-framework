@@ -8,4 +8,5 @@ public interface HunterGameModePlayer {
     boolean isHunter();
     int hunted();
     boolean isActive();
+    void addPoints(int n);
 }

@@ -51,6 +51,7 @@ public class HunterGhostPlayer extends GhostPlayer implements HunterGameModePlay
     }
 
     private void reactive() {
+        setSprites(originalsprites);
         active = true;
     }
 
@@ -59,8 +60,10 @@ public class HunterGhostPlayer extends GhostPlayer implements HunterGameModePlay
     }
 
     public void setHunter(boolean hunter) {
-        if(hunter){
-            
+        if (hunter) {
+            setSprites(new PacManSprites().getGhostHunterSprites());
+        }else{
+            setSprites(originalsprites);
         }
         this.hunter = hunter;
     }
