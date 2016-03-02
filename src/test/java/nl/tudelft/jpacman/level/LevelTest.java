@@ -1,19 +1,15 @@
 package nl.tudelft.jpacman.level;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import nl.tudelft.jpacman.board.Board;
-import nl.tudelft.jpacman.board.Square;
+import com.google.common.collect.Lists;
+import nl.tudelft.jpacman.board.*;
 import nl.tudelft.jpacman.npc.NPC;
-
+import nl.tudelft.jpacman.sprite.PacManSprites;
+import nl.tudelft.jpacman.sprite.Sprite;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.common.collect.Lists;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests various aspects of level.
@@ -152,5 +148,69 @@ public class LevelTest {
 		level.registerPlayer(p2);
 		level.registerPlayer(p3);
 		verify(p3).occupy(square1);
+	}
+
+	@Test
+	public void testAddRemoveObserver() throws Exception {
+		Level.LevelObserver observer = mock(Level.LevelObserver.class);
+		level.addObserver(observer);
+        try{
+            level.removeObserver(observer);
+        } catch(Exception exc){
+            fail();
+        }
+	}
+
+	@Test
+	public void testGetBoard() throws Exception {
+        Board board = level.getBoard();
+        assertEquals(this.board, board);
+	}
+
+	@Test
+	public void testMove() throws Exception {
+        Square s0_0 = new BasicSquare();
+        Square s0_1 = new BasicSquare();
+        Square s0_2 = new BasicSquare();
+        Square s1_0 = new BasicSquare();
+        Square s1_1 = new BasicSquare();
+        Square s1_2 = new BasicSquare();
+        BasicUnit myUnit = new BasicUnit();
+        myUnit.occupy(s0_0);
+        Square[][] grid = new Square[][]{{s0_0, s0_1, s0_2}, {s1_0, s1_1, s1_2}};
+        Board board = new BoardFactory(mock(PacManSprites.class)).createBoard(grid);
+        s1_0 = s0_0;
+        Level level = new Level(board, Lists.newArrayList(ghost), Lists.newArrayList(s0_0, s0_1), collisions);
+        Player p1 = mock(Player.class);
+        level.registerPlayer(p1);
+        level.move(myUnit, Direction.NORTH);
+        assertEquals(s1_0, myUnit.getSquare());
+	}
+
+	@Test
+	public void testIsAnyPlayerAlive() throws Exception {
+        Player p = mock(Player.class);
+        level.registerPlayer(p);
+        p.setAlive(false);
+        assertFalse(level.isAnyPlayerAlive());
+	}
+
+	@Test
+	public void testRemainingPellets() throws Exception {
+        Square s0_0 = new BasicSquare();
+        Pellet pellet = new Pellet(100, null);
+        pellet.occupy(s0_0);
+        Square s0_1 = new BasicSquare();
+        Square s0_2 = new BasicSquare();
+        Square s1_0 = new BasicSquare();
+        Square s1_1 = new BasicSquare();
+        Square s1_2 = new BasicSquare();
+        BasicUnit myUnit = new BasicUnit();
+        myUnit.occupy(s0_0);
+        Square[][] grid = new Square[][]{{s0_0, s0_1, s0_2}, {s1_0, s1_1, s1_2}};
+        Board board = new BoardFactory(mock(PacManSprites.class)).createBoard(grid);
+        Level level = new Level(board, Lists.newArrayList(ghost), Lists.newArrayList(s0_0, s0_1), collisions);
+        assertEquals(1, level.remainingPellets());
+        assertFalse(2 == level.remainingPellets());
 	}
 }
