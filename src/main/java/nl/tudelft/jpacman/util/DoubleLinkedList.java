@@ -180,7 +180,9 @@ public class DoubleLinkedList<E> implements Iterable<E>, Collection<E>, Deque<E>
     @Override
     public void addLast(E e) {
         Node<E> newNode = new Node<>(e, null, this.tail);
-        if(this.tail != null) this.tail.setNext(newNode);
+        if(this.size != 0) {
+            this.tail.setNext(newNode);
+        }
         this.tail = newNode;
         if(size == 0) this.head = this.tail;
         this.size++;

@@ -87,6 +87,13 @@ public class DoubleLinkedListTest {
                 assertEquals(null, linkedList.getTail().getNext());
             }
 
+            public void testGetTailNode(){
+                DoubleLinkedList<String> linkedList = new DoubleLinkedList<>();
+                linkedList.addLast("a");
+                linkedList.addLast("b");
+                linkedList.addLast("c");
+                assertEquals("c", linkedList.getNodeAt(2).getData());
+            }
         }
         public static TestSuite suite() {
             /**

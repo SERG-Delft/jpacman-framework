@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
@@ -118,7 +119,7 @@ public class DoubleLinkedListWithWindowTest {
         linkedList.add("c");
         linkedList.add("d");
         linkedList.setWindow(1, 2);
-        linkedList.slideWindowLeft(); // slide the windows to the right
+        linkedList.slideWindowLeft(); // slide the windows to the left
         assertEquals("a", linkedList.getWindow().get(0).getData()); // assert the head of the window contains "a"
         assertEquals("b", linkedList.getWindow().get(1).getData()); // assert the tail of the window contains "b"
         assertEquals(0, linkedList.getWindowHeadIndex());
@@ -126,31 +127,31 @@ public class DoubleLinkedListWithWindowTest {
     }
 
     @Test
-    public void windowSlideTestRightWithLossOfData(){
+    public void windowSlideTestRightRemainsUnchanged(){
         linkedList.add("a");
         linkedList.add("b");
         linkedList.add("c");
         linkedList.add("d");
         linkedList.setWindow(2, 3);
         linkedList.slideWindowRight(); // slide the windows to the right
-        assertEquals("d", linkedList.getWindow().get(0).getData()); // assert the head of the window contains "d"
+        assertEquals("c", linkedList.getWindow().get(0).getData()); // assert the head of the window contains "c"
         assertEquals("d", linkedList.getWindow().get(1).getData()); // assert the tail of the window contains "d"
-        assertEquals(linkedList.getWindowHeadIndex(), linkedList.getWindowTailIndex());
-        assertEquals(3, linkedList.getWindowHeadIndex());
+        assertEquals(2, linkedList.getWindowHeadIndex());
+        assertEquals(3, linkedList.getWindowTailIndex());
     }
 
     @Test
-    public void windowSlideTestLeftWithLossOfData(){
+    public void windowSlideTestLeftRemainsUnchanged(){
         linkedList.add("a");
         linkedList.add("b");
         linkedList.add("c");
         linkedList.add("d");
         linkedList.setWindow(0, 1);
-        linkedList.slideWindowLeft(); // slide the windows to the right
+        linkedList.slideWindowLeft(); // slide the windows to the left
         assertEquals("a", linkedList.getWindow().get(0).getData()); // assert the head of the window contains "a"
-        assertEquals("a", linkedList.getWindow().get(1).getData()); // assert the tail of the window contains "a"
-        assertEquals(linkedList.getWindowHeadIndex(), linkedList.getWindowTailIndex());
+        assertEquals("b", linkedList.getWindow().get(1).getData()); // assert the tail of the window contains "b"
         assertEquals(0, linkedList.getWindowHeadIndex());
+        assertEquals(1, linkedList.getWindowTailIndex());
     }
 
     @Test
@@ -168,11 +169,21 @@ public class DoubleLinkedListWithWindowTest {
     public void windowSlideTestLeftOutLimit(){
         linkedList.add("a");
         linkedList.setWindow(0, 0);
-        linkedList.slideWindowLeft(); // slide the windows to the right
+        linkedList.slideWindowLeft(); // slide the windows to the left
         assertEquals("a", linkedList.getWindow().get(0).getData()); // assert the head of the window still contains "a"
         assertEquals("a", linkedList.getWindow().get(1).getData()); // assert the tail of the window stil contains "a"
         assertEquals(linkedList.getWindowHeadIndex(), linkedList.getWindowTailIndex());
         assertEquals(0, linkedList.getWindowHeadIndex());
     }
 
+    @Test
+    public void testArrayConstructorWithWindow(){
+        String[] strings = {"a", "b", "c", "d", "e", "f"};
+        DoubleLinkedListWithWindow<String> linkedList = new DoubleLinkedListWithWindow<>(Arrays.asList(strings),
+                                                                                         0, strings.length-1);
+        assertEquals("f", linkedList.getWindowTail().getData());
+
+        assertEquals("a", linkedList.getWindowHead().getData());
+        assertEquals(6, linkedList.getWindowSize());
+    }
 }
