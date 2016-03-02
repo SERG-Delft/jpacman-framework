@@ -50,8 +50,10 @@ public class DoubleLinkedListWithWindow<E> extends DoubleLinkedList<E> {
     @Override
     public void addFirst(E element){
         super.addFirst(element);
-        this.windowHeadIndex++;
-        this.windowTailIndex++;
+        if (windowTailIndex >= 0 && windowHeadIndex >= 0) {
+            this.windowHeadIndex++;
+            this.windowTailIndex++;
+        }
     }
 
     @Override
@@ -88,23 +90,39 @@ public class DoubleLinkedListWithWindow<E> extends DoubleLinkedList<E> {
 
     @Override
     protected void deleteNode(Node<E> cursor) {
-        super.deleteNode(cursor);
-        if(this.windowHead == this.windowTail && this.windowHead == cursor){
-            this.windowHead = null;
-            this.windowTail = null;
+        // Check if the element to delete is in the window
+        Node<E> explorerNode = windowHead;
+        boolean wasInWindow = false;
+        while(explorerNode != windowTail){
+            if(explorerNode == cursor){
+                wasInWindow = true;
+                break;
+            }
+            explorerNode = explorerNode.getNext();
         }
-        else if(size != 0) {
+        super.deleteNode(cursor);
+        if((this.windowHead == this.windowTail && this.windowHead == cursor) || size == 0){
+            initWindow();
+        }
+        else {
             if (size != 1) {
                 if (cursor == this.windowHead) {
                     this.windowHead = cursor.getNext();
+                    this.windowHeadIndex++;
                 }
                 else if(cursor == this.windowTail){
                     this.windowTail = cursor.getPrevious();
+                    this.windowTailIndex--;
+                }
+                else{
+                    this.windowTailIndex--;
                 }
             }
             else{
                 this.windowHead = this.head;
                 this.windowTail = this.tail;
+                this.windowTailIndex = 0;
+                this.windowHeadIndex = 0;
             }
         }
     }
@@ -223,6 +241,7 @@ public class DoubleLinkedListWithWindow<E> extends DoubleLinkedList<E> {
     }
 
     public int getWindowSize(){
+        if(windowHeadIndex < 0 || windowTailIndex < 0) return 0;
         return windowTailIndex - windowHeadIndex + 1;
     }
 }

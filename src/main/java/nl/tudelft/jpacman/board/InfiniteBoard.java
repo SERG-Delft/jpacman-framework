@@ -2,7 +2,6 @@ package nl.tudelft.jpacman.board;
 
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.level.SquareLineGenerator;
 import nl.tudelft.jpacman.util.DoubleLinkedListWithWindow;
 import nl.tudelft.jpacman.util.Node;
 

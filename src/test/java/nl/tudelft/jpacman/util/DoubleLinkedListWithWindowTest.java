@@ -14,11 +14,17 @@ import static org.junit.Assert.assertEquals;
 public class DoubleLinkedListWithWindowTest {
     private DoubleLinkedListWithWindow<String> linkedList = new DoubleLinkedListWithWindow<>();
 
+    /**
+     * Clear the list before each test
+     */
     @Before
     public void setUp(){
         linkedList.clear();
     }
 
+    /**
+     * Test that the window is well set
+     */
     @Test
     public void windowTest(){
         linkedList.add("a");
@@ -36,6 +42,9 @@ public class DoubleLinkedListWithWindowTest {
         assertEquals(tailIndex,  linkedList.getWindowTailIndex());
     }
 
+    /**
+     * Test if the window is well updated when removing the last element (inside the window)
+     */
     @Test
     public void windowTestWithRemoveLastInWindow(){
         linkedList.add("a");
@@ -48,6 +57,9 @@ public class DoubleLinkedListWithWindowTest {
         assertEquals("c", linkedList.getWindow().get(1).getData()); // assert the tail of the window contains "c"
     }
 
+    /**
+     * Test if the window remains the same when removing the last element of the list (outside the window)
+     */
     @Test
     public void windowTestWithRemoveLastOutWindow(){
         linkedList.add("a");
@@ -60,6 +72,9 @@ public class DoubleLinkedListWithWindowTest {
         assertEquals("c", linkedList.getWindow().get(1).getData()); // assert the tail of the window contains "d"
     }
 
+    /**
+     * Test if the window is well updated when removing the first element (inside the window)
+     */
     @Test
     public void windowTestWithRemoveFirstInWindow(){
         linkedList.add("a");
@@ -72,6 +87,9 @@ public class DoubleLinkedListWithWindowTest {
         assertEquals("c", linkedList.getWindow().get(1).getData()); // assert the tail of the window contains "c"
     }
 
+    /**
+     * Test if the window remains the same when removing the first element of the list (outside the window)
+     */
     @Test
     public void windowTestWithRemoveFirstOutWindow(){
         linkedList.add("a");
@@ -84,6 +102,9 @@ public class DoubleLinkedListWithWindowTest {
         assertEquals("d", linkedList.getWindow().get(1).getData()); // assert the tail of the window contains "d"
     }
 
+    /**
+     * Test if the window is well updated when removing inside the window
+     */
     @Test
     public void windowTestWithRemoveInsideWindow(){
         linkedList.add("a");
@@ -96,8 +117,14 @@ public class DoubleLinkedListWithWindowTest {
         assertEquals("d", linkedList.getWindow().get(1).getData()); // assert the tail of the window contains "d"
         assertEquals("d", linkedList.getWindow().get(0).getNext().getData()); // assert that "c" is well deleted
         assertEquals("b", linkedList.getWindow().get(1).getPrevious().getData()); // assert that "c" is well deleted
+        assertEquals(1, linkedList.getWindowHeadIndex());
+        assertEquals(2, linkedList.getWindowTailIndex());
+        assertEquals(2, linkedList.getWindowSize());
     }
 
+    /**
+     * Test if the window can properly slide to the right
+     */
     @Test
     public void windowSlideTestRight(){
         linkedList.add("a");
@@ -112,6 +139,9 @@ public class DoubleLinkedListWithWindowTest {
         assertEquals(2, linkedList.getWindowTailIndex());
     }
 
+    /**
+     * Test if the window can properly slide to the left
+     */
     @Test
     public void windowSlideTestLeft(){
         linkedList.add("a");
@@ -126,6 +156,10 @@ public class DoubleLinkedListWithWindowTest {
         assertEquals(1, linkedList.getWindowTailIndex());
     }
 
+    /**
+     * Test if the window remains unchanged when sliding to the right
+     *      as the window tail is the tail of the linked list
+     */
     @Test
     public void windowSlideTestRightRemainsUnchanged(){
         linkedList.add("a");
@@ -140,6 +174,10 @@ public class DoubleLinkedListWithWindowTest {
         assertEquals(3, linkedList.getWindowTailIndex());
     }
 
+    /**
+     * Test if the window remains unchanged when sliding to the left
+     *      as the window head is the head of the linked list
+     */
     @Test
     public void windowSlideTestLeftRemainsUnchanged(){
         linkedList.add("a");
@@ -154,6 +192,10 @@ public class DoubleLinkedListWithWindowTest {
         assertEquals(1, linkedList.getWindowTailIndex());
     }
 
+    /**
+     * Test if the window remains unchanged when sliding to the right
+     *      in a list of size 1
+     */
     @Test
     public void windowSlideTestRightOutLimit(){
         linkedList.add("d");
@@ -163,8 +205,13 @@ public class DoubleLinkedListWithWindowTest {
         assertEquals("d", linkedList.getWindow().get(1).getData()); // assert the tail of the window still contains "d"
         assertEquals(linkedList.getWindowHeadIndex(), linkedList.getWindowTailIndex());
         assertEquals(0, linkedList.getWindowHeadIndex());
+        assertEquals(1, linkedList.getWindowSize());
     }
 
+    /**
+    * Test if the window remains unchanged when sliding to the left
+    *      in a list of size 1
+     */
     @Test
     public void windowSlideTestLeftOutLimit(){
         linkedList.add("a");
@@ -176,6 +223,9 @@ public class DoubleLinkedListWithWindowTest {
         assertEquals(0, linkedList.getWindowHeadIndex());
     }
 
+    /**
+     * Test if the array constructor instantiate a proper list and window inside it
+     */
     @Test
     public void testArrayConstructorWithWindow(){
         String[] strings = {"a", "b", "c", "d", "e", "f"};
