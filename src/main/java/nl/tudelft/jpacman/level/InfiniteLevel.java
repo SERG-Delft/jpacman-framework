@@ -26,6 +26,7 @@ public class InfiniteLevel extends Level {
     /**
      * Moves the unit into the given direction if possible and handles all
      * collisions.
+     * Check at each move if the infinite board needs to be extended or not.
      *
      * @param unit
      *            The unit to move.
