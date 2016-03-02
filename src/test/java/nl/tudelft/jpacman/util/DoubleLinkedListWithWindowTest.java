@@ -23,7 +23,7 @@ public class DoubleLinkedListWithWindowTest {
     }
 
     /**
-     * Test that the window is well set
+     * Tests that the window is well set
      */
     @Test
     public void windowTest(){
@@ -43,7 +43,7 @@ public class DoubleLinkedListWithWindowTest {
     }
 
     /**
-     * Test if the window is well updated when removing the last element (inside the window)
+     * Tests if the window is well updated when removing the last element (inside the window)
      */
     @Test
     public void windowTestWithRemoveLastInWindow(){
@@ -58,7 +58,7 @@ public class DoubleLinkedListWithWindowTest {
     }
 
     /**
-     * Test if the window remains the same when removing the last element of the list (outside the window)
+     * Tests if the window remains the same when removing the last element of the list (outside the window)
      */
     @Test
     public void windowTestWithRemoveLastOutWindow(){
@@ -73,7 +73,7 @@ public class DoubleLinkedListWithWindowTest {
     }
 
     /**
-     * Test if the window is well updated when removing the first element (inside the window)
+     * Tests if the window is well updated when removing the first element (inside the window)
      */
     @Test
     public void windowTestWithRemoveFirstInWindow(){
@@ -88,7 +88,7 @@ public class DoubleLinkedListWithWindowTest {
     }
 
     /**
-     * Test if the window remains the same when removing the first element of the list (outside the window)
+     * Tests if the window remains the same when removing the first element of the list (outside the window)
      */
     @Test
     public void windowTestWithRemoveFirstOutWindow(){
@@ -103,7 +103,7 @@ public class DoubleLinkedListWithWindowTest {
     }
 
     /**
-     * Test if the window is well updated when removing inside the window
+     * Tests if the window is well updated when removing inside the window
      */
     @Test
     public void windowTestWithRemoveInsideWindow(){
@@ -123,7 +123,7 @@ public class DoubleLinkedListWithWindowTest {
     }
 
     /**
-     * Test if the window can properly slide to the right
+     * Tests if the window can properly slide to the right
      */
     @Test
     public void windowSlideTestRight(){
@@ -140,7 +140,7 @@ public class DoubleLinkedListWithWindowTest {
     }
 
     /**
-     * Test if the window can properly slide to the left
+     * Tests if the window can properly slide to the left
      */
     @Test
     public void windowSlideTestLeft(){
@@ -157,7 +157,7 @@ public class DoubleLinkedListWithWindowTest {
     }
 
     /**
-     * Test if the window remains unchanged when sliding to the right
+     * Tests if the window remains unchanged when sliding to the right
      *      as the window tail is the tail of the linked list
      */
     @Test
@@ -175,7 +175,7 @@ public class DoubleLinkedListWithWindowTest {
     }
 
     /**
-     * Test if the window remains unchanged when sliding to the left
+     * Tests if the window remains unchanged when sliding to the left
      *      as the window head is the head of the linked list
      */
     @Test
@@ -193,7 +193,7 @@ public class DoubleLinkedListWithWindowTest {
     }
 
     /**
-     * Test if the window remains unchanged when sliding to the right
+     * Tests if the window remains unchanged when sliding to the right
      *      in a list of size 1
      */
     @Test
@@ -209,7 +209,7 @@ public class DoubleLinkedListWithWindowTest {
     }
 
     /**
-    * Test if the window remains unchanged when sliding to the left
+    * Tests if the window remains unchanged when sliding to the left
     *      in a list of size 1
      */
     @Test
@@ -224,7 +224,7 @@ public class DoubleLinkedListWithWindowTest {
     }
 
     /**
-     * Test if the array constructor instantiate a proper list and window inside it
+     * Tests if the array constructor instantiate a proper list and window inside it
      */
     @Test
     public void testArrayConstructorWithWindow(){
