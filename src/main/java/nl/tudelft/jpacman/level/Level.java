@@ -259,7 +259,7 @@ public class Level {
 	 * Updates the observers about the state of this level.
 	 */
 	private void updateObservers() {
-		if (!isAnyPlayerAlive() || players.get(1).isAlive() == false) {//pacman tj 2e dans la liste (peut etre à modifier)
+		if (!isAnyPlayerAlive() || (players.size() == 2 && players.get(1).isAlive() == false)) {//pacman tj 2e dans la liste (peut etre à modifier)
 			for (LevelObserver o : observers) {
 				o.levelLost();
 			}
