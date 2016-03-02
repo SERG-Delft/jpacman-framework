@@ -5,6 +5,7 @@ import java.util.Map;
 
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.InfiniteBoard;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
@@ -78,6 +79,22 @@ public class LevelFactory {
 		CollisionMap collisionMap = new PlayerCollisions();
 		
 		return new Level(board, ghosts, startPositions, collisionMap);
+	}
+
+	/**
+	 * Creates a new level from the provided data.
+	 *
+	 * @param board
+	 *            The infinite board with all ghosts and pellets occupying their squares.
+	 * @param ghosts
+	 *            A list of all ghosts on the board.
+	 * @param startPositions
+	 *            A list of squares from which players may start the game.
+	 * @return A new infinite level for the infinite board.
+	 */
+	public InfiniteLevel createInfiniteLevel(InfiniteBoard board, List<NPC> ghosts, List<Square> startPositions){
+		CollisionMap collisionMap = new PlayerCollisions();
+		return new InfiniteLevel(board, ghosts, startPositions, collisionMap);
 	}
 
 	/**

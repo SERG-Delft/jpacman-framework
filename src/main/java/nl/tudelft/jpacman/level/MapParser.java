@@ -10,6 +10,7 @@ import java.util.List;
 import nl.tudelft.jpacman.PacmanConfigurationException;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.BoardFactory;
+import nl.tudelft.jpacman.board.InfiniteBoard;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
 
@@ -74,6 +75,21 @@ public class MapParser {
 		Board board = boardCreator.createBoard(grid);
 		return levelCreator.createLevel(board, ghosts, startPositions);
 	}
+
+	public InfiniteLevel parseMapToInfinite(char[][] map) {
+        int width = map.length;
+        int height = map[0].length;
+
+        Square[][] grid = new Square[width][height];
+
+        List<NPC> ghosts = new ArrayList<>();
+        List<Square> startPositions = new ArrayList<>();
+
+        makeGrid(map, width, height, grid, ghosts, startPositions);
+
+        InfiniteBoard board = boardCreator.createInfiniteBoard(grid);
+        return levelCreator.createInfiniteLevel(board, ghosts, startPositions);
+    }
 
 	private void makeGrid(char[][] map, int width, int height,
 			Square[][] grid, List<NPC> ghosts, List<Square> startPositions) {
@@ -148,6 +164,33 @@ public class MapParser {
 		}
 		return parseMap(map);
 	}
+
+    /**
+     * Parses the list of strings into a 2-dimensional character array and
+     * passes it on to {@link #parseMap(char[][])}.
+     *
+     * @param text
+     *            The plain text, with every entry in the list being a equally
+     *            sized row of squares on the board and the first element being
+     *            the top row.
+     * @return The infinite level as initially represented by the text.
+     * @throws PacmanConfigurationException If text lines are not properly formatted.
+     */
+    public InfiniteLevel parseMapToInfinite(List<String> text) {
+
+        checkMapFormat(text);
+
+        int height = text.size();
+        int width = text.get(0).length();
+
+        char[][] map = new char[width][height];
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                map[x][y] = text.get(y).charAt(x);
+            }
+        }
+        return parseMapToInfinite(map);
+    }
 	
 	/**
 	 * Check the correctness of the map lines in the text.
@@ -200,4 +243,25 @@ public class MapParser {
 			return parseMap(lines);
 		}
 	}
+
+    /**
+     * Parses the provided input stream as a character stream and passes it
+     * result to {@link #parseMap(List)}.
+     *
+     * @param source
+     *            The input stream that will be read.
+     * @return The parsed infinite level as represented by the text on the input stream.
+     * @throws IOException
+     *             when the source could not be read.
+     */
+    public InfiniteLevel parseMapToInfinite(InputStream source) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                source, "UTF-8"))) {
+            List<String> lines = new ArrayList<>();
+            while (reader.ready()) {
+                lines.add(reader.readLine());
+            }
+            return parseMapToInfinite(lines);
+        }
+    }
 }
