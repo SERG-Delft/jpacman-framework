@@ -1,5 +1,6 @@
 package nl.tudelft.jpacman.board;
 
+import nl.tudelft.jpacman.level.SquareLineGenerator;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
 
@@ -56,6 +57,33 @@ public class BoardFactory {
 
 		return board;
 	}
+
+    public InfiniteBoard createInfiniteBoard(Square[][] grid) {
+        assert grid != null;
+
+        InfiniteBoard board = new InfiniteBoard(grid);
+		SquareLineGenerator generator = new SquareLineGenerator();
+
+        int width = Integer.MAX_VALUE;
+        int height = Integer.MAX_VALUE;
+        for (int x = 0; x < grid.length; x++) {
+            for (int y = 0; y < grid[0].length; y++) {
+                Square square = grid[x][y];
+                for (Direction dir : Direction.values()) {
+                    int dirX = (x + dir.getDeltaX()) % width;
+                    int dirY = (y + dir.getDeltaY()) % height;
+                    try{
+						Square neighbour = grid[dirX][dirY];
+						square.link(neighbour, dir);
+					} catch(ArrayIndexOutOfBoundsException exc){
+                        if(dirX > grid.length || dirY > grid[0].length) throw new ArrayIndexOutOfBoundsException();
+					}
+				}
+            }
+        }
+
+        return board;
+    }
 
 	/**
 	 * Creates a new square that can be occupied by any unit.

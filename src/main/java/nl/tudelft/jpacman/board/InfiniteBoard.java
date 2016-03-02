@@ -32,7 +32,7 @@ public class InfiniteBoard extends Board {
      * @param grid
      *                  The grid of squares with grid[x][y] being the square at column x, row y.
      */
-    InfiniteBoard(Square[][] grid) {
+    public InfiniteBoard(Square[][] grid) {
         super(grid);
         for(Square[] column : grid){
             this.columns.addLast(new DoubleLinkedListWithWindow<>(Arrays.asList(column), 0, column.length-1));

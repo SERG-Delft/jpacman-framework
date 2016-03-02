@@ -3,6 +3,9 @@ package nl.tudelft.jpacman.board;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 /**
@@ -22,11 +25,17 @@ public class InfiniteBoardTest {
     Square s2_2 = new BasicSquare();
     Square[][] grid = new Square[][]{{s0_0, s0_1, s0_2}, {s1_0, s1_1, s1_2}, {s2_0, s2_1, s2_2}};
 
+    /**
+     * The board is cleared before each test
+     */
     @Before
     public void setUp(){
         board = boardFactory.createInfiniteBoard(grid);
     }
 
+    /**
+     * Test if some squares are indeed in the board
+     */
     @Test
     public void testSquareAt() throws Exception {
         assertEquals(s1_1, board.squareAtUnchecked(1, 1));
@@ -34,6 +43,9 @@ public class InfiniteBoardTest {
         assertEquals(s1_2, board.squareAtUnchecked(1, 2));
     }
 
+    /**
+     * Test if some squares are indeed inside the borders of the board
+     */
     @Test
     public void testWithinBorders() throws Exception {
         assertTrue(board.withinBorders(1, 2));
@@ -44,6 +56,9 @@ public class InfiniteBoardTest {
         assertFalse(board.withinBorders(0, 3));
     }
 
+    /**
+     * Test if the squares are well linked to one another
+     */
     @Test
     public void testHorizontalLinks() throws Exception {
         assertEquals(s1_1, s0_1.getSquareAt(Direction.EAST));
@@ -54,6 +69,9 @@ public class InfiniteBoardTest {
         assertEquals(null, s0_0.getSquareAt(Direction.WEST));
     }
 
+    /**
+     * Test if newly added squares are indeed in the board
+     */
     @Test
     public void testAddColumnRightSquareAt() throws Exception {
         Square s3_0 = new BasicSquare();
@@ -66,6 +84,9 @@ public class InfiniteBoardTest {
         assertEquals(s3_2, board.squareAtUnchecked(3, 2));
     }
 
+    /**
+     * Test if newly added squares are well linked horizontally with the others in the board
+     */
     @Test
     public void testAddColumnRightCheckHorizontalLinks() throws Exception {
         Square s3_0 = new BasicSquare();
@@ -81,6 +102,9 @@ public class InfiniteBoardTest {
         assertEquals(board.squareAtUnchecked(3, 2).getSquareAt(Direction.WEST), board.squareAtUnchecked(2, 2));
     }
 
+    /**
+     * Test if newly added squares are well linked vertically with the others in the board
+     */
     @Test
     public void testAddColumnRightCheckVerticalLinks() throws Exception {
         Square s3_0 = new BasicSquare();
@@ -96,6 +120,9 @@ public class InfiniteBoardTest {
         assertEquals( board.squareAtUnchecked(3, 1), board.squareAtUnchecked(3, 2).getSquareAt(Direction.NORTH));
     }
 
+    /**
+    * Test if newly added squares are indeed in the board
+    */
     @Test
     public void testAddColumnLeftSquareAt() throws Exception {
         Square s00_0 = new BasicSquare();
@@ -108,6 +135,9 @@ public class InfiniteBoardTest {
         assertEquals(s00_2, board.squareAtUnchecked(-1, 2));
     }
 
+    /**
+     * Test if newly added squares are well linked horizontally with the others in the board
+     */
     @Test
     public void testAddColumnLeftCheckHorizontalLinks() throws Exception {
         Square s00_0 = new BasicSquare();
@@ -123,6 +153,9 @@ public class InfiniteBoardTest {
         assertEquals(board.squareAtUnchecked(-1, 2).getSquareAt(Direction.EAST), board.squareAtUnchecked(0, 2));
     }
 
+    /**
+     * Test if newly added squares are well linked vertically with the others in the board
+     */
     @Test
     public void testAddColumnLeftCheckVerticalLinks() throws Exception {
         Square s00_0 = new BasicSquare();
@@ -138,6 +171,9 @@ public class InfiniteBoardTest {
         assertEquals(board.squareAtUnchecked(-1, 1), board.squareAtUnchecked(-1, 0).getSquareAt(Direction.SOUTH));
     }
 
+    /**
+     * Test if newly added squares are indeed in the board
+     */
     @Test
     public void testAddLineUpSquareAt() throws Exception {
         Square s0_00 = new BasicSquare();
@@ -150,6 +186,9 @@ public class InfiniteBoardTest {
         assertEquals(s2_00, board.squareAtUnchecked(2, -1));
     }
 
+    /**
+     * Test if newly added squares are well linked horizontally with the others in the board
+     */
     @Test
     public void testAddLineUpCheckHorizontalLinks() throws Exception {
         Square s0_00 = new BasicSquare();
@@ -165,6 +204,9 @@ public class InfiniteBoardTest {
         assertEquals(board.squareAtUnchecked(1, -1), board.squareAtUnchecked(2, -1).getSquareAt(Direction.WEST));
     }
 
+    /**
+     * Test if newly added squares are well linked vertically with the others in the board
+     */
     @Test
     public void testAddLineUpCheckVerticalLinks() throws Exception {
         Square s0_00 = new BasicSquare();
@@ -172,6 +214,9 @@ public class InfiniteBoardTest {
         Square s2_00 = new BasicSquare();
         Square[] line = new Square[]{s0_00, s1_00, s2_00};
         board.addLineTop(line);
+        assertEquals(null, board.squareAtUnchecked(0, -1).getSquareAt(Direction.NORTH));
+        assertEquals(null, board.squareAtUnchecked(1, -1).getSquareAt(Direction.NORTH));
+        assertEquals(null, board.squareAtUnchecked(2, -1).getSquareAt(Direction.NORTH));
         assertEquals(board.squareAtUnchecked(0, -1), board.squareAtUnchecked(0, 0).getSquareAt(Direction.NORTH));
         assertEquals(board.squareAtUnchecked(1, -1), board.squareAtUnchecked(1, 0).getSquareAt(Direction.NORTH));
         assertEquals(board.squareAtUnchecked(2, -1), board.squareAtUnchecked(2, 0).getSquareAt(Direction.NORTH));
@@ -180,6 +225,9 @@ public class InfiniteBoardTest {
         assertEquals(board.squareAtUnchecked(2, 0), board.squareAtUnchecked(2, -1).getSquareAt(Direction.SOUTH));
     }
 
+    /**
+     * Test if newly added squares are indeed in the board
+     */
     @Test
     public void testAddLineDownSquareAt() throws Exception {
         Square s0_3 = new BasicSquare();
@@ -192,6 +240,9 @@ public class InfiniteBoardTest {
         assertEquals(s2_3, board.squareAtUnchecked(2, 3));
     }
 
+    /**
+     * Test if newly added squares are well linked horizontally with the others in the board
+     */
     @Test
     public void testAddLineDownCheckHorizontalLinks() throws Exception {
         Square s0_3 = new BasicSquare();
@@ -207,6 +258,31 @@ public class InfiniteBoardTest {
         assertEquals(board.squareAtUnchecked(1, 3), board.squareAtUnchecked(2, 3).getSquareAt(Direction.WEST));
     }
 
+    /**
+     * Test if newly added squares are well linked vertically with the others in the board
+     */
+    @Test
+    public void testAddLineDownCheckVerticalLinks() throws Exception {
+        Square s0_3 = new BasicSquare();
+        Square s1_3 = new BasicSquare();
+        Square s2_3 = new BasicSquare();
+        Square[] line = new Square[]{s0_3, s1_3, s2_3};
+        board.addLineBottom(line);
+        assertEquals(null, board.squareAtUnchecked(0, 3).getSquareAt(Direction.SOUTH));
+        assertEquals(null, board.squareAtUnchecked(1, 3).getSquareAt(Direction.SOUTH));
+        assertEquals(null, board.squareAtUnchecked(2, 3).getSquareAt(Direction.SOUTH));
+        assertEquals(board.squareAtUnchecked(0, 3), board.squareAtUnchecked(0, 2).getSquareAt(Direction.SOUTH));
+        assertEquals(board.squareAtUnchecked(1, 3), board.squareAtUnchecked(1, 2).getSquareAt(Direction.SOUTH));
+        assertEquals(board.squareAtUnchecked(2, 3), board.squareAtUnchecked(2, 2).getSquareAt(Direction.SOUTH));
+        assertEquals(board.squareAtUnchecked(0, 2), board.squareAtUnchecked(0, 3).getSquareAt(Direction.NORTH));
+        assertEquals(board.squareAtUnchecked(1, 2), board.squareAtUnchecked(1, 3).getSquareAt(Direction.NORTH));
+        assertEquals(board.squareAtUnchecked(2, 2), board.squareAtUnchecked(2, 3).getSquareAt(Direction.NORTH));
+    }
+
+
+    /**
+     * Test if adding multiple lines and columns goes well and that the newly added squares are in the board
+     */
     @Test
     public void testAddMultipleColumnsAndLines() throws Exception {
         assertEquals(s0_0, board.squareAt(0, 0));
@@ -280,6 +356,9 @@ public class InfiniteBoardTest {
         assertEquals(s2_2, board.squareAt(2, 2));
     }
 
+    /**
+     * Test if moving the visible space  affects the indices of the windows
+     */
     @Test
     public void testAddMultipleColumnsAndLinesWithSlides() throws Exception {
         assertEquals(s0_0, board.squareAt(0, 0));
@@ -352,5 +431,84 @@ public class InfiniteBoardTest {
 
         assertEquals(s00_0, board.squareAt(0, 0));
         assertEquals(s1_0, board.squareAt(2, 2));
+    }
+
+    /**
+     * Verifies that the 3*3 visible space has always a width of 3
+     */
+    @Test
+    public void testGetWidth() throws Exception {
+        Square s3_0 = new BasicSquare();
+        Square s3_1 = new BasicSquare();
+        Square s3_2 = new BasicSquare();
+        Square[] column = new Square[]{s3_0, s3_1, s3_2};
+        board.addColumnRight(column);
+        Square s00_0 = new BasicSquare();
+        Square s00_1 = new BasicSquare();
+        Square s00_2 = new BasicSquare();
+        column = new Square[]{s00_0, s00_1, s00_2};
+        board.addColumnLeft(column);
+        assertEquals(3, board.getWidth());
+    }
+
+    /**
+     * Verifies that the 3*3 visible space has always a height of 3
+     */
+    @Test
+    public void testGetHeight() throws Exception {
+        Square s0_3 = new BasicSquare();
+        Square s1_3 = new BasicSquare();
+        Square s2_3 = new BasicSquare();
+        Square[] line = new Square[]{s0_3, s1_3, s2_3};
+        board.addLineBottom(line);
+        Square s0_00 = new BasicSquare();
+        Square s1_00 = new BasicSquare();
+        Square s2_00 = new BasicSquare();
+        line = new Square[]{s0_00, s1_00, s2_00};
+        board.addLineTop(line);
+        assertEquals(3, board.getHeight());
+    }
+
+    /**
+     * Verifies that the left column is returned
+     */
+    @Test
+    public void testGetLeftColumn() throws Exception {
+        Square s00_0 = new BasicSquare();
+        Square s00_1 = new BasicSquare();
+        Square s00_2 = new BasicSquare();
+        Square[] column = new Square[]{s00_0, s00_1, s00_2};
+        board.addColumnLeft(column);
+        assertArrayEquals(column, board.getLeftColumn().toArray());
+    }
+
+    @Test
+    public void testGetRightColumn() throws Exception {
+        Square s3_0 = new BasicSquare();
+        Square s3_1 = new BasicSquare();
+        Square s3_2 = new BasicSquare();
+        Square[] column = new Square[]{s3_0, s3_1, s3_2};
+        board.addColumnRight(column);
+        assertArrayEquals(column, board.getRightColumn().toArray());
+    }
+
+    @Test
+    public void testGetBottomLine() throws Exception {
+        Square s0_3 = new BasicSquare();
+        Square s1_3 = new BasicSquare();
+        Square s2_3 = new BasicSquare();
+        Square[] line = new Square[]{s0_3, s1_3, s2_3};
+        board.addLineBottom(line);
+        assertArrayEquals(line, board.getBottomLine().toArray());
+    }
+
+    @Test
+    public void testGetTopLine() throws Exception {
+        Square s0_00 = new BasicSquare();
+        Square s1_00 = new BasicSquare();
+        Square s2_00 = new BasicSquare();
+        Square[] line = new Square[]{s0_00, s1_00, s2_00};
+        board.addLineTop(line);
+        assertArrayEquals(line, board.getTopLine().toArray());
     }
 }
