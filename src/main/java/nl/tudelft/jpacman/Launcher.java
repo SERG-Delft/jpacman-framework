@@ -28,7 +28,11 @@ import nl.tudelft.jpacman.ui.PacManUiBuilder;
  * @author Jeroen Roosen 
  */
 public class Launcher {
-
+    /* TODO after merging
+     * - change scorepanel to be built by an arraylist of Scorers (new interface to create) to draw score of AI in 
+     *   multiplayer
+     * - Maybe rethink logic in LevelFactory (a Game should create his own levels not the opposite)
+     */
 	private static final PacManSprites SPRITE_STORE = new PacManSprites();
     private static final int CLASSIC = 1;
     private static final int MULTI_GHOST = 2;
@@ -62,7 +66,7 @@ public class Launcher {
 				// ask players color
 				ArrayList<GhostColor> playerColors = new ArrayList<>();
                 playerColors.add(GhostColor.RED);
-                playerColors.add(GhostColor.CYAN);
+                //playerColors.add(GhostColor.CYAN);
 				// create game
                 gf = getGameFactory();
                 level = makeLevel("/boardMultiGhost.txt");
@@ -206,14 +210,15 @@ public class Launcher {
                         .addKey(KeyEvent.VK_V, () -> game.move(players.get(2), Direction.WEST))
                         .addKey(KeyEvent.VK_N, () -> game.move(players.get(2), Direction.EAST));
 			case 2:
-                builder.addKey(KeyEvent.VK_Z, () -> game.move(players.get(0), Direction.NORTH)) //P1 gets ZQSD
-                        .addKey(KeyEvent.VK_S, () -> game.move(players.get(0), Direction.SOUTH))
-                        .addKey(KeyEvent.VK_Q, () -> game.move(players.get(0), Direction.WEST))
-                        .addKey(KeyEvent.VK_D, () -> game.move(players.get(0), Direction.EAST));
-                builder.addKey(KeyEvent.VK_O, () -> game.move(players.get(1), Direction.NORTH)) //P2 gets OKLM
-                        .addKey(KeyEvent.VK_L, () -> game.move(players.get(1), Direction.SOUTH))
-                        .addKey(KeyEvent.VK_K, () -> game.move(players.get(1), Direction.WEST))
-                        .addKey(KeyEvent.VK_M, () -> game.move(players.get(1), Direction.EAST));
+				builder.addKey(KeyEvent.VK_O, () -> game.move(players.get(1), Direction.NORTH)) //P2 gets OKLM
+						.addKey(KeyEvent.VK_L, () -> game.move(players.get(1), Direction.SOUTH))
+						.addKey(KeyEvent.VK_K, () -> game.move(players.get(1), Direction.WEST))
+						.addKey(KeyEvent.VK_M, () -> game.move(players.get(1), Direction.EAST));
+			case 1:
+				builder.addKey(KeyEvent.VK_Z, () -> game.move(players.get(0), Direction.NORTH)) //P1 gets ZQSD
+						.addKey(KeyEvent.VK_S, () -> game.move(players.get(0), Direction.SOUTH))
+						.addKey(KeyEvent.VK_Q, () -> game.move(players.get(0), Direction.WEST))
+						.addKey(KeyEvent.VK_D, () -> game.move(players.get(0), Direction.EAST));
 				break;
 		}
 

@@ -11,7 +11,6 @@ public class MultiGhostPlayerCollisions extends PlayerCollisions{
     
     @Override
     public void collide(Unit mover, Unit collidedOn) {
-
         if (mover instanceof HunterGameModePlayer) {
             hunterColliding((HunterGameModePlayer) mover, collidedOn);
         }
@@ -30,7 +29,6 @@ public class MultiGhostPlayerCollisions extends PlayerCollisions{
     }
 
     private void hunterVersusHunter(HunterGameModePlayer player1, HunterGameModePlayer player2) {
-        //TODO blocking
         if(player1.isHunter() || player2.isHunter()) {
             if(player1.isHunter()) {
                 player1.addPoints(player2.hunted());
