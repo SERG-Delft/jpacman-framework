@@ -8,6 +8,8 @@ import java.util.Set;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.level.GhostPlayer;
+import nl.tudelft.jpacman.level.Player;
 
 /**
  * Navigation provides utility to nagivate on {@link Square}s.
@@ -95,6 +97,29 @@ public final class Navigation {
 			Square square = toDo.remove(0);
 			Unit unit = findUnit(type, square);
 			if (unit != null) {
+				return unit;
+			}
+			visited.add(square);
+			for (Direction d : Direction.values()) {
+				Square newTarget = square.getSquareAt(d);
+				if (!visited.contains(newTarget) && !toDo.contains(newTarget)) {
+					toDo.add(newTarget);
+				}
+			}
+		}
+		return null;
+	}
+
+	public static Unit findNearestPlayer(Square currentLocation){
+		List<Square> toDo = new ArrayList<>();
+		Set<Square> visited = new HashSet<>();
+
+		toDo.add(currentLocation);
+
+		while (!toDo.isEmpty()) {
+			Square square = toDo.remove(0);
+			Unit unit = findUnit(Player.class, square);
+			if (unit != null && !(unit instanceof GhostPlayer)) {
 				return unit;
 			}
 			visited.add(square);

@@ -310,8 +310,8 @@ public class Launcher {
 	protected void addDoublePlayersKeys(final PacManUiBuilder builder,
 									   final Game game){
 
-		final Player p = game.getPlayers().get(0);
-		final GhostPlayer gp = (GhostPlayer)game.getPlayers().get(1);
+		final Player p = game.getPlayers().get(1);
+		final GhostPlayer gp = (GhostPlayer)game.getPlayers().get(0);
 
 		ScheduledExecutorService service1 = Executors
 				.newSingleThreadScheduledExecutor();

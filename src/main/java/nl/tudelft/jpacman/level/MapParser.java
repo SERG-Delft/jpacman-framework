@@ -14,6 +14,7 @@ import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
+import nl.tudelft.jpacman.npc.ghost.Inky;
 import nl.tudelft.jpacman.npc.ghost.Pinky;
 
 /**
@@ -103,7 +104,9 @@ public class MapParser {
 			levelCreator.createPellet().occupy(pelletSquare);
 			break;
 		case 'G':
-			Square ghostSquare = makeGhostSquareDoublePlayers(ghosts, Pinky.class);// a remplacer par le fantome jouer par le joueur 2
+			Square ghostSquare = makeGhostSquareDoublePlayers(ghosts, Inky.class, startPositions);// a remplacer par le fantome jouer par le joueur 2
+																					// passer null pour ne pas retirer de ghost
+			//Square ghostSquare = makeGhostSquare(ghosts);
 			grid[x][y] = ghostSquare;
 			break;
 		case 'P':
@@ -125,12 +128,15 @@ public class MapParser {
 		return ghostSquare;
 	}
 
-	private Square makeGhostSquareDoublePlayers(List<NPC> ghosts, Class c){
+	private Square makeGhostSquareDoublePlayers(List<NPC> ghosts, Class c, List<Square> startPositions){
 		Square ghostSquare = boardCreator.createGround();
 		NPC ghost = levelCreator.createGhost();
 		if(!(ghost.getClass() == c)) {
 			ghosts.add(ghost);
 			ghost.occupy(ghostSquare);
+		}
+		else{
+			startPositions.add(ghostSquare);
 		}
 		return ghostSquare;
 	}

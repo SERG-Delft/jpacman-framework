@@ -2,6 +2,9 @@ package nl.tudelft.jpacman.game;
 
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.PlayerFactory;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.npc.ghost.GhostColor;
+import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 
 /**
  * Factory that provides Game objects.
@@ -36,7 +39,7 @@ public class GameFactory {
 	}
 
 	public Game createDoublePlayersGame(Level level){
-		return new DoublePlayerGame(playerFact.createPacMan(), playerFact.createGhostPlayer(GhostColor.PINK), level);
+		return new DoublePlayerGame(playerFact.createPacMan(), playerFact.createGhostPlayer(GhostColor.CYAN), level);//remplacer par ghost sélectionner
 	}
 
 	/**

@@ -6,6 +6,7 @@ import java.util.Random;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.level.GhostPlayer;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.sprite.Sprite;
 
@@ -85,7 +86,7 @@ public class Blinky extends Ghost {
 	public Direction nextMove() {
 		// TODO Blinky should patrol his corner every once in a while
 		// TODO Implement his actual behaviour instead of simply chasing.
-		Square target = Navigation.findNearest(Player.class, getSquare())
+		Square target = Navigation.findNearestPlayer(getSquare())
 				.getSquare();
 
 		if (target == null) {

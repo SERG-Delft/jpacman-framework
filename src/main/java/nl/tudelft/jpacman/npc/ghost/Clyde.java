@@ -103,7 +103,7 @@ public class Clyde extends Ghost {
 	 */
 	@Override
 	public Direction nextMove() {
-		Square target = Navigation.findNearest(Player.class, getSquare())
+		Square target = Navigation.findNearestPlayer(getSquare())
 				.getSquare();
 		if (target == null) {
 			return randomMove();

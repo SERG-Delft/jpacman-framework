@@ -25,13 +25,13 @@ public class DoublePlayerGame extends Game{
         this.player = p1;
         this.ghostPlayer = gp;
         this.level = l;
-        level.registerPlayer(p1);
         level.registerPlayer(gp);
+        level.registerPlayer(p1);
     }
 
         @Override
         public List<Player> getPlayers() {
-            return ImmutableList.of(player, ghostPlayer);
+            return ImmutableList.of(ghostPlayer, player);
         }
 
         @Override

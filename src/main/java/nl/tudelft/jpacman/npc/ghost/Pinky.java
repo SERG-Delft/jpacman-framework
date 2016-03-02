@@ -93,7 +93,7 @@ public class Pinky extends Ghost {
 	 */
 	@Override
 	public Direction nextMove() {
-		Unit player = Navigation.findNearest(Player.class, getSquare());
+		Unit player = Navigation.findNearestPlayer(getSquare());
 		if (player == null) {
 			Direction d = randomMove();
 			return d;
