@@ -30,7 +30,7 @@ public class LevelFactory {
 	/**
 	 * The default value of a pellet.
 	 */
-	private static final int PELLET_VALUE = 10;
+	public static final int PELLET_VALUE = 10;
 
 	/**
 	 * The sprite store that provides sprites for units.
