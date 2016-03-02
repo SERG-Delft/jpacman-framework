@@ -3,6 +3,7 @@ package nl.tudelft.jpacman;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import nl.tudelft.jpacman.board.BoardFactory;
@@ -14,6 +15,7 @@ import nl.tudelft.jpacman.level.LevelFactory;
 import nl.tudelft.jpacman.level.MapParser;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.level.PlayerFactory;
+import nl.tudelft.jpacman.npc.ghost.GhostColor;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.ui.Action;
@@ -57,9 +59,15 @@ public class Launcher {
                 level = makeLevel("/board.txt");
                 return gf.createSinglePlayerGame(level);
             case MULTI_GHOST:
+				// ask players color
+				ArrayList<GhostColor> playerColors = new ArrayList<>();
+                playerColors.add(GhostColor.RED);
+                playerColors.add(GhostColor.ORANGE);
+				// create game
                 gf = getGameFactory();
                 level = makeLevel("/boardMultiGhost.txt");
-                return gf.createMultiGhostPlayerGame(level, 2); //TODO add number of player choice
+				level.setNPCs(getLevelFactory().createGhost(GhostColor.getOtherColors(playerColors)));
+                return gf.createMultiGhostPlayerGame(level, playerColors); //TODO add number of player choice
             default:
                 return null;
         }

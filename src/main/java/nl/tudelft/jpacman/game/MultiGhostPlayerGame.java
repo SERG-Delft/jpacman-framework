@@ -1,11 +1,10 @@
 package nl.tudelft.jpacman.game;
 
-import nl.tudelft.jpacman.level.HunterGhostPlayer;
-import nl.tudelft.jpacman.level.Level;
-import nl.tudelft.jpacman.level.MultiGhostPlayerCollisions;
-import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.level.*;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by helldog136 on 25/02/16.
@@ -14,16 +13,18 @@ public class MultiGhostPlayerGame extends Game {
 
     private static final long HUNTER_SWITCH_INTERVAL = 10*1000;
     private static final int SWITCH_PROBA_START = 100;
+    public static final long PENALTY_TIME = 5000;
     /**
      * The players of this game.
      */
     private final ArrayList<HunterGhostPlayer> players;
+    
+    private final ArrayList<HunterGameModePlayer> potentialHunters = new ArrayList<>();
 
     /**
      * The level of this game.
      */
     private final Level level;
-    private final MultiGhostPlayerCollisions collisions;
 
     /**
      * Create a new multi players game for the provided level and players.
@@ -35,9 +36,10 @@ public class MultiGhostPlayerGame extends Game {
         assert l != null;
 
         this.players = _players;
+        potentialHunters.addAll(_players);
+        potentialHunters.addAll(l.getGhosts().stream().map(g -> (HunterGameModePlayer) g).collect(Collectors.toList()));
         this.level = l;
-        this.collisions = new MultiGhostPlayerCollisions();
-        this.level.setCollisions(collisions);
+        this.level.setCollisions(new MultiGhostPlayerCollisions());
         for (Player p : players) {
             level.registerPlayer(p);
         }
@@ -49,6 +51,7 @@ public class MultiGhostPlayerGame extends Game {
     @Override
     void customStart() {
         if(isInProgress()){
+            System.out.println("Switching hunter!");
             //fisrt choose (weighted-)randomly a player
             int bestval = Integer.MIN_VALUE;
             int index = 0;
@@ -63,9 +66,9 @@ public class MultiGhostPlayerGame extends Game {
             hunterSwitchProbs[index] = hunterSwitchProbs[index]/2;
             //then check if must not reset weights
             checkHunterSwitchProbs();
-            players.get(currentHunterIndex).setHunter(false);
+            potentialHunters.get(currentHunterIndex).setHunter(false);
             currentHunterIndex = index;
-            players.get(currentHunterIndex).setHunter(true);
+            potentialHunters.get(currentHunterIndex).setHunter(true);
         }
         hunterSwitchTimer.schedule(new TimerTask() {
             @Override

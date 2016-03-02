@@ -1,10 +1,12 @@
 package nl.tudelft.jpacman.level;
 
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.game.MultiGhostPlayerGame;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
 import nl.tudelft.jpacman.sprite.AnimatedSprite;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
+import nl.tudelft.jpacman.sprite.SpriteStore;
 
 import java.util.Map;
 import java.util.Timer;
@@ -13,10 +15,9 @@ import java.util.TimerTask;
 /**
  * Created by helldog136 on 26/02/16.
  */
-public class HunterGhostPlayer extends GhostPlayer {
+public class HunterGhostPlayer extends GhostPlayer implements HunterGameModePlayer{
     private static final int VALUE_START = 50;
     private static final int DECAY = 2;
-    private static final long PENALTY_TIME = 5000;
     private boolean hunter = false;
     private int value = VALUE_START;
     private boolean active = true;
@@ -27,16 +28,16 @@ public class HunterGhostPlayer extends GhostPlayer {
      * @param sprites
      * @param color
      */
-    HunterGhostPlayer(PacManSprites sprites, GhostColor color) {
+    protected HunterGhostPlayer(PacManSprites sprites, GhostColor color) {
         super(sprites, color);
     }
-
 
     public boolean isHunter() {
         return hunter;
     }
 
     public int hunted() {
+        setSprites(new PacManSprites().getGhostVulSprites());
         int ret = value;
         value = value / DECAY;
         active = false;
@@ -45,7 +46,7 @@ public class HunterGhostPlayer extends GhostPlayer {
             public void run() {
                 reactive();
             }
-        }, PENALTY_TIME);
+        }, MultiGhostPlayerGame.PENALTY_TIME);
         return ret;
     }
 

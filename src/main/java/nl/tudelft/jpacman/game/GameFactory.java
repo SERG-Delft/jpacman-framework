@@ -1,7 +1,11 @@
 package nl.tudelft.jpacman.game;
 
+import nl.tudelft.jpacman.level.GhostPlayer;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.PlayerFactory;
+import nl.tudelft.jpacman.npc.ghost.GhostColor;
+
+import java.util.ArrayList;
 
 /**
  * Factory that provides Game objects.
@@ -40,11 +44,11 @@ public class GameFactory {
 	 * Creates a game for a single level with up to four players.
 	 *
 	 * @param level The level to create a game for.
-	 * @param numberOfPlayers the number of players that are in the game.
+	 * @param colorsChosen the colors chosen by the players.
 	 * @return A new multi player game.
 	 */
-	public Game createMultiGhostPlayerGame(Level level, int numberOfPlayers) {
-		return new MultiGhostPlayerGame(playerFact.createGhostPlayers(numberOfPlayers), level);
+	public Game createMultiGhostPlayerGame(Level level, ArrayList<GhostColor> colorsChosen) {
+		return new MultiGhostPlayerGame(playerFact.createGhostPlayers(colorsChosen), level);
 	}
 
 	/**

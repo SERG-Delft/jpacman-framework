@@ -158,4 +158,14 @@ public class PacManSprites extends SpriteStore {
 			throw new PacmanConfigurationException("Unable to load sprite: " + resource, e);
 		}
 	}
+
+	public Map<Direction, Sprite> getGhostVulSprites() {
+		String resource = "/sprite/ghost_vul_blue.png";
+		return directionSprite(resource, GHOST_ANIMATION_FRAMES);
+	}
+
+    public Map<Direction,Sprite> getGhostHunterSprites() {
+        String resource = "/sprite/ghost_vul_white.png";
+        return directionSprite(resource, GHOST_ANIMATION_FRAMES);
+    }
 }

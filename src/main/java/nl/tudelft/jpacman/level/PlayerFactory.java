@@ -1,6 +1,8 @@
 package nl.tudelft.jpacman.level;
 
+import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
+import nl.tudelft.jpacman.npc.ghost.HunterGhostNPC;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 
 import java.util.ArrayList;
@@ -37,19 +39,10 @@ public class PlayerFactory {
 				sprites.getPacManDeathAnimation());
 	}
 
-	public ArrayList<HunterGhostPlayer> createGhostPlayers(int numberOfPlayers) {
+	public ArrayList<HunterGhostPlayer> createGhostPlayers(ArrayList<GhostColor> colorsChosen) {
 		ArrayList<HunterGhostPlayer> players = new ArrayList<>();
-		switch (numberOfPlayers){
-            case 4:
-                players.add(new HunterGhostPlayer(sprites, GhostColor.RED));
-            case 3:
-                players.add(new HunterGhostPlayer(sprites, GhostColor.PINK));
-			case 2:
-				players.add(new HunterGhostPlayer(sprites, GhostColor.CYAN));
-                players.add(new HunterGhostPlayer(sprites, GhostColor.ORANGE));
-                break;
-            default:
-                throw new RuntimeException("Wrong number of players (must be 2,3 or 4 got "+numberOfPlayers+")");
+		for (int i = 0; i < colorsChosen.size(); i++) {
+            players.add(new HunterGhostPlayer(sprites, colorsChosen.get(0)));
 		}
 		return players;
 	}
