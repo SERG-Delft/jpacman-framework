@@ -14,6 +14,7 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.Navigation;
 
 /**
  * A level of Pac-Man. A level consists of the board with the players and the
@@ -140,11 +141,11 @@ public class Level {
 	public void registerPlayer(Player p) {
 		assert p != null;
 		assert !startSquares.isEmpty();
-
 		if (players.contains(p)) {
 			return;
 		}
-		players.add(p);
+        Navigation.playerList.add(p);
+        players.add(p);
 		Square square = startSquares.get(startSquareIndex);
 		p.occupy(square);
 		startSquareIndex++;

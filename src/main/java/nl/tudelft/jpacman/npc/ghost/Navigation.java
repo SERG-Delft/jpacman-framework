@@ -1,13 +1,11 @@
 package nl.tudelft.jpacman.npc.ghost;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.level.Player;
 
 /**
  * Navigation provides utility to nagivate on {@link Square}s.
@@ -15,6 +13,9 @@ import nl.tudelft.jpacman.board.Unit;
  * @author Jeroen Roosen 
  */
 public final class Navigation {
+
+    private static final int MAX_DEPTH = 42;
+    public static ArrayList<Player> playerList = new ArrayList<>();
 
 	private Navigation() {
 	}
@@ -43,11 +44,12 @@ public final class Navigation {
 		if (from == to) {
 			return new ArrayList<>();
 		}
-
+        int depth = 0;
 		List<Node> targets = new ArrayList<>();
 		Set<Square> visited = new HashSet<>();
 		targets.add(new Node(null, from, null));
-		while (!targets.isEmpty()) {
+		while (!targets.isEmpty() && depth < MAX_DEPTH) {
+            depth++;
 			Node n = targets.remove(0);
 			Square s = n.getSquare();
 			if (s == to) {
@@ -86,14 +88,19 @@ public final class Navigation {
 	 */
 	public static Unit findNearest(Class<? extends Unit> type,
 			Square currentLocation) {
+
+        if(type == Player.class){
+            Random random = new Random();
+            return playerList.get(random.nextInt(playerList.size()));
+        }
+        int depth = 0;
 		List<Square> toDo = new ArrayList<>();
 		Set<Square> visited = new HashSet<>();
-
 		toDo.add(currentLocation);
-
-		while (!toDo.isEmpty()) {
+		while (!toDo.isEmpty() && depth < MAX_DEPTH) {
 			Square square = toDo.remove(0);
-			Unit unit = findUnit(type, square);
+            depth ++;
+            Unit unit = findUnit(type, square);
 			if (unit != null) {
 				return unit;
 			}
