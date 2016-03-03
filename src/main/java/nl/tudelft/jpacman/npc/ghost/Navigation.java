@@ -93,11 +93,11 @@ public final class Navigation {
             Random random = new Random();
             return playerList.get(random.nextInt(playerList.size()));
         }
-        int depth = 0;
+		int depth = 0;
 		List<Square> toDo = new ArrayList<>();
 		Set<Square> visited = new HashSet<>();
 		toDo.add(currentLocation);
-		while (!toDo.isEmpty() && depth < MAX_DEPTH) {
+		while (!toDo.isEmpty() && (playerList.size() == 0 || depth < MAX_DEPTH)) {
 			Square square = toDo.remove(0);
             depth ++;
             Unit unit = findUnit(type, square);

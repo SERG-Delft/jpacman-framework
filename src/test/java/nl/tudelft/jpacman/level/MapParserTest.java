@@ -8,7 +8,9 @@ import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.npc.ghost.Blinky;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
+import nl.tudelft.jpacman.npc.ghost.Navigation;
 import nl.tudelft.jpacman.sprite.PacManSprites;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -81,6 +83,11 @@ public class MapParserTest {
         levelFactory = new LevelFactory(sprites, ghostFactory);
         playerFactory = new PlayerFactory(new PacManSprites());
         mapParser = new MapParser(levelFactory, boardFactory);
+    }
+
+    @After
+    public void tearDown(){
+        Navigation.playerList = new ArrayList<>();
     }
 
     /**
