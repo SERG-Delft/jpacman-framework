@@ -144,7 +144,6 @@ public class Level {
 		if (players.contains(p)) {
 			return;
 		}
-        Navigation.playerList.add(p);
         players.add(p);
 		Square square = startSquares.get(startSquareIndex);
 		p.occupy(square);

@@ -2,6 +2,7 @@ package nl.tudelft.jpacman.level;
 
 import nl.tudelft.jpacman.board.*;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.Navigation;
 
 import java.util.List;
 
@@ -49,6 +50,12 @@ public class InfiniteLevel extends Level {
         if(getInfiniteBoard().isToExtendRight()){
             getInfiniteBoard().addColumnRight(generator.generateSquareLine(getInfiniteBoard().getRightColumn()));
         }
+    }
+
+    @Override
+    public void registerPlayer(Player p){
+        super.registerPlayer(p);
+        Navigation.playerList.add(p);
     }
 
     public InfiniteBoard getInfiniteBoard(){

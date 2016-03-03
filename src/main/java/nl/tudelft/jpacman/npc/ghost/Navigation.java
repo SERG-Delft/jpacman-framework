@@ -48,7 +48,7 @@ public final class Navigation {
 		List<Node> targets = new ArrayList<>();
 		Set<Square> visited = new HashSet<>();
 		targets.add(new Node(null, from, null));
-		while (!targets.isEmpty() && depth < MAX_DEPTH) {
+		while (!targets.isEmpty() && (playerList.size() == 0 || depth < MAX_DEPTH)) {
             depth++;
 			Node n = targets.remove(0);
 			Square s = n.getSquare();
@@ -89,7 +89,7 @@ public final class Navigation {
 	public static Unit findNearest(Class<? extends Unit> type,
 			Square currentLocation) {
 
-        if(type == Player.class){
+        if(type == Player.class && playerList.size() != 0){
             Random random = new Random();
             return playerList.get(random.nextInt(playerList.size()));
         }
