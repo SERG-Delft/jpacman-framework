@@ -3,7 +3,7 @@ package nl.tudelft.jpacman.level;
 import java.util.Map;
 
 import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.board.MobileUnit;
 import nl.tudelft.jpacman.sprite.AnimatedSprite;
 import nl.tudelft.jpacman.sprite.Sprite;
 
@@ -12,7 +12,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * 
  * @author Jeroen Roosen 
  */
-public class Player extends Unit {
+public class Player extends MobileUnit {
 
 	/**
 	 * The amount of points accumulated by this player.

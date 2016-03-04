@@ -1,6 +1,7 @@
 package nl.tudelft.jpacman.npc.ghost;
 
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.MobileUnit;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.MultiGhostPlayerGame;
@@ -60,21 +61,7 @@ public class HunterGhostNPC extends Ghost implements HunterGameModePlayer {
         if(isActive() && new Random().nextInt(10) != 5){
             Square target;
             if (isHunter()) { //TODO get closest between NPC and player
-                //Square closestNPC = Navigation.findNearest(HunterGhostNPC.class, getSquare()).getSquare();
-                Square closestPlayer = Navigation.findNearest(HunterGhostPlayer.class, getSquare()).getSquare();
-                /*if(closestNPC != null) {
-                    if (closestPlayer == null) {
-                        return randomMove();
-                    } else {
-                        target = closestPlayer;
-                    }
-                }else{
-                    if (closestPlayer == null) {
-                        return randomMove();
-                    } else {*/
-                        target = closestPlayer;
-                    /*}
-                }*/
+                target = Navigation.findNearest(MobileUnit.class, getSquare()).getSquare();
             } else {
                 target = Navigation.findNearest(Pellet.class, getSquare()).getSquare();
             }

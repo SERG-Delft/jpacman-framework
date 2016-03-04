@@ -1,14 +1,14 @@
 package nl.tudelft.jpacman.npc;
 
 import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.board.MobileUnit;
 
 /**
  * A non-player unit.
  * 
  * @author Jeroen Roosen 
  */
-public abstract class NPC extends Unit {
+public abstract class NPC extends MobileUnit {
 
 	/**
 	 * The time that should be taken between moves.
