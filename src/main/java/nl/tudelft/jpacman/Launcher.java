@@ -9,11 +9,7 @@ import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.game.GameFactory;
-import nl.tudelft.jpacman.level.Level;
-import nl.tudelft.jpacman.level.LevelFactory;
-import nl.tudelft.jpacman.level.MapParser;
-import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.level.PlayerFactory;
+import nl.tudelft.jpacman.level.*;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.ui.Action;
@@ -33,7 +29,7 @@ public class Launcher {
 	private Game game;
 
 	/**
-	 * @return The game object this launcher will start when {@link #launch()}
+	 * @return The game object this launcher will start when {@link #launch(boolean)}
 	 *         is called.
 	 */
 	public Game getGame() {
@@ -41,27 +37,33 @@ public class Launcher {
 	}
 
 	/**
-	 * Creates a new game using the level from {@link #makeLevel()}.
-	 * 
+	 * Creates a new game using the level from {@link #makeLevel(boolean)}.
+	 *
+	 * @param infinite
+	 * 				true if the level to create is an {@link InfiniteLevel}
 	 * @return a new Game.
 	 */
-	public Game makeGame() {
+	public Game makeGame(boolean infinite) {
 		GameFactory gf = getGameFactory();
-		Level level = makeLevel();
+		Level level = makeLevel(infinite);
 		return gf.createSinglePlayerGame(level);
 	}
 
 	/**
 	 * Creates a new level. By default this method will use the map parser to
 	 * parse the default board stored in the <code>board.txt</code> resource.
-	 * 
+	 *
+	 * @param infinite
+	 * 				true if the level to create is an {@link InfiniteLevel}
 	 * @return A new level.
 	 */
-	public Level makeLevel() {
+	public Level makeLevel(boolean infinite) {
 		MapParser parser = getMapParser();
+        String mapName = "/board.txt";
+        if(infinite) mapName = "/board_infinite";
 		try (InputStream boardStream = Launcher.class
-				.getResourceAsStream("/board.txt")) {
-			return parser.parseMap(boardStream);
+				.getResourceAsStream(mapName)) {
+			return parser.parseMap(boardStream, infinite);
 		} catch (IOException e) {
 			throw new PacmanConfigurationException("Unable to create level.", e);
 		}
@@ -170,9 +172,11 @@ public class Launcher {
 
 	/**
 	 * Creates and starts a JPac-Man game.
+	 * @param infinite
+	 * 				true if the board to create is an {@link nl.tudelft.jpacman.board.InfiniteBoard}
 	 */
-	public void launch() {
-		game = makeGame();
+	public void launch(boolean infinite) {
+		game = makeGame(infinite);
 		PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
 		addSinglePlayerKeys(builder, game);
 		pacManUI = builder.build(game);
@@ -195,6 +199,7 @@ public class Launcher {
 	 *             When a resource could not be read.
 	 */
 	public static void main(String[] args) throws IOException {
-		new Launcher().launch();
+		new Launcher().launch(true);
+//		new Launcher().launchInfinite();
 	}
 }
