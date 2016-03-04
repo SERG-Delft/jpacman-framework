@@ -5,6 +5,9 @@ import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.npc.ghost.Navigation;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Angeall on 02/03/2016.
@@ -39,17 +42,30 @@ public class InfiniteLevel extends Level {
         super.move(unit, direction);
         // We check if the board must be extended or not.
         if(getInfiniteBoard().isToExtendBottom()){
-            getInfiniteBoard().addLineBottom(generator.generateSquareLine(getInfiniteBoard().getBottomLine()));
+            getInfiniteBoard().addLineBottom(generator.generateSquareLine(getInfiniteBoard().getBottomLine(), this));
         }
         if(getInfiniteBoard().isToExtendTop()){
-            getInfiniteBoard().addLineTop(generator.generateSquareLine(getInfiniteBoard().getTopLine()));
+            getInfiniteBoard().addLineTop(generator.generateSquareLine(getInfiniteBoard().getTopLine(), this));
         }
         if(getInfiniteBoard().isToExtendLeft()){
-            getInfiniteBoard().addColumnLeft((generator.generateSquareLine(getInfiniteBoard().getLeftColumn())));
+            getInfiniteBoard().addColumnLeft((generator.generateSquareLine(getInfiniteBoard().getLeftColumn(), this)));
         }
         if(getInfiniteBoard().isToExtendRight()){
-            getInfiniteBoard().addColumnRight(generator.generateSquareLine(getInfiniteBoard().getRightColumn()));
+            getInfiniteBoard().addColumnRight(generator.generateSquareLine(getInfiniteBoard().getRightColumn(), this));
         }
+    }
+
+    public void putNewGhosst(NPC ghost){
+        ScheduledExecutorService service = Executors
+                .newSingleThreadScheduledExecutor();
+        service.schedule(new NpcMoveTask(service, ghost),
+                ghost.getInterval() / 2, TimeUnit.MILLISECONDS);
+        this.npcs.put(ghost, service);
+    }
+
+    public void removeGhost(NPC ghost){
+        this.npcs.get(ghost).shutdownNow();
+        this.npcs.remove(ghost);
     }
 
     @Override

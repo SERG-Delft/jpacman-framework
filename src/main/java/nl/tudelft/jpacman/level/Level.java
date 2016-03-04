@@ -43,7 +43,7 @@ public class Level {
 	/**
 	 * The NPCs of this level and, if they are running, their schedules.
 	 */
-	private final Map<NPC, ScheduledExecutorService> npcs;
+	protected final Map<NPC, ScheduledExecutorService> npcs;
 
 	/**
 	 * <code>true</code> iff this level is currently in progress, i.e. players
@@ -312,7 +312,7 @@ public class Level {
 	 * 
 	 * @author Jeroen Roosen 
 	 */
-	private final class NpcMoveTask implements Runnable {
+	protected final class NpcMoveTask implements Runnable {
 
 		/**
 		 * The service executing the task.
@@ -332,7 +332,7 @@ public class Level {
 		 * @param n
 		 *            The NPC to move.
 		 */
-		private NpcMoveTask(ScheduledExecutorService s, NPC n) {
+		protected NpcMoveTask(ScheduledExecutorService s, NPC n) {
 			this.service = s;
 			this.npc = n;
 		}
