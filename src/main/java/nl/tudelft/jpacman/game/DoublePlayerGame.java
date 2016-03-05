@@ -8,15 +8,37 @@ import nl.tudelft.jpacman.level.Player;
 import java.util.List;
 
 /**
- * Created by francois on 28/02/16.
+ * A game with two players and a single level.
+ *
+ * @author François Marbais
  */
 public class DoublePlayerGame extends Game{
 
+    /**
+     * The player (pacman) of this game.
+     */
     private final Player player;
+
+    /**
+     * The player (ghost) of this game.
+     */
     private final GhostPlayer ghostPlayer;
 
+    /**
+     * The level of this game.
+     */
     private final Level level;
 
+    /**
+     * Create a new single player game for the provided level and player.
+     *
+     * @param p1
+     *            The player(pacman).
+     * @param gp
+     *            The player(ghost).
+     * @param l
+     *            The level.
+     */
     protected DoublePlayerGame(Player p1, GhostPlayer gp, Level l) {
         assert p1 != null;
         assert gp != null;
