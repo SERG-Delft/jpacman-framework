@@ -52,11 +52,12 @@ public class MultiGhostPlayerGame extends Game {
     private int currentHunterIndex = 0;
     private Timer hunterSwitchTimer = new Timer();
     private double[] hunterSwitchProbs = {SWITCH_PROBA_START,SWITCH_PROBA_START,SWITCH_PROBA_START,SWITCH_PROBA_START};
+
     @Override
     void customStart() {
         if(isInProgress()){
             System.out.println("Switching hunter!");
-            //fisrt choose (weighted-)randomly a player
+            //first choose (weighted-)randomly a player
             int bestval = Integer.MIN_VALUE;
             int index = 0;
             for (int i = 0; i < 4; i++) {

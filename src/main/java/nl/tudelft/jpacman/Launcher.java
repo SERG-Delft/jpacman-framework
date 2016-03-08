@@ -67,6 +67,7 @@ public class Launcher {
 				ArrayList<GhostColor> playerColors = new ArrayList<>();
                 playerColors.add(GhostColor.RED);
                 //playerColors.add(GhostColor.CYAN);
+                //playerColors.add(GhostColor.ORANGE);
 				// create game
                 gf = getGameFactory();
                 level = makeLevel("/boardMultiGhost.txt");
