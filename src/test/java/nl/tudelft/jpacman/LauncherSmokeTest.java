@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.game.DoublePlayerGame;
 import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.game.SinglePlayerGame;
 import nl.tudelft.jpacman.level.GhostPlayer;
 import nl.tudelft.jpacman.level.Player;
 
@@ -60,7 +62,7 @@ public class LauncherSmokeTest {
     @Test
     public void smokeTest() throws InterruptedException {
         Game game = launcher.getGame();
-        if(game.getPlayers().size() == 1) {
+        if(game instanceof SinglePlayerGame) {
             Player player = game.getPlayers().get(game.getPlayers().size() - 1);
 
             // start cleanly.
@@ -103,51 +105,43 @@ public class LauncherSmokeTest {
             game.stop();
             assertFalse(game.isInProgress());
         }
-        else{
+        else if(game instanceof DoublePlayerGame){
             Player player = game.getPlayers().get(game.getPlayers().size()-1);
             GhostPlayer ghostplayer = (GhostPlayer)game.getPlayers().get(0);
 
-            // start cleanly.
             assertFalse(game.isInProgress());
             game.start();
             assertTrue(game.isInProgress());
             assertEquals(0, player.getScore());
             assertEquals(0, ghostplayer.getScore());
 
-            // get points
             game.move(player, Direction.EAST);
             game.move(ghostplayer, Direction.EAST);
             assertEquals(10, player.getScore());
             assertEquals(0, ghostplayer.getScore());
 
-            // now moving back does not change the score
             game.move(player, Direction.WEST);
             assertEquals(10, player.getScore());
 
-            // try to move as far as we can
             move(game, Direction.EAST, 7);
             move(game, Direction.EAST, 7, ghostplayer);
             assertEquals(60, player.getScore());
             assertEquals(0, ghostplayer.getScore());
 
-            // move towards the monsters
             move(game, Direction.NORTH, 6);
             assertEquals(120, player.getScore());
 
-            // no more points to earn here.
             move(game, Direction.WEST, 2);
             assertEquals(120, player.getScore());
 
             move(game, Direction.NORTH, 2);
 
-            // Sleeping in tests is generally a bad idea.
-            // Here we do it just to let the monsters move.
             Thread.sleep(500L);
 
-            // we're close to monsters, this will get us killed.
             move(game, Direction.WEST, 10);
             move(game, Direction.EAST, 10);
             assertFalse(player.isAlive());
+            assertTrue(ghostplayer.isAlive());
 
             game.stop();
             assertFalse(game.isInProgress());
