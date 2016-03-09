@@ -160,12 +160,14 @@ public class PacManSprites extends SpriteStore {
 	}
 
 	public Map<Direction, Sprite> getGhostVulSprites() {
-		String resource = "/sprite/ghost_vul_blue.png";
+		String resource = "/sprite/ghost_vul_white.png";
 		return directionSprite(resource, GHOST_ANIMATION_FRAMES);
 	}
 
     public Map<Direction,Sprite> getGhostHunterSprites() {
+		return getPacmanSprites();
+		/*
         String resource = "/sprite/ghost_vul_white.png";
-        return directionSprite(resource, GHOST_ANIMATION_FRAMES);
+        return directionSprite(resource, GHOST_ANIMATION_FRAMES);*/
     }
 }
