@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class MultiGhostPlayerGame extends Game {
 
-    private static final long HUNTER_SWITCH_INTERVAL = 10*1000;
+    private static final long HUNTER_SWITCH_INTERVAL = 5*1000;
     private static final int SWITCH_PROBA_START = 100;
     public static final long PENALTY_TIME = 5000;
     /**
@@ -34,6 +34,7 @@ public class MultiGhostPlayerGame extends Game {
      */
     protected MultiGhostPlayerGame(ArrayList<HunterGhostPlayer> _players, Level l) {
         assert _players != null;
+        assert _players.size() > 0;
         assert l != null;
 
         this.players = _players;
@@ -53,9 +54,20 @@ public class MultiGhostPlayerGame extends Game {
     private Timer hunterSwitchTimer = new Timer();
     private double[] hunterSwitchProbs = {SWITCH_PROBA_START,SWITCH_PROBA_START,SWITCH_PROBA_START,SWITCH_PROBA_START};
 
+    private String prnt(double[] hunterSwitchProbs) {
+        String res = "[";
+        for (double d :
+                hunterSwitchProbs) {
+            res += d + ", ";
+        }
+        return res + "]";
+    }
+    
     @Override
     void customStart() {
+        long interval = HUNTER_SWITCH_INTERVAL + (new Random().nextInt(11) * 1000);
         if(isInProgress()){
+            System.out.println(prnt(hunterSwitchProbs));
             System.out.println("Switching hunter!");
             //first choose (weighted-)randomly a player
             int bestval = Integer.MIN_VALUE;
@@ -80,7 +92,7 @@ public class MultiGhostPlayerGame extends Game {
             public void run() {
                 customStart();
             }
-        }, HUNTER_SWITCH_INTERVAL);
+        }, interval);
     }
 
     private void checkHunterSwitchProbs() {

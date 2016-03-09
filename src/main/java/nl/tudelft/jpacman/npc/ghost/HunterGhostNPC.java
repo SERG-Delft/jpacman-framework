@@ -37,10 +37,10 @@ public class HunterGhostNPC extends Ghost implements HunterGameModePlayer {
     
     private Map<Direction,Sprite> originalsprites;
     private int points = 0;
+    private Square startingPos = null;
 
     public HunterGhostNPC(Map<Direction, Sprite> ghostSprite) {
         super(ghostSprite);
-        System.out.println("hello");
         originalsprites = ghostSprite;
     }
 
@@ -118,7 +118,20 @@ public class HunterGhostNPC extends Ghost implements HunterGameModePlayer {
     }
 
     private void reactive() {
-        setSprites(originalsprites);
+        setHunter(hunter);
         active = true;
     }
+    
+    @Override
+    public void occupy(Square target) {
+        if(startingPos == null){
+            startingPos = getSquare();
+        }
+        if(isActive()) {
+            super.occupy(target);
+        }else{
+            super.occupy(startingPos);
+        }
+    }
+    
 }

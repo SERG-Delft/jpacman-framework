@@ -27,11 +27,7 @@ class PacKeyListener implements KeyListener {
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		assert e != null;
-		Action action = mappings.get(e.getKeyCode());
-		if (action != null) {
-			action.doAction();
-		}
+		//do nothing
 	}
 
 	@Override
@@ -40,7 +36,11 @@ class PacKeyListener implements KeyListener {
 	}
 	
 	@Override
-	public void keyReleased(KeyEvent e) {
-		// do nothing
+	public void keyReleased(KeyEvent e) { //avoids key repetition to spoil the game
+		assert e != null;
+		Action action = mappings.get(e.getKeyCode());
+		if (action != null) {
+			action.doAction();
+		}
 	}
 }

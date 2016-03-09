@@ -1,6 +1,7 @@
 package nl.tudelft.jpacman.level;
 
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.game.MultiGhostPlayerGame;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
 import nl.tudelft.jpacman.sprite.AnimatedSprite;
@@ -21,6 +22,7 @@ public class HunterGhostPlayer extends GhostPlayer implements HunterGameModePlay
     private boolean hunter = false;
     private int value = VALUE_START;
     private boolean active = true;
+    private Square startingPos = null;
 
     /**
      * Creates a new player with a score of 0 points.
@@ -51,7 +53,7 @@ public class HunterGhostPlayer extends GhostPlayer implements HunterGameModePlay
     }
 
     private void reactive() {
-        setSprites(originalsprites);
+        setHunter(hunter);
         active = true;
     }
 
@@ -66,5 +68,17 @@ public class HunterGhostPlayer extends GhostPlayer implements HunterGameModePlay
             setSprites(originalsprites);
         }
         this.hunter = hunter;
+    }
+
+    @Override
+    public void occupy(Square target) {
+        if(startingPos == null){
+            startingPos = getSquare();
+        }
+        if(isActive()) {
+            super.occupy(target);
+        }else{
+            super.occupy(startingPos);
+        }
     }
 }

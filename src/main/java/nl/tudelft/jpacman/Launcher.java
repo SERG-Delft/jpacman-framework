@@ -201,25 +201,25 @@ public class Launcher {
 
 		switch (players.size()){
             case 4:
-                builder.addKey(KeyEvent.VK_UP, () -> game.move(players.get(3), Direction.NORTH)) // P4 gets UpDownLeftRight
-                        .addKey(KeyEvent.VK_DOWN, () -> game.move(players.get(3), Direction.SOUTH))
-                        .addKey(KeyEvent.VK_LEFT, () -> game.move(players.get(3), Direction.WEST))
-                        .addKey(KeyEvent.VK_RIGHT, () -> game.move(players.get(3), Direction.EAST));
-            case 3:
-                builder.addKey(KeyEvent.VK_G, () -> game.move(players.get(2), Direction.NORTH)) //P3 gets GVBN
-                        .addKey(KeyEvent.VK_B, () -> game.move(players.get(2), Direction.SOUTH))
-                        .addKey(KeyEvent.VK_V, () -> game.move(players.get(2), Direction.WEST))
-                        .addKey(KeyEvent.VK_N, () -> game.move(players.get(2), Direction.EAST));
+                builder.addKey(KeyEvent.VK_G, () -> game.move(players.get(3), Direction.NORTH)) //P4 gets GVBN
+                        .addKey(KeyEvent.VK_B, () -> game.move(players.get(3), Direction.SOUTH))
+                        .addKey(KeyEvent.VK_V, () -> game.move(players.get(3), Direction.WEST))
+                        .addKey(KeyEvent.VK_N, () -> game.move(players.get(3), Direction.EAST));
+			case 3:
+				builder.addKey(KeyEvent.VK_O, () -> game.move(players.get(2), Direction.NORTH)) //P3 gets OKLM
+						.addKey(KeyEvent.VK_L, () -> game.move(players.get(2), Direction.SOUTH))
+						.addKey(KeyEvent.VK_K, () -> game.move(players.get(2), Direction.WEST))
+						.addKey(KeyEvent.VK_M, () -> game.move(players.get(2), Direction.EAST));
 			case 2:
-				builder.addKey(KeyEvent.VK_O, () -> game.move(players.get(1), Direction.NORTH)) //P2 gets OKLM
-						.addKey(KeyEvent.VK_L, () -> game.move(players.get(1), Direction.SOUTH))
-						.addKey(KeyEvent.VK_K, () -> game.move(players.get(1), Direction.WEST))
-						.addKey(KeyEvent.VK_M, () -> game.move(players.get(1), Direction.EAST));
+				builder.addKey(KeyEvent.VK_Z, () -> game.move(players.get(1), Direction.NORTH)) //P2 gets ZQSD
+						.addKey(KeyEvent.VK_S, () -> game.move(players.get(1), Direction.SOUTH))
+						.addKey(KeyEvent.VK_Q, () -> game.move(players.get(1), Direction.WEST))
+						.addKey(KeyEvent.VK_D, () -> game.move(players.get(1), Direction.EAST));
 			case 1:
-				builder.addKey(KeyEvent.VK_Z, () -> game.move(players.get(0), Direction.NORTH)) //P1 gets ZQSD
-						.addKey(KeyEvent.VK_S, () -> game.move(players.get(0), Direction.SOUTH))
-						.addKey(KeyEvent.VK_Q, () -> game.move(players.get(0), Direction.WEST))
-						.addKey(KeyEvent.VK_D, () -> game.move(players.get(0), Direction.EAST));
+				builder.addKey(KeyEvent.VK_UP, () -> game.move(players.get(0), Direction.NORTH)) // P1 gets UpDownLeftRight
+						.addKey(KeyEvent.VK_DOWN, () -> game.move(players.get(0), Direction.SOUTH))
+						.addKey(KeyEvent.VK_LEFT, () -> game.move(players.get(0), Direction.WEST))
+						.addKey(KeyEvent.VK_RIGHT, () -> game.move(players.get(0), Direction.EAST));
 				break;
 		}
 
