@@ -30,6 +30,9 @@ import java.util.Queue;
  */
 public class DoubleLinkedListTest {
         public static class OtherTests extends TestCase {
+            /**
+             * Verifies that the head is equals to the tail when the lists only contains one element
+             */
             public void testHeadTail() {
                 DoubleLinkedList<String> linkedList = new DoubleLinkedList<>();
                 linkedList.add("a");
@@ -37,6 +40,9 @@ public class DoubleLinkedListTest {
                 assertEquals("a", linkedList.getTail().getData());
             }
 
+            /**
+             * Verifies that the head and the tail are well updated when removing the first element
+             */
             public void testHeadTailWithRemoveFirst() {
                 DoubleLinkedList<String> linkedList = new DoubleLinkedList<>();
                 linkedList.add("a");
@@ -47,6 +53,9 @@ public class DoubleLinkedListTest {
                 assertEquals("c", linkedList.getTail().getData());
             }
 
+            /**
+             * Verifies that the head and the tail are well updated when removing the last element
+             */
             public void testHeadTailWithRemoveLast() {
                 DoubleLinkedList<String> linkedList = new DoubleLinkedList<>();
                 linkedList.add("a");
@@ -57,6 +66,10 @@ public class DoubleLinkedListTest {
                 assertEquals("b", linkedList.getTail().getData());
             }
 
+            /**
+             * Verifies that the head and the tail are well linked with their next and previous elements when
+             *  something is removed
+             */
             public void testGetNextGetPreviousWithRemove(){
                 DoubleLinkedList<String> linkedList = new DoubleLinkedList<>();
                 linkedList.add("a");
@@ -67,6 +80,9 @@ public class DoubleLinkedListTest {
                 assertEquals("a", linkedList.getTail().getPrevious().getData());
             }
 
+            /**
+             * Verifies that the head and the tail are well updated when removing the head
+             */
             public void testHeadTailWithRemoveOfHead(){
                 DoubleLinkedList<String> linkedList = new DoubleLinkedList<>();
                 linkedList.add("a");
@@ -77,6 +93,9 @@ public class DoubleLinkedListTest {
                 assertEquals(null, linkedList.getHead().getPrevious());
             }
 
+            /**
+             * Verifies that the head and the tail are well updated when removing the tail
+             */
             public void testHeadTailWithRemoveOfTail(){
                 DoubleLinkedList<String> linkedList = new DoubleLinkedList<>();
                 linkedList.add("a");
@@ -87,6 +106,9 @@ public class DoubleLinkedListTest {
                 assertEquals(null, linkedList.getTail().getNext());
             }
 
+            /**
+             * Verifies that the getNodeAt method returns the good node
+             */
             public void testGetTailNode(){
                 DoubleLinkedList<String> linkedList = new DoubleLinkedList<>();
                 linkedList.addLast("a");
