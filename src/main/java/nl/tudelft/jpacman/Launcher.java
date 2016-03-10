@@ -27,17 +27,19 @@ import java.util.Map;
  */
 public class Launcher {
     /* TODO after merging
-     * - change scorepanel to be built by an arraylist of Scorers (new interface to create) to draw score of AI in 
+     * - change scorepanel to be built by an arraylist of Scorers (new interface to create) to draw score of AI in
      *   multiplayer
      * - Maybe rethink logic in LevelFactory (a Game should create his own levels not the opposite)
      */
 	private static final PacManSprites SPRITE_STORE = new PacManSprites();
     public static final int CLASSIC = 1;
     public static final int MULTI_GHOST = 2;
+	public static final int INFINITE_BOARD = 3;
     private static final int MENU = 0;
 
     private PacManUI pacManUI;
 	private Game game;
+	private boolean infinite = false;
 
 	/**
 	 * @return The game object this launcher will start when {@link #launch()}
@@ -68,23 +70,20 @@ public class Launcher {
         if(game != null){
             game.stop();
         }
-        GameFactory gf;
+        infinite = false;
+        GameFactory gf = getGameFactory();
         Level level;
         switch (gameMode){
             case MENU:
-                gf = getGameFactory();
                 level = makeLevel("/menu.txt");
                 game = gf.makeMenu(level);
                 break;
             case CLASSIC:
-                gf = getGameFactory();
                 level = makeLevel("/board.txt");
                 game = gf.createSinglePlayerGame(level);
 				pacManUI.setKeys(getSinglePlayerKeys(game));
-                pacManUI.setGame(game);
                 break;
             case MULTI_GHOST:
-				System.out.println("makeGame");
 				// ask players color
 				ArrayList<GhostColor> playerColors = new ArrayList<>();
                 switch (playerNumber){
@@ -98,16 +97,23 @@ public class Launcher {
                         playerColors.add(GhostColor.RED);
                 }
 				// create game
-                gf = getGameFactory();
                 level = makeLevel("/boardMultiGhost.txt");
 				level.setNPCs(getLevelFactory().createGhosts(GhostColor.getOtherColors(playerColors)));
                 game = gf.createMultiGhostPlayerGame(level, playerColors);
                 pacManUI.setKeys(getMultiGhostPlayerKeys(game));
-                pacManUI.setGame(game);
+                break;
+			case INFINITE_BOARD:
+				infinite = true;
+				level = makeLevel("/board_infinite.txt");
+				game = gf.createSinglePlayerGame(level);
+				pacManUI.setKeys(getSinglePlayerKeys(game));
                 break;
             default:
                 game = null;
                 break;
+        }
+        if(pacManUI != null){
+            pacManUI.setGame(game);
         }
         return game;
     }
@@ -115,7 +121,7 @@ public class Launcher {
 	/**
 	 * Creates a new level. By default this method will use the map parser to
 	 * parse the default board stored in the <code>board.txt</code> resource.
-	 * 
+	 *
      * @param source the filename describing the level
 	 * @return A new level.
 	 */
@@ -131,10 +137,10 @@ public class Launcher {
 
 	/**
 	 * @return A new map parser object using the factories from
-	 *         {@link #getLevelFactory()} and {@link #getBoardFactory()}.
+	 * {@link #getLevelFactory()} and {@link #getBoardFactory()}.
 	 */
 	protected MapParser getMapParser() {
-		return new MapParser(getLevelFactory(), getBoardFactory());
+		return new MapParser(getLevelFactory(), getBoardFactory(), isInfinite());
 	}
 
 	/**
@@ -222,7 +228,7 @@ public class Launcher {
         return ret;
 
 	}
-	
+
 	/**
 	 * Adds key events UP, DOWN, LEFT and RIGHT to a game.
 	 *
@@ -289,5 +295,10 @@ public class Launcher {
 	 */
 	public static void main(String[] args) throws IOException {
 		new Launcher().launch();
+//		new Launcher().launchInfinite();
+	}
+
+	public boolean isInfinite() {
+		return infinite;
 	}
 }

@@ -1,6 +1,5 @@
 package nl.tudelft.jpacman.game;
 
-import nl.tudelft.jpacman.level.GhostPlayer;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.PlayerFactory;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;

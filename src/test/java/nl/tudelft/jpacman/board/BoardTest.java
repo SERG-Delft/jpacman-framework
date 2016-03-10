@@ -1,10 +1,10 @@
 package nl.tudelft.jpacman.board;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 /**
  * Test various aspects of board.
@@ -78,5 +78,16 @@ public class BoardTest {
 	@Test
 	public void verifyX0Y1() {
 		assertEquals(x0y1, board.squareAt(0, 1));
+	}
+
+	/**
+	 * Verifies that the board borders are well defined
+     */
+	@Test
+	public void testWithinBorders() throws Exception {
+		assertFalse(board.withinBorders(2, 2));
+		assertFalse(board.withinBorders(1, 3));
+		assertTrue(board.withinBorders(1, 2));
+		assertTrue(board.withinBorders(1, 0));
 	}
 }

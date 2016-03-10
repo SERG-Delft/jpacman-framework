@@ -1,15 +1,10 @@
 package nl.tudelft.jpacman.level;
 
-import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.game.MultiGhostPlayerGame;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
-import nl.tudelft.jpacman.sprite.AnimatedSprite;
 import nl.tudelft.jpacman.sprite.PacManSprites;
-import nl.tudelft.jpacman.sprite.Sprite;
-import nl.tudelft.jpacman.sprite.SpriteStore;
 
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 

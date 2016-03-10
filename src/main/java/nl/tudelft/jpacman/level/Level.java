@@ -39,7 +39,7 @@ public class Level {
 	/**
 	 * The NPCs of this level and, if they are running, their schedules.
 	 */
-	private final Map<NPC, ScheduledExecutorService> npcs;
+	protected final Map<NPC, ScheduledExecutorService> npcs;
 
 	/**
 	 * <code>true</code> iff this level is currently in progress, i.e. players
@@ -172,7 +172,7 @@ public class Level {
 		assert direction != null;
 
 		if (!isInProgress()) {
-			return;
+            return;
 		}
 
 		synchronized (moveLock) {
@@ -223,7 +223,7 @@ public class Level {
 	/**
 	 * Starts all NPC movement scheduling.
 	 */
-	private void startNPCs() {
+	protected void startNPCs() {
 		for (final NPC npc : npcs.keySet()) {
 			ScheduledExecutorService service = Executors
 					.newSingleThreadScheduledExecutor();
@@ -325,7 +325,7 @@ public class Level {
 	 * 
 	 * @author Jeroen Roosen 
 	 */
-	private final class NpcMoveTask implements Runnable {
+	protected final class NpcMoveTask implements Runnable {
 
 		/**
 		 * The service executing the task.
@@ -345,7 +345,7 @@ public class Level {
 		 * @param n
 		 *            The NPC to move.
 		 */
-		private NpcMoveTask(ScheduledExecutorService s, NPC n) {
+		protected NpcMoveTask(ScheduledExecutorService s, NPC n) {
 			this.service = s;
 			this.npc = n;
 		}

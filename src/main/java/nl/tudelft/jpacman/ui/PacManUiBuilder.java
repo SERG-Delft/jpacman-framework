@@ -1,12 +1,12 @@
 package nl.tudelft.jpacman.ui;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Builder for the JPac-Man UI.
@@ -28,6 +28,7 @@ public class PacManUiBuilder {
 	private static final String START_CAPTION_HUNTER_2P = "Hunter 2P";
 	private static final String START_CAPTION_HUNTER_3P = "Hunter 3P";
 	private static final String START_CAPTION_HUNTER_4P = "Hunter 4P";
+	private static final String START_CAPTION_INFINITE = "Infinite Board";
     private static final int DEFAULT_BUTTONS  = 0;
     private static final int ADVANCED_BUTTONS = 1;
 
@@ -81,14 +82,27 @@ public class PacManUiBuilder {
                 break;
             case ADVANCED_BUTTONS:
                 addStartButton(game);
-                addHunterButtons(game);
+				addinfiniteButton(game);
+				addHunterButtons(game);
                 addStopButton(game);
                 break;
         }
 		return new PacManUI(game, buttons, keyMappings, scoreFormatter);
 	}
 
-    /**
+
+	private void addinfiniteButton(Game game) {
+		assert game != null;
+
+		buttons.put(START_CAPTION_INFINITE, new Action() {
+			@Override
+			public void doAction() {
+				launcher.makeGame(Launcher.INFINITE_BOARD).start();
+			}
+		});
+	}
+
+	/**
      * Adds a button with the caption {@value #STOP_CAPTION} that stops the
      * game.
      *
@@ -210,6 +224,7 @@ public class PacManUiBuilder {
 	public PacManUiBuilder withAdvancedButtons() {
 		buttonsType = ADVANCED_BUTTONS;
 		buttons.put(START_CAPTION, null);
+		buttons.put(START_CAPTION_INFINITE, null);
 		buttons.put(START_CAPTION_HUNTER_1P, null);
 		buttons.put(START_CAPTION_HUNTER_2P, null);
 		buttons.put(START_CAPTION_HUNTER_3P, null);

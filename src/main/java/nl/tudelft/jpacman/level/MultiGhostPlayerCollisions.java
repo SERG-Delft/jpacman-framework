@@ -2,7 +2,6 @@ package nl.tudelft.jpacman.level;
 
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
-import nl.tudelft.jpacman.npc.ghost.HunterGhostNPC;
 
 /**
  * Created by helldog136 on 26/02/16.
