@@ -207,6 +207,15 @@ public class Launcher {
 
 	protected Direction directionPlayer;
 
+
+	/**
+	 * Adds key events UP, DOWN, LEFT and RIGHT to a game for continuous move.
+	 *
+	 * @param builder
+	 *            The {@link PacManUiBuilder} that will provide the UI.
+	 * @param game
+	 *            The game that will process the events.
+	 */
 	protected void addSinglePlayerKeysContinuousMove(final PacManUiBuilder builder,
 													 final Game game) {
 		final Player p1 = getSinglePlayer(game);
@@ -249,12 +258,28 @@ public class Launcher {
 
 	}
 
-	private final class PlayerMoveTask implements Runnable{
+	/**
+	 * A task that moves an player and reschedules itself after it finished.
+	 *
+	 */
+	 private final class PlayerMoveTask implements Runnable{
+
 
 		private final Player player;
 
+		/**
+		 * The service executing the task.
+		 */
 		private final ScheduledExecutorService service;
 
+		/**
+		 * Creates a new task.
+		 *
+		 * @param service
+		 *            The service that executes the task.
+		 * @param player
+		 *            The player to move.
+		 */
 		private PlayerMoveTask(Player player, ScheduledExecutorService service) {
 			this.player = player;
 			this.service = service;
@@ -269,12 +294,27 @@ public class Launcher {
 		}
 	}
 
+	/**
+	 * A task that moves an ghostPlayer and reschedules itself after it finished.
+	 *
+	 */
 	private final class GhostPlayerMoveTask implements Runnable{
 
 		private final  GhostPlayer gp;
 
+		/**
+		 * The service executing the task.
+		 */
 		private final ScheduledExecutorService service;
 
+		/**
+		 * Creates a new task.
+		 *
+		 * @param service
+		 *            The service that executes the task.
+		 * @param gp
+		 *            The ghostplayer to move.
+		 */
 		private GhostPlayerMoveTask(GhostPlayer gp, ScheduledExecutorService service) {
 			this.gp = gp;
 			this.service = service;
@@ -304,9 +344,18 @@ public class Launcher {
 			return false;
 		}
 	}
-
 	protected Direction directionGhostPlayer;
 
+
+	/**
+	 * Adds key events UP, DOWN, LEFT and RIGHT to a double players game with continuous move (for the player).
+	 * Adds key events Q,S,D,Z to a double players game with continuous (for the ghostplayer)
+	 *
+	 * @param builder
+	 *            The {@link PacManUiBuilder} that will provide the UI.
+	 * @param game
+	 *            The game that will process the events.
+	 */
 	protected void addDoublePlayersKeys(final PacManUiBuilder builder,
 									   final Game game){
 
