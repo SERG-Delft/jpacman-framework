@@ -1,6 +1,7 @@
 package nl.tudelft.jpacman.game;
 
 import com.google.common.collect.ImmutableList;
+import nl.tudelft.jpacman.level.DoublePlayersCollisions;
 import nl.tudelft.jpacman.level.GhostPlayer;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Player;
@@ -47,6 +48,7 @@ public class DoublePlayerGame extends Game{
         this.player = p1;
         this.ghostPlayer = gp;
         this.level = l;
+        this.level.setCollisions(new DoublePlayersCollisions());
         level.registerPlayer(gp);
         level.registerPlayer(p1);
     }
@@ -56,7 +58,11 @@ public class DoublePlayerGame extends Game{
             return ImmutableList.of(ghostPlayer, player);
         }
 
-        @Override
+    @Override
+    void customStart() { }
+
+
+    @Override
         public Level getLevel() {
             return level;
         }

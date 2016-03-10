@@ -4,17 +4,13 @@ import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.level.GhostPlayer;
+import nl.tudelft.jpacman.level.Player;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.level.GhostPlayer;
-import nl.tudelft.jpacman.level.Player;
 
 /**
  * Navigation provides utility to nagivate on {@link Square}s.

@@ -1,6 +1,6 @@
 package nl.tudelft.jpacman.sprite;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * Animated sprite, renders the frame depending on the time of requesting the

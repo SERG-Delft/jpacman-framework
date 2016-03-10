@@ -6,6 +6,7 @@ import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.level.Scorer;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -76,7 +77,9 @@ public abstract class Game implements LevelObserver {
 	/**
 	 * @return An immutable list of the participants of this game.
 	 */
-	public abstract List<Scorer> getScorers();
+	public List<Scorer> getScorers(){
+		return Arrays.asList(getPlayers().toArray(new Scorer[getPlayers().size()]));
+	}
 
 	/**
 	 * @return The level currently being played.

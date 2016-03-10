@@ -7,6 +7,8 @@ import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.InfiniteBoard;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.GhostColor;
+import nl.tudelft.jpacman.npc.ghost.Inky;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,16 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
-
-import nl.tudelft.jpacman.PacmanConfigurationException;
-import nl.tudelft.jpacman.board.Board;
-import nl.tudelft.jpacman.board.BoardFactory;
-import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.npc.NPC;
-import nl.tudelft.jpacman.npc.ghost.Ghost;
-import nl.tudelft.jpacman.npc.ghost.GhostColor;
-import nl.tudelft.jpacman.npc.ghost.Inky;
-import nl.tudelft.jpacman.npc.ghost.Pinky;
 
 /**
  * Creates new {@link Level}s from text representations.
@@ -60,6 +52,11 @@ public class MapParser {
      * Boolean true if the level to create has to be an {@link InfiniteLevel}
      */
     private boolean infinite;
+
+    /**
+     * The ghost player color
+     */
+    private GhostColor ghostColor;
 
     /**
 	 * Creates a new map parser.
@@ -186,7 +183,14 @@ public class MapParser {
 			levelCreator.createPellet().occupy(pelletSquare);
 			break;
 		case 'G':
-			Square ghostSquare = makeGhostSquare(ghosts);
+            Square ghostSquare;
+            if(this.ghostColor != null){
+                //TODO : add color
+                ghostSquare = makeGhostSquareDoublePlayers(ghosts, Inky.class, startPositions);
+            }
+            else {
+                ghostSquare = makeGhostSquare(ghosts);
+            }
 			grid[x][y] = ghostSquare;
 			break;
 		case 'P':
@@ -197,37 +201,6 @@ public class MapParser {
 		default:
 			throw new PacmanConfigurationException("Invalid character at "
 					+ x + "," + y + ": " + c);
-		}
-	}
-
-	private void addSquareTwoPlayers(Square[][] grid, List<NPC> ghosts,
-	List<Square> startPositions, int x, int y, char c) {
-		switch (c) {
-			case ' ':
-				grid[x][y] = boardCreator.createGround();
-				break;
-			case '#':
-				grid[x][y] = boardCreator.createWall();
-				break;
-			case '.':
-				Square pelletSquare = boardCreator.createGround();
-				grid[x][y] = pelletSquare;
-				levelCreator.createPellet().occupy(pelletSquare);
-				break;
-			case 'G':
-				Square ghostSquare = makeGhostSquareDoublePlayers(ghosts, Inky.class, startPositions);// a remplacer par le fantome jouer par le joueur 2
-				// passer null pour ne pas retirer de ghost
-				//Square ghostSquare = makeGhostSquare(ghosts);
-				grid[x][y] = ghostSquare;
-				break;
-			case 'P':
-				Square playerSquare = boardCreator.createGround();
-				grid[x][y] = playerSquare;
-				startPositions.add(playerSquare);
-				break;
-			default:
-				throw new PacmanConfigurationException("Invalid character at "
-						+ x + "," + y + ": " + c);
 		}
 	}
 
@@ -385,6 +358,23 @@ public class MapParser {
 	 *             when the source could not be read.
 	 */
 	public Level parseMap(InputStream source) throws IOException {
+        return parseMap(streamToLines(source));
+    }
+
+    /**
+     * Parses the provided input stream as a character stream and passes it
+     * result to {@link #parseMap(List)}. Used for the two players mode
+     *
+     * @param source
+     *            The input stream that will be read.
+     * @param color
+     *            The color of the ghost player
+     * @return The parsed level as represented by the text on the input stream.
+     * @throws IOException
+     *             when the source could not be read.
+     */
+    public Level parseMap(InputStream source, GhostColor color) throws IOException {
+        this.ghostColor = color;
         return parseMap(streamToLines(source));
     }
 

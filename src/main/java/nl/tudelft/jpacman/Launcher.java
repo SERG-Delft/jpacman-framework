@@ -1,21 +1,10 @@
 package nl.tudelft.jpacman;
 
-import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.game.GameFactory;
-import nl.tudelft.jpacman.level.*;
 import nl.tudelft.jpacman.level.*;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
@@ -31,6 +20,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Creates and launches the JPacMan UI.
@@ -53,8 +45,9 @@ public class Launcher {
     private PacManUI pacManUI;
 	private Game game;
 	private boolean infinite = false;
+    private boolean twoPlayers = false;
 
-	/**
+    /**
 	 * @return The game object this launcher will start when {@link #launch()}
 	 *         is called.
 	 */
@@ -84,6 +77,7 @@ public class Launcher {
             game.stop();
         }
         infinite = false;
+        twoPlayers = false;
         GameFactory gf = getGameFactory();
         Level level;
         switch (gameMode){
@@ -122,10 +116,10 @@ public class Launcher {
 				pacManUI.setKeys(getSinglePlayerKeys(game));
                 break;
 			case TWO_PLAYERS:
+                twoPlayers = true;
 				level = makeLevel("/board.txt");
 				game = gf.createDoublePlayersGame(level);
-				pacManUI.setKeys(addDoublePlayersKeys(game));
-				
+				pacManUI.setKeys(getDoublePlayersKeys(game));
 				break;
             default:
                 game = null;
@@ -137,7 +131,7 @@ public class Launcher {
         return game;
     }
 
-	/**
+    /**
 	 * Creates a new level. By default this method will use the map parser to
 	 * parse the default board stored in the <code>board.txt</code> resource.
 	 *
@@ -148,19 +142,23 @@ public class Launcher {
 		MapParser parser = getMapParser();
 		try (InputStream boardStream = Launcher.class
 				.getResourceAsStream(source)) {
+            if(twoPlayers){
+                //TODO : Color
+                return parser.parseMap(boardStream, GhostColor.CYAN);
+            }
 			return parser.parseMap(boardStream);
 		} catch (IOException e) {
 			throw new PacmanConfigurationException("Unable to create level.", e);
 		}
 	}
 
-	/**
-	 * @return A new map parser object using the factories from
-	 * {@link #getLevelFactory()} and {@link #getBoardFactory()}.
-	 */
-	protected MapParser getMapParser() {
-		return new MapParser(getLevelFactory(), getBoardFactory(), isInfinite());
-	}
+    /**
+     * @return A new map parser object using the factories from
+     * {@link #getLevelFactory()} and {@link #getBoardFactory()}.
+     */
+    protected MapParser getMapParser() {
+        return new MapParser(getLevelFactory(), getBoardFactory(), isInfinite());
+    }
 
 	/**
 	 * @return A new board factory using the sprite store from
@@ -328,14 +326,13 @@ public class Launcher {
 	/**
 	 * Adds key events UP, DOWN, LEFT and RIGHT to a game for continuous move.
 	 *
-	 * @param builder
-	 *            The {@link PacManUiBuilder} that will provide the UI.
 	 * @param game
 	 *            The game that will process the events.
 	 */
-	protected void addSinglePlayerKeysContinuousMove(final PacManUiBuilder builder,
+	protected HashMap<Integer, Action> getSinglePlayerKeysContinuousMove(
 													 final Game game) {
-		final Player p1 = getSinglePlayer(game);
+		final Player p1 = game.getPlayers().get(0);
+		HashMap<Integer, Action> res = new HashMap<>();
 
 		ScheduledExecutorService service = Executors
 				.newSingleThreadScheduledExecutor();
@@ -351,7 +348,7 @@ public class Launcher {
 					directionPlayer = Direction.NORTH;
 			}
 		});
-res.put(KeyEvent.VK_DOWN, new Action() {
+		res.put(KeyEvent.VK_DOWN, new Action() {
 
 			@Override
 			public void doAction() {
@@ -359,7 +356,7 @@ res.put(KeyEvent.VK_DOWN, new Action() {
 					directionPlayer = Direction.SOUTH;
 			}
 		});
-res.put(KeyEvent.VK_LEFT, new Action() {
+		res.put(KeyEvent.VK_LEFT, new Action() {
 
 			@Override
 			public void doAction() {
@@ -367,7 +364,7 @@ res.put(KeyEvent.VK_LEFT, new Action() {
 					directionPlayer = Direction.WEST;
 			}
 		});
-res.put(KeyEvent.VK_RIGHT, new Action() {
+		res.put(KeyEvent.VK_RIGHT, new Action() {
 
 			@Override
 			public void doAction() {
@@ -375,10 +372,14 @@ res.put(KeyEvent.VK_RIGHT, new Action() {
 					directionPlayer = Direction.EAST;
 			}
 		});
-
+        return res;
 	}
 
-	/**
+    public boolean isTwoPlayers() {
+        return twoPlayers;
+    }
+
+    /**
 	 * A task that moves an player and reschedules itself after it finished.
 	 *
 	 */
@@ -453,7 +454,7 @@ res.put(KeyEvent.VK_RIGHT, new Action() {
 		Square square = player.getSquare();
 		List<Direction> directions = new ArrayList<>();
 		for (Direction d : Direction.values()) {
-			if (square.getSquareAt(d).isAccessibleTo(getSinglePlayer(game))) {
+			if (square.getSquareAt(d).isAccessibleTo(game.getPlayers().get(0))) {
 				directions.add(d);
 			}
 		}
@@ -471,8 +472,6 @@ res.put(KeyEvent.VK_RIGHT, new Action() {
 	 * Adds key events UP, DOWN, LEFT and RIGHT to a double players game with continuous move (for the player).
 	 * Adds key events Q,S,D,Z to a double players game with continuous (for the ghostplayer)
 	 *
-	 * @param builder
-	 *            The {@link PacManUiBuilder} that will provide the UI.
 	 * @param game
 	 *            The game that will process the events.
 	 */
@@ -502,7 +501,7 @@ res.put(KeyEvent.VK_RIGHT, new Action() {
 					directionPlayer = Direction.NORTH;
 			}
 		});
-res.put(KeyEvent.VK_DOWN, new Action() {
+        res.put(KeyEvent.VK_DOWN, new Action() {
 
 			@Override
 			public void doAction() {
@@ -510,7 +509,7 @@ res.put(KeyEvent.VK_DOWN, new Action() {
 					directionPlayer = Direction.SOUTH;
 			}
 		});
-res.put(KeyEvent.VK_LEFT, new Action() {
+        res.put(KeyEvent.VK_LEFT, new Action() {
 
 			@Override
 			public void doAction() {
@@ -518,7 +517,7 @@ res.put(KeyEvent.VK_LEFT, new Action() {
 					directionPlayer = Direction.WEST;
 			}
 		});
-res.put(KeyEvent.VK_RIGHT, new Action() {
+        res.put(KeyEvent.VK_RIGHT, new Action() {
 
 			@Override
 			public void doAction() {
@@ -536,7 +535,7 @@ res.put(KeyEvent.VK_RIGHT, new Action() {
 					directionGhostPlayer = Direction.NORTH;
 			}
 		});
-res.put(KeyEvent.VK_S, new Action() {
+        res.put(KeyEvent.VK_S, new Action() {
 
 			@Override
 			public void doAction() {
@@ -544,7 +543,7 @@ res.put(KeyEvent.VK_S, new Action() {
 					directionGhostPlayer = Direction.SOUTH;
 			}
 		});
-res.put(KeyEvent.VK_Q, new Action() {
+        res.put(KeyEvent.VK_Q, new Action() {
 
 			@Override
 			public void doAction() {
@@ -552,7 +551,7 @@ res.put(KeyEvent.VK_Q, new Action() {
 					directionGhostPlayer = Direction.WEST;
 			}
 		});
-res.put(KeyEvent.VK_D, new Action() {
+        res.put(KeyEvent.VK_D, new Action() {
 
 			@Override
 			public void doAction() {
@@ -560,5 +559,6 @@ res.put(KeyEvent.VK_D, new Action() {
 					directionGhostPlayer = Direction.EAST;
 			}
 		});
+        return res;
 	}
 }

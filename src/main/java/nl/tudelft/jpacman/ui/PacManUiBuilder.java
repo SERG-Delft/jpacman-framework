@@ -29,6 +29,7 @@ public class PacManUiBuilder {
 	private static final String START_CAPTION_HUNTER_3P = "Hunter 3P";
 	private static final String START_CAPTION_HUNTER_4P = "Hunter 4P";
 	private static final String START_CAPTION_INFINITE = "Infinite Board";
+	private static final String START_CAPTION_TWO_PLAYERS = "Two Player";
     private static final int DEFAULT_BUTTONS  = 0;
     private static final int ADVANCED_BUTTONS = 1;
 
@@ -82,12 +83,24 @@ public class PacManUiBuilder {
                 break;
             case ADVANCED_BUTTONS:
                 addStartButton(game);
+				addTwoPlayersButton(game);
 				addinfiniteButton(game);
 				addHunterButtons(game);
                 addStopButton(game);
                 break;
         }
 		return new PacManUI(game, buttons, keyMappings, scoreFormatter);
+	}
+
+	private void addTwoPlayersButton(Game game) {
+		assert game != null;
+
+		buttons.put(START_CAPTION_TWO_PLAYERS, new Action() {
+			@Override
+			public void doAction() {
+				launcher.makeGame(Launcher.TWO_PLAYERS).start();
+			}
+		});
 	}
 
 
@@ -224,6 +237,7 @@ public class PacManUiBuilder {
 	public PacManUiBuilder withAdvancedButtons() {
 		buttonsType = ADVANCED_BUTTONS;
 		buttons.put(START_CAPTION, null);
+		buttons.put(START_CAPTION_TWO_PLAYERS, null);
 		buttons.put(START_CAPTION_INFINITE, null);
 		buttons.put(START_CAPTION_HUNTER_1P, null);
 		buttons.put(START_CAPTION_HUNTER_2P, null);

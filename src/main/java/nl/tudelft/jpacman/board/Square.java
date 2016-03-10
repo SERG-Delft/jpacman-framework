@@ -1,13 +1,12 @@
 package nl.tudelft.jpacman.board;
 
+import com.google.common.collect.ImmutableList;
+import nl.tudelft.jpacman.sprite.Sprite;
+
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.collect.ImmutableList;
-
-import nl.tudelft.jpacman.sprite.Sprite;
 
 /**
  * A square on a {@link Board}, which can (or cannot, depending on the type) be
