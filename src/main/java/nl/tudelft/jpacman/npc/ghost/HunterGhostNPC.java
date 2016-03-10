@@ -3,13 +3,12 @@ package nl.tudelft.jpacman.npc.ghost;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.MobileUnit;
 import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.MultiGhostPlayerGame;
-import nl.tudelft.jpacman.level.*;
-import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.level.HunterGameModePlayer;
+import nl.tudelft.jpacman.level.Pellet;
+import nl.tudelft.jpacman.level.Scorer;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
-import nl.tudelft.jpacman.sprite.SpriteStore;
 
 import java.util.*;
 

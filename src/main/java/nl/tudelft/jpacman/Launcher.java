@@ -1,15 +1,9 @@
 package nl.tudelft.jpacman;
 
-import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.game.GameFactory;
-import nl.tudelft.jpacman.level.*;
 import nl.tudelft.jpacman.level.*;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
@@ -48,7 +42,7 @@ public class Launcher {
 	private boolean infinite = false;
 
 	/**
-	 * @return The game object this launcher will start when {@link #launch(boolean)}
+	 * @return The game object this launcher will start when {@link #launch()}
 	 *         is called.
 	 */
 	public Game getGame() {
@@ -76,23 +70,20 @@ public class Launcher {
         if(game != null){
             game.stop();
         }
-        GameFactory gf;
+        infinite = false;
+        GameFactory gf = getGameFactory();
         Level level;
         switch (gameMode){
             case MENU:
-                gf = getGameFactory();
                 level = makeLevel("/menu.txt");
                 game = gf.makeMenu(level);
                 break;
             case CLASSIC:
-                gf = getGameFactory();
                 level = makeLevel("/board.txt");
                 game = gf.createSinglePlayerGame(level);
 				pacManUI.setKeys(getSinglePlayerKeys(game));
-                pacManUI.setGame(game);
                 break;
             case MULTI_GHOST:
-				System.out.println("makeGame");
 				// ask players color
 				ArrayList<GhostColor> playerColors = new ArrayList<>();
                 switch (playerNumber){
@@ -106,22 +97,23 @@ public class Launcher {
                         playerColors.add(GhostColor.RED);
                 }
 				// create game
-                gf = getGameFactory();
                 level = makeLevel("/boardMultiGhost.txt");
 				level.setNPCs(getLevelFactory().createGhosts(GhostColor.getOtherColors(playerColors)));
                 game = gf.createMultiGhostPlayerGame(level, playerColors);
                 pacManUI.setKeys(getMultiGhostPlayerKeys(game));
-                pacManUI.setGame(game);
                 break;
 			case INFINITE_BOARD:
 				infinite = true;
-				level = makeLevel("/infinite_board.txt");
+				level = makeLevel("/board_infinite.txt");
 				game = gf.createSinglePlayerGame(level);
 				pacManUI.setKeys(getSinglePlayerKeys(game));
-				pacManUI.setGame(game);
+                break;
             default:
                 game = null;
                 break;
+        }
+        if(pacManUI != null){
+            pacManUI.setGame(game);
         }
         return game;
     }
@@ -141,10 +133,6 @@ public class Launcher {
 		} catch (IOException e) {
 			throw new PacmanConfigurationException("Unable to create level.", e);
 		}
-	}
-
-	public InfiniteLevel makeInfiniteLevel() {
-
 	}
 
 	/**

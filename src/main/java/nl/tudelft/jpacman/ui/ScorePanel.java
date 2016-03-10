@@ -1,14 +1,12 @@
 package nl.tudelft.jpacman.ui;
 
-import java.awt.GridLayout;
+import nl.tudelft.jpacman.level.Scorer;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import nl.tudelft.jpacman.level.Scorer;
 
 /**
  * A panel consisting of a column for each player, with the numbered players on

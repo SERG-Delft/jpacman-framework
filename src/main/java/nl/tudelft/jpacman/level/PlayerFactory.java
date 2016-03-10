@@ -1,8 +1,6 @@
 package nl.tudelft.jpacman.level;
 
-import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
-import nl.tudelft.jpacman.npc.ghost.HunterGhostNPC;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 
 import java.util.ArrayList;
