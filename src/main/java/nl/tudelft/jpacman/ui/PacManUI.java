@@ -85,7 +85,6 @@ public class PacManUI extends JFrame {
         if(getKeyListeners().length > 0) {
             removeKeyListener(getKeyListeners()[0]);
         }
-        System.out.println("attaching new KL");
         PacKeyListener keys = new PacKeyListener(keyMappings);
         addKeyListener(keys);
     }

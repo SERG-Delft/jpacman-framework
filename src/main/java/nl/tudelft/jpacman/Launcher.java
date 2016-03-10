@@ -188,7 +188,6 @@ public class Launcher {
      *            The game that will process the events.
      */
 	protected Map<Integer, Action> getSinglePlayerKeys(final Game game) {
-		System.out.println(game.getPlayers());
 		final Player p1 = game.getPlayers().get(0);
         HashMap<Integer, Action> ret = new HashMap<>();
 
