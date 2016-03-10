@@ -10,16 +10,16 @@ This fork has been developed within the context of the software evolution course
 of Mons (UMONS)
 
 
-#####Initial contributors:
+#Initial contributors:
 
 *	Arie van Deursen (versions 1.0-5.x, 2003-2013)
 *	Jeroen Roosen (major rewrite, version 6.0, 2014)
 
-#####Student contributors:
+#Student contributors:
 
 *   Anthony Rouneau
 *   Duncan De Weireld
-*   François Marbais
+*   Francois Marbais
 
 
 Getting Started
