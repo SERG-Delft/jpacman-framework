@@ -1,11 +1,14 @@
 package nl.tudelft.jpacman.npc.ghost;
 
-import java.util.*;
-
+import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.level.Player;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Navigation provides utility to nagivate on {@link Square}s.
@@ -13,9 +16,6 @@ import nl.tudelft.jpacman.level.Player;
  * @author Jeroen Roosen 
  */
 public final class Navigation {
-
-    private static final int MAX_DEPTH = 42;
-    public static ArrayList<Player> playerList = new ArrayList<>();
 
 	private Navigation() {
 	}
@@ -44,22 +44,21 @@ public final class Navigation {
 		if (from == to) {
 			return new ArrayList<>();
 		}
-        int depth = 0;
+
 		List<Node> targets = new ArrayList<>();
 		Set<Square> visited = new HashSet<>();
 		targets.add(new Node(null, from, null));
-		while (!targets.isEmpty() && (playerList.size() == 0 || depth < MAX_DEPTH)) {
-            depth++;
+		while (!targets.isEmpty()) {
 			Node n = targets.remove(0);
 			Square s = n.getSquare();
-			if (s == to) {
-				List<Direction> path = n.getPath();
-				return path;
-			}
-			visited.add(s);
-			addNewTargets(traveller, targets, visited, n, s);
+                if (s == to) {
+                    List<Direction> path = n.getPath();
+                    return path;
+                }
+                visited.add(s);
+                addNewTargets(traveller, targets, visited, n, s);
 		}
-		return null;
+        return null;
 	}
 
 	private static void addNewTargets(Unit traveller, List<Node> targets,
@@ -67,8 +66,7 @@ public final class Navigation {
 		for (Direction d : Direction.values()) {
 			Square target = s.getSquareAt(d);
 			if (!visited.contains(target)
-					&& (traveller == null || target
-							.isAccessibleTo(traveller))) {
+					&& (traveller == null || target.isAccessibleTo(traveller))) {
 				targets.add(new Node(d, target, n));
 			}
 		}
@@ -88,27 +86,24 @@ public final class Navigation {
 	 */
 	public static Unit findNearest(Class<? extends Unit> type,
 			Square currentLocation) {
-
-        if(type == Player.class && playerList.size() != 0){
-            Random random = new Random();
-            return playerList.get(random.nextInt(playerList.size()));
-        }
-		int depth = 0;
 		List<Square> toDo = new ArrayList<>();
 		Set<Square> visited = new HashSet<>();
+
 		toDo.add(currentLocation);
-		while (!toDo.isEmpty() && (playerList.size() == 0 || depth < MAX_DEPTH)) {
+
+		while (!toDo.isEmpty()) {
 			Square square = toDo.remove(0);
-            depth ++;
-            Unit unit = findUnit(type, square);
-			if (unit != null) {
-				return unit;
-			}
-			visited.add(square);
-			for (Direction d : Direction.values()) {
-				Square newTarget = square.getSquareAt(d);
-				if (!visited.contains(newTarget) && !toDo.contains(newTarget)) {
-					toDo.add(newTarget);
+			if(!(square instanceof BoardFactory.Wall)) {
+				Unit unit = findUnit(type, square);
+				if (unit != null) {
+					return unit;
+				}
+				visited.add(square);
+				for (Direction d : Direction.values()) {
+					Square newTarget = square.getSquareAt(d);
+					if (!(newTarget instanceof BoardFactory.Wall) && !visited.contains(newTarget) && !toDo.contains(newTarget)) {
+						toDo.add(newTarget);
+					}
 				}
 			}
 		}
