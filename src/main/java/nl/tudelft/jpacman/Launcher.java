@@ -1,9 +1,21 @@
 package nl.tudelft.jpacman;
 
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.game.GameFactory;
+import nl.tudelft.jpacman.level.*;
 import nl.tudelft.jpacman.level.*;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
@@ -35,6 +47,7 @@ public class Launcher {
     public static final int CLASSIC = 1;
     public static final int MULTI_GHOST = 2;
 	public static final int INFINITE_BOARD = 3;
+	public static final int TWO_PLAYERS = 4;
     private static final int MENU = 0;
 
     private PacManUI pacManUI;
@@ -108,6 +121,12 @@ public class Launcher {
 				game = gf.createSinglePlayerGame(level);
 				pacManUI.setKeys(getSinglePlayerKeys(game));
                 break;
+			case TWO_PLAYERS:
+				level = makeLevel("/board.txt");
+				game = gf.createDoublePlayersGame(level);
+				pacManUI.setKeys(addDoublePlayersKeys(game));
+				
+				break;
             default:
                 game = null;
                 break;
@@ -287,7 +306,7 @@ public class Launcher {
 
 	/**
 	 * Main execution method for the Launcher.
-	 * 
+	 *
 	 * @param args
 	 *            The command line arguments - which are ignored.
 	 * @throws IOException
@@ -295,10 +314,251 @@ public class Launcher {
 	 */
 	public static void main(String[] args) throws IOException {
 		new Launcher().launch();
-//		new Launcher().launchInfinite();
 	}
 
 	public boolean isInfinite() {
 		return infinite;
+	}
+
+	/* !!!!!!!!!!! NEW FUNCTIONALITY : CONTINUOUS MOVE  !!!!!!!!!!! !! */
+
+	protected Direction directionPlayer;
+
+
+	/**
+	 * Adds key events UP, DOWN, LEFT and RIGHT to a game for continuous move.
+	 *
+	 * @param builder
+	 *            The {@link PacManUiBuilder} that will provide the UI.
+	 * @param game
+	 *            The game that will process the events.
+	 */
+	protected void addSinglePlayerKeysContinuousMove(final PacManUiBuilder builder,
+													 final Game game) {
+		final Player p1 = getSinglePlayer(game);
+
+		ScheduledExecutorService service = Executors
+				.newSingleThreadScheduledExecutor();
+
+		service.schedule(new PlayerMoveTask(p1, service),
+				200, TimeUnit.MILLISECONDS);
+
+		res.put(KeyEvent.VK_UP, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.NORTH, p1))
+					directionPlayer = Direction.NORTH;
+			}
+		});
+res.put(KeyEvent.VK_DOWN, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.SOUTH, p1))
+					directionPlayer = Direction.SOUTH;
+			}
+		});
+res.put(KeyEvent.VK_LEFT, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.WEST, p1))
+					directionPlayer = Direction.WEST;
+			}
+		});
+res.put(KeyEvent.VK_RIGHT, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.EAST, p1))
+					directionPlayer = Direction.EAST;
+			}
+		});
+
+	}
+
+	/**
+	 * A task that moves an player and reschedules itself after it finished.
+	 *
+	 */
+	 private final class PlayerMoveTask implements Runnable{
+
+
+		private final Player player;
+
+		/**
+		 * The service executing the task.
+		 */
+		private final ScheduledExecutorService service;
+
+		/**
+		 * Creates a new task.
+		 *
+		 * @param service
+		 *            The service that executes the task.
+		 * @param player
+		 *            The player to move.
+		 */
+		private PlayerMoveTask(Player player, ScheduledExecutorService service) {
+			this.player = player;
+			this.service = service;
+		}
+
+		@Override
+		public void run() {
+			Direction nextMove = directionPlayer;
+			if(nextMove != null)
+				game.move(player, nextMove);
+			service.schedule(this, 200, TimeUnit.MILLISECONDS);
+		}
+	}
+
+	/**
+	 * A task that moves an ghostPlayer and reschedules itself after it finished.
+	 *
+	 */
+	private final class GhostPlayerMoveTask implements Runnable{
+
+		private final  GhostPlayer gp;
+
+		/**
+		 * The service executing the task.
+		 */
+		private final ScheduledExecutorService service;
+
+		/**
+		 * Creates a new task.
+		 *
+		 * @param service
+		 *            The service that executes the task.
+		 * @param gp
+		 *            The ghostplayer to move.
+		 */
+		private GhostPlayerMoveTask(GhostPlayer gp, ScheduledExecutorService service) {
+			this.gp = gp;
+			this.service = service;
+		}
+
+		@Override
+		public void run() {
+			Direction nextMove = directionGhostPlayer;
+			if(nextMove != null)
+				game.move(gp, nextMove);
+			service.schedule(this, 200, TimeUnit.MILLISECONDS);
+		}
+	}
+
+	boolean isAccessible(Direction direction, Player player){
+		Square square = player.getSquare();
+		List<Direction> directions = new ArrayList<>();
+		for (Direction d : Direction.values()) {
+			if (square.getSquareAt(d).isAccessibleTo(getSinglePlayer(game))) {
+				directions.add(d);
+			}
+		}
+		if (direction != null && directions.contains(direction)) {
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	protected Direction directionGhostPlayer;
+
+
+	/**
+	 * Adds key events UP, DOWN, LEFT and RIGHT to a double players game with continuous move (for the player).
+	 * Adds key events Q,S,D,Z to a double players game with continuous (for the ghostplayer)
+	 *
+	 * @param builder
+	 *            The {@link PacManUiBuilder} that will provide the UI.
+	 * @param game
+	 *            The game that will process the events.
+	 */
+	protected HashMap<Integer, Action> getDoublePlayersKeys(final Game game){
+
+		final Player p = game.getPlayers().get(1);
+		final HashMap<Integer, Action> res = new HashMap<>();
+		final GhostPlayer gp = (GhostPlayer)game.getPlayers().get(0);
+
+		ScheduledExecutorService service1 = Executors
+				.newSingleThreadScheduledExecutor();
+
+		ScheduledExecutorService service2 = Executors
+				.newSingleThreadScheduledExecutor();
+
+		service1.schedule(new PlayerMoveTask(p, service1),
+				200, TimeUnit.MILLISECONDS);
+
+		service2.schedule(new GhostPlayerMoveTask(gp, service2),
+				200, TimeUnit.MILLISECONDS);
+
+		res.put(KeyEvent.VK_UP, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.NORTH, p))
+					directionPlayer = Direction.NORTH;
+			}
+		});
+res.put(KeyEvent.VK_DOWN, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.SOUTH, p))
+					directionPlayer = Direction.SOUTH;
+			}
+		});
+res.put(KeyEvent.VK_LEFT, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.WEST, p))
+					directionPlayer = Direction.WEST;
+			}
+		});
+res.put(KeyEvent.VK_RIGHT, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.EAST, p))
+					directionPlayer = Direction.EAST;
+			}
+		});
+
+
+		res.put(KeyEvent.VK_Z, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.NORTH, gp))
+					directionGhostPlayer = Direction.NORTH;
+			}
+		});
+res.put(KeyEvent.VK_S, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.SOUTH, gp))
+					directionGhostPlayer = Direction.SOUTH;
+			}
+		});
+res.put(KeyEvent.VK_Q, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.WEST, gp))
+					directionGhostPlayer = Direction.WEST;
+			}
+		});
+res.put(KeyEvent.VK_D, new Action() {
+
+			@Override
+			public void doAction() {
+				if(isAccessible(Direction.EAST, gp))
+					directionGhostPlayer = Direction.EAST;
+			}
+		});
 	}
 }

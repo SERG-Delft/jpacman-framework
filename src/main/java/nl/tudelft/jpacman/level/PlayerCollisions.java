@@ -9,7 +9,7 @@ import nl.tudelft.jpacman.npc.ghost.Ghost;
  * It uses a number of instanceof checks to implement the multiple dispatch for the 
  * collisionmap. For more realistic collision maps, this approach will not scale,
  * and the recommended approach is to use a {@link CollisionInteractionMap}.
- * 
+ *
  * @author Arie van Deursen, 2014
  *
  */
@@ -18,7 +18,7 @@ public class PlayerCollisions implements CollisionMap {
 
 	@Override
 	public void collide(Unit mover, Unit collidedOn) {
-		
+
 		if (mover instanceof Player) {
 			playerColliding((Player) mover, collidedOn);
 		}
@@ -36,33 +36,33 @@ public class PlayerCollisions implements CollisionMap {
 			playerVersusPellet(player, (Pellet) collidedOn);
 		}		
 	}
-	
+
 	protected void ghostColliding(Ghost ghost, Unit collidedOn) {
 		if (collidedOn instanceof Player) {
 			playerVersusGhost((Player) collidedOn, ghost);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Actual case of player bumping into ghost or vice versa.
-     *
-     * @param player The player involved in the collision.
-     * @param ghost The ghost involved in the collision.
+	 *
+	 * @param player The player involved in the collision.
+	 * @param ghost The ghost involved in the collision.
 	 */
 	public void playerVersusGhost(Player player, Ghost ghost) {
 		player.setAlive(false);
 	}
-	
+
 	/**
 	 * Actual case of player consuming a pellet.
-     *
-     * @param player The player involved in the collision.
-     * @param pellet The pellet involved in the collision.
+	 *
+	 * @param player The player involved in the collision.
+	 * @param pellet The pellet involved in the collision.
 	 */
 	public void playerVersusPellet(Player player, Pellet pellet) {
 		pellet.leaveSquare();
-		player.addPoints(pellet.getValue());		
+		player.addPoints(pellet.getValue());
 	}
 
 }

@@ -17,6 +17,16 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import nl.tudelft.jpacman.PacmanConfigurationException;
+import nl.tudelft.jpacman.board.Board;
+import nl.tudelft.jpacman.board.BoardFactory;
+import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.npc.ghost.GhostColor;
+import nl.tudelft.jpacman.npc.ghost.Inky;
+import nl.tudelft.jpacman.npc.ghost.Pinky;
+
 /**
  * Creates new {@link Level}s from text representations.
  * 
@@ -190,6 +200,37 @@ public class MapParser {
 		}
 	}
 
+	private void addSquareTwoPlayers(Square[][] grid, List<NPC> ghosts,
+	List<Square> startPositions, int x, int y, char c) {
+		switch (c) {
+			case ' ':
+				grid[x][y] = boardCreator.createGround();
+				break;
+			case '#':
+				grid[x][y] = boardCreator.createWall();
+				break;
+			case '.':
+				Square pelletSquare = boardCreator.createGround();
+				grid[x][y] = pelletSquare;
+				levelCreator.createPellet().occupy(pelletSquare);
+				break;
+			case 'G':
+				Square ghostSquare = makeGhostSquareDoublePlayers(ghosts, Inky.class, startPositions);// a remplacer par le fantome jouer par le joueur 2
+				// passer null pour ne pas retirer de ghost
+				//Square ghostSquare = makeGhostSquare(ghosts);
+				grid[x][y] = ghostSquare;
+				break;
+			case 'P':
+				Square playerSquare = boardCreator.createGround();
+				grid[x][y] = playerSquare;
+				startPositions.add(playerSquare);
+				break;
+			default:
+				throw new PacmanConfigurationException("Invalid character at "
+						+ x + "," + y + ": " + c);
+		}
+	}
+
 	/**
 	 * Add a new square to the grid. Its type depends on c.
 	 * @param grid
@@ -271,6 +312,19 @@ public class MapParser {
         }
 		ghosts.add(ghost);
 		ghost.occupy(ghostSquare);
+		return ghostSquare;
+	}
+
+	private Square makeGhostSquareDoublePlayers(List<NPC> ghosts, Class c, List<Square> startPositions){
+		Square ghostSquare = boardCreator.createGround();
+		NPC ghost = levelCreator.createGhost();
+		if(!(ghost.getClass() == c)) {
+			ghosts.add(ghost);
+			ghost.occupy(ghostSquare);
+		}
+		else{
+			startPositions.add(ghostSquare);
+		}
 		return ghostSquare;
 	}
 

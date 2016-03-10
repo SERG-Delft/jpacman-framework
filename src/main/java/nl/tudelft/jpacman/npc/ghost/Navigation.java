@@ -10,6 +10,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.level.GhostPlayer;
+import nl.tudelft.jpacman.level.Player;
+
 /**
  * Navigation provides utility to nagivate on {@link Square}s.
  * 
@@ -95,7 +101,11 @@ public final class Navigation {
 			Square square = toDo.remove(0);
 			if(!(square instanceof BoardFactory.Wall)) {
 				Unit unit = findUnit(type, square);
-				if (unit != null) {
+				if(type == Player.class){
+					if(unit!= null && !(unit instanceof GhostPlayer))
+						return unit;
+				}
+				else if (unit != null) {
 					return unit;
 				}
 				visited.add(square);

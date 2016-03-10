@@ -106,7 +106,7 @@ public class Inky extends Ghost {
 			return d;
 		}
 
-		Unit player = Navigation.findNearest(Player.class, getSquare());
+		Unit player =Navigation.findNearest(Player.class, getSquare());
 		if (player == null) {
 			Direction d = randomMove();
 			return d;
