@@ -4,8 +4,6 @@ import nl.tudelft.jpacman.sprite.PacManSprites;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 
 /**
@@ -14,22 +12,32 @@ import static org.junit.Assert.*;
 public class InfiniteBoardTest {
     InfiniteBoard board;
     BoardFactory boardFactory = new BoardFactory(new PacManSprites());;
-    Square s0_0 = new BasicSquare();
-    Square s0_1 = new BasicSquare();
-    Square s0_2 = new BasicSquare();
-    Square s1_0 = new BasicSquare();
-    Square s1_1 = new BasicSquare();
-    Square s1_2 = new BasicSquare();
-    Square s2_0 = new BasicSquare();
-    Square s2_1 = new BasicSquare();
-    Square s2_2 = new BasicSquare();
-    Square[][] grid = new Square[][]{{s0_0, s0_1, s0_2}, {s1_0, s1_1, s1_2}, {s2_0, s2_1, s2_2}};
+    Square s0_0;
+    Square s0_1;
+    Square s0_2;
+    Square s1_0;
+    Square s1_1;
+    Square s1_2;
+    Square s2_0;
+    Square s2_1;
+    Square s2_2;
+    Square[][] grid;
 
     /**
      * The board is cleared before each test
      */
     @Before
     public void setUp(){
+        s0_0 = new BasicSquare();
+        s0_1 = new BasicSquare();
+        s0_2 = new BasicSquare();
+        s1_0 = new BasicSquare();
+        s1_1 = new BasicSquare();
+        s1_2 = new BasicSquare();
+        s2_0 = new BasicSquare();
+        s2_1 = new BasicSquare();
+        s2_2 = new BasicSquare();
+        grid = new Square[][]{{s0_0, s0_1, s0_2}, {s1_0, s1_1, s1_2}, {s2_0, s2_1, s2_2}};
         board = boardFactory.createInfiniteBoard(grid);
     }
 
@@ -65,8 +73,44 @@ public class InfiniteBoardTest {
         assertEquals(s1_1, s2_1.getSquareAt(Direction.WEST));
         assertEquals(s2_2, s1_2.getSquareAt(Direction.EAST));
         assertEquals(s0_0, s1_0.getSquareAt(Direction.WEST));
-        assertEquals(null, s2_1.getSquareAt(Direction.EAST));
-        assertEquals(null, s0_0.getSquareAt(Direction.WEST));
+        assertEquals(s2_1, s1_1.getSquareAt(Direction.EAST));
+        assertEquals(s0_1, s1_1.getSquareAt(Direction.WEST));
+        assertEquals(s1_2, s0_2.getSquareAt(Direction.EAST));
+        assertEquals(s1_0, s2_0.getSquareAt(Direction.WEST));
+        assertEquals(s1_2, s2_2.getSquareAt(Direction.WEST));
+        assertEquals(s1_0, s0_0.getSquareAt(Direction.EAST));
+
+        assertTrue(s2_1.getSquareAt(Direction.EAST) instanceof BoardFactory.Wall);
+        assertTrue(s2_2.getSquareAt(Direction.EAST) instanceof BoardFactory.Wall);
+        assertTrue(s2_0.getSquareAt(Direction.EAST) instanceof BoardFactory.Wall);
+        assertTrue(s0_0.getSquareAt(Direction.WEST) instanceof BoardFactory.Wall);
+        assertTrue(s0_1.getSquareAt(Direction.WEST) instanceof BoardFactory.Wall);
+        assertTrue(s0_2.getSquareAt(Direction.WEST) instanceof BoardFactory.Wall);
+    }
+
+    /**
+     * Test if the squares are well linked to one another
+     */
+    @Test
+    public void testVerticalLinks() throws Exception {
+        assertEquals(s0_0, s0_1.getSquareAt(Direction.NORTH));
+        assertEquals(s0_1, s0_2.getSquareAt(Direction.NORTH));
+        assertEquals(s0_2, s0_1.getSquareAt(Direction.SOUTH));
+        assertEquals(s0_1, s0_0.getSquareAt(Direction.SOUTH));
+        assertEquals(s1_0, s1_1.getSquareAt(Direction.NORTH));
+        assertEquals(s1_1, s1_2.getSquareAt(Direction.NORTH));
+        assertEquals(s1_2, s1_1.getSquareAt(Direction.SOUTH));
+        assertEquals(s1_1, s1_0.getSquareAt(Direction.SOUTH));
+        assertEquals(s2_0, s2_1.getSquareAt(Direction.NORTH));
+        assertEquals(s2_1, s2_2.getSquareAt(Direction.NORTH));
+        assertEquals(s2_2, s2_1.getSquareAt(Direction.SOUTH));
+        assertEquals(s2_1, s2_0.getSquareAt(Direction.SOUTH));
+        assertTrue(s0_0.getSquareAt(Direction.NORTH) instanceof BoardFactory.Wall);
+        assertTrue(s1_0.getSquareAt(Direction.NORTH) instanceof BoardFactory.Wall);
+        assertTrue(s2_0.getSquareAt(Direction.NORTH) instanceof BoardFactory.Wall);
+        assertTrue(s2_2.getSquareAt(Direction.SOUTH) instanceof BoardFactory.Wall);
+        assertTrue(s1_2.getSquareAt(Direction.SOUTH) instanceof BoardFactory.Wall);
+        assertTrue(s0_2.getSquareAt(Direction.SOUTH) instanceof BoardFactory.Wall);
     }
 
     /**
@@ -482,6 +526,9 @@ public class InfiniteBoardTest {
         assertArrayEquals(column, board.getLeftColumn().toArray());
     }
 
+    /**
+     * Verifies that the right column is returned
+     */
     @Test
     public void testGetRightColumn() throws Exception {
         Square s3_0 = new BasicSquare();
@@ -492,6 +539,9 @@ public class InfiniteBoardTest {
         assertArrayEquals(column, board.getRightColumn().toArray());
     }
 
+    /**
+     * Verifies that the bottom line is returned
+     */
     @Test
     public void testGetBottomLine() throws Exception {
         Square s0_3 = new BasicSquare();
@@ -502,6 +552,9 @@ public class InfiniteBoardTest {
         assertArrayEquals(line, board.getBottomLine().toArray());
     }
 
+    /**
+     * Verifies that the top line is returned
+     */
     @Test
     public void testGetTopLine() throws Exception {
         Square s0_00 = new BasicSquare();
@@ -510,5 +563,282 @@ public class InfiniteBoardTest {
         Square[] line = new Square[]{s0_00, s1_00, s2_00};
         board.addLineTop(line);
         assertArrayEquals(line, board.getTopLine().toArray());
+    }
+
+    /**
+     * Verifies that a grid can be inserted to the right of the board
+     */
+    @Test
+    public void testAddGridRight() throws Exception {
+        Square[][] grid2 = {{s0_0, s0_1}, {s1_0, s1_1}};
+        InfiniteBoard board2 = boardFactory.createInfiniteBoard(grid2);
+        Square s3_0 = new BasicSquare();
+        Square s3_1 = new BasicSquare();
+        Square[][] grid3 = {{s2_0, s2_1}, {s3_0, s3_1}};
+        board2.addGridRight(grid3);
+        assertEquals(s1_0, s2_0.getSquareAt(Direction.WEST));
+        assertEquals(s1_1, s2_1.getSquareAt(Direction.WEST));
+        assertEquals(s2_1, s1_1.getSquareAt(Direction.EAST));
+        assertEquals(s2_0, s1_0.getSquareAt(Direction.EAST));
+        assertEquals(s2_0, s3_0.getSquareAt(Direction.WEST));
+        assertEquals(s2_1, s3_1.getSquareAt(Direction.WEST));
+        assertEquals(s2_0, s2_1.getSquareAt(Direction.NORTH));
+        assertEquals(s3_0, s3_1.getSquareAt(Direction.NORTH));
+        assertEquals(s3_1, s3_0.getSquareAt(Direction.SOUTH));
+        assertEquals(s2_1, s2_0.getSquareAt(Direction.SOUTH));
+        assertTrue(s3_0.getSquareAt(Direction.NORTH) instanceof BoardFactory.Wall);
+        assertTrue(s3_0.getSquareAt(Direction.EAST) instanceof BoardFactory.Wall);
+        assertTrue(s0_0.getSquareAt(Direction.WEST) instanceof BoardFactory.Wall);
+        assertTrue(s0_1.getSquareAt(Direction.SOUTH) instanceof BoardFactory.Wall);
+        assertTrue(s2_1.getSquareAt(Direction.SOUTH) instanceof BoardFactory.Wall);
+    }
+
+    /**
+     * Verifies that a grid can be inserted to the left of the board
+     */
+    @Test
+    public void testAddGridLeft() throws Exception {
+        Square[][] grid2 = {{s1_0, s1_1}, {s2_0, s2_1}};
+        InfiniteBoard board2 = boardFactory.createInfiniteBoard(grid2);
+        Square s00_0 = new BasicSquare();
+        Square s00_1 = new BasicSquare();
+        Square[][] grid3 = {{s00_0, s00_1}, {s0_0, s0_1}};
+        board2.addGridLeft(grid3);
+        assertEquals(s00_0, s0_0.getSquareAt(Direction.WEST));
+        assertEquals(s00_1, s0_1.getSquareAt(Direction.WEST));
+        assertEquals(s0_1, s00_1.getSquareAt(Direction.EAST));
+        assertEquals(s0_0, s00_0.getSquareAt(Direction.EAST));
+        assertEquals(s0_0, s1_0.getSquareAt(Direction.WEST));
+        assertEquals(s0_1, s1_1.getSquareAt(Direction.WEST));
+        assertEquals(s0_0, s0_1.getSquareAt(Direction.NORTH));
+        assertEquals(s1_0, s1_1.getSquareAt(Direction.NORTH));
+        assertEquals(s1_1, s1_0.getSquareAt(Direction.SOUTH));
+        assertEquals(s0_1, s0_0.getSquareAt(Direction.SOUTH));
+        assertTrue(s1_0.getSquareAt(Direction.NORTH) instanceof BoardFactory.Wall);
+        assertTrue(s2_0.getSquareAt(Direction.EAST) instanceof BoardFactory.Wall);
+        assertTrue(s00_0.getSquareAt(Direction.WEST) instanceof BoardFactory.Wall);
+        assertTrue(s00_1.getSquareAt(Direction.SOUTH) instanceof BoardFactory.Wall);
+        assertTrue(s2_1.getSquareAt(Direction.SOUTH) instanceof BoardFactory.Wall);
+    }
+
+    /**
+     * Verifies that a grid can be inserted to the top of the board
+     */
+    @Test
+    public void testAddGridTop() throws Exception {
+        Square[][] grid2 = {{s0_1, s0_2}, {s1_1, s1_2}};
+        InfiniteBoard board2 = boardFactory.createInfiniteBoard(grid2);
+        Square s0_00 = new BasicSquare();
+        Square s1_00 = new BasicSquare();
+        Square[][] grid3 = {{s0_00, s0_0}, {s1_00, s1_0}};
+        board2.addGridTop(grid3);
+        assertEquals(s0_00, s1_00.getSquareAt(Direction.WEST));
+        assertEquals(s0_0, s1_0.getSquareAt(Direction.WEST));
+        assertEquals(s1_00, s0_00.getSquareAt(Direction.EAST));
+        assertEquals(s1_0, s0_0.getSquareAt(Direction.EAST));
+        assertEquals(s0_0, s0_00.getSquareAt(Direction.SOUTH));
+        assertEquals(s1_0, s1_00.getSquareAt(Direction.SOUTH));
+        assertEquals(s1_00, s1_0.getSquareAt(Direction.NORTH));
+        assertEquals(s0_00, s0_0.getSquareAt(Direction.NORTH));
+        assertTrue(s0_00.getSquareAt(Direction.NORTH) instanceof BoardFactory.Wall);
+        assertTrue(s1_00.getSquareAt(Direction.NORTH) instanceof BoardFactory.Wall);
+        assertTrue(s0_00.getSquareAt(Direction.WEST) instanceof BoardFactory.Wall);
+        assertTrue(s1_00.getSquareAt(Direction.EAST) instanceof BoardFactory.Wall);
+        assertTrue(s0_0.getSquareAt(Direction.WEST) instanceof BoardFactory.Wall);
+        assertTrue(s1_0.getSquareAt(Direction.EAST) instanceof BoardFactory.Wall);
+    }
+
+    /**
+     * Verifies that a grid can be inserted to the bottom of the board
+     */
+    @Test
+    public void testAddGridBottom() throws Exception {
+        Square[][] grid2 = {{s0_0, s0_1}, {s1_0, s1_1}};
+        InfiniteBoard board2 = boardFactory.createInfiniteBoard(grid2);
+        Square s0_3 = new BasicSquare();
+        Square s1_3 = new BasicSquare();
+        Square[][] grid3 = {{s0_2, s0_3}, {s1_2, s1_3}};
+        board2.addGridBottom(grid3);
+        assertEquals(s0_2, s1_2.getSquareAt(Direction.WEST));
+        assertEquals(s0_3, s1_3.getSquareAt(Direction.WEST));
+        assertEquals(s1_2, s0_2.getSquareAt(Direction.EAST));
+        assertEquals(s1_2, s0_2.getSquareAt(Direction.EAST));
+        assertEquals(s0_3, s0_2.getSquareAt(Direction.SOUTH));
+        assertEquals(s1_3, s1_2.getSquareAt(Direction.SOUTH));
+        assertEquals(s1_2, s1_3.getSquareAt(Direction.NORTH));
+        assertEquals(s0_2, s0_3.getSquareAt(Direction.NORTH));
+        assertTrue(s0_3.getSquareAt(Direction.SOUTH) instanceof BoardFactory.Wall);
+        assertTrue(s1_3.getSquareAt(Direction.SOUTH) instanceof BoardFactory.Wall);
+        assertTrue(s0_3.getSquareAt(Direction.WEST) instanceof BoardFactory.Wall);
+        assertTrue(s1_3.getSquareAt(Direction.EAST) instanceof BoardFactory.Wall);
+        assertTrue(s0_2.getSquareAt(Direction.WEST) instanceof BoardFactory.Wall);
+        assertTrue(s1_2.getSquareAt(Direction.EAST) instanceof BoardFactory.Wall);
+    }
+
+    /**
+     * Verifies that the visible part of the board can be updated to the bottom if needed
+     */
+    @Test
+    public void testMoveDownVisible() throws Exception {
+        Square[][] grid2 = {{s0_0, s0_1}, {s1_0, s1_1}};
+        InfiniteBoard board2 = boardFactory.createInfiniteBoard(grid2);
+        Square s0_3 = new BasicSquare();
+        Square s1_3 = new BasicSquare();
+        Square[][] grid3 = {{s0_2, s0_3}, {s1_2, s1_3}};
+        board2.addGridBottom(grid3);
+        assertEquals(s0_0, board2.squareAt(0, 0));
+        assertEquals(s0_1, board2.squareAt(0, 1));
+        board2.moveDownVisible();
+        assertEquals(s0_1, board2.squareAt(0, 0));
+        assertEquals(s0_2, board2.squareAt(0, 1));
+        board2.moveDownVisible();
+        assertEquals(s0_2, board2.squareAt(0, 0));
+        assertEquals(s0_3, board2.squareAt(0, 1));
+    }
+
+    /**
+     * Verifies that the visible part of the board can be updated to the top if needed
+     */
+    @Test
+    public void testMoveUpVisible() throws Exception {
+        Square[][] grid2 = {{s0_1, s0_2}, {s1_1, s1_2}};
+        InfiniteBoard board2 = boardFactory.createInfiniteBoard(grid2);
+        Square s0_00 = new BasicSquare();
+        Square s1_00 = new BasicSquare();
+        Square[][] grid3 = {{s0_00, s0_0}, {s1_00, s1_0}};
+        board2.addGridTop(grid3);
+        assertEquals(s0_1, board2.squareAt(0, 0));
+        assertEquals(s0_2, board2.squareAt(0, 1));
+        board2.moveUpVisible();
+        assertEquals(s0_0, board2.squareAt(0, 0));
+        assertEquals(s0_1, board2.squareAt(0, 1));
+        board2.moveUpVisible();
+        assertEquals(s0_00, board2.squareAt(0, 0));
+        assertEquals(s0_0, board2.squareAt(0, 1));
+    }
+
+    /**
+     * Verifies that the visible part of the board can be updated to the left if needed
+     */
+    @Test
+    public void testMoveLeftVisible() throws Exception {
+        Square[][] grid2 = {{s1_0, s1_1}, {s2_0, s2_1}};
+        InfiniteBoard board2 = boardFactory.createInfiniteBoard(grid2);
+        Square s00_0 = new BasicSquare();
+        Square s00_1 = new BasicSquare();
+        Square[][] grid3 = {{s00_0, s00_1}, {s0_0, s0_1}};
+        board2.addGridLeft(grid3);
+        assertEquals(s1_0, board2.squareAt(0, 0));
+        assertEquals(s2_0, board2.squareAt(1, 0));
+        board2.moveLeftVisible();
+        assertEquals(s0_0, board2.squareAt(0, 0));
+        assertEquals(s1_0, board2.squareAt(1, 0));
+        board2.moveLeftVisible();
+        assertEquals(s00_0, board2.squareAt(0, 0));
+        assertEquals(s0_0, board2.squareAt(1, 0));
+    }
+
+    /**
+     * Verifies that the visible part of the board can be updated to the right if needed
+     */
+    @Test
+    public void testMoveRightVisible() throws Exception {
+        Square[][] grid2 = {{s0_0, s0_1}, {s1_0, s1_1}};
+        InfiniteBoard board2 = boardFactory.createInfiniteBoard(grid2);
+        Square s3_0 = new BasicSquare();
+        Square s3_1 = new BasicSquare();
+        Square[][] grid3 = {{s2_0, s2_1}, {s3_0, s3_1}};
+        board2.addGridRight(grid3);
+        assertEquals(s0_0, board2.squareAt(0, 0));
+        assertEquals(s1_0, board2.squareAt(1, 0));
+        board2.moveRightVisible();
+        assertEquals(s1_0, board2.squareAt(0, 0));
+        assertEquals(s2_0, board2.squareAt(1, 0));
+        board2.moveRightVisible();
+        assertEquals(s2_0, board2.squareAt(0, 0));
+        assertEquals(s3_0, board2.squareAt(1, 0));
+    }
+
+    @Test
+    public void testIsToExtendLeft() throws Exception {
+
+    }
+
+    @Test
+    public void testIsToExtendRight() throws Exception {
+
+    }
+
+    @Test
+    public void testIsToExtendTop() throws Exception {
+
+    }
+
+    @Test
+    public void testIsToExtendBottom() throws Exception {
+
+    }
+
+    /**
+     * Tests if the total width of the board is well updated after adding a grid to the left of the board
+     */
+    @Test
+    public void testGetCurrentWidthLeft() throws Exception {
+        Square[][] grid2 = {{s1_0, s1_1}, {s2_0, s2_1}};
+        InfiniteBoard board2 = boardFactory.createInfiniteBoard(grid2);
+        assertEquals(2, board2.getCurrentWidth());
+        Square s00_0 = new BasicSquare();
+        Square s00_1 = new BasicSquare();
+        Square[][] grid3 = {{s00_0, s00_1}, {s0_0, s0_1}};
+        board2.addGridLeft(grid3);
+        assertEquals(4, board2.getCurrentWidth());
+    }
+
+    /**
+     * Tests if the total width of the board is well updated after adding a grid to the right of the board
+     */
+    @Test
+    public void testGetCurrentWidthRight() throws Exception {
+        Square[][] grid2 = {{s0_0, s0_1}, {s1_0, s1_1}};
+        InfiniteBoard board2 = boardFactory.createInfiniteBoard(grid2);
+        assertEquals(2, board2.getCurrentWidth());
+        Square s3_0 = new BasicSquare();
+        Square s3_1 = new BasicSquare();
+        Square[][] grid3 = {{s2_0, s2_1}, {s3_0, s3_1}};
+        board2.addGridRight(grid3);
+        assertEquals(4, board2.getCurrentWidth());
+        assertEquals(2, board2.getCurrentHeight());
+    }
+
+    /**
+     * Tests if the total height of the board is well updated after adding a grid to the top of the board
+     */
+    @Test
+    public void testGetCurrentHeightTop() throws Exception {
+        Square[][] grid2 = {{s0_1, s0_2}, {s1_1, s1_2}};
+        InfiniteBoard board2 = boardFactory.createInfiniteBoard(grid2);
+        assertEquals(2, board2.getCurrentHeight());
+        Square s0_00 = new BasicSquare();
+        Square s1_00 = new BasicSquare();
+        Square[][] grid3 = {{s0_00, s0_0}, {s1_00, s1_0}};
+        board2.addGridTop(grid3);
+        assertEquals(4, board2.getCurrentHeight());
+        assertEquals(2, board2.getCurrentWidth());
+    }
+
+    /**
+     * Tests if the total height of the board is well updated after adding a grid to the bottom of the board
+     */
+    @Test
+    public void testGetCurrentHeightBottom() throws Exception {
+        Square[][] grid2 = {{s0_0, s0_1}, {s1_0, s1_1}};
+        InfiniteBoard board2 = boardFactory.createInfiniteBoard(grid2);
+        assertEquals(2, board2.getCurrentHeight());
+        Square s0_3 = new BasicSquare();
+        Square s1_3 = new BasicSquare();
+        Square[][] grid3 = {{s0_2, s0_3}, {s1_2, s1_3}};
+        board2.addGridBottom(grid3);
+        assertEquals(4, board2.getCurrentHeight());
+        assertEquals(2, board2.getCurrentWidth());
     }
 }

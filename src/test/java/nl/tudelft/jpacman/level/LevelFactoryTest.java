@@ -9,7 +9,8 @@ import nl.tudelft.jpacman.sprite.PacManSprites;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -104,8 +105,6 @@ public class LevelFactoryTest {
         assertTrue(clyde instanceof Clyde);
         blinky = levelFactory.createGhost();
         assertTrue(blinky instanceof Blinky);
-        inky = levelFactory.createGhost();
-        assertFalse(inky instanceof Blinky);
     }
 
     /**
@@ -115,5 +114,22 @@ public class LevelFactoryTest {
     public void testCreatePellet() throws Exception {
         Pellet pellet = levelFactory.createPellet();
         assertEquals(LevelFactory.PELLET_VALUE, pellet.getValue());
+    }
+
+    /**
+     * Verifies that the {@link Inky} type of ghost is not instantiated for the infinite boards.
+     */
+    @Test
+    public void testCreateGhostForInfiniteBoard() throws Exception {
+        NPC blinky = levelFactory.createGhostForInfiniteBoard();
+        assertTrue(blinky instanceof Blinky);
+        NPC inky = levelFactory.createGhostForInfiniteBoard();
+        assertTrue(inky instanceof Pinky);
+        NPC pinky = levelFactory.createGhostForInfiniteBoard();
+        assertTrue(pinky instanceof Pinky);
+        NPC clyde = levelFactory.createGhostForInfiniteBoard();
+        assertTrue(clyde instanceof Clyde);
+        blinky = levelFactory.createGhostForInfiniteBoard();
+        assertTrue(blinky instanceof Blinky);
     }
 }

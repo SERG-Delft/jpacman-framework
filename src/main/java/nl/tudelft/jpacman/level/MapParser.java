@@ -1,10 +1,6 @@
 package nl.tudelft.jpacman.level;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
+import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.PacmanConfigurationException;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.BoardFactory;
@@ -12,13 +8,29 @@ import nl.tudelft.jpacman.board.InfiniteBoard;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.logging.Logger;
+
 /**
  * Creates new {@link Level}s from text representations.
  * 
  * @author Jeroen Roosen 
  */
 public class MapParser {
-
+    /**
+     * The sum of all probability for generating squares into a new map
+     */
+	private static final int PROCEDURAL_TOTAL_PROBABILITY = 1000;
+    /**
+     * The probability, on PROCEDURAL_TOTAL_PROBABILITY to put a ghost on a generated square
+     */
+	private static final int PROCEDURAL_GHOST_PROBABILITY = 3;
 	/**
 	 * The factory that creates the levels.
 	 */
@@ -34,7 +46,12 @@ public class MapParser {
 	 */
 	private final Random randomizer = new Random();
 
-	/**
+    /**
+     * Boolean true if the level to create has to be an {@link InfiniteLevel}
+     */
+    private boolean infinite;
+
+    /**
 	 * Creates a new map parser.
 	 * 
 	 * @param levelFactory
@@ -42,9 +59,10 @@ public class MapParser {
 	 * @param boardFactory
 	 *            The factory providing the Square objects and the board.
 	 */
-	public MapParser(LevelFactory levelFactory, BoardFactory boardFactory) {
+	public MapParser(LevelFactory levelFactory, BoardFactory boardFactory, boolean infinite) {
 		this.levelCreator = levelFactory;
 		this.boardCreator = boardFactory;
+        this.infinite = infinite;
 	}
 
 	/**
@@ -62,11 +80,9 @@ public class MapParser {
 	 * @param map
 	 *            The text representation of the board, with map[x][y]
 	 *            representing the square at position x,y.
-	 * @param infinite
-	 * 			  true if the level to create has to be an {@link InfiniteLevel}
 	 * @return The level as represented by this text.
 	 */
-	public Level parseMap(char[][] map, boolean infinite) {
+	public Level parseMap(char[][] map) {
 		int width = map.length;
 		int height = map[0].length;
 
@@ -112,15 +128,15 @@ public class MapParser {
 
 	/**
 	 * Construct a grid with the characters map. This grid is made to add to an {@link InfiniteBoard}
-	 * 	using the {@link SquareLineGenerator}
+	 * 	using the {@link SquareGridGenerator}
 	 * @param grid
 	 * 				The grid where the Square will be added
 	 * @param ghosts
 	 * 				The ghosts list where a ghost could be added
      */
-	public void makeProceduralGrid(Square[][] grid, List<NPC> ghosts) {
+	public final void makeProceduralGrid(Square[][] grid, List<NPC> ghosts) {
         char[][] map = readRandomMapForInfiniteBoard();
-        if(map != null) {
+		if(map != null) {
             for (int x = 0; x < map.length; x++) {
                 for (int y = 0; y < map[0].length; y++) {
                     char c = map[x][y];
@@ -128,7 +144,7 @@ public class MapParser {
                 }
             }
         }
-	}
+    }
 
 	/**
 	 * Add a new square to the grid. Its type depends on c.
@@ -214,8 +230,7 @@ public class MapParser {
 	/**
 	 * Add a {@link Square} with either a {@link Pellet}, a {@link NPC} or nothing.
 	 * The probability of having a Ghost = pG = 1/200
-	 * The probability of having a Pellet = pP = 9/10 - pG
-	 * The probability of having nothing = pN = 1 - pG - pP
+	 * The probability of having a Pellet = pP = 1 - pG
 	 * @param grid
 	 * 				The grid where the Square will be added
 	 * @param ghosts
@@ -227,22 +242,33 @@ public class MapParser {
      */
 	private void generateAccessibleSquare(Square[][] grid, List<NPC> ghosts, int x, int y) {
 		Square square = boardCreator.createGround();
-		int randInt = randomizer.nextInt(1000);
-		if(randInt < 5) {
-			NPC ghost = levelCreator.createGhost();
+		int randInt = randomizer.nextInt(PROCEDURAL_TOTAL_PROBABILITY);
+		if(randInt < PROCEDURAL_GHOST_PROBABILITY) {
+			NPC ghost = levelCreator.createGhostForInfiniteBoard();
 			ghosts.add(ghost);
 			ghost.occupy(square);
-			grid[x][y] = square;
 		}
-		else if (randInt < 900){
-			grid[x][y] = square;
+		else {
 			levelCreator.createPellet().occupy(square);
 		}
+        grid[x][y] = square;
 	}
 
+    /**
+     * Make a square with a ghost inside of it
+     * @param ghosts
+     *              The list in which the new ghost will be added
+     * @return The square where the ghost has been put
+     */
 	private Square makeGhostSquare(List<NPC> ghosts) {
 		Square ghostSquare = boardCreator.createGround();
-		NPC ghost = levelCreator.createGhost();
+        NPC ghost;
+        if(!infinite) {
+            ghost = levelCreator.createGhost();
+        }
+        else{
+            ghost = levelCreator.createGhostForInfiniteBoard();
+        }
 		ghosts.add(ghost);
 		ghost.occupy(ghostSquare);
 		return ghostSquare;
@@ -250,7 +276,7 @@ public class MapParser {
 
 	/**
 	 * Parses the list of strings into a 2-dimensional character array and
-	 * passes it on to {@link #parseMap(char[][], boolean)}.
+	 * passes it on to {@link #parseMap(char[][])}.
 	 * 
 	 * @param text
 	 *            The plain text, with every entry in the list being a equally
@@ -259,8 +285,8 @@ public class MapParser {
 	 * @return The level as represented by the text.
 	 * @throws PacmanConfigurationException If text lines are not properly formatted.
 	 */
-	public Level parseMap(List<String> text, boolean infinite) {
-		return parseMap(linesToChar(text), infinite);
+	public Level parseMap(List<String> text) {
+		return parseMap(linesToChar(text));
 	}
 	
 	/**
@@ -296,7 +322,7 @@ public class MapParser {
 
 	/**
 	 * Parses the provided input stream as a character stream and passes it
-	 * result to {@link #parseMap(List, boolean)}.
+	 * result to {@link #parseMap(List)}.
 	 * 
 	 * @param source
 	 *            The input stream that will be read.
@@ -304,32 +330,38 @@ public class MapParser {
 	 * @throws IOException
 	 *             when the source could not be read.
 	 */
-	public Level parseMap(InputStream source, boolean infinite) throws IOException {
-		try {
-            return parseMap(streamToLines(source), infinite);
-		} catch (IOException exc){
-            exc.printStackTrace();
-        }
-        return null;
-	}
+	public Level parseMap(InputStream source) throws IOException {
+        return parseMap(streamToLines(source));
+    }
 
+    /**
+     * Read a random model to add to an infinite board
+     * @return a matrix of characters representing the map read.
+     */
 	private char[][] readRandomMapForInfiniteBoard() {
         int mapNbr = randomizer.nextInt(1) + 1;
-		InputStream boardStream = MapParser.class.getResourceAsStream("/board_infinite" + mapNbr + ".txt");
+		InputStream boardStream = Launcher.class.getResourceAsStream("/board_infinite" + mapNbr + ".txt");
         ArrayList<String> text;
         try {
             text = (ArrayList<String>) streamToLines(boardStream);
             return linesToChar(text);
 
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+			Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).log(java.util.logging.Level.SEVERE,
+					"Infinite map model could not be found");
+		}
         return null;
     }
 
+    /**
+     * Parse an input stream into a list of Strings
+     * @param boardStream
+     *                  The input stream to parse into Strings
+     * @return A list of strings representing the columns of the map
+     * @throws IOException if the map could not be found or read
+     */
     private List<String> streamToLines(InputStream boardStream) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(
-                boardStream, "UTF-8"));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(boardStream, "UTF-8"));
         List<String> text = new ArrayList<>();
         while(reader.ready()) {
             text.add(reader.readLine());
@@ -337,6 +369,12 @@ public class MapParser {
         return text;
     }
 
+    /**
+     * Parse a list of strings into a matrix of characters
+     * @param text
+     *              The list of strings representing the map
+     * @return A matrix of characters representing the map
+     */
     private char[][] linesToChar(List<String> text){
         checkMapFormat(text);
 

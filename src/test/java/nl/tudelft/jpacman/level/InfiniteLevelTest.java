@@ -1,13 +1,18 @@
 package nl.tudelft.jpacman.level;
 
 import com.google.common.collect.Lists;
-import nl.tudelft.jpacman.board.*;
+import nl.tudelft.jpacman.board.Board;
+import nl.tudelft.jpacman.board.BoardFactory;
+import nl.tudelft.jpacman.board.InfiniteBoard;
+import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -78,24 +83,31 @@ public class InfiniteLevelTest {
     }
 
     /**
-     * Tests if the boars extends itself as it should
-     */
-    @Test
-    public void testMove() throws Exception {
-        BasicUnit unit = new BasicUnit();
-        unit.occupy(s0_0);
-        assertEquals(s0_0, board.squareAt(0, 0)); // This call to squareAt should force the level to extend the board
-        assertTrue(board.getLeftColumn().contains(s0_2)); // The bottom line should contain the s1_2
-        level.move(unit, Direction.EAST);
-        assertFalse(board.getLeftColumn().contains(s0_2)); // The bottom line should be a new one
-    }
-
-    /**
      * Tests if the board returned is an infinite one
      */
     @Test
     public void testGetInfiniteBoard() throws Exception {
             Board board = level.getBoard();
             assertEquals(this.board, board);
+    }
+
+    /**
+     * Verifies that a ghost can be inserted and removed
+     */
+    @Test
+    public void testPutNewGhost() throws Exception {
+        level = new InfiniteLevel(board, Lists.newArrayList(ghost), Lists.newArrayList(square1, square2), collisions);
+        NPC newGhost = new GhostFactory(new PacManSprites()).createBlinky();
+        level.putNewGhost(newGhost);
+        assertEquals(newGhost, level.removeGhost(newGhost));
+    }
+
+    /**
+     * Verifies that the "remainingPellets" method always returns a number > 0 (because the board is infinite)
+     */
+    @Test
+    public void testRemainingPellets() throws Exception {
+        level = new InfiniteLevel(board, Lists.newArrayList(ghost), Lists.newArrayList(square1, square2), collisions);
+        assertTrue(level.remainingPellets() > 0);
     }
 }

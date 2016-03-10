@@ -1,5 +1,11 @@
 package nl.tudelft.jpacman.level;
 
+import nl.tudelft.jpacman.board.Board;
+import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.npc.NPC;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,13 +14,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import nl.tudelft.jpacman.board.Board;
-import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.npc.NPC;
-import nl.tudelft.jpacman.npc.ghost.Navigation;
 
 /**
  * A level of Pac-Man. A level consists of the board with the players and the
@@ -174,7 +173,7 @@ public class Level {
 		assert direction != null;
 
 		if (!isInProgress()) {
-			return;
+            return;
 		}
 
 		synchronized (moveLock) {
@@ -225,7 +224,7 @@ public class Level {
 	/**
 	 * Starts all NPC movement scheduling.
 	 */
-	private void startNPCs() {
+	protected void startNPCs() {
 		for (final NPC npc : npcs.keySet()) {
 			ScheduledExecutorService service = Executors
 					.newSingleThreadScheduledExecutor();

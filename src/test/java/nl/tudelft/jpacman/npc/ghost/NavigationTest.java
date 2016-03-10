@@ -1,28 +1,19 @@
 package nl.tudelft.jpacman.npc.ghost;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.mock;
-
-import java.io.IOException;
-import java.util.List;
-
-import nl.tudelft.jpacman.board.Board;
-import nl.tudelft.jpacman.board.BoardFactory;
-import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.board.Unit;
+import com.google.common.collect.Lists;
+import nl.tudelft.jpacman.board.*;
 import nl.tudelft.jpacman.level.LevelFactory;
 import nl.tudelft.jpacman.level.MapParser;
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.sprite.PacManSprites;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.common.collect.Lists;
+import java.io.IOException;
+import java.util.List;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 /**
  * Tests the various methods provided by the {@link Navigation} class.
@@ -45,7 +36,7 @@ public class NavigationTest {
 	public void setUp() {
 		PacManSprites sprites = new PacManSprites();
 		parser = new MapParser(new LevelFactory(sprites, new GhostFactory(
-				sprites)), new BoardFactory(sprites));
+				sprites)), new BoardFactory(sprites), false);
 	}
 
 	/**
@@ -53,7 +44,7 @@ public class NavigationTest {
 	 */
 	@Test
 	public void testShortestPathEmpty() {
-		Board b = parser.parseMap(Lists.newArrayList(" "), false).getBoard();
+		Board b = parser.parseMap(Lists.newArrayList(" ")).getBoard();
 		Square s1 = b.squareAt(0, 0);
 		Square s2 = b.squareAt(0, 0);
 		List<Direction> path = Navigation
@@ -67,7 +58,7 @@ public class NavigationTest {
 	@Test
 	public void testNoShortestPath() {
 		Board b = parser
-				.parseMap(Lists.newArrayList("#####", "# # #", "#####"), false)
+				.parseMap(Lists.newArrayList("#####", "# # #", "#####"))
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(3, 1);
@@ -82,7 +73,7 @@ public class NavigationTest {
 	@Test
 	public void testNoTraveller() {
 		Board b = parser
-				.parseMap(Lists.newArrayList("#####", "# # #", "#####"), false)
+				.parseMap(Lists.newArrayList("#####", "# # #", "#####"))
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(3, 1);
@@ -96,7 +87,7 @@ public class NavigationTest {
 	 */
 	@Test
 	public void testSimplePath() {
-		Board b = parser.parseMap(Lists.newArrayList("####", "#  #", "####"), false)
+		Board b = parser.parseMap(Lists.newArrayList("####", "#  #", "####"))
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(2, 1);
@@ -112,7 +103,7 @@ public class NavigationTest {
 	@Test
 	public void testCornerPath() {
 		Board b = parser.parseMap(
-				Lists.newArrayList("####", "#  #", "## #", "####"), false).getBoard();
+				Lists.newArrayList("####", "#  #", "## #", "####")).getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(2, 2);
 		List<Direction> path = Navigation
@@ -127,7 +118,7 @@ public class NavigationTest {
 	@Test
 	public void testNearestUnit() {
 		Board b = parser
-				.parseMap(Lists.newArrayList("#####", "# ..#", "#####"), false)
+				.parseMap(Lists.newArrayList("#####", "# ..#", "#####"))
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(2, 1);
@@ -140,7 +131,7 @@ public class NavigationTest {
 	 */
 	@Test
 	public void testNoNearestUnit() {
-		Board b = parser.parseMap(Lists.newArrayList(" "), false).getBoard();
+		Board b = parser.parseMap(Lists.newArrayList(" ")).getBoard();
 		Square s1 = b.squareAt(0, 0);
 		Unit unit = Navigation.findNearest(Pellet.class, s1);
 		assertNull(unit);
@@ -154,7 +145,7 @@ public class NavigationTest {
 	 */
 	@Test
 	public void testFullSizedLevel() throws IOException {
-		Board b = parser.parseMap(getClass().getResourceAsStream("/board.txt"), false).getBoard();
+		Board b = parser.parseMap(getClass().getResourceAsStream("/board.txt")).getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Unit unit = Navigation.findNearest(Ghost.class, s1);
 		assertNotNull(unit);

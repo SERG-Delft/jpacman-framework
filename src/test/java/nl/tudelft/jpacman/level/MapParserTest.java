@@ -5,19 +5,14 @@ import nl.tudelft.jpacman.board.InfiniteBoard;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.NPC;
-import nl.tudelft.jpacman.npc.ghost.Blinky;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
-import nl.tudelft.jpacman.npc.ghost.Navigation;
 import nl.tudelft.jpacman.sprite.PacManSprites;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,12 +77,7 @@ public class MapParserTest {
         ghostFactory = new GhostFactory(sprites);
         levelFactory = new LevelFactory(sprites, ghostFactory);
         playerFactory = new PlayerFactory(new PacManSprites());
-        mapParser = new MapParser(levelFactory, boardFactory);
-    }
-
-    @After
-    public void tearDown(){
-        Navigation.playerList = new ArrayList<>();
+        mapParser = new MapParser(levelFactory, boardFactory, false);
     }
 
     /**
@@ -101,7 +91,7 @@ public class MapParserTest {
                      "#P.#\n" +
                      "####\n";
         InputStream stream = new ByteArrayInputStream(str.getBytes(StandardCharsets.UTF_8));
-        Level level = mapParser.parseMap(stream, false);
+        Level level = mapParser.parseMap(stream);
         List<Unit> units = level.getBoard().squareAt(1, 1).getOccupants();
         assertTrue(units.size() == 1 && units.get(0) instanceof Pellet); // Tests the position of a pellet
         units = level.getBoard().squareAt(2, 2).getOccupants();
@@ -128,7 +118,7 @@ public class MapParserTest {
                      "#P.#\n" +
                      "####\n";
         InputStream stream = new ByteArrayInputStream(str.getBytes(StandardCharsets.UTF_8));
-        InfiniteLevel level =(InfiniteLevel) mapParser.parseMap(stream, true);
+        InfiniteLevel level =(InfiniteLevel) new MapParser(levelFactory, boardFactory, true).parseMap(stream);
         List<Unit> units = level.getBoard().squareAt(1, 1).getOccupants();
         assertTrue(units.size() == 1 && units.get(0) instanceof Pellet); // Tests the position of a pellet
         units = ((InfiniteBoard)level.getBoard()).squareAtUnchecked(2, 2).getOccupants();
@@ -155,7 +145,7 @@ public class MapParserTest {
         strings.add("#PG#");
         strings.add("#P.#");
         strings.add("####");
-        Level level = mapParser.parseMap(strings, false);
+        Level level = mapParser.parseMap(strings);
         List<Unit> units = level.getBoard().squareAt(1, 1).getOccupants();
         assertTrue(units.size() == 1 && units.get(0) instanceof Pellet); // Tests the position of a pellet
         units = level.getBoard().squareAt(2, 2).getOccupants();
@@ -182,7 +172,7 @@ public class MapParserTest {
         strings.add("#PG#");
         strings.add("#P.#");
         strings.add("####");
-        InfiniteLevel level = (InfiniteLevel) mapParser.parseMap(strings, true);
+        InfiniteLevel level = (InfiniteLevel) new MapParser(levelFactory, boardFactory, true).parseMap(strings);
         List<Unit> units = level.getBoard().squareAt(1, 1).getOccupants();
         assertTrue(units.size() == 1 && units.get(0) instanceof Pellet); // Tests the position of a pellet
         units = ((InfiniteBoard)level.getBoard()).squareAtUnchecked(2, 2).getOccupants();
@@ -205,7 +195,7 @@ public class MapParserTest {
     public void testParseMap2() throws Exception {
         char[][] map = new char[][]{{'#','#','#','#','#'}, {'#', '.', 'P', 'P', '#'}, {'#', '.', 'G', '.' , '#'},
                                     {'#', '#', '#', '#', '#'}};
-        Level level = mapParser.parseMap(map, false);
+        Level level = mapParser.parseMap(map);
         List<Unit> units = level.getBoard().squareAt(1, 1).getOccupants();
         assertTrue(units.size() == 1 && units.get(0) instanceof Pellet); // Tests the position of a pellet
         units = level.getBoard().squareAt(2, 2).getOccupants();
@@ -228,7 +218,7 @@ public class MapParserTest {
     public void testParseMapToInfinite2() throws Exception {
         char[][] map = new char[][]{{'#','#','#','#','#'}, {'#', '.', 'P', 'P', '#'}, {'#', '.', 'G', '.' , '#'},
                 {'#', '#', '#', '#', '#'}};
-        InfiniteLevel level = (InfiniteLevel) mapParser.parseMap(map, true);
+        InfiniteLevel level = (InfiniteLevel) new MapParser(levelFactory, boardFactory, true).parseMap(map);
         List<Unit> units = level.getBoard().squareAt(1, 1).getOccupants();
         assertTrue(units.size() == 1 && units.get(0) instanceof Pellet); // Tests the position of a pellet
         units = ((InfiniteBoard)level.getBoard()).squareAtUnchecked(2, 2).getOccupants();
@@ -242,5 +232,19 @@ public class MapParserTest {
         units = ((InfiniteBoard)level.getBoard()).squareAtUnchecked(1, 3).getOccupants();
         assertTrue(units.size() == 1 && units.get(0) instanceof Player); // Tests the position of a Player
         assertFalse(level.getBoard().squareAt(0, 3).isAccessibleTo(player)); // A wall should be inaccessible
+    }
+
+    /**
+     * Verifies that the grid is well created and no squares are left null
+     */
+    @Test
+    public void testMakeProceduralGrid() throws Exception {
+        Square[][] grid = new Square[23][21];
+        mapParser.makeProceduralGrid(grid, new ArrayList<>());
+        for(Square[] column : grid){
+            for(Square square : column){
+                assertNotNull(square);
+            }
+        }
     }
 }

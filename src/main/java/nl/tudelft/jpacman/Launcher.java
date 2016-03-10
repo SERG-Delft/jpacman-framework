@@ -1,10 +1,5 @@
 package nl.tudelft.jpacman;
 
-import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.game.Game;
@@ -15,6 +10,11 @@ import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.ui.Action;
 import nl.tudelft.jpacman.ui.PacManUI;
 import nl.tudelft.jpacman.ui.PacManUiBuilder;
+
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * Creates and launches the JPacMan UI.
@@ -27,6 +27,7 @@ public class Launcher {
 
 	private PacManUI pacManUI;
 	private Game game;
+	private boolean infinite;
 
 	/**
 	 * @return The game object this launcher will start when {@link #launch(boolean)}
@@ -60,10 +61,10 @@ public class Launcher {
 	public Level makeLevel(boolean infinite) {
 		MapParser parser = getMapParser();
         String mapName = "/board.txt";
-        if(infinite) mapName = "/board_infinite";
-		try (InputStream boardStream = Launcher.class
+        if(infinite) mapName = "/board_infinite.txt";
+		try (InputStream boardStream = this.getClass()
 				.getResourceAsStream(mapName)) {
-			return parser.parseMap(boardStream, infinite);
+			return parser.parseMap(boardStream);
 		} catch (IOException e) {
 			throw new PacmanConfigurationException("Unable to create level.", e);
 		}
@@ -71,10 +72,10 @@ public class Launcher {
 
 	/**
 	 * @return A new map parser object using the factories from
-	 *         {@link #getLevelFactory()} and {@link #getBoardFactory()}.
+	 * {@link #getLevelFactory()} and {@link #getBoardFactory()}.
 	 */
 	protected MapParser getMapParser() {
-		return new MapParser(getLevelFactory(), getBoardFactory());
+		return new MapParser(getLevelFactory(), getBoardFactory(), isInfinite());
 	}
 
 	/**
@@ -176,6 +177,7 @@ public class Launcher {
 	 * 				true if the board to create is an {@link nl.tudelft.jpacman.board.InfiniteBoard}
 	 */
 	public void launch(boolean infinite) {
+		this.infinite = infinite;
 		game = makeGame(infinite);
 		PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
 		addSinglePlayerKeys(builder, game);
@@ -201,5 +203,9 @@ public class Launcher {
 	public static void main(String[] args) throws IOException {
 		new Launcher().launch(true);
 //		new Launcher().launchInfinite();
+	}
+
+	public boolean isInfinite() {
+		return infinite;
 	}
 }

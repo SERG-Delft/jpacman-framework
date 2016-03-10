@@ -1,6 +1,6 @@
 package nl.tudelft.jpacman.board;
 
-import nl.tudelft.jpacman.level.SquareLineGenerator;
+import nl.tudelft.jpacman.level.SquareGridGenerator;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
 
@@ -62,7 +62,7 @@ public class BoardFactory {
         assert grid != null;
 
         InfiniteBoard board = new InfiniteBoard(grid);
-		SquareLineGenerator generator = new SquareLineGenerator();
+		SquareGridGenerator generator = new SquareGridGenerator();
 
         int width = Integer.MAX_VALUE;
         int height = Integer.MAX_VALUE;
@@ -121,7 +121,7 @@ public class BoardFactory {
 		 * @param sprite
 		 *            The background for the square.
 		 */
-		private Wall(Sprite sprite) {
+		Wall(Sprite sprite) {
 			this.background = sprite;
 		}
 
@@ -133,6 +133,11 @@ public class BoardFactory {
 		@Override
 		public Sprite getSprite() {
 			return background;
+		}
+
+		@Override
+		public String toString(){
+			return "#";
 		}
 	}
 
@@ -166,6 +171,11 @@ public class BoardFactory {
 		@Override
 		public Sprite getSprite() {
 			return background;
+		}
+
+		@Override
+		public String toString() {
+			return " ";
 		}
 	}
 }

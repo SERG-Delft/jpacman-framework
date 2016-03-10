@@ -1,8 +1,5 @@
 package nl.tudelft.jpacman.level;
 
-import java.util.List;
-import java.util.Map;
-
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.InfiniteBoard;
@@ -13,6 +10,9 @@ import nl.tudelft.jpacman.npc.ghost.GhostColor;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Factory that creates levels and units.
@@ -118,6 +118,28 @@ public class LevelFactory {
 			return new RandomGhost(sprites.getGhostSprite(GhostColor.RED));
 		}
 	}
+
+    /**
+     * Creates a new ghost for an infinite board.
+     *
+     * @return The new ghost.
+     */
+    NPC createGhostForInfiniteBoard() {
+        ghostIndex++;
+        ghostIndex %= GHOSTS;
+        switch (ghostIndex) {
+            case BLINKY:
+                return ghostFact.createBlinky();
+            case INKY:
+                return ghostFact.createPinky();
+            case PINKY:
+                return ghostFact.createPinky();
+            case CLYDE:
+                return ghostFact.createClyde();
+            default:
+                return new RandomGhost(sprites.getGhostSprite(GhostColor.RED));
+        }
+    }
 
 	/**
 	 * Creates a new pellet.

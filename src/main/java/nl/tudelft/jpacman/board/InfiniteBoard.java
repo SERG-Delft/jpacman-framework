@@ -2,6 +2,7 @@ package nl.tudelft.jpacman.board;
 
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.util.DoubleLinkedListWithWindow;
 import nl.tudelft.jpacman.util.Node;
 
@@ -11,21 +12,65 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 /**
- * Created by Angeall on 27/02/2016.
+ * Created by Anthony Rouneau on 27/02/2016.
+ *
  * Board with infinite squares, to be generated on the fly
  */
 public class InfiniteBoard extends Board {
-    public final int BOARD_LIMIT = 8;
-    protected DoubleLinkedListWithWindow<DoubleLinkedListWithWindow<Square>> columns =
+    /**
+     * The minimum number of visible squares around PacMan.
+     */
+    private final int BOARD_LIMIT = 6;
+    /**
+     * Contains the entire board.
+     */
+    private final DoubleLinkedListWithWindow<DoubleLinkedListWithWindow<Square>> columns =
             new DoubleLinkedListWithWindow<>();
-    protected int leftOffset = 0;
-    protected int upOffSet = 0;
-    protected boolean toExtendLeft = false;
-    protected boolean toExtendRight = false;
-    protected boolean toExtendTop = false;
-    protected boolean toExtendBottom = false;
-    protected int lastYMoved;
-    protected int lastXMoved;
+    /**
+     * The number of column added to the left since this board has been created
+     */
+    private int leftOffset = 0;
+    /**
+     * The number of lines added to the top since this board has been created
+     */
+    private int topOffSet = 0;
+    /**
+     * Boolean containing if this board needs to be extended to the left or not
+     */
+    private boolean toExtendLeft = false;
+    /**
+     * Boolean containing if this board needs to be extended to the right or not
+     */
+    private boolean toExtendRight = false;
+    /**
+     * Boolean containing if this board needs to be extended to the top or not
+     */
+    private boolean toExtendTop = false;
+    /**
+     * Boolean containing if this board needs to be extended to the bottom or not
+     */
+    private boolean toExtendBottom = false;
+    /**
+     * The last vertical coordinate that has been moved inside the window.
+     * It is kept so that we do not move unnecessarily a square multiple times.
+     */
+    private int lastYMoved;
+    /**
+     * The last horizontal coordinate that has been moved inside the window.
+     * It is kept so that we do not move unnecessarily a square multiple times.
+     */
+    private int lastXMoved;
+    /**
+     * This square is the imaginary wall that the edges of the board will be linked to.
+     * Doing this, the ghosts' AI can explore the board without falling into a null Square.
+     *
+     * As a wall is not accessible to units, the ghost will not try to go further.
+     *
+     * Obviously, this wall is removed as soon as a new column/line is added,
+     * and this new column/line is linked with this wall.
+     */
+    private final BoardFactory.Wall wall = new BoardFactory.Wall(new PacManSprites().getWallSprite());
+
     /**
      * Creates a new infinite board.
      *
@@ -41,8 +86,39 @@ public class InfiniteBoard extends Board {
         this.columns.setWindow(0, columns.size()-1);
         assert this.columns.getLast() == this.columns.getWindowTail().getData();
         assert this.columns.size() == grid.length;
+        // Every edge of the board must be linked to an imaginary wall
+        this.closeWithWall();
     }
 
+    private void closeWithWall() {
+        // The last column of the new grid is linked with an imaginary wall for the ghosts" AI
+        for(Square square : this.columns.getLast()){
+            square.link(wall, Direction.EAST);
+        }
+        // The first column of the new grid is linked with an imaginary wall for the ghosts" AI
+        for(Square square : this.columns.getFirst()){
+            square.link(wall, Direction.WEST);
+        }
+        Node<DoubleLinkedListWithWindow<Square>> columnExplorer = this.columns.getHead();
+        // The first (resp. last) element of each column is linked with a wall on its north (resp. south) edge
+        for(int x=0; x<this.columns.size(); x++){
+            columnExplorer.getData().getFirst().link(wall, Direction.NORTH);
+            columnExplorer.getData().getLast().link(wall, Direction.SOUTH);
+            columnExplorer = columnExplorer.getNext();
+        }
+    }
+
+    /**
+     * Get the square located at the position (x, y) inside the visible window
+     *
+     * According to the squares accessed through it, the method will determine if the board needs
+     * to be extended or not and if its visible part must be slided ot not.
+     * @param x
+     *            The <code>x</code> position (column) of the requested square.
+     * @param y
+     *            The <code>y</code> position (row) of the requested square.
+     * @return The square located at the coordinates (x, y)
+     */
     @Override
     public Square squareAt(int x, int y) {
         assert withinBorders(x, y);
@@ -51,12 +127,12 @@ public class InfiniteBoard extends Board {
         // If there is a unit that is not a Pellet: maybe we should extend the board
         //     We do this here because this method is called each time that the board is refreshed
         result.getOccupants().stream().filter(unit -> !(unit instanceof Pellet)).forEach(unit -> {
-            // If the unit is placed 3 columns away from an "unknown" zone, we should extend the columns
+            // If the unit is placed X columns away from an "unknown" zone, we should extend the columns
             if (x <= BOARD_LIMIT - columns.getWindowHeadIndex())
                 toExtendLeft = true;
             else if (x >= getWidth() - BOARD_LIMIT + (columns.size() - columns.getWindowTailIndex()))
                 toExtendRight = true;
-            // If the unit is place 3 lines away from an "unknown" zone, we should extend the lines
+            // If the unit is places X lines away from an "unknown" zone, we should extend the lines
             if (y <= BOARD_LIMIT - columns.getFirst().getWindowHeadIndex())
                 toExtendTop = true;
             else if (y >= getHeight() - BOARD_LIMIT + (columns.getFirst().size() -
@@ -97,7 +173,7 @@ public class InfiniteBoard extends Board {
      */
     public Square squareAtUnchecked(int x, int y) {
         x = x+leftOffset;
-        y = y+upOffSet;
+        y = y+ topOffSet;
         return columns.get(x).get(y);
     }
 
@@ -120,7 +196,14 @@ public class InfiniteBoard extends Board {
     }
 
 
-
+    /**
+     * Tests if the position (x, y) is located inside the visible window
+     * @param x
+     *            The <code>x</code> position (row) to test.
+     * @param y
+     *            The <code>y</code> position (column) to test.
+     * @return true if the position (x, y) is located inside the visible window
+     */
     @Override
     public boolean withinBorders(int x, int y){
         x += columns.getWindowHeadIndex();
@@ -130,9 +213,22 @@ public class InfiniteBoard extends Board {
     }
 
     /**
+     * Add a new grid of {@link Square} to the right of the board
+     * @param grid
+     *                  The new grid of squares to insert at the right end of the board
+     */
+    public void addGridRight(Square[][] grid){
+        assert grid[0].length == this.columns.getLast().size();
+        for(Square[] column : grid){
+            addColumnRight(column);
+        }
+        this.closeWithWall();
+    }
+
+    /**
      * Add a new {@link Square} column to the right of the board
      * @param column
-     *                  The new column of squares to insert at the right of the board
+     *                  The new column of squares to insert at the right end of the board
      */
     public void addColumnRight(Square[] column){
         assert column.length == this.columns.getLast().size();
@@ -160,9 +256,27 @@ public class InfiniteBoard extends Board {
     }
 
     /**
+     * Add a new grid of {@link Square} to the left of the board
+     * @param grid
+     *                  The new grid of squares to insert at the left end of the board
+     */
+    public void addGridLeft(Square[][] grid){
+        assert grid[0].length == this.columns.getFirst().size();
+        for(int i = grid.length-1; i >= 0; i--) {
+            for(int x = 0; x<grid[i].length; x++){
+                if (grid[i][x] == null){
+                    throw new IllegalStateException("Line wierd..");
+                }
+            }
+            addColumnLeft(grid[i]);
+        }
+        this.closeWithWall();
+    }
+
+    /**
      * Add a new {@link Square} column to the left of the board
      * @param column
-     *                 The new column of squares to insert at the left of the board
+     *                 The new column of squares to insert at the left end of the board
      */
     public void addColumnLeft(Square[] column){
         assert (column.length == this.columns.getFirst().size());
@@ -188,6 +302,26 @@ public class InfiniteBoard extends Board {
     }
 
     /**
+     * Add a new grid of {@link Square} to the top of the board
+     * @param grid
+     *                  The new grid of squares to insert at the top of the board
+     */
+    public void addGridTop(Square[][] grid){
+        assert grid.length == this.columns.size();
+        Square[] line = new Square[grid.length];
+        int i;
+        for (int y = grid[0].length-1; y >= 0; y--) {
+            i = 0;
+            for (Square[] aGrid : grid) {
+                line[i] = aGrid[y];
+                i++;
+            }
+            addLineTop(line);
+        }
+        this.closeWithWall();
+    }
+
+    /**
      * Add a new {@link Square} line to the top of the board
      * @param line
      *              The new line of squares to insert at the top of the board
@@ -209,8 +343,28 @@ public class InfiniteBoard extends Board {
             columnExplorer = columnExplorer.getNext();
             i++;
         }
-        this.upOffSet++;
+        this.topOffSet++;
         this.toExtendTop = false;
+    }
+
+    /**
+     * Add a new grid of {@link Square} to the bottom of the board
+     * @param grid
+     *                  The new grid of squares to insert at the bottom end of the board
+     */
+    public void addGridBottom(Square[][] grid){
+        assert grid.length == this.columns.size();
+        Square[] line = new Square[grid.length];
+        int i;
+        for (int y = 0; y < grid[0].length; y++) {
+            i = 0;
+            for (Square[] aGrid : grid) {
+                line[i] = aGrid[y];
+                i++;
+            }
+            addLineBottom(line);
+        }
+        this.closeWithWall();
     }
 
     /**
@@ -326,5 +480,13 @@ public class InfiniteBoard extends Board {
 
     public boolean isToExtendBottom() {
         return toExtendBottom;
+    }
+
+    public int getCurrentWidth() {
+        return columns.size();
+    }
+
+    public int getCurrentHeight() {
+        return columns.getFirst().size();
     }
 }
