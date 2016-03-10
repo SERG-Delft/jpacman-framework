@@ -1,5 +1,6 @@
 package nl.tudelft.jpacman.level;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -109,6 +110,14 @@ public class LevelFactory {
 	 */
 	public Pellet createPellet() {
 		return new Pellet(PELLET_VALUE, sprites.getPelletSprite());
+	}
+
+	public ArrayList<NPC> createGhosts(ArrayList<GhostColor> colors) {
+		ArrayList<NPC> result = new ArrayList<>();
+        for (int i = 0; i < colors.size(); i++) {
+            result.add(ghostFact.createHunterGhostNPC(colors.get(i)));
+        }
+        return result;
 	}
 
 	/**

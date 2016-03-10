@@ -1,6 +1,11 @@
 package nl.tudelft.jpacman.level;
 
+import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.npc.ghost.GhostColor;
+import nl.tudelft.jpacman.npc.ghost.HunterGhostNPC;
 import nl.tudelft.jpacman.sprite.PacManSprites;
+
+import java.util.ArrayList;
 
 /**
  * Factory that creates Players.
@@ -32,5 +37,13 @@ public class PlayerFactory {
 	public Player createPacMan() {
 		return new Player(sprites.getPacmanSprites(),
 				sprites.getPacManDeathAnimation());
+	}
+
+	public ArrayList<HunterGhostPlayer> createGhostPlayers(ArrayList<GhostColor> colorsChosen) {
+		ArrayList<HunterGhostPlayer> players = new ArrayList<>();
+		for (int i = 0; i < colorsChosen.size(); i++) {
+            players.add(new HunterGhostPlayer(sprites, colorsChosen.get(i)));
+		}
+		return players;
 	}
 }
