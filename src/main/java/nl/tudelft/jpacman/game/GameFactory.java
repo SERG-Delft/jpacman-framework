@@ -58,4 +58,8 @@ public class GameFactory {
 	protected PlayerFactory getPlayerFactory() {
 		return playerFact;
 	}
+
+	public Game makeMenu(Level level) {
+		return new Menu(level);
+	}
 }

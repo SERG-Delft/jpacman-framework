@@ -4,7 +4,9 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Direction;
@@ -34,8 +36,9 @@ public class Launcher {
      * - Maybe rethink logic in LevelFactory (a Game should create his own levels not the opposite)
      */
 	private static final PacManSprites SPRITE_STORE = new PacManSprites();
-    private static final int CLASSIC = 1;
-    private static final int MULTI_GHOST = 2;
+    public static final int CLASSIC = 1;
+    public static final int MULTI_GHOST = 2;
+    private static final int MENU = 0;
 
     private PacManUI pacManUI;
 	private Game game;
@@ -55,28 +58,62 @@ public class Launcher {
      * @param gameMode the gamemode to create
 	 */
 	public Game makeGame(int gameMode) {
+        assert gameMode != MULTI_GHOST;
+        return this.makeGame(gameMode, 1);
+    }
+    /**
+     * Creates a new game using the level from {@link #makeLevel(String source)}.
+     *
+     * @return a new Game.
+     * @param gameMode the gamemode to create
+     */
+	public Game makeGame(int gameMode, int playerNumber) {
+        if(game != null){
+            game.stop();
+        }
         GameFactory gf;
         Level level;
         switch (gameMode){
+            case MENU:
+                gf = getGameFactory();
+                level = makeLevel("/menu.txt");
+                game = gf.makeMenu(level);
+                break;
             case CLASSIC:
                 gf = getGameFactory();
                 level = makeLevel("/board.txt");
-                return gf.createSinglePlayerGame(level);
+                game = gf.createSinglePlayerGame(level);
+                pacManUI.setKeys(getSinglePlayerKeys(game));
+                pacManUI.setGame(game);
+                break;
             case MULTI_GHOST:
+				System.out.println("makeGame");
 				// ask players color
 				ArrayList<GhostColor> playerColors = new ArrayList<>();
-                playerColors.add(GhostColor.RED);
-                //playerColors.add(GhostColor.CYAN);
-                //playerColors.add(GhostColor.ORANGE);
+                switch (playerNumber){
+                    case 4:
+                        playerColors.add(GhostColor.CYAN);
+                    case 3:
+                        playerColors.add(GhostColor.PINK);
+                    case 2:
+                        playerColors.add(GhostColor.ORANGE);
+                    default:
+                        playerColors.add(GhostColor.RED);
+                }
 				// create game
                 gf = getGameFactory();
                 level = makeLevel("/boardMultiGhost.txt");
 				level.setNPCs(getLevelFactory().createGhosts(GhostColor.getOtherColors(playerColors)));
-                return gf.createMultiGhostPlayerGame(level, playerColors); //TODO add number of player choice
+                game = gf.createMultiGhostPlayerGame(level, playerColors);
+                pacManUI.setKeys(getMultiGhostPlayerKeys(game));
+                pacManUI.setGame(game);
+                break;
             default:
-                return null;
+                game = null;
+                break;
         }
-	}
+        return game;
+    }
 
 	/**
 	 * Creates a new level. By default this method will use the map parser to
@@ -150,78 +187,105 @@ public class Launcher {
 	/**
 	 * Adds key events UP, DOWN, LEFT and RIGHT to a game.
 	 *
-	 * @param builder
-	 *            The {@link PacManUiBuilder} that will provide the UI.
-	 * @param game
-	 *            The game that will process the events.
-	 */
-	protected void addSinglePlayerKeys(final PacManUiBuilder builder,
-									   final Game game) {
+     * @param game
+     *            The game that will process the events.
+     */
+	protected Map<Integer, Action> getSinglePlayerKeys(final Game game) {
 		final Player p1 = getSinglePlayer(game);
+        HashMap<Integer, Action> ret = new HashMap<>();
 
-		builder.addKey(KeyEvent.VK_UP, new Action() {
+        ret.put(KeyEvent.VK_UP, new Action() {
 
-			@Override
-			public void doAction() {
-				game.move(p1, Direction.NORTH);
-			}
-		}).addKey(KeyEvent.VK_DOWN, new Action() {
+            @Override
+            public void doAction() {
+                game.move(p1, Direction.NORTH);
+            }
+        });
+        ret.put(KeyEvent.VK_DOWN, new Action() {
 
-			@Override
-			public void doAction() {
-				game.move(p1, Direction.SOUTH);
-			}
-		}).addKey(KeyEvent.VK_LEFT, new Action() {
+            @Override
+            public void doAction() {
+                game.move(p1, Direction.SOUTH);
+            }
+        });
+        ret.put(KeyEvent.VK_LEFT, new Action() {
 
-			@Override
-			public void doAction() {
-				game.move(p1, Direction.WEST);
-			}
-		}).addKey(KeyEvent.VK_RIGHT, new Action() {
+            @Override
+            public void doAction() {
+                game.move(p1, Direction.WEST);
+            }
+        });
+        ret.put(KeyEvent.VK_RIGHT, new Action() {
 
-			@Override
-			public void doAction() {
-				game.move(p1, Direction.EAST);
-			}
-		});
+            @Override
+            public void doAction() {
+                game.move(p1, Direction.EAST);
+            }
+        });
+
+//		builder.addKey(KeyEvent.VK_UP, new Action() {
+//
+//			@Override
+//			public void doAction() {
+//				game.move(p1, Direction.NORTH);
+//			}
+//		}).addKey(KeyEvent.VK_DOWN, new Action() {
+//
+//			@Override
+//			public void doAction() {
+//				game.move(p1, Direction.SOUTH);
+//			}
+//		}).addKey(KeyEvent.VK_LEFT, new Action() {
+//
+//			@Override
+//			public void doAction() {
+//				game.move(p1, Direction.WEST);
+//			}
+//		}).addKey(KeyEvent.VK_RIGHT, new Action() {
+//
+//			@Override
+//			public void doAction() {
+//				game.move(p1, Direction.EAST);
+//			}
+//		});
+        return ret;
 
 	}
 	
 	/**
 	 * Adds key events UP, DOWN, LEFT and RIGHT to a game.
 	 *
-	 * @param builder
-	 *            The {@link PacManUiBuilder} that will provide the UI.
 	 * @param game
 	 *            The game that will process the events.
 	 */
-	protected void addMultiGhostPlayerKeys(final PacManUiBuilder builder,
-									   final Game game) {
+	protected HashMap<Integer,Action> getMultiGhostPlayerKeys(final Game game) {
 		final List<Player> players = game.getPlayers();
+        HashMap<Integer,Action> ret = new HashMap<>();
 
 		switch (players.size()){
             case 4:
-                builder.addKey(KeyEvent.VK_G, () -> game.move(players.get(3), Direction.NORTH)) //P4 gets GVBN
-                        .addKey(KeyEvent.VK_B, () -> game.move(players.get(3), Direction.SOUTH))
-                        .addKey(KeyEvent.VK_V, () -> game.move(players.get(3), Direction.WEST))
-                        .addKey(KeyEvent.VK_N, () -> game.move(players.get(3), Direction.EAST));
+                ret.put(KeyEvent.VK_G, () -> game.move(players.get(3), Direction.NORTH)); //P4 gets GVBN
+                ret.put(KeyEvent.VK_B, () -> game.move(players.get(3), Direction.SOUTH));
+                ret.put(KeyEvent.VK_V, () -> game.move(players.get(3), Direction.WEST));
+                ret.put(KeyEvent.VK_N, () -> game.move(players.get(3), Direction.EAST));
 			case 3:
-				builder.addKey(KeyEvent.VK_O, () -> game.move(players.get(2), Direction.NORTH)) //P3 gets OKLM
-						.addKey(KeyEvent.VK_L, () -> game.move(players.get(2), Direction.SOUTH))
-						.addKey(KeyEvent.VK_K, () -> game.move(players.get(2), Direction.WEST))
-						.addKey(KeyEvent.VK_M, () -> game.move(players.get(2), Direction.EAST));
+                ret.put(KeyEvent.VK_O, () -> game.move(players.get(2), Direction.NORTH)); //P3 gets OKLM
+                ret.put(KeyEvent.VK_L, () -> game.move(players.get(2), Direction.SOUTH));
+                ret.put(KeyEvent.VK_K, () -> game.move(players.get(2), Direction.WEST));
+                ret.put(KeyEvent.VK_M, () -> game.move(players.get(2), Direction.EAST));
 			case 2:
-				builder.addKey(KeyEvent.VK_Z, () -> game.move(players.get(1), Direction.NORTH)) //P2 gets ZQSD
-						.addKey(KeyEvent.VK_S, () -> game.move(players.get(1), Direction.SOUTH))
-						.addKey(KeyEvent.VK_Q, () -> game.move(players.get(1), Direction.WEST))
-						.addKey(KeyEvent.VK_D, () -> game.move(players.get(1), Direction.EAST));
-			case 1:
-				builder.addKey(KeyEvent.VK_UP, () -> game.move(players.get(0), Direction.NORTH)) // P1 gets UpDownLeftRight
-						.addKey(KeyEvent.VK_DOWN, () -> game.move(players.get(0), Direction.SOUTH))
-						.addKey(KeyEvent.VK_LEFT, () -> game.move(players.get(0), Direction.WEST))
-						.addKey(KeyEvent.VK_RIGHT, () -> game.move(players.get(0), Direction.EAST));
+                ret.put(KeyEvent.VK_Z, () -> game.move(players.get(1), Direction.NORTH)); //P2 gets ZQSD
+                ret.put(KeyEvent.VK_S, () -> game.move(players.get(1), Direction.SOUTH));
+                ret.put(KeyEvent.VK_Q, () -> game.move(players.get(1), Direction.WEST));
+                ret.put(KeyEvent.VK_D, () -> game.move(players.get(1), Direction.EAST));
+			default:
+                ret.put(KeyEvent.VK_UP, () -> game.move(players.get(0), Direction.NORTH)); // P1 gets UpDownLeftRight
+                ret.put(KeyEvent.VK_DOWN, () -> game.move(players.get(0), Direction.SOUTH));
+                ret.put(KeyEvent.VK_LEFT, () -> game.move(players.get(0), Direction.WEST));
+                ret.put(KeyEvent.VK_RIGHT, () -> game.move(players.get(0), Direction.EAST));
 				break;
 		}
+        return ret;
 
 	}
 
@@ -238,25 +302,13 @@ public class Launcher {
 	 * Creates and starts a JPac-Man game.
 	 */
 	public void launch() {
-        makeMultiGhostPlayer();
-		//makeSinglePlayer();
+        game = makeGame(MENU);
+        PacManUiBuilder builder = new PacManUiBuilder().withAdvancedButtons();
+        pacManUI = builder.build(this);
+        pacManUI.setGame(game);
+        game.start();
+        pacManUI.start();
 	}
-
-    private void makeSinglePlayer(){
-        game = makeGame(CLASSIC);
-        PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
-        addSinglePlayerKeys(builder, game);
-        pacManUI = builder.build(game);
-        pacManUI.start();
-    }
-
-    private void makeMultiGhostPlayer(){
-        game = makeGame(MULTI_GHOST);
-        PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
-        addMultiGhostPlayerKeys(builder, game);
-        pacManUI = builder.build(game);
-        pacManUI.start();
-    }
 
 	/**
 	 * Disposes of the UI. For more information see {@link javax.swing.JFrame#dispose()}.
