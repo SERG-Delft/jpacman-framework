@@ -21,7 +21,7 @@ public class InfiniteLevel extends Level {
     /**
      * The max number of ghost inside the level
      */
-    private final int MAX_NUMBER_OF_GHOSTS = 4;
+    private final int MAX_NUMBER_OF_GHOSTS = 10;
     /**
      * index of the oldest ghost inside ghostsOrder
      */
@@ -106,7 +106,7 @@ public class InfiniteLevel extends Level {
         ScheduledExecutorService service = Executors
                 .newSingleThreadScheduledExecutor();
         service.schedule(new NpcMoveTask(service, ghost),
-                ghost.getInterval()/(int)Math.floor(2+oldestGhostIndex/MAX_NUMBER_OF_GHOSTS), TimeUnit.MILLISECONDS);
+                ghost.getInterval()/(int)Math.floor(2+oldestGhostIndex/(MAX_NUMBER_OF_GHOSTS/4)), TimeUnit.MILLISECONDS);
         if(this.ghostOrder.size()>=MAX_NUMBER_OF_GHOSTS){
             removeGhost(oldestGhostIndex % MAX_NUMBER_OF_GHOSTS);
         }

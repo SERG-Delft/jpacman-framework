@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -57,6 +58,11 @@ public class MapParser {
      * The ghost player color
      */
     private GhostColor ghostColor;
+
+    /**
+     * HashMap that reduces the need of disk access (saves the new boards for the infinite board)
+     */
+    private HashMap<Integer, char[][]> randomMaps = new HashMap<>();
 
     /**
 	 * Creates a new map parser.
@@ -384,16 +390,22 @@ public class MapParser {
      */
 	private char[][] readRandomMapForInfiniteBoard() {
         int mapNbr = randomizer.nextInt(5) + 1;
-		InputStream boardStream = Launcher.class.getResourceAsStream("/board_infinite_" + mapNbr + ".txt");
-        ArrayList<String> text;
-        try {
-            text = (ArrayList<String>) streamToLines(boardStream);
-            return linesToChar(text);
+        if(!randomMaps.containsKey(mapNbr)) {
+            InputStream boardStream = Launcher.class.getResourceAsStream("/board_infinite_" + mapNbr + ".txt");
+            ArrayList<String> text;
+            try {
+                text = (ArrayList<String>) streamToLines(boardStream);
+                randomMaps.put(mapNbr, linesToChar(text));
+                return randomMaps.get(mapNbr);
 
-        } catch (IOException e) {
-			Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).log(java.util.logging.Level.SEVERE,
-					"Infinite map model could not be found");
-		}
+            } catch (IOException e) {
+                Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).log(java.util.logging.Level.SEVERE,
+                        "Infinite map model could not be found");
+            }
+        }
+        else{
+            return randomMaps.get(mapNbr);
+        }
         return null;
     }
 
