@@ -7,6 +7,8 @@ import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.InfiniteBoard;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.GhostColor;
+import nl.tudelft.jpacman.npc.ghost.Inky;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,6 +52,11 @@ public class MapParser {
      * Boolean true if the level to create has to be an {@link InfiniteLevel}
      */
     private boolean infinite;
+
+    /**
+     * The ghost player color
+     */
+    private GhostColor ghostColor;
 
     /**
 	 * Creates a new map parser.
@@ -176,7 +183,14 @@ public class MapParser {
 			levelCreator.createPellet().occupy(pelletSquare);
 			break;
 		case 'G':
-			Square ghostSquare = makeGhostSquare(ghosts);
+            Square ghostSquare;
+            if(this.ghostColor != null){
+                //TODO : add color
+                ghostSquare = makeGhostSquareDoublePlayers(ghosts, Inky.class, startPositions);
+            }
+            else {
+                ghostSquare = makeGhostSquare(ghosts);
+            }
 			grid[x][y] = ghostSquare;
 			break;
 		case 'P':
@@ -274,6 +288,19 @@ public class MapParser {
 		return ghostSquare;
 	}
 
+	private Square makeGhostSquareDoublePlayers(List<NPC> ghosts, Class c, List<Square> startPositions){
+		Square ghostSquare = boardCreator.createGround();
+		NPC ghost = levelCreator.createGhost();
+		if(!(ghost.getClass() == c)) {
+			ghosts.add(ghost);
+			ghost.occupy(ghostSquare);
+		}
+		else{
+			startPositions.add(ghostSquare);
+		}
+		return ghostSquare;
+	}
+
 	/**
 	 * Parses the list of strings into a 2-dimensional character array and
 	 * passes it on to {@link #parseMap(char[][])}.
@@ -331,6 +358,23 @@ public class MapParser {
 	 *             when the source could not be read.
 	 */
 	public Level parseMap(InputStream source) throws IOException {
+        return parseMap(streamToLines(source));
+    }
+
+    /**
+     * Parses the provided input stream as a character stream and passes it
+     * result to {@link #parseMap(List)}. Used for the two players mode
+     *
+     * @param source
+     *            The input stream that will be read.
+     * @param color
+     *            The color of the ghost player
+     * @return The parsed level as represented by the text on the input stream.
+     * @throws IOException
+     *             when the source could not be read.
+     */
+    public Level parseMap(InputStream source, GhostColor color) throws IOException {
+        this.ghostColor = color;
         return parseMap(streamToLines(source));
     }
 

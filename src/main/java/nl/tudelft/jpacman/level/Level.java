@@ -1,16 +1,16 @@
 package nl.tudelft.jpacman.level;
 
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.NPC;
+
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A level of Pac-Man. A level consists of the board with the players and the
@@ -257,7 +257,9 @@ public class Level {
 	 * Updates the observers about the state of this level.
 	 */
 	private void updateObservers() {
-		if (!isAnyPlayerAlive()) {
+		if (!isAnyPlayerAlive() ||
+				(!(players.get(players.size()-1) instanceof GhostPlayer)
+                        && !players.get(players.size() - 1).isAlive())) {
 			for (LevelObserver o : observers) {
 				o.levelLost();
 			}

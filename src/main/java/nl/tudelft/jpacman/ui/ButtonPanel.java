@@ -1,12 +1,9 @@
 package nl.tudelft.jpacman.ui;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 /**
  * A panel containing a button for every registered action.

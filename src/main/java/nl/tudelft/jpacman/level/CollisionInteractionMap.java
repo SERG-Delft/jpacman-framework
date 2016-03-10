@@ -1,11 +1,11 @@
 package nl.tudelft.jpacman.level;
 
+import nl.tudelft.jpacman.board.Unit;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import nl.tudelft.jpacman.board.Unit;
 
 /**
  * A map of possible collisions and their handlers.

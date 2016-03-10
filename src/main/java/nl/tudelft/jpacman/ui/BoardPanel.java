@@ -1,15 +1,12 @@
 package nl.tudelft.jpacman.ui;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-
-import javax.swing.JPanel;
-
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.Game;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Panel displaying a game.

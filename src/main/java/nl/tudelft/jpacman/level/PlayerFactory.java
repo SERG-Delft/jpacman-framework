@@ -37,11 +37,27 @@ public class PlayerFactory {
 				sprites.getPacManDeathAnimation());
 	}
 
+	/**
+	 * Used in Hunter Game Mode
+	 * @param colorsChosen
+	 *                  Choose the colors of the ghost
+	 * @return List of the new Ghosts/Hunters
+     */
 	public ArrayList<HunterGhostPlayer> createGhostPlayers(ArrayList<GhostColor> colorsChosen) {
 		ArrayList<HunterGhostPlayer> players = new ArrayList<>();
 		for (int i = 0; i < colorsChosen.size(); i++) {
             players.add(new HunterGhostPlayer(sprites, colorsChosen.get(i)));
 		}
 		return players;
+	}
+
+	/**
+	 * Used in Two Players Mode
+	 * @param color
+	 *              Color of the ghost
+	 * @return The new Ghost played by a human
+     */
+	public GhostPlayer createGhostPlayer(GhostColor color){
+		return new GhostPlayer(sprites, color);
 	}
 }
