@@ -1,8 +1,6 @@
 package nl.tudelft.jpacman.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.event.KeyListener;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -105,7 +103,7 @@ public class PacManUI extends JFrame {
 			getContentPane().remove(boardPanel);
 		}catch (Exception ignored){}
 		
-		scorePanel = new ScorePanel(game.getPlayers());
+		scorePanel = new ScorePanel(game.getScorers());
 		if (sf != null) {
 			scorePanel.setScoreFormatter(sf);
 		}

@@ -4,6 +4,7 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.level.Scorer;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public abstract class Game implements LevelObserver {
 	 * Object that locks the start and stop methods.
 	 */
 	private final Object progressLock = new Object();
+	private List<Player> players;
 
 	/**
 	 * Creates a new game.
@@ -74,7 +76,7 @@ public abstract class Game implements LevelObserver {
 	/**
 	 * @return An immutable list of the participants of this game.
 	 */
-	public abstract List<Player> getPlayers();
+	public abstract List<Scorer> getScorers();
 
 	/**
 	 * @return The level currently being played.
@@ -104,5 +106,9 @@ public abstract class Game implements LevelObserver {
 	@Override
 	public void levelLost() {
 		stop();
+	}
+
+	public List<Player> getPlayers() {
+		return players;
 	}
 }

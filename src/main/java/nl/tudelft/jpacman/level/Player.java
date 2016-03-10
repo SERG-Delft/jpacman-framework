@@ -6,13 +6,14 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.MobileUnit;
 import nl.tudelft.jpacman.sprite.AnimatedSprite;
 import nl.tudelft.jpacman.sprite.Sprite;
+import nl.tudelft.jpacman.ui.ScorePanel;
 
 /**
  * A player operated unit in our game.
  * 
  * @author Jeroen Roosen 
  */
-public class Player extends MobileUnit {
+public class Player extends MobileUnit implements Scorer {
 
 	/**
 	 * The amount of points accumulated by this player.
@@ -82,6 +83,11 @@ public class Player extends MobileUnit {
 	 */
 	public int getScore() {
 		return score;
+	}
+
+	@Override
+	public String getName() {
+		return "Player";
 	}
 
 	@Override

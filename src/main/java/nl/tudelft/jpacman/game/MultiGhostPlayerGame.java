@@ -2,7 +2,6 @@ package nl.tudelft.jpacman.game;
 
 import nl.tudelft.jpacman.level.*;
 import nl.tudelft.jpacman.npc.NPC;
-import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -110,7 +109,12 @@ public class MultiGhostPlayerGame extends Game {
     }
 
     @Override
-    public List<Player> getPlayers() {
+    public List<Scorer> getScorers() {
+        return Arrays.asList(potentialHunters.toArray(new Scorer[potentialHunters.size()]));
+    }
+    
+    @Override
+    public List<Player> getPlayers(){
         return Arrays.asList(players.toArray(new Player[players.size()]));
     }
 

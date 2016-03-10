@@ -5,6 +5,7 @@ import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Player;
 
 import com.google.common.collect.ImmutableList;
+import nl.tudelft.jpacman.level.Scorer;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class SinglePlayerGame extends Game {
 	void customStart() {}
 
 	@Override
-	public List<Player> getPlayers() {
+	public List<Scorer> getScorers() {
 		return ImmutableList.of(player);
 	}
 

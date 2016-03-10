@@ -5,10 +5,7 @@ import nl.tudelft.jpacman.board.MobileUnit;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.MultiGhostPlayerGame;
-import nl.tudelft.jpacman.level.HunterGameModePlayer;
-import nl.tudelft.jpacman.level.HunterGhostPlayer;
-import nl.tudelft.jpacman.level.Pellet;
-import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.level.*;
 import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
@@ -19,7 +16,7 @@ import java.util.*;
 /**
  * Created by helldog136 on 2/03/16.
  */
-public class HunterGhostNPC extends Ghost implements HunterGameModePlayer {
+public class HunterGhostNPC extends Ghost implements HunterGameModePlayer, Scorer {
     /**
      * The variation in intervals, this makes the ghosts look more dynamic and
      * less predictable.
@@ -29,7 +26,7 @@ public class HunterGhostNPC extends Ghost implements HunterGameModePlayer {
     /**
      * The base movement interval.
      */
-    private static final int MOVE_INTERVAL = 250;
+    private static final int MOVE_INTERVAL = 400;
     private static final int DECAY = 2;
     private static final int VALUE_START = 50;
     private int value = VALUE_START;
@@ -133,5 +130,19 @@ public class HunterGhostNPC extends Ghost implements HunterGameModePlayer {
             super.occupy(startingPos);
         }
     }
-    
+
+    @Override
+    public int getScore() {
+        return points;
+    }
+
+    @Override
+    public String getName() {
+        return "NPC";
+    }
+
+    @Override
+    public boolean isAlive() {
+        return true;
+    }
 }
