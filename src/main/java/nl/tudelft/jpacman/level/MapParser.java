@@ -30,7 +30,7 @@ public class MapParser {
     /**
      * The probability, on PROCEDURAL_TOTAL_PROBABILITY to put a ghost on a generated square
      */
-	private static final int PROCEDURAL_GHOST_PROBABILITY = 3;
+	private static final int PROCEDURAL_GHOST_PROBABILITY = 10;
 	/**
 	 * The factory that creates the levels.
 	 */
@@ -339,8 +339,8 @@ public class MapParser {
      * @return a matrix of characters representing the map read.
      */
 	private char[][] readRandomMapForInfiniteBoard() {
-        int mapNbr = randomizer.nextInt(1) + 1;
-		InputStream boardStream = Launcher.class.getResourceAsStream("/board_infinite" + mapNbr + ".txt");
+        int mapNbr = randomizer.nextInt(5) + 1;
+		InputStream boardStream = Launcher.class.getResourceAsStream("/board_infinite_" + mapNbr + ".txt");
         ArrayList<String> text;
         try {
             text = (ArrayList<String>) streamToLines(boardStream);

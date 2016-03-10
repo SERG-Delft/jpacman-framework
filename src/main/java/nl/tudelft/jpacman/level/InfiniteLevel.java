@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Angeall on 02/03/2016.
@@ -18,9 +19,21 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 public class InfiniteLevel extends Level {
     /**
+     * The max number of ghost inside the level
+     */
+    private final int MAX_NUMBER_OF_GHOSTS = 15;
+    /**
+     * index of the oldest ghost inside ghostsOrder
+     */
+    private int oldestGhostIndex;
+    /**
      * The grid generator to extend the board of the level
      */
     private SquareGridGenerator generator;
+    /**
+     * Lst containing the ghosts added in order
+     */
+    private List<NPC> ghostOrder;
     /**
      * Creates a new level for the board.
      *
@@ -31,6 +44,8 @@ public class InfiniteLevel extends Level {
      */
     public InfiniteLevel(InfiniteBoard b, List<NPC> ghosts, List<Square> startPositions, CollisionMap collisionMap) {
         super(b, ghosts, startPositions, collisionMap);
+        this.ghostOrder = ghosts;
+        this.oldestGhostIndex = 0;
         this.generator = new SquareGridGenerator();
     }
 
@@ -86,10 +101,19 @@ public class InfiniteLevel extends Level {
      * @param ghost The ghost to add
      */
     public final void putNewGhost(NPC ghost){
+//        npcs.keySet().stream().filter(aGhost ->
+//                npcs.get(aGhost).isShutdown()).forEach(npcs::remove);
         ScheduledExecutorService service = Executors
                 .newSingleThreadScheduledExecutor();
-        service.execute(new NpcMoveTask(service, ghost));
+        service.schedule(new NpcMoveTask(service, ghost),
+                ghost.getInterval()/(int)Math.floor(2+oldestGhostIndex/MAX_NUMBER_OF_GHOSTS), TimeUnit.MILLISECONDS);
+        if(this.ghostOrder.size()>=MAX_NUMBER_OF_GHOSTS){
+            removeGhost(oldestGhostIndex % MAX_NUMBER_OF_GHOSTS);
+        }
+        this.oldestGhostIndex++;
+        this.ghostOrder.add(ghost);
         this.npcs.put(ghost, service);
+
     }
 
     /**
@@ -99,6 +123,19 @@ public class InfiniteLevel extends Level {
     public final NPC removeGhost(NPC ghost){
         this.npcs.get(ghost).shutdownNow();
         this.npcs.remove(ghost);
+        this.ghostOrder.remove(ghost);
+        return ghost;
+    }
+
+    /**
+     * Removes a ghost from the board
+     * @param ghostIndex The index of the ghost to remove inside ghostsOrder
+     */
+    public final NPC removeGhost(int ghostIndex){
+        NPC ghost = ghostOrder.get(ghostIndex);
+        this.npcs.get(ghost).shutdownNow();
+        this.npcs.remove(ghost);
+        this.ghostOrder.remove(ghostIndex);
         return ghost;
     }
 
