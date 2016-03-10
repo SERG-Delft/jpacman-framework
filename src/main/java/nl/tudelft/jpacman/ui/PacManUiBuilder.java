@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
 
@@ -22,9 +23,15 @@ public class PacManUiBuilder {
 	/**
 	 * Caption for the default start button.
 	 */
-	private static final String START_CAPTION = "Start";
+	private static final String START_CAPTION = "Classic";
+	private static final String START_CAPTION_HUNTER_1P = "Hunter 1P";
+	private static final String START_CAPTION_HUNTER_2P = "Hunter 2P";
+	private static final String START_CAPTION_HUNTER_3P = "Hunter 3P";
+	private static final String START_CAPTION_HUNTER_4P = "Hunter 4P";
+    private static final int DEFAULT_BUTTONS  = 0;
+    private static final int ADVANCED_BUTTONS = 1;
 
-	/**
+    /**
 	 * Map of buttons and their actions.
 	 */
 	private final Map<String, Action> buttons;
@@ -37,7 +44,7 @@ public class PacManUiBuilder {
 	/**
 	 * <code>true</code> iff this UI has the default buttons.
 	 */
-	private boolean defaultButtons;
+	private int buttonsType;
 	
 	/**
 	 * Way to format the score.
@@ -48,45 +55,91 @@ public class PacManUiBuilder {
 	 * Creates a new Pac-Man UI builder without any mapped keys or buttons.
 	 */
 	public PacManUiBuilder() {
-		this.defaultButtons = false;
+		this.buttonsType = DEFAULT_BUTTONS;
 		this.buttons = new LinkedHashMap<>();
 		this.keyMappings = new HashMap<>();
 	}
 
+    private Launcher launcher;
+    
 	/**
 	 * Creates a new Pac-Man UI with the set keys and buttons.
 	 * 
-	 * @param game
-	 *            The game to build the UI for.
+	 * @param launcher
+	 *            The launcher on to act with the UI.
 	 * @return A new Pac-Man UI with the set keys and buttons.
 	 */
-	public PacManUI build(final Game game) {
-		assert game != null;
+	public PacManUI build(final Launcher launcher) {
+		assert launcher != null;
+        this.launcher = launcher;
+        Game game = launcher.getGame();
 
-		if (defaultButtons) {
-			addStartButton(game);
-			addStopButton(game);
-		}
+        switch(buttonsType){
+            case DEFAULT_BUTTONS:
+                addStartButton(game);
+                addStopButton(game);
+                break;
+            case ADVANCED_BUTTONS:
+                addStartButton(game);
+                addHunterButtons(game);
+                addStopButton(game);
+                break;
+        }
 		return new PacManUI(game, buttons, keyMappings, scoreFormatter);
 	}
 
-	/**
-	 * Adds a button with the caption {@value #STOP_CAPTION} that stops the
-	 * game.
-	 * 
-	 * @param game
-	 *            The game to stop.
-	 */
-	private void addStopButton(final Game game) {
-		assert game != null;
+    /**
+     * Adds a button with the caption {@value #STOP_CAPTION} that stops the
+     * game.
+     *
+     * @param game
+     *            The game to stop.
+     */
+    private void addStopButton(final Game game) {
+        assert game != null;
 
-		buttons.put(STOP_CAPTION, new Action() {
-			@Override
-			public void doAction() {
-				game.stop();
-			}
-		});
-	}
+        buttons.put(STOP_CAPTION, new Action() {
+            @Override
+            public void doAction() {
+                launcher.getGame().stop();
+            }
+        });
+    }
+    /**
+     * Adds the buttons with the caption {@value #START_CAPTION_HUNTER_1P}, {@value #START_CAPTION_HUNTER_2P}, {@value #START_CAPTION_HUNTER_3P}, {@value #START_CAPTION_HUNTER_4P} that starts the
+     * corresponding gamemode.
+     *
+     * @param game
+     *            The game to setup.
+     */
+    private void addHunterButtons(final Game game) {
+        assert game != null;
+
+        buttons.put(START_CAPTION_HUNTER_1P, new Action() {
+            @Override
+            public void doAction() {
+                launcher.makeGame(Launcher.MULTI_GHOST, 1).start();
+            }
+        });
+        buttons.put(START_CAPTION_HUNTER_2P, new Action() {
+            @Override
+            public void doAction() {
+                launcher.makeGame(Launcher.MULTI_GHOST, 2).start();
+            }
+        });
+        buttons.put(START_CAPTION_HUNTER_3P, new Action() {
+            @Override
+            public void doAction() {
+                launcher.makeGame(Launcher.MULTI_GHOST, 3).start();
+            }
+        });
+        buttons.put(START_CAPTION_HUNTER_4P, new Action() {
+            @Override
+            public void doAction() {
+                launcher.makeGame(Launcher.MULTI_GHOST, 4).start();
+            }
+        });
+    }
 
 	/**
 	 * Adds a button with the caption {@value #START_CAPTION} that starts the
@@ -101,7 +154,7 @@ public class PacManUiBuilder {
 		buttons.put(START_CAPTION, new Action() {
 			@Override
 			public void doAction() {
-				game.start();
+				launcher.makeGame(Launcher.CLASSIC).start();
 			}
 		});
 	}
@@ -148,8 +201,19 @@ public class PacManUiBuilder {
 	 * @return The builder.
 	 */
 	public PacManUiBuilder withDefaultButtons() {
-		defaultButtons = true;
+		buttonsType = DEFAULT_BUTTONS;
 		buttons.put(START_CAPTION, null);
+		buttons.put(STOP_CAPTION, null);
+		return this;
+	}
+	
+	public PacManUiBuilder withAdvancedButtons() {
+		buttonsType = ADVANCED_BUTTONS;
+		buttons.put(START_CAPTION, null);
+		buttons.put(START_CAPTION_HUNTER_1P, null);
+		buttons.put(START_CAPTION_HUNTER_2P, null);
+		buttons.put(START_CAPTION_HUNTER_3P, null);
+		buttons.put(START_CAPTION_HUNTER_4P, null);
 		buttons.put(STOP_CAPTION, null);
 		return this;
 	}

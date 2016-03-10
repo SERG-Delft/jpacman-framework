@@ -27,7 +27,7 @@ public class PlayerCollisions implements CollisionMap {
 		}
 	}
 	
-	private void playerColliding(Player player, Unit collidedOn) {
+	protected void playerColliding(Player player, Unit collidedOn) {
 		if (collidedOn instanceof Ghost) {
 			playerVersusGhost(player, (Ghost) collidedOn);
 		}
@@ -37,7 +37,7 @@ public class PlayerCollisions implements CollisionMap {
 		}		
 	}
 	
-	private void ghostColliding(Ghost ghost, Unit collidedOn) {
+	protected void ghostColliding(Ghost ghost, Unit collidedOn) {
 		if (collidedOn instanceof Player) {
 			playerVersusGhost((Player) collidedOn, ghost);
 		}

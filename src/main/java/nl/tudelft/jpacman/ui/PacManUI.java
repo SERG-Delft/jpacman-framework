@@ -1,17 +1,14 @@
 package nl.tudelft.jpacman.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
+import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
 
 /**
  * The default JPacMan UI frame. The PacManUI consists of the following
@@ -43,12 +40,13 @@ public class PacManUI extends JFrame {
 	/**
 	 * The panel displaying the player scores.
 	 */
-	private final ScorePanel scorePanel;
+	private ScorePanel scorePanel;
 
 	/**
 	 * The panel displaying the game.
 	 */
-	private final BoardPanel boardPanel;
+	private BoardPanel boardPanel;
+	private Game game;
 
 	/**
 	 * Creates a new UI for a JPac-Man game.
@@ -73,24 +71,41 @@ public class PacManUI extends JFrame {
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		PacKeyListener keys = new PacKeyListener(keyMappings);
-		addKeyListener(keys);
+        setKeys(keyMappings);
 
 		JPanel buttonPanel = new ButtonPanel(buttons, this);
 
-		scorePanel = new ScorePanel(game.getPlayers());
+		getContentPane().setLayout(new BorderLayout());
+		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+
+        setGame(game, sf);
+	}
+
+    public void setKeys(Map<Integer, Action> keyMappings) {
+        if(getKeyListeners().length > 0) {
+            removeKeyListener(getKeyListeners()[0]);
+        }
+        PacKeyListener keys = new PacKeyListener(keyMappings);
+        addKeyListener(keys);
+    }
+
+    public void setGame(Game game) {
+        this.setGame(game,null);
+    }
+    public void setGame(Game game, ScoreFormatter sf) {
+		try {
+			getContentPane().remove(scorePanel);
+			getContentPane().remove(boardPanel);
+		}catch (Exception ignored){}
+		
+		scorePanel = new ScorePanel(game.getScorers());
 		if (sf != null) {
 			scorePanel.setScoreFormatter(sf);
 		}
-		
 		boardPanel = new BoardPanel(game);
+		getContentPane().add(scorePanel, BorderLayout.NORTH);
+		getContentPane().add(boardPanel, BorderLayout.CENTER);
 		
-		Container contentPanel = getContentPane();
-		contentPanel.setLayout(new BorderLayout());
-		contentPanel.add(buttonPanel, BorderLayout.SOUTH);
-		contentPanel.add(scorePanel, BorderLayout.NORTH);
-		contentPanel.add(boardPanel, BorderLayout.CENTER);
-
 		pack();
 	}
 

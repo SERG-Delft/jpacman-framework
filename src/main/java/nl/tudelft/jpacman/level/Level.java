@@ -1,19 +1,16 @@
 package nl.tudelft.jpacman.level;
 
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.NPC;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * A level of Pac-Man. A level consists of the board with the players and the
@@ -68,14 +65,14 @@ public class Level {
 	/**
 	 * The table of possible collisions between units.
 	 */
-	private final CollisionMap collisions;
+	private CollisionMap collisions;
 
 	/**
 	 * The objects observing this level.
 	 */
 	private final List<LevelObserver> observers;
 
-	/**
+    /**
 	 * Creates a new level for the board.
 	 * 
 	 * @param b
@@ -96,9 +93,7 @@ public class Level {
 		this.board = b;
 		this.inProgress = false;
 		this.npcs = new HashMap<>();
-		for (NPC g : ghosts) {
-			npcs.put(g, null);
-		}
+		this.setNPCs(ghosts);
 		this.startSquares = startPositions;
 		this.startSquareIndex = 0;
 		this.players = new ArrayList<>();
@@ -140,12 +135,16 @@ public class Level {
 	public void registerPlayer(Player p) {
 		assert p != null;
 		assert !startSquares.isEmpty();
+
 		if (players.contains(p)) {
 			return;
 		}
-        players.add(p);
+		players.add(p);
+		registerUnitOnStartSquare(p);
+	}
+	public void registerUnitOnStartSquare(Unit u){
 		Square square = startSquares.get(startSquareIndex);
-		p.occupy(square);
+		u.occupy(square);
 		startSquareIndex++;
 		startSquareIndex %= startSquares.size();
 	}
@@ -306,7 +305,22 @@ public class Level {
 		return pellets;
 	}
 
-	/**
+	public void setCollisions(CollisionMap collisions) {
+		this.collisions = collisions;
+	}
+
+	public void setNPCs(List<NPC> list) {
+		npcs.clear();
+		for (NPC g : list) {
+			npcs.put(g, null);
+		}
+	}
+
+    public Set<NPC> getGhosts() {
+        return npcs.keySet();
+    }
+
+    /**
 	 * A task that moves an NPC and reschedules itself after it finished.
 	 * 
 	 * @author Jeroen Roosen 

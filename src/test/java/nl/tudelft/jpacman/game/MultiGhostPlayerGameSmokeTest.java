@@ -1,15 +1,14 @@
-package nl.tudelft.jpacman;
+package nl.tudelft.jpacman.game;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.level.HunterGhostPlayer;
 import nl.tudelft.jpacman.level.Player;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Smoke test launching the full game,
@@ -27,82 +26,73 @@ import org.junit.Test;
  * @author Arie van Deursen, March 2014.
  */
 @SuppressWarnings("magicnumber")
-public class LauncherSmokeTest {
-	
-	private Launcher launcher;
-	
-	/**
-	 * Launch the user interface.
-	 */
-	@Before
-	public void setUpPacman() {
-		launcher = new Launcher();
-		launcher.launch();
-        launcher.makeGame(Launcher.CLASSIC);
+public class MultiGhostPlayerGameSmokeTest {
+
+    private Launcher launcher;
+
+    /**
+     * Launch the user interface.
+     */
+    @Before
+    public void setUpPacman() {
+        launcher = new Launcher();
+        launcher.launch();
+        launcher.makeGame(Launcher.MULTI_GHOST, 2);
         launcher.getGame().stop();
-	}
-	
-	/**
-	 * Quit the user interface when we're done.
-	 */
-	@After
-	public void tearDown() {
-		launcher.dispose();
-	}
+    }
+
+    /**
+     * Quit the user interface when we're done.
+     */
+    @After
+    public void tearDown() {
+        launcher.dispose();
+    }
 
     /**
      * Launch the game, and imitate what would happen in a typical game.
      * The test is only a smoke test, and not a focused small test.
      * Therefore it is OK that the method is a bit too long.
-     * 
+     *
      * @throws InterruptedException Since we're sleeping in this test.
      */
     @SuppressWarnings("methodlength")
     @Test
     public void smokeTest() throws InterruptedException {
-        Game game = launcher.getGame();        
-        Player player = game.getPlayers().get(0);
- 
+        Game game = launcher.getGame();
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+
         // start cleanly.
         assertFalse(game.isInProgress());
         game.start();
         assertTrue(game.isInProgress());
-        assertEquals(0, player.getScore());
+        ((HunterGhostPlayer)player1).setHunter(false);
+        ((HunterGhostPlayer)player2).setHunter(false);
+        assertEquals(0, player1.getScore());
+        assertEquals(0, player2.getScore());
 
         // get points
-        game.move(player, Direction.EAST);
-        assertEquals(10, player.getScore());
+        game.move(player1, Direction.EAST);
+        assertEquals(10, player1.getScore());
+        game.move(player2, Direction.EAST);
+        assertEquals(10, player2.getScore());
 
         // now moving back does not change the score
-        game.move(player, Direction.WEST);
-        assertEquals(10, player.getScore());
+        game.move(player1, Direction.WEST);
+        assertEquals(10, player1.getScore());
+        game.move(player2, Direction.WEST);
+        assertEquals(10, player2.getScore());
 
         // try to move as far as we can
-        move(game, Direction.EAST, 7);
-        assertEquals(60, player.getScore());
-
-        // move towards the monsters
-        move(game, Direction.NORTH, 6);
-        assertEquals(120, player.getScore());
-
-        // no more points to earn here.
-        move(game, Direction.WEST, 2);
-        assertEquals(120, player.getScore());
-
-        move(game, Direction.NORTH, 2);
-        
-        // Sleeping in tests is generally a bad idea.
-        // Here we do it just to let the monsters move.
-        Thread.sleep(500L);
-      
-        // we're close to monsters, this will get us killed.
-        move(game, Direction.WEST, 10);
-        move(game, Direction.EAST, 10);
-        assertFalse(player.isAlive());
+        move(game, Direction.EAST, 7, 0);
+        assertEquals(60, player1.getScore());
+        move(game, Direction.EAST, 7, 1);
+        assertEquals(60, player2.getScore());
 
         game.stop();
         assertFalse(game.isInProgress());
-     }
+    }
 
     /**
      * Make number of moves in given direction.
@@ -111,8 +101,8 @@ public class LauncherSmokeTest {
      * @param dir The direction to be taken
      * @param numSteps The number of steps to take
      */
-    public static void move(Game game, Direction dir, int numSteps) {
-        Player player = game.getPlayers().get(0);
+    public static void move(Game game, Direction dir, int numSteps, int playerIndex) {
+        Player player = game.getPlayers().get(playerIndex);
         for (int i = 0; i < numSteps; i++) {
             game.move(player, dir);
         }
