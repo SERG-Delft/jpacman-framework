@@ -90,6 +90,9 @@ public class InfiniteBoard extends Board {
         this.closeWithWall();
     }
 
+    /**
+     * Link the outside of the board with an imaginary wall
+     */
     private void closeWithWall() {
         // The last column of the new grid is linked with an imaginary wall for the ghosts" AI
         for(Square square : this.columns.getLast()){
@@ -99,12 +102,10 @@ public class InfiniteBoard extends Board {
         for(Square square : this.columns.getFirst()){
             square.link(wall, Direction.WEST);
         }
-        Node<DoubleLinkedListWithWindow<Square>> columnExplorer = this.columns.getHead();
         // The first (resp. last) element of each column is linked with a wall on its north (resp. south) edge
-        for(int x=0; x<this.columns.size(); x++){
-            columnExplorer.getData().getFirst().link(wall, Direction.NORTH);
-            columnExplorer.getData().getLast().link(wall, Direction.SOUTH);
-            columnExplorer = columnExplorer.getNext();
+        for(DoubleLinkedListWithWindow<Square> list : columns) {
+            list.getFirst().link(wall, Direction.NORTH);
+            list.getLast().link(wall, Direction.SOUTH);
         }
     }
 
@@ -431,10 +432,8 @@ public class InfiniteBoard extends Board {
      */
     public void moveDownVisible() {
         assert this.columns.getFirst().getWindowTailIndex() != this.columns.getFirst().size() - 1;
-        Node<DoubleLinkedListWithWindow<Square>> columnExplorer = columns.getHead();
-        while (columnExplorer != null) {
-            columnExplorer.getData().slideWindowRight();
-            columnExplorer = columnExplorer.getNext();
+        for(DoubleLinkedListWithWindow list : columns){
+            list.slideWindowRight();
         }
     }
 
@@ -443,10 +442,8 @@ public class InfiniteBoard extends Board {
      */
     public void moveUpVisible(){
         assert this.columns.getFirst().getWindowHeadIndex() != 0;
-        Node<DoubleLinkedListWithWindow<Square>> columnExplorer = columns.getHead();
-        while (columnExplorer != null) {
-            columnExplorer.getData().slideWindowLeft();
-            columnExplorer = columnExplorer.getNext();
+        for(DoubleLinkedListWithWindow list : columns){
+            list.slideWindowLeft();
         }
     }
 

@@ -21,7 +21,7 @@ public class InfiniteLevel extends Level {
     /**
      * The max number of ghost inside the level
      */
-    private final int MAX_NUMBER_OF_GHOSTS = 15;
+    private final int MAX_NUMBER_OF_GHOSTS = 4;
     /**
      * index of the oldest ghost inside ghostsOrder
      */
