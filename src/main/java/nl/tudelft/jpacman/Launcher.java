@@ -64,8 +64,9 @@ public class Launcher {
     /**
      * Creates a new game using the level from {@link #makeLevel(String source)}.
      *
+	 * @param gameMode the gamemode to create
+	 * @param playerNumber the number of players in the game
      * @return a new Game.
-     * @param gameMode the gamemode to create
      */
 	public Game makeGame(int gameMode, int playerNumber) {
         if(game != null){
