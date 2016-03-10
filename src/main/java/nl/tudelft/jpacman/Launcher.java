@@ -1,5 +1,17 @@
 package nl.tudelft.jpacman;
 
+import nl.tudelft.jpacman.board.BoardFactory;
+import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.game.GameFactory;
+import nl.tudelft.jpacman.level.*;
+import nl.tudelft.jpacman.npc.ghost.GhostColor;
+import nl.tudelft.jpacman.npc.ghost.GhostFactory;
+import nl.tudelft.jpacman.sprite.PacManSprites;
+import nl.tudelft.jpacman.ui.Action;
+import nl.tudelft.jpacman.ui.PacManUI;
+import nl.tudelft.jpacman.ui.PacManUiBuilder;
+
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,22 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import nl.tudelft.jpacman.board.BoardFactory;
-import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.game.GameFactory;
-import nl.tudelft.jpacman.level.Level;
-import nl.tudelft.jpacman.level.LevelFactory;
-import nl.tudelft.jpacman.level.MapParser;
-import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.level.PlayerFactory;
-import nl.tudelft.jpacman.npc.ghost.GhostColor;
-import nl.tudelft.jpacman.npc.ghost.GhostFactory;
-import nl.tudelft.jpacman.sprite.PacManSprites;
-import nl.tudelft.jpacman.ui.Action;
-import nl.tudelft.jpacman.ui.PacManUI;
-import nl.tudelft.jpacman.ui.PacManUiBuilder;
 
 /**
  * Creates and launches the JPacMan UI.
@@ -84,7 +80,7 @@ public class Launcher {
                 gf = getGameFactory();
                 level = makeLevel("/board.txt");
                 game = gf.createSinglePlayerGame(level);
-                pacManUI.setKeys(getSinglePlayerKeys(game));
+				pacManUI.setKeys(getSinglePlayerKeys(game));
                 pacManUI.setGame(game);
                 break;
             case MULTI_GHOST:
@@ -192,7 +188,8 @@ public class Launcher {
      *            The game that will process the events.
      */
 	protected Map<Integer, Action> getSinglePlayerKeys(final Game game) {
-		final Player p1 = getSinglePlayer(game);
+		System.out.println(game.getPlayers());
+		final Player p1 = game.getPlayers().get(0);
         HashMap<Integer, Action> ret = new HashMap<>();
 
         ret.put(KeyEvent.VK_UP, new Action() {
@@ -223,32 +220,6 @@ public class Launcher {
                 game.move(p1, Direction.EAST);
             }
         });
-
-//		builder.addKey(KeyEvent.VK_UP, new Action() {
-//
-//			@Override
-//			public void doAction() {
-//				game.move(p1, Direction.NORTH);
-//			}
-//		}).addKey(KeyEvent.VK_DOWN, new Action() {
-//
-//			@Override
-//			public void doAction() {
-//				game.move(p1, Direction.SOUTH);
-//			}
-//		}).addKey(KeyEvent.VK_LEFT, new Action() {
-//
-//			@Override
-//			public void doAction() {
-//				game.move(p1, Direction.WEST);
-//			}
-//		}).addKey(KeyEvent.VK_RIGHT, new Action() {
-//
-//			@Override
-//			public void doAction() {
-//				game.move(p1, Direction.EAST);
-//			}
-//		});
         return ret;
 
 	}
@@ -288,15 +259,6 @@ public class Launcher {
 		}
         return ret;
 
-	}
-
-	private Player getSinglePlayer(final Game game) {
-		List<Player> players = game.getPlayers();
-		if (players.isEmpty()) {
-			throw new IllegalArgumentException("Game has 0 players.");
-		}
-		final Player p1 = players.get(0);
-		return p1;
 	}
 
 	/**

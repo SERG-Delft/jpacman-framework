@@ -1,16 +1,14 @@
 package nl.tudelft.jpacman.ui;
 
-import java.awt.BorderLayout;
+import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
 
 /**
  * The default JPacMan UI frame. The PacManUI consists of the following
@@ -77,12 +75,10 @@ public class PacManUI extends JFrame {
 
 		JPanel buttonPanel = new ButtonPanel(buttons, this);
 
-		setGame(game, sf);
-
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
-		pack();
+        setGame(game, sf);
 	}
 
     public void setKeys(Map<Integer, Action> keyMappings) {
@@ -110,7 +106,8 @@ public class PacManUI extends JFrame {
 		boardPanel = new BoardPanel(game);
 		getContentPane().add(scorePanel, BorderLayout.NORTH);
 		getContentPane().add(boardPanel, BorderLayout.CENTER);
-        setSize(1024,768);
+		
+		pack();
 	}
 
 	/**
