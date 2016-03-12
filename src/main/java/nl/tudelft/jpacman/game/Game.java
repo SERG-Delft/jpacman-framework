@@ -1,11 +1,13 @@
 package nl.tudelft.jpacman.game;
 
-import java.util.List;
-
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.level.Scorer;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A basic implementation of a Pac-Man game.
@@ -23,6 +25,7 @@ public abstract class Game implements LevelObserver {
 	 * Object that locks the start and stop methods.
 	 */
 	private final Object progressLock = new Object();
+	private List<Player> players;
 
 	/**
 	 * Creates a new game.
@@ -44,9 +47,12 @@ public abstract class Game implements LevelObserver {
 				inProgress = true;
 				getLevel().addObserver(this);
 				getLevel().start();
+				customStart();
 			}
 		}
 	}
+
+	abstract void customStart();
 
 	/**
 	 * Pauses the game.
@@ -71,7 +77,9 @@ public abstract class Game implements LevelObserver {
 	/**
 	 * @return An immutable list of the participants of this game.
 	 */
-	public abstract List<Player> getPlayers();
+	public List<Scorer> getScorers(){
+		return Arrays.asList(getPlayers().toArray(new Scorer[getPlayers().size()]));
+	}
 
 	/**
 	 * @return The level currently being played.
@@ -101,5 +109,9 @@ public abstract class Game implements LevelObserver {
 	@Override
 	public void levelLost() {
 		stop();
+	}
+
+	public List<Player> getPlayers() {
+		return players;
 	}
 }

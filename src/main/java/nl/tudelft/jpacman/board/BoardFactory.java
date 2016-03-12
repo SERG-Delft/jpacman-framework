@@ -1,5 +1,6 @@
 package nl.tudelft.jpacman.board;
 
+import nl.tudelft.jpacman.level.SquareGridGenerator;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
 
@@ -57,6 +58,33 @@ public class BoardFactory {
 		return board;
 	}
 
+    public InfiniteBoard createInfiniteBoard(Square[][] grid) {
+        assert grid != null;
+
+        InfiniteBoard board = new InfiniteBoard(grid);
+		SquareGridGenerator generator = new SquareGridGenerator();
+
+        int width = Integer.MAX_VALUE;
+        int height = Integer.MAX_VALUE;
+        for (int x = 0; x < grid.length; x++) {
+            for (int y = 0; y < grid[0].length; y++) {
+                Square square = grid[x][y];
+                for (Direction dir : Direction.values()) {
+                    int dirX = (x + dir.getDeltaX()) % width;
+                    int dirY = (y + dir.getDeltaY()) % height;
+                    try{
+						Square neighbour = grid[dirX][dirY];
+						square.link(neighbour, dir);
+					} catch(ArrayIndexOutOfBoundsException exc){
+                        if(dirX > grid.length || dirY > grid[0].length) throw new ArrayIndexOutOfBoundsException();
+					}
+				}
+            }
+        }
+
+        return board;
+    }
+
 	/**
 	 * Creates a new square that can be occupied by any unit.
 	 * 
@@ -80,7 +108,7 @@ public class BoardFactory {
 	 * 
 	 * @author Jeroen Roosen 
 	 */
-	private static final class Wall extends Square {
+	public static final class Wall extends Square {
 
 		/**
 		 * The background for this square.
@@ -93,7 +121,7 @@ public class BoardFactory {
 		 * @param sprite
 		 *            The background for the square.
 		 */
-		private Wall(Sprite sprite) {
+		Wall(Sprite sprite) {
 			this.background = sprite;
 		}
 
@@ -106,6 +134,11 @@ public class BoardFactory {
 		public Sprite getSprite() {
 			return background;
 		}
+
+		@Override
+		public String toString(){
+			return "#";
+		}
 	}
 
 	/**
@@ -113,7 +146,7 @@ public class BoardFactory {
 	 * 
 	 * @author Jeroen Roosen 
 	 */
-	private static final class Ground extends Square {
+	public static final class Ground extends Square {
 
 		/**
 		 * The background for this square.
@@ -138,6 +171,11 @@ public class BoardFactory {
 		@Override
 		public Sprite getSprite() {
 			return background;
+		}
+
+		@Override
+		public String toString() {
+			return " ";
 		}
 	}
 }

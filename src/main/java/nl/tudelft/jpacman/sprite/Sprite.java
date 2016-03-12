@@ -1,6 +1,6 @@
 package nl.tudelft.jpacman.sprite;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * Visual representation of some object.

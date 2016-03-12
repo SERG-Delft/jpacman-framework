@@ -1,14 +1,12 @@
 package nl.tudelft.jpacman.ui;
 
-import java.awt.GridLayout;
+import nl.tudelft.jpacman.level.Scorer;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import nl.tudelft.jpacman.level.Player;
 
 /**
  * A panel consisting of a column for each player, with the numbered players on
@@ -27,7 +25,7 @@ public class ScorePanel extends JPanel {
 	/**
 	 * The map of players and the labels their scores are on.
 	 */
-	private final Map<Player, JLabel> scoreLabels;
+	private final Map<Scorer, JLabel> scoreLabels;
 	
 	/**
 	 * The default way in which the score is shown.
@@ -36,7 +34,7 @@ public class ScorePanel extends JPanel {
 			// this lambda breaks cobertura 2.7 ...
 			// player) -> String.format("Score: %3d", player.getScore());
 			new ScoreFormatter() {
-				public String format(Player p) {
+				public String format(Scorer p) {
 					return String.format("Score: %3d", p.getScore());
 				}
 			};
@@ -49,22 +47,22 @@ public class ScorePanel extends JPanel {
 	/**
 	 * Creates a new score panel with a column for each player.
 	 * 
-	 * @param players
-	 *            The players to display the scores of.
+	 * @param scorers
+	 *            The scorers to display the scores of.
 	 */
-	public ScorePanel(List<Player> players) {
+	public ScorePanel(List<Scorer> scorers) {
 		super();
-		assert players != null;
+		assert scorers != null;
 
-		setLayout(new GridLayout(2, players.size()));
+		setLayout(new GridLayout(2, scorers.size()));
 
-		for (int i = 1; i <= players.size(); i++) {
-			add(new JLabel("Player " + i, JLabel.CENTER));
+		for (int i = 1; i <= scorers.size(); i++) {
+			add(new JLabel(scorers.get(i-1).getName() + " " + i, JLabel.CENTER));
 		}
 		scoreLabels = new LinkedHashMap<>();
-		for (Player p : players) {
+		for (Scorer s : scorers) {
 			JLabel scoreLabel = new JLabel("0", JLabel.CENTER);
-			scoreLabels.put(p, scoreLabel);
+			scoreLabels.put(s, scoreLabel);
 			add(scoreLabel);
 		}
 	}
@@ -73,13 +71,13 @@ public class ScorePanel extends JPanel {
 	 * Refreshes the scores of the players.
 	 */
 	protected void refresh() {
-		for (Player p : scoreLabels.keySet()) {
+		for (Scorer s : scoreLabels.keySet()) {
 			String score = "";
-			if (!p.isAlive()) {
-				score = "You died. ";
+			if (!s.isAlive()) {
+				score = "Dead x_x. ";
 			}
-			score += scoreFormatter.format(p);
-			scoreLabels.get(p).setText(score);
+			score += scoreFormatter.format(s);
+			scoreLabels.get(s).setText(score);
 		}
 	}
 	
@@ -93,7 +91,7 @@ public class ScorePanel extends JPanel {
 		 * @param p The player and its score
 		 * @return Formatted score.
 		 */
-		String format(Player p);
+		String format(Scorer p);
 	}
 	
 	/**

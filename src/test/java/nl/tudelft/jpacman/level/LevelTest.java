@@ -1,19 +1,19 @@
 package nl.tudelft.jpacman.level;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import com.google.common.collect.Lists;
 import nl.tudelft.jpacman.board.Board;
+import nl.tudelft.jpacman.board.BoardFactory;
+import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
-
+import nl.tudelft.jpacman.sprite.PacManSprites;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.common.collect.Lists;
+import java.util.concurrent.ExecutorService;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests various aspects of level.
@@ -152,5 +152,108 @@ public class LevelTest {
 		level.registerPlayer(p2);
 		level.registerPlayer(p3);
 		verify(p3).occupy(square1);
+	}
+
+	/**
+	 * Verifies that an observer can be added and removed from the level
+     */
+	@Test
+	public void testAddRemoveObserver() throws Exception {
+		Level.LevelObserver observer = mock(Level.LevelObserver.class);
+		level.addObserver(observer);
+        try{
+            level.removeObserver(observer);
+        } catch(Exception exc){
+            fail();
+        }
+	}
+
+	/**
+	 * Verifies that the board of the level canbe returned
+	 */
+	@Test
+	public void testGetBoard() throws Exception {
+        Board board = level.getBoard();
+        assertEquals(this.board, board);
+	}
+
+	/**
+	 * Verifies that a unit can move on the board
+	 */
+	@Test
+	public void testMove() throws Exception {
+        Square s0_0 = new BasicSquare();
+        Square s0_1 = new BasicSquare();
+        Square s0_2 = new BasicSquare();
+        Square s1_0 = new BasicSquare();
+        Square s1_1 = new BasicSquare();
+        Square s1_2 = new BasicSquare();
+        BasicUnit myUnit = new BasicUnit();
+        myUnit.occupy(s0_0);
+        Square[][] grid = new Square[][]{{s0_0, s0_1, s0_2}, {s1_0, s1_1, s1_2}};
+        Board board = new BoardFactory(mock(PacManSprites.class)).createBoard(grid);
+        s1_0 = s0_0;
+        Level level = new Level(board, Lists.newArrayList(ghost), Lists.newArrayList(s0_0, s0_1), collisions);
+        Player p1 = mock(Player.class);
+        level.registerPlayer(p1);
+        level.move(myUnit, Direction.NORTH);
+        assertEquals(s1_0, myUnit.getSquare());
+	}
+
+	/**
+	 * Verifies that a player can be set as "not alive"
+	 */
+	@Test
+	public void testIsAnyPlayerAlive() throws Exception {
+        Player p = mock(Player.class);
+        level.registerPlayer(p);
+        p.setAlive(false);
+        assertFalse(level.isAnyPlayerAlive());
+	}
+
+	/**
+	 * Verifies that the method remainingPellets returns the number of pellets in the level
+	 */
+	@Test
+	public void testRemainingPellets() throws Exception {
+        Square s0_0 = new BasicSquare();
+        Pellet pellet = new Pellet(100, null);
+        pellet.occupy(s0_0);
+        Square s0_1 = new BasicSquare();
+        Square s0_2 = new BasicSquare();
+        Square s1_0 = new BasicSquare();
+        Square s1_1 = new BasicSquare();
+        Square s1_2 = new BasicSquare();
+        BasicUnit myUnit = new BasicUnit();
+        myUnit.occupy(s0_0);
+        Square[][] grid = new Square[][]{{s0_0, s0_1, s0_2}, {s1_0, s1_1, s1_2}};
+        Board board = new BoardFactory(mock(PacManSprites.class)).createBoard(grid);
+        Level level = new Level(board, Lists.newArrayList(ghost), Lists.newArrayList(s0_0, s0_1), collisions);
+        assertEquals(1, level.remainingPellets());
+        assertFalse(2 == level.remainingPellets());
+	}
+
+	/**
+	 * Verifies that the npcs are started
+     */
+	@Test
+	public void testStartNPCs() throws Exception {
+		level.startNPCs();
+		assertEquals(1, level.npcs.size());
+		for(ExecutorService service : level.npcs.values()){
+			assertFalse(service.isShutdown() || service.isTerminated());
+		}
+	}
+
+	/**
+	 * Verifies that the boolean inProgress is set to true when the game is started and
+	 * 	set to false when the game is stopped
+     */
+	@Test
+	public void testIsInProgress() throws Exception {
+		level.start();
+		assertTrue(level.isInProgress());
+		level.stop();
+		assertFalse(level.isInProgress());
 	}
 }

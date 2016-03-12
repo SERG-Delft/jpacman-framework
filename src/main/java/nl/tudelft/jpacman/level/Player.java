@@ -1,18 +1,18 @@
 package nl.tudelft.jpacman.level;
 
-import java.util.Map;
-
 import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.board.MobileUnit;
 import nl.tudelft.jpacman.sprite.AnimatedSprite;
 import nl.tudelft.jpacman.sprite.Sprite;
+
+import java.util.Map;
 
 /**
  * A player operated unit in our game.
  * 
  * @author Jeroen Roosen 
  */
-public class Player extends Unit {
+public class Player extends MobileUnit implements Scorer {
 
 	/**
 	 * The amount of points accumulated by this player.
@@ -22,12 +22,12 @@ public class Player extends Unit {
 	/**
 	 * The animations for every direction.
 	 */
-	private final Map<Direction, Sprite> sprites;
+	private Map<Direction, Sprite> sprites;
 
 	/**
 	 * The animation that is to be played when Pac-Man dies.
 	 */
-	private final AnimatedSprite deathSprite;
+	private AnimatedSprite deathSprite;
 
 	/**
 	 * <code>true</code> iff this player is alive.
@@ -85,6 +85,11 @@ public class Player extends Unit {
 	}
 
 	@Override
+	public String getName() {
+		return "Player";
+	}
+
+	@Override
 	public Sprite getSprite() {
 		if (isAlive()) {
 			return sprites.get(getDirection());
@@ -102,4 +107,11 @@ public class Player extends Unit {
 	public void addPoints(int points) {
 		score += points;
 	}
+
+    protected void setSprites(Map<Direction, Sprite> _sprites){
+        sprites = _sprites;
+    }
+    protected void setDeathSprites(AnimatedSprite _sprite){
+        deathSprite = _sprite;
+    }
 }

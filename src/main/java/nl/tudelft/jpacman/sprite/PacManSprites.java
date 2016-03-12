@@ -1,12 +1,12 @@
 package nl.tudelft.jpacman.sprite;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import nl.tudelft.jpacman.PacmanConfigurationException;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Sprite Store containing the classic Pac-Man sprites.
@@ -109,6 +109,20 @@ public class PacManSprites extends SpriteStore {
 	}
 
 	/**
+	 * @return The animation of a dying Ghost.
+	 */
+	public AnimatedSprite getGhostDeathAnimation(GhostColor color) {//TODO change animation sprites
+		String resource = "/sprite/dead.png";
+
+		Sprite baseImage = loadSprite(resource);
+		AnimatedSprite animation = createAnimatedSprite(baseImage, PACMAN_DEATH_FRAMES,
+				ANIMATION_DELAY, false);
+		animation.setAnimating(false);
+
+		return animation;
+	}
+
+	/**
 	 * @return The sprite for the wall.
 	 */
 	public Sprite getWallSprite() {
@@ -144,4 +158,16 @@ public class PacManSprites extends SpriteStore {
 			throw new PacmanConfigurationException("Unable to load sprite: " + resource, e);
 		}
 	}
+
+	public Map<Direction, Sprite> getGhostVulSprites() {
+		String resource = "/sprite/ghost_vul_white.png";
+		return directionSprite(resource, GHOST_ANIMATION_FRAMES);
+	}
+
+    public Map<Direction,Sprite> getGhostHunterSprites() {
+		return getPacmanSprites();
+		/*
+        String resource = "/sprite/ghost_vul_white.png";
+        return directionSprite(resource, GHOST_ANIMATION_FRAMES);*/
+    }
 }

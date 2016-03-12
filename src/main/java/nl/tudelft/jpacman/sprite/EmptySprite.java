@@ -1,6 +1,6 @@
 package nl.tudelft.jpacman.sprite;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * Empty Sprite which does not contain any data. When this sprite is drawn,

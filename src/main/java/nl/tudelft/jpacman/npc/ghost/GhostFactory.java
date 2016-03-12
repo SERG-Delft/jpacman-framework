@@ -62,4 +62,8 @@ public class GhostFactory {
 	public Ghost createClyde() {
 		return new Clyde(sprites.getGhostSprite(GhostColor.ORANGE));
 	}
+
+	public HunterGhostNPC createHunterGhostNPC(GhostColor color) {
+		return new HunterGhostNPC(sprites.getGhostSprite(color));
+	}
 }

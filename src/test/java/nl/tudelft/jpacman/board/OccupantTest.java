@@ -1,11 +1,11 @@
 package nl.tudelft.jpacman.board;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Test suite to confirm that {@link Unit}s correctly (de)occupy squares.
