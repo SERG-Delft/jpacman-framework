@@ -95,24 +95,14 @@ public class PacManUiBuilder {
 	private void addTwoPlayersButton(Game game) {
 		assert game != null;
 
-		buttons.put(START_CAPTION_TWO_PLAYERS, new Action() {
-			@Override
-			public void doAction() {
-				launcher.makeGame(Launcher.TWO_PLAYERS).start();
-			}
-		});
+		buttons.put(START_CAPTION_TWO_PLAYERS, () -> launcher.makeGame(Launcher.TWO_PLAYERS).start());
 	}
 
 
 	private void addinfiniteButton(Game game) {
 		assert game != null;
 
-		buttons.put(START_CAPTION_INFINITE, new Action() {
-			@Override
-			public void doAction() {
-				launcher.makeGame(Launcher.INFINITE_BOARD).start();
-			}
-		});
+		buttons.put(START_CAPTION_INFINITE, () -> launcher.makeGame(Launcher.INFINITE_BOARD).start());
 	}
 
 	/**
@@ -125,12 +115,7 @@ public class PacManUiBuilder {
     private void addStopButton(final Game game) {
         assert game != null;
 
-        buttons.put(STOP_CAPTION, new Action() {
-            @Override
-            public void doAction() {
-                launcher.getGame().stop();
-            }
-        });
+        buttons.put(STOP_CAPTION, () -> launcher.getGame().stop());
     }
     /**
      * Adds the buttons with the caption {@value #START_CAPTION_HUNTER_1P}, {@value #START_CAPTION_HUNTER_2P}, {@value #START_CAPTION_HUNTER_3P}, {@value #START_CAPTION_HUNTER_4P} that starts the
@@ -142,30 +127,10 @@ public class PacManUiBuilder {
     private void addHunterButtons(final Game game) {
         assert game != null;
 
-        buttons.put(START_CAPTION_HUNTER_1P, new Action() {
-            @Override
-            public void doAction() {
-                launcher.makeGame(Launcher.MULTI_GHOST, 1).start();
-            }
-        });
-        buttons.put(START_CAPTION_HUNTER_2P, new Action() {
-            @Override
-            public void doAction() {
-                launcher.makeGame(Launcher.MULTI_GHOST, 2).start();
-            }
-        });
-        buttons.put(START_CAPTION_HUNTER_3P, new Action() {
-            @Override
-            public void doAction() {
-                launcher.makeGame(Launcher.MULTI_GHOST, 3).start();
-            }
-        });
-        buttons.put(START_CAPTION_HUNTER_4P, new Action() {
-            @Override
-            public void doAction() {
-                launcher.makeGame(Launcher.MULTI_GHOST, 4).start();
-            }
-        });
+        buttons.put(START_CAPTION_HUNTER_1P, () -> launcher.makeGame(Launcher.MULTI_GHOST, 1).start());
+        buttons.put(START_CAPTION_HUNTER_2P, () -> launcher.makeGame(Launcher.MULTI_GHOST, 2).start());
+        buttons.put(START_CAPTION_HUNTER_3P, () -> launcher.makeGame(Launcher.MULTI_GHOST, 3).start());
+        buttons.put(START_CAPTION_HUNTER_4P, () -> launcher.makeGame(Launcher.MULTI_GHOST, 4).start());
     }
 
 	/**
@@ -178,12 +143,7 @@ public class PacManUiBuilder {
 	private void addStartButton(final Game game) {
 		assert game != null;
 
-		buttons.put(START_CAPTION, new Action() {
-			@Override
-			public void doAction() {
-				launcher.makeGame(Launcher.CLASSIC).start();
-			}
-		});
+		buttons.put(START_CAPTION, () -> launcher.makeGame(Launcher.CLASSIC).start());
 	}
 
 	/**

@@ -5,6 +5,7 @@ import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -73,10 +74,27 @@ public class PacManUI extends JFrame {
 
         setKeys(keyMappings);
 
-		JPanel buttonPanel = new ButtonPanel(buttons, this);
+        Map<String, Action> buttons1 = new HashMap<>();
+        Map<String, Action> buttons2 = new HashMap<>();
+
+        for(String key : buttons.keySet()){
+            if(key.contains("Hunter")){
+                buttons2.put(key, buttons.get(key));
+            }
+            else{
+                buttons1.put(key, buttons.get(key));
+            }
+        }
+
+		JPanel buttonPanel = new ButtonPanel(buttons1, this);
+		JPanel buttonPanel2 = new ButtonPanel(buttons2, this);
+		JPanel buttonContainer = new JPanel();
+        buttonContainer.setLayout(new BorderLayout());
+        buttonContainer.add(buttonPanel, BorderLayout.NORTH);
+        buttonContainer.add(buttonPanel2, BorderLayout.SOUTH);
 
 		getContentPane().setLayout(new BorderLayout());
-		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+		getContentPane().add(buttonContainer, BorderLayout.SOUTH);
 
         setGame(game, sf);
 	}
