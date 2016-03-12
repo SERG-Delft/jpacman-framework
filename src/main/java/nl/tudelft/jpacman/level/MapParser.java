@@ -33,7 +33,7 @@ public class MapParser {
     /**
      * The probability, on PROCEDURAL_TOTAL_PROBABILITY to put a ghost on a generated square
      */
-	private static final int PROCEDURAL_GHOST_PROBABILITY = 10;
+	private static final int PROCEDURAL_GHOST_PROBABILITY = 5;
 	/**
 	 * The factory that creates the levels.
 	 */

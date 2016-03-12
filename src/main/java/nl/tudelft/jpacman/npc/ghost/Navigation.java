@@ -46,14 +46,17 @@ public final class Navigation {
 		if (from == to) {
 			return new ArrayList<>();
 		}
-
+        // In the case of an infinite board, we must set a max depth so the ghost don't search infinitely
+		int MAX_DEPTH=2500;
 		List<Node> targets = new ArrayList<>();
 		Set<Square> visited = new HashSet<>();
 		targets.add(new Node(null, from, null));
+		int depth = 0;
 		while (!targets.isEmpty()) {
 			Node n = targets.remove(0);
 			Square s = n.getSquare();
-                if (s == to) {
+			depth++;
+			if (s == to || depth==MAX_DEPTH) {
                     List<Direction> path = n.getPath();
                     return path;
                 }

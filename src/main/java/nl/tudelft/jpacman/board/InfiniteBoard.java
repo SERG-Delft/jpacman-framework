@@ -20,7 +20,7 @@ public class InfiniteBoard extends Board {
     /**
      * The minimum number of visible squares around PacMan.
      */
-    private final int BOARD_LIMIT = 6;
+    private final int BOARD_LIMIT = 7;
     /**
      * Contains the entire board.
      */
@@ -235,22 +235,20 @@ public class InfiniteBoard extends Board {
         assert column.length == this.columns.getLast().size();
         int initSize = columns.size();
         Node<Square> explorerNode = columns.getLast().getHead();
-        DoubleLinkedListWithWindow<Square> newList = new DoubleLinkedListWithWindow<>(Arrays.asList(column),
-                                                                                columns.getLast().getWindowHeadIndex(),
-                                                                                columns.getLast().getWindowTailIndex());
-        Node<Square> newListExplorerNode = newList.getHead();
         for(int x = 0; x<column.length; x++) {
             if (x != 0) {
-                newListExplorerNode.getData().link(newListExplorerNode.getPrevious().getData(), Direction.NORTH);
+                column[x].link(column[x-1], Direction.NORTH);
             }
             if (x != column.length - 1){
-                newListExplorerNode.getData().link(newListExplorerNode.getNext().getData(), Direction.SOUTH);
+                column[x].link(column[x+1], Direction.SOUTH);
             }
-            explorerNode.getData().link(newListExplorerNode.getData(), Direction.EAST);
-            newListExplorerNode.getData().link(explorerNode.getData(), Direction.WEST);
+            explorerNode.getData().link(column[x], Direction.EAST);
+            column[x].link(explorerNode.getData(), Direction.WEST);
             explorerNode = explorerNode.getNext();
-            newListExplorerNode = newListExplorerNode.getNext();
         }
+        DoubleLinkedListWithWindow<Square> newList = new DoubleLinkedListWithWindow<>(Arrays.asList(column),
+                columns.getLast().getWindowHeadIndex(),
+                columns.getLast().getWindowTailIndex());
         this.columns.addLast(newList);
         assert columns.size() > initSize;
         this.toExtendRight = false;
