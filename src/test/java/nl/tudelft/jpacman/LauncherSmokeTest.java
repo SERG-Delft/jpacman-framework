@@ -115,4 +115,31 @@ public class LauncherSmokeTest {
             game.move(player, dir);
         }
     }
+
+    /**
+     * Launch the game, and imitate what would happen when you eat a super pelet.
+     *
+     */
+    @SuppressWarnings("methodlength")
+    @Test
+    public void smokeTestSuperPellet(){
+        Game game = launcher.getGame();
+        Player player = game.getPlayers().get(0);
+
+        // start cleanly.
+        assertFalse(game.isInProgress());
+        game.start();
+        assertTrue(game.isInProgress());
+        assertEquals(0, player.getScore());
+
+        // get super pelet and verify score
+        move(game, Direction.EAST,6);
+        move(game, Direction.SOUTH,2);
+        move(game, Direction.EAST,4);
+        move(game, Direction.SOUTH,2);
+        assertEquals(180, player.getScore());
+
+        game.stop();
+        assertFalse(game.isInProgress());
+    }
 }
