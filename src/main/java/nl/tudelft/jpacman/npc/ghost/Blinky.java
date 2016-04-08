@@ -83,6 +83,9 @@ public class  Blinky extends VulnerableGhost {
 	 */
 	@Override
 	public Direction nextMove() {
+		if(!isHunter()){
+			return randomMove();
+		}
 		// TODO Blinky should patrol his corner every once in a while
 		// TODO Implement his actual behaviour instead of simply chasing.
 		Square target = Navigation.findNearest(Player.class, getSquare())

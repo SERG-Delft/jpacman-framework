@@ -100,6 +100,9 @@ public class Inky extends VulnerableGhost {
 	// CHECKSTYLE:OFF To keep this more readable.
 	@Override
 	public Direction nextMove() {
+		if(!isHunter()){
+			return randomMove();
+		}
 		Unit blinky = Navigation.findNearest(Blinky.class, getSquare());
 		if (blinky == null) {
 			Direction d = randomMove();

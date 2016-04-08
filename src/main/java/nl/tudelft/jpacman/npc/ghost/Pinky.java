@@ -93,6 +93,9 @@ public class Pinky extends VulnerableGhost {
 	 */
 	@Override
 	public Direction nextMove() {
+		if(!isHunter()){
+			return randomMove();
+		}
 		Unit player = Navigation.findNearest(Player.class, getSquare());
 		if (player == null) {
 			Direction d = randomMove();

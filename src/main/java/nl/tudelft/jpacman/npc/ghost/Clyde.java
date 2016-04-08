@@ -103,6 +103,9 @@ public class Clyde extends VulnerableGhost {
 	 */
 	@Override
 	public Direction nextMove() {
+		if(!isHunter()){
+			return randomMove();
+		}
 		Square target = Navigation.findNearest(Player.class, getSquare())
 				.getSquare();
 		if (target == null) {

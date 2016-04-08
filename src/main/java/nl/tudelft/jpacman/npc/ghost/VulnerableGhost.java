@@ -48,6 +48,10 @@ public abstract class VulnerableGhost extends Ghost{
         hunter=true;
     }
 
+    public void respawn(){
+        occupy(initialPosition);
+    }
+
     @Override
     public Sprite getSprite() {
         if(hunter)
