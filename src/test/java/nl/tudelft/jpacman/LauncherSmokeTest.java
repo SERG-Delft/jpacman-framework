@@ -117,7 +117,7 @@ public class LauncherSmokeTest {
     }
 
     /**
-     * Launch the game, and imitate what would happen when you eat a super pelet.
+     * Launch the game, and imitate what would happen when you eat a super pellet.
      *
      */
     @SuppressWarnings("methodlength")
