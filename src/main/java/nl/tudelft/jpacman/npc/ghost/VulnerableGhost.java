@@ -48,6 +48,13 @@ public abstract class VulnerableGhost extends Ghost{
         hunter=true;
     }
 
+    @Override
+    public Sprite getSprite() {
+        if(hunter)
+            return super.getSprite();
+        return vulSprite.get(getDirection());
+    }
+
     /**
      *
      * @return the sprite of a vulnerable ghost.

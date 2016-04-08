@@ -37,11 +37,11 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * <p>
  * Source: http://strategywiki.org/wiki/Pac-Man/Getting_Started
  * </p>
- * 
- * @author Jeroen Roosen 
- * 
+ *
+ * @author Jeroen Roosen
+ *
  */
-public class Inky extends Ghost {
+public class Inky extends VulnerableGhost {
 
 	private static final int SQUARES_AHEAD = 2;
 
@@ -58,7 +58,7 @@ public class Inky extends Ghost {
 
 	/**
 	 * Creates a new "Inky", a.k.a. Bashful.
-	 * 
+	 *
 	 * @param spriteMap
 	 *            The sprites for this ghost.
 	 */
@@ -73,7 +73,7 @@ public class Inky extends Ghost {
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * <p>
 	 * Bashful has the most complicated AI of all. When the ghosts are not
 	 * patrolling their home corners, Bashful considers two things: Shadow's
@@ -88,7 +88,7 @@ public class Inky extends Ghost {
 	 * facing up, the spot Bashful uses to draw the line is two squares above
 	 * and left of Pac-Man.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * <b>Implementation:</b> by lack of a coordinate system there is a
 	 * workaround: first determine the square of Blinky (A) and the square 2

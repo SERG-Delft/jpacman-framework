@@ -35,11 +35,11 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * <p>
  * Source: http://strategywiki.org/wiki/Pac-Man/Getting_Started
  * </p>
- * 
- * @author Jeroen Roosen 
- * 
+ *
+ * @author Jeroen Roosen
+ *
  */
-public class Clyde extends Ghost {
+public class Clyde extends VulnerableGhost {
 
 	/**
 	 * The amount of cells Clyde wants to stay away from Pac Man.
@@ -71,7 +71,7 @@ public class Clyde extends Ghost {
 
 	/**
 	 * Creates a new "Clyde", a.k.a. "Pokey".
-	 * 
+	 *
 	 * @param spriteMap
 	 *            The sprites for this ghost.
 	 */
@@ -86,7 +86,7 @@ public class Clyde extends Ghost {
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * <p>
 	 * Pokey has two basic AIs, one for when he's far from Pac-Man, and one for
 	 * when he is near to Pac-Man. When the ghosts are not patrolling their home

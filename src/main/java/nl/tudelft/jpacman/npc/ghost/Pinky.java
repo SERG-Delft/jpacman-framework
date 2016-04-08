@@ -43,11 +43,11 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * <p>
  * Source: http://strategywiki.org/wiki/Pac-Man/Getting_Started
  * </p>
- * 
- * @author Jeroen Roosen 
- * 
+ *
+ * @author Jeroen Roosen
+ *
  */
-public class Pinky extends Ghost {
+public class Pinky extends VulnerableGhost {
 
 	private static final int SQUARES_AHEAD = 4;
 
@@ -64,7 +64,7 @@ public class Pinky extends Ghost {
 
 	/**
 	 * Creates a new "Pinky", a.k.a. "Speedy".
-	 * 
+	 *
 	 * @param spriteMap
 	 *            The sprites for this ghost.
 	 */
@@ -79,7 +79,7 @@ public class Pinky extends Ghost {
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * <p>
 	 * When the ghosts are not patrolling their home corners, Pinky wants to go
 	 * to the place that is four grid spaces ahead of Pac-Man in the direction

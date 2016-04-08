@@ -34,11 +34,11 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * <p>
  * Source: http://strategywiki.org/wiki/Pac-Man/Getting_Started
  * </p>
- * 
- * @author Jeroen Roosen 
- * 
+ *
+ * @author Jeroen Roosen
+ *
  */
-public class  Blinky extends Ghost {
+public class  Blinky extends VulnerableGhost {
 
 	/**
 	 * The variation in intervals, this makes the ghosts look more dynamic and
@@ -53,7 +53,7 @@ public class  Blinky extends Ghost {
 
 	/**
 	 * Creates a new "Blinky", a.k.a. "Shadow".
-	 * 
+	 *
 	 * @param spriteMap
 	 *            The sprites for this ghost.
 	 */
@@ -70,7 +70,7 @@ public class  Blinky extends Ghost {
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * <p>
 	 * When the ghosts are not patrolling in their home corners (Blinky:
 	 * top-right, Pinky: top-left, Inky: bottom-right, Clyde: bottom-left),
@@ -92,7 +92,7 @@ public class  Blinky extends Ghost {
 			Direction d = randomMove();
 			return d;
 		}
-		
+
 		List<Direction> path = Navigation.shortestPath(getSquare(), target,
 				this);
 		if (path != null && !path.isEmpty()) {
