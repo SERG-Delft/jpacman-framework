@@ -38,7 +38,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * @author Jeroen Roosen 
  * 
  */
-public class Blinky extends Ghost {
+public class  Blinky extends Ghost {
 
 	/**
 	 * The variation in intervals, this makes the ghosts look more dynamic and
