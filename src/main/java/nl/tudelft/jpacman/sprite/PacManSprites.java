@@ -151,4 +151,15 @@ public class PacManSprites extends SpriteStore {
 			throw new PacmanConfigurationException("Unable to load sprite: " + resource, e);
 		}
 	}
+
+	/**
+	 * Returns a map of animated ghost sprites for all directions.
+	 *
+	 * @return The Sprite for the ghost in flee mode.
+	 */
+	public Map<Direction, Sprite> getVulGhot() {
+
+		String resource = "/sprite/ghost_vul_blue.png";
+		return directionSprite(resource, GHOST_ANIMATION_FRAMES);
+	}
 }
