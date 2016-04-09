@@ -304,6 +304,7 @@ public class Level {
 				}
 			}
 		}
+		assert pellets >= 0;
 		return pellets;
 	}
 
