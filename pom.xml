@@ -53,6 +53,7 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
+            <scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -63,6 +64,7 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 			<version>2.0.5-beta</version>
+            <scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -144,6 +146,22 @@
 					<xmlOutput>true</xmlOutput>
 					<includeTests>true</includeTests>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.4.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+						<createDependencyReducedPom>false</createDependencyReducedPom>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
