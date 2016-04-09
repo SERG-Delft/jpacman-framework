@@ -96,4 +96,25 @@ public class LevelSuperPellet extends Level {
         super.stop();
     }
 
+    /**
+     * Add a timer for respawning of death ghost.
+     * @param g a death ghost.
+     */
+    public void addRespawnGhost(VulnerableGhost g){
+        TimerWithPause t = new TimerWithPause(new TimerTaskCloneable() {
+            @Override
+            public void run() {
+                g.respawn();
+                /* stop and start is using for avoid sheduler ghost not start */
+                stop();
+                start();
+            }
+        });
+        t.schedule(VulnerableGhost.RESPAWN_TIME);
+        if(ghostWithTimer.containsKey(g))
+            ghostWithTimer.replace(g, t);
+        else
+            ghostWithTimer.put(g, t);
+    }
+
 }

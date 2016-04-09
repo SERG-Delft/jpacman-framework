@@ -4,6 +4,7 @@ import java.util.Map;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.npc.ghost.VulnerableGhost;
 import nl.tudelft.jpacman.sprite.AnimatedSprite;
 import nl.tudelft.jpacman.sprite.Sprite;
 
@@ -14,6 +15,10 @@ import nl.tudelft.jpacman.sprite.Sprite;
  */
 public class Player extends Unit {
 
+	/**
+	 * number of ghost eated.
+	 */
+	private int eatedGhost;
 	/**
 	 * number of super pellet eated.
 	 */
@@ -54,6 +59,7 @@ public class Player extends Unit {
 		this.deathSprite = deathAnimation;
 		deathSprite.setAnimating(false);
 		eatedSuperPellet=0;
+
 	}
 
 	/**
@@ -118,5 +124,28 @@ public class Player extends Unit {
 			return 7000;
 		else
 			return 5000;
+	}
+
+	/**
+	 * when a super pellet is eated.
+	 */
+	public void superPelletEated(){
+		eatedSuperPellet+=1;
+		eatedGhost=0;
+	}
+
+	/**
+	 * first eated ghost =200
+	 * the second = 400
+	 * the third = 800
+	 * the fourth 1600
+	 * @return the score
+     */
+	public int getEatedGhost(){
+		return VulnerableGhost.SCORE * (int) Math.pow(2, eatedGhost);
+	}
+
+	public void addEatedGhost(){
+		eatedGhost+=1;
 	}
 }
