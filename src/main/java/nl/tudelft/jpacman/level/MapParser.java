@@ -11,7 +11,10 @@ import nl.tudelft.jpacman.PacmanConfigurationException;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.npc.ghost.VulnerableGhost;
 
 /**
  * Creates new {@link Level}s from text representations.
@@ -102,6 +105,11 @@ public class MapParser {
             case 'G':
                 Square ghostSquare = makeGhostSquare(ghosts);
                 grid[x][y] = ghostSquare;
+				for (Unit g: ghostSquare.getOccupants()){
+					if( g instanceof Ghost){
+						((VulnerableGhost) g).setInitialPosition(ghostSquare);
+					}
+				}
                 break;
             case 'P':
                 Square playerSquare = boardCreator.createGround();

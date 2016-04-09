@@ -50,6 +50,7 @@ public abstract class VulnerableGhost extends Ghost{
 
     public void respawn(){
         occupy(initialPosition);
+        hunter=true;
     }
 
     @Override
