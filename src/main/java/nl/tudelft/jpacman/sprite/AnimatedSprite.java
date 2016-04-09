@@ -89,10 +89,12 @@ public class AnimatedSprite implements Sprite {
 	 * @return The frame of the current index.
 	 */
 	private Sprite currentSprite() {
+		Sprite result = END_OF_LOOP;
 		if (current < animationFrames.length) {
-			return animationFrames[current];
+			result = animationFrames[current];
 		}
-		return END_OF_LOOP;
+		assert result != null;
+		return result;
 	}
 
 	/**
@@ -149,11 +151,13 @@ public class AnimatedSprite implements Sprite {
 
 	@Override
 	public int getWidth() {
+		assert currentSprite() != null;
 		return currentSprite().getWidth();
 	}
 
 	@Override
 	public int getHeight() {
+		assert currentSprite() != null;
 		return currentSprite().getHeight();
 	}
 
