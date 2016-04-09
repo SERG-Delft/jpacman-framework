@@ -4,6 +4,8 @@ import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.npc.ghost.VulnerableGhost;
+import nl.tudelft.jpacman.util.TimerTaskCloneable;
+import nl.tudelft.jpacman.util.TimerWithPause;
 
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -15,11 +17,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class LevelSuperPellet extends Level {
 
-    private Timer hunterTime;
+    private TimerWithPause hunterTime;
     /**
      * The ghost of this level and their timer.
      */
-    private Map<VulnerableGhost, Timer> ghostWithTimer;
+    private Map<VulnerableGhost, TimerWithPause> ghostWithTimer;
 
     /**
      * Creates a new level for the board.
@@ -44,14 +46,13 @@ public class LevelSuperPellet extends Level {
             if(hunterTime!=null){
                 hunterTime.cancel();
             }
-            hunterTime = new Timer();
-            hunterTime.schedule(new TimerTask(){
-
+            hunterTime = new TimerWithPause(new TimerTaskCloneable() {
                 @Override
                 public void run() {
                     stopGhostHunted();
                 }
-            },player.getTimeHunter());
+            });
+            hunterTime.schedule(player.getTimeHunter());
 
             for (Map.Entry<NPC, ScheduledExecutorService> e : this.getNpcs().entrySet()) {
                 ((VulnerableGhost) e.getKey()).setHunter(false);
@@ -77,7 +78,7 @@ public class LevelSuperPellet extends Level {
     public void start() {
         if(!isInProgress() && hunterTime != null){
             hunterTime.resume();
-            for (Map.Entry<VulnerableGhost, Timer> k : ghostWithTimer.entrySet()){
+            for (Map.Entry<VulnerableGhost, TimerWithPause> k : ghostWithTimer.entrySet()){
                 k.getValue().resume();
             }
         }
@@ -88,7 +89,7 @@ public class LevelSuperPellet extends Level {
     public void stop() {
         if(isInProgress() && hunterTime != null){
             hunterTime.pause();
-            for (Map.Entry<VulnerableGhost, Timer> k : ghostWithTimer   .entrySet()){
+            for (Map.Entry<VulnerableGhost, TimerWithPause> k : ghostWithTimer   .entrySet()){
                 k.getValue().pause();
             }
         }
