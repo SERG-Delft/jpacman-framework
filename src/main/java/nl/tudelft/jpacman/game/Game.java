@@ -1,11 +1,11 @@
 package nl.tudelft.jpacman.game;
 
-import java.util.List;
-
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Player;
+
+import java.util.List;
 
 /**
  * A basic implementation of a Pac-Man game.
@@ -18,6 +18,11 @@ public abstract class Game implements LevelObserver {
 	 * <code>true</code> if the game is in progress.
 	 */
 	private boolean inProgress;
+
+	/**
+	 * the amount of steps the player took so far in this game
+	 */
+	private int stepsTaken = 0;
 
 	/**
 	 * Object that locks the start and stop methods.
@@ -90,16 +95,22 @@ public abstract class Game implements LevelObserver {
 		if (isInProgress()) {
 			// execute player move.
 			getLevel().move(player, direction);
+			//and increment the step counter
+			stepsTaken++;
 		}
+	}
+
+	public int getStepsTaken() {
+		return stepsTaken;
 	}
 	
 	@Override
-	public void levelWon() {
+	public void levelWon(Level l) {
 		stop();
 	}
 	
 	@Override
-	public void levelLost() {
+	public void levelLost(Level l) {
 		stop();
 	}
 }
