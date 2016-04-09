@@ -15,6 +15,11 @@ import nl.tudelft.jpacman.sprite.Sprite;
 public class Player extends Unit {
 
 	/**
+	 * number of super pellet eated.
+	 */
+	private int eatedSuperPellet;
+
+	/**
 	 * The amount of points accumulated by this player.
 	 */
 	private int score;
@@ -48,6 +53,7 @@ public class Player extends Unit {
 		this.sprites = spriteMap;
 		this.deathSprite = deathAnimation;
 		deathSprite.setAnimating(false);
+		eatedSuperPellet=0;
 	}
 
 	/**
@@ -101,5 +107,16 @@ public class Player extends Unit {
 	 */
 	public void addPoints(int points) {
 		score += points;
+	}
+
+	/**
+	 *
+	 * @return time within pacman is the hunter.
+     */
+	public int getTimeHunter() {
+		if(eatedSuperPellet<=2)
+			return 7000;
+		else
+			return 5000;
 	}
 }

@@ -227,11 +227,7 @@ public class Level {
 	 */
 	private void startNPCs() {
 		for (final NPC npc : npcs.keySet()) {
-			ScheduledExecutorService service = Executors
-					.newSingleThreadScheduledExecutor();
-			service.schedule(new NpcMoveTask(service, npc),
-					npc.getInterval() / 2, TimeUnit.MILLISECONDS);
-			npcs.put(npc, service);
+            setSpeedNPCs(npc, 1);
 		}
 	}
 
@@ -308,6 +304,30 @@ public class Level {
 	}
 
 	/**
+	 * Starts and change NPC movement scheduling.
+	 * @param npc a NPC (a ghost)
+	 * @param speedFactor The speed factor
+	 *                      Typical value: 1 to default speed, 0.5 to half speed (fleeing ghost mode)
+	 */
+	protected void setSpeedNPCs(NPC npc, float speedFactor) {
+		ScheduledExecutorService service = npcs.get(npc);
+		if(service != null)
+			service.shutdownNow();
+		service = Executors
+				.newSingleThreadScheduledExecutor();
+		service.schedule(new NpcMoveTask(service, npc),
+				(int) ((npc.getInterval() / 2) * speedFactor), TimeUnit.MILLISECONDS);
+		npcs.replace(npc, service);
+	}
+
+	public Object getStartStopLock() {
+		return startStopLock;
+	}
+
+	public Map<NPC, ScheduledExecutorService> getNpcs() {
+		return npcs;
+	}
+	/**
 	 * A task that moves an NPC and reschedules itself after it finished.
 	 * 
 	 * @author Jeroen Roosen 
@@ -367,4 +387,7 @@ public class Level {
 		 */
 		void levelLost();
 	}
+
+
+
 }
