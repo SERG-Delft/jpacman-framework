@@ -33,6 +33,7 @@ public abstract class Square {
 	protected Square() {
 		this.occupants = new ArrayList<>();
 		this.neighbours = new EnumMap<>(Direction.class);
+		assert invariant();
 	}
 
 	/**
@@ -57,6 +58,7 @@ public abstract class Square {
 	 */
 	public void link(Square neighbour, Direction direction) {
 		neighbours.put(direction, neighbour);
+		assert invariant();
 	}
 
 	/**
@@ -71,20 +73,17 @@ public abstract class Square {
 	}
 
 	/**
-	 * Adds a new occupant to this square. If the occupant was already present,
-	 * nothing changed.
+	 * Adds a new occupant to this square.
 	 * 
 	 * @param occupant
 	 *            The unit to occupy this square.
 	 * @return <code>true</code> iff the unit successfully occupied this square.
 	 */
-	boolean put(Unit occupant) {
+	void put(Unit occupant) {
 		assert occupant != null;
-		if (!occupants.contains(occupant)) {
-			occupants.add(occupant);
-			return true;
-		}
-		return false;
+		assert !occupants.contains(occupant);
+		
+		occupants.add(occupant);
 	}
 
 	/**
@@ -99,7 +98,7 @@ public abstract class Square {
 	}
 
 	/**
-	 * Tests whether all occupants on this square have indeed listed this square
+	 * Verifies that all occupants on this square have indeed listed this square
 	 * as the square they are currently occupying.
 	 * 
 	 * @return <code>true</code> iff all occupants of this square have this
