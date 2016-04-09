@@ -62,4 +62,12 @@ public class GhostFactory {
 	public Ghost createClyde() {
 		return new Clyde(sprites.getGhostSprite(GhostColor.ORANGE));
 	}
+
+	/**
+	 *
+	 * @return the sprite.
+     */
+	public PacManSprites getSprites() {
+		return sprites;
+	}
 }

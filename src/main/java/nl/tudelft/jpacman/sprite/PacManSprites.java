@@ -157,7 +157,7 @@ public class PacManSprites extends SpriteStore {
 	 *
 	 * @return The Sprite for the ghost in flee mode.
 	 */
-	public Map<Direction, Sprite> getVulGhot() {
+	public Map<Direction, Sprite> getVulGhost() {
 
 		String resource = "/sprite/ghost_vul_blue.png";
 		return directionSprite(resource, GHOST_ANIMATION_FRAMES);
