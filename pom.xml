@@ -57,12 +57,12 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>18.0</version>
+			<version>19.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>2.0.5-beta</version>
+			<version>2.0.44-beta</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
