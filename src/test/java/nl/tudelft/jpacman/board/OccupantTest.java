@@ -1,6 +1,7 @@
 package nl.tudelft.jpacman.board;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
@@ -37,7 +38,7 @@ public class OccupantTest {
 	}
 
 	/**
-	 * Asserts that the unit indeed has the target square as its base after
+	 * Tests that the unit indeed has the target square as its base after
 	 * occupation.
 	 */
 	@Test
@@ -45,5 +46,19 @@ public class OccupantTest {
 		Square target = new BasicSquare();
 		unit.occupy(target);
 		assertThat(unit.getSquare(), is(target));
+		assertThat(target.getOccupants(), contains(unit));
+	}
+	
+    /**
+     * Test that the unit indeed has the target square as its base after
+     * double occupation.
+     */
+	@Test
+	public void testReoccupy() {
+		Square target = new BasicSquare();
+		unit.occupy(target);
+		unit.occupy(target);
+		assertThat(unit.getSquare(), is(target));
+		assertThat(target.getOccupants(), contains(unit));
 	}
 }

@@ -2,9 +2,11 @@ package nl.tudelft.jpacman.level;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -73,7 +75,7 @@ public class Level {
 	/**
 	 * The objects observing this level.
 	 */
-	private final List<LevelObserver> observers;
+	private final Set<LevelObserver> observers;
 
 	/**
 	 * Creates a new level for the board.
@@ -103,7 +105,7 @@ public class Level {
 		this.startSquareIndex = 0;
 		this.players = new ArrayList<>();
 		this.collisions = collisionMap;
-		this.observers = new ArrayList<>();
+		this.observers = new HashSet<>();
 	}
 
 	/**
@@ -113,9 +115,6 @@ public class Level {
 	 *            The observer that will be notified.
 	 */
 	public void addObserver(LevelObserver observer) {
-		if (observers.contains(observer)) {
-			return;
-		}
 		observers.add(observer);
 	}
 
@@ -304,6 +303,7 @@ public class Level {
 				}
 			}
 		}
+		assert pellets >= 0;
 		return pellets;
 	}
 

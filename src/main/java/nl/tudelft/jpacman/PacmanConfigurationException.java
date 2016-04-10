@@ -19,15 +19,6 @@ public class PacmanConfigurationException extends RuntimeException {
 	}
 
 	/**
-	 * A configuration exception with deeper cause.
-	 * 
-	 * @param cause The root cause.
-	 */
-	public PacmanConfigurationException(Throwable cause) {
-		super(cause);
-	}
-
-	/**
 	 * A configuration exception with a root cause and additional explanation.
 	 * 
 	 * @param message The explanation.
