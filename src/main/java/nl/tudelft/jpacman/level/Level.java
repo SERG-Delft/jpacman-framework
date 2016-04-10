@@ -332,7 +332,7 @@ public class Level {
 		 * @param n
 		 *            The NPC to move.
 		 */
-		private NpcMoveTask(ScheduledExecutorService s, NPC n) {
+		NpcMoveTask(ScheduledExecutorService s, NPC n) {
 			this.service = s;
 			this.npc = n;
 		}

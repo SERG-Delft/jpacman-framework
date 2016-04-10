@@ -40,7 +40,7 @@ public final class Navigation {
 	 */
 	public static List<Direction> shortestPath(Square from, Square to,
 			Unit traveller) {
-		if (from == to) {
+		if (from.equals(to)) {
 			return new ArrayList<>();
 		}
 
@@ -50,9 +50,8 @@ public final class Navigation {
 		while (!targets.isEmpty()) {
 			Node n = targets.remove(0);
 			Square s = n.getSquare();
-			if (s == to) {
-				List<Direction> path = n.getPath();
-				return path;
+			if (s.equals(to)) {
+				return n.getPath();
 			}
 			visited.add(s);
 			addNewTargets(traveller, targets, visited, n, s);
@@ -162,7 +161,7 @@ public final class Navigation {
 		 *            The parent node, which is <code>null</code> for the root
 		 *            node.
 		 */
-		private Node(Direction d, Square s, Node p) {
+		Node(Direction d, Square s, Node p) {
 			this.direction = d;
 			this.square = s;
 			this.parent = p;

@@ -15,22 +15,22 @@ public class BoardTest {
 
 	private Board board;
 	
-	private Square x0y0 = mock(Square.class);
-	private Square x0y1 = mock(Square.class);
-	private Square x0y2 = mock(Square.class);
-	private Square x1y0 = mock(Square.class);
-	private Square x1y1 = mock(Square.class);
-	private Square x1y2 = mock(Square.class);
+	private final Square x0y0 = mock(Square.class);
+	private final Square x0y1 = mock(Square.class);
+	private final Square x0y2 = mock(Square.class);
+	private final Square x1y0 = mock(Square.class);
+	private final Square x1y1 = mock(Square.class);
+	private final Square x1y2 = mock(Square.class);
 	
-	private final int maxWidth = 2;
-	private final int maxHeight = 3;
+	private static final int MAX_WIDTH = 2;
+	private static final int MAX_HEIGHT = 3;
 	
 	/**
 	 * Setup a board that can be used for testing.
 	 */
 	@Before
 	public void setUp() {
-		Square[][] grid = new Square[maxWidth][maxHeight];
+		Square[][] grid = new Square[MAX_WIDTH][MAX_HEIGHT];
 		grid[0][0] = x0y0;
 		grid[0][1] = x0y1;
 		grid[0][2] = x0y2;
@@ -45,7 +45,7 @@ public class BoardTest {
 	 */
 	@Test
 	public void verifyWidth() {
-		assertEquals(maxWidth, board.getWidth());
+		assertEquals(MAX_WIDTH, board.getWidth());
 	}
 	
 	/**
@@ -53,7 +53,7 @@ public class BoardTest {
 	 */
 	@Test
 	public void verifyHeight() {
-		assertEquals(maxHeight, board.getHeight());
+		assertEquals(MAX_HEIGHT, board.getHeight());
 	}
 	
 	/**

@@ -93,7 +93,7 @@ public class BoardFactory {
 		 * @param sprite
 		 *            The background for the square.
 		 */
-		private Wall(Sprite sprite) {
+		Wall(Sprite sprite) {
 			this.background = sprite;
 		}
 
@@ -126,7 +126,7 @@ public class BoardFactory {
 		 * @param sprite
 		 *            The background for the square.
 		 */
-		private Ground(Sprite sprite) {
+		Ground(Sprite sprite) {
 			this.background = sprite;
 		}
 

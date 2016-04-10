@@ -4,10 +4,13 @@
 	xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
 
 	<description>
-        Custom rules for checking JUnit test quality.
+        Custom set of rules for checking jpacman code quality.
     </description>
 
 	<rule ref="rulesets/java/basic.xml" />
+	<rule ref="rulesets/java/design.xml">
+		<exclude name="UseVarargs" />
+	</rule>
 	<rule ref="rulesets/java/unusedcode.xml" />
 	<rule ref="rulesets/java/imports.xml" />
 	<rule ref="rulesets/java/imports.xml/TooManyStaticImports">

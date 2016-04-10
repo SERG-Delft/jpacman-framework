@@ -95,8 +95,7 @@ public class Pinky extends Ghost {
 	public Direction nextMove() {
 		Unit player = Navigation.findNearest(Player.class, getSquare());
 		if (player == null) {
-			Direction d = randomMove();
-			return d;
+			return randomMove();
 		}
 
 		Direction targetDirection = player.getDirection();
@@ -108,10 +107,8 @@ public class Pinky extends Ghost {
 		List<Direction> path = Navigation.shortestPath(getSquare(),
 				destination, this);
 		if (path != null && !path.isEmpty()) {
-			Direction d = path.get(0);
-			return d;
+			return path.get(0);
 		}
-		Direction d = randomMove();
-		return d;
+		return randomMove();
 	}
 }

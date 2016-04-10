@@ -62,7 +62,7 @@ public class Clyde extends Ghost {
 	 */
 	private static final Map<Direction, Direction> OPPOSITES = new EnumMap<Direction, Direction>(
 			Direction.class);
-	{
+	static {
 		OPPOSITES.put(Direction.NORTH, Direction.SOUTH);
 		OPPOSITES.put(Direction.SOUTH, Direction.NORTH);
 		OPPOSITES.put(Direction.WEST, Direction.EAST);
@@ -114,12 +114,10 @@ public class Clyde extends Ghost {
 		if (path != null && !path.isEmpty()) {
 			Direction d = path.get(0);
 			if (path.size() <= SHYNESS) {
-				Direction oppositeDir = OPPOSITES.get(d);
-				return oppositeDir;
+				return OPPOSITES.get(d);
 			}
 			return d;
 		}
-		Direction d = randomMove();
-		return d;
+		return randomMove();
 	}
 }
