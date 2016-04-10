@@ -34,6 +34,11 @@ public class PlayerFactory {
 				getSprites().getPacManDeathAnimation());
 	}
 
+	/**
+	 * The sprites created by the factory.
+	 * 
+	 * @return The sprites for the player created.
+	 */
 	protected PacManSprites getSprites() {
 		return sprites;
 	}

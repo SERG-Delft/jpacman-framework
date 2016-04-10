@@ -77,7 +77,6 @@ public abstract class Square {
 	 * 
 	 * @param occupant
 	 *            The unit to occupy this square.
-	 * @return <code>true</code> iff the unit successfully occupied this square.
 	 */
 	void put(Unit occupant) {
 		assert occupant != null;
@@ -104,7 +103,7 @@ public abstract class Square {
 	 * @return <code>true</code> iff all occupants of this square have this
 	 *         square listed as the square they are currently occupying.
 	 */
-	protected boolean invariant() {
+	protected final boolean invariant() {
 		for (Unit occupant : occupants) {
 			if (occupant.getSquare() != this) {
 				return false;

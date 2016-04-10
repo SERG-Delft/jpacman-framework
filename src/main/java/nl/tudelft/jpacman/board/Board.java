@@ -29,7 +29,7 @@ public class Board {
 	 * Whatever happens, the squares on the board can't be null.
 	 * @return false if any square on the board is null.
 	 */
-	public boolean invariant() {
+	protected boolean invariant() {
 		for (int x = 0; x < board.length; x++) {
 			for (int y = 0; y < board[x].length; y++) {
 				if (board[x][y] == null) {
@@ -41,7 +41,7 @@ public class Board {
 	}
 
 	/**
-	 * Returns the width of this board, i.e. the amount of columns.
+	 * Returns the number of columns.
 	 * 
 	 * @return The width of this board.
 	 */
@@ -50,7 +50,7 @@ public class Board {
 	}
 
 	/**
-	 * Returns the height of this board, i.e. the amount of rows.
+	 * Returns the number of rows.
 	 * 
 	 * @return The height of this board.
 	 */
