@@ -19,6 +19,7 @@ import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.ui.Action;
 import nl.tudelft.jpacman.ui.PacManUI;
 import nl.tudelft.jpacman.ui.PacManUiBuilder;
+import CraeyeMathieu.ChoiceMonster;
 
 /**
  * Creates and launches the JPacMan UI.
@@ -28,7 +29,7 @@ import nl.tudelft.jpacman.ui.PacManUiBuilder;
 public class Launcher {
 
 	private static final PacManSprites SPRITE_STORE = new PacManSprites();
-
+	private ChoiceMonster cM=new ChoiceMonster();
 	private PacManUI pacManUI;
 	private Game game;
 
@@ -177,6 +178,7 @@ public class Launcher {
 		addSinglePlayerKeys(builder, game);
 		pacManUI = builder.build(game);
 		pacManUI.start();
+		cM.ButtonPlayer();
 	}
 
 	/**
