@@ -29,7 +29,7 @@ import CraeyeMathieu.ChoiceMonster;
 public class Launcher {
 
 	private static final PacManSprites SPRITE_STORE = new PacManSprites();
-	private ChoiceMonster cM=new ChoiceMonster();
+	private ChoiceMonster cM;
 	private PacManUI pacManUI;
 	private Game game;
 
@@ -109,7 +109,7 @@ public class Launcher {
 	/**
 	 * @return A new factory using the players from {@link #getPlayerFactory()}.
 	 */
-	protected GameFactory getGameFactory() {
+	public GameFactory getGameFactory() {
 		return new GameFactory(getPlayerFactory());
 	}
 
@@ -178,6 +178,7 @@ public class Launcher {
 		addSinglePlayerKeys(builder, game);
 		pacManUI = builder.build(game);
 		pacManUI.start();
+		cM=new ChoiceMonster();
 		cM.ButtonPlayer();
 	}
 

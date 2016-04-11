@@ -2,6 +2,7 @@ package nl.tudelft.jpacman.game;
 
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.PlayerFactory;
+import nl.tudelft.jpacman.npc.ghost.GhostColor;
 
 /**
  * Factory that provides Game objects.
@@ -34,6 +35,9 @@ public class GameFactory {
 	 */
 	public Game createSinglePlayerGame(Level level) {
 		return new SinglePlayerGame(playerFact.createPacMan(), level);
+	}
+	public Game createSinglePlayerGame(Level level,GhostColor c) {
+		return new SinglePlayerGame(playerFact.createGhost(c), level);
 	}
 
 	/**

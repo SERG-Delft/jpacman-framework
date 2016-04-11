@@ -13,6 +13,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import nl.tudelft.jpacman.Launcher;
+import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.game.GameFactory;
+import nl.tudelft.jpacman.level.Level;
+import nl.tudelft.jpacman.npc.ghost.GhostColor;
 
 public class ChoiceMonster extends JFrame implements ActionListener {
 	
@@ -24,6 +28,7 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 	private int numPlayer=0;
 	private final static int widht=1000;
 	JPanel panel = new JPanel();
+	private Game game;
 	private Launcher l = new Launcher();
 	public void ButtonGhost()
 	{
@@ -89,7 +94,6 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 		this.setContentPane(panel);
 		this.setVisible(true);
 		ButtonGhost();
-	
 	}
 	public void addPlayer( Object o)
 	{
@@ -97,16 +101,19 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-	 
+	
 		if (source==pinky ||source==inky ||source==clyde || source==blinky)
 		{
 			((JComponent) source).setVisible(false); numPlayer--;
 			addPlayer(source);
 			AffPlayer();
-			/*if(numPlayer==0)
+			if(numPlayer==0 && source==pinky)
 			{
+				GameFactory gf = l.getGameFactory();
+				Level level = l.makeLevel();
+				gf.createSinglePlayerGame(level,GhostColor.PINK);
 				this.dispose();
-			}*/
+			}
 		}
 		if(source == TwoPlayers)
 		{
