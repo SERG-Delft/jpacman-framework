@@ -10,6 +10,16 @@ import nl.tudelft.jpacman.board.Unit;
  */
 public abstract class NPC extends Unit {
 
+	
+      protected  boolean isDead;
+	
+	
+	public abstract  void dead();
+
+	public abstract boolean isDead();
+	
+	
+	
 	/**
 	 * The time that should be taken between moves.
 	 * 

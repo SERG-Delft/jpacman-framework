@@ -115,6 +115,7 @@ class BoardPanel extends JPanel {
 		square.getSprite().draw(g, x, y, w, h);
 		for (Unit unit : square.getOccupants()) {
 			unit.getSprite().draw(g, x, y, w, h);
+			
 		}
 	}
 }

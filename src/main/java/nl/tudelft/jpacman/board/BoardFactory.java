@@ -9,7 +9,8 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * 
  * @author Jeroen Roosen 
  */
-public class BoardFactory {
+public class BoardFactory 
+{
 
 	/**
 	 * The sprite store providing the sprites for the background.
@@ -23,7 +24,8 @@ public class BoardFactory {
 	 * @param spriteStore
 	 *            The sprite store providing the sprites for the background.
 	 */
-	public BoardFactory(PacManSprites spriteStore) {
+	public BoardFactory(PacManSprites spriteStore)
+	{
 		this.sprites = spriteStore;
 	}
 
@@ -35,7 +37,8 @@ public class BoardFactory {
 	 *            the square at position x,y.
 	 * @return A new board, wrapping a grid of connected cells.
 	 */
-	public Board createBoard(Square[][] grid) {
+	public Board createBoard(Square[][] grid)
+	{
 		assert grid != null;
 
 		Board board = new Board(grid);
@@ -43,7 +46,8 @@ public class BoardFactory {
 		int width = board.getWidth();
 		int height = board.getHeight();
 		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
+			for (int y = 0; y < height; y++)
+			{
 				Square square = grid[x][y];
 				for (Direction dir : Direction.values()) {
 					int dirX = (width + x + dir.getDeltaX()) % width;
@@ -80,7 +84,8 @@ public class BoardFactory {
 	 * 
 	 * @author Jeroen Roosen 
 	 */
-	private static final class Wall extends Square {
+	private static final class Wall extends Square 
+	{
 
 		/**
 		 * The background for this square.
@@ -93,7 +98,8 @@ public class BoardFactory {
 		 * @param sprite
 		 *            The background for the square.
 		 */
-		private Wall(Sprite sprite) {
+		private Wall(Sprite sprite)
+		{
 			this.background = sprite;
 		}
 
@@ -103,7 +109,8 @@ public class BoardFactory {
 		}
 
 		@Override
-		public Sprite getSprite() {
+		public Sprite getSprite() 
+		{
 			return background;
 		}
 	}
@@ -113,7 +120,8 @@ public class BoardFactory {
 	 * 
 	 * @author Jeroen Roosen 
 	 */
-	private static final class Ground extends Square {
+	private static final class Ground extends Square
+	{
 
 		/**
 		 * The background for this square.
@@ -131,12 +139,14 @@ public class BoardFactory {
 		}
 
 		@Override
-		public boolean isAccessibleTo(Unit unit) {
+		public boolean isAccessibleTo(Unit unit) 
+		{
 			return true;
 		}
 
 		@Override
-		public Sprite getSprite() {
+		public Sprite getSprite()
+        {
 			return background;
 		}
 	}

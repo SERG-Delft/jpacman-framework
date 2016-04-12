@@ -8,6 +8,7 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.sprite.EmptySprite;
 import nl.tudelft.jpacman.sprite.Sprite;
 
 /**
@@ -70,8 +71,12 @@ public class Pinky extends Ghost {
 	 */
 	public Pinky(Map<Direction, Sprite> spriteMap) {
 		super(spriteMap);
+		this.isDead=false;
+	
 	}
 
+	
+	
 	@Override
 	public long getInterval() {
 		return MOVE_INTERVAL + new Random().nextInt(INTERVAL_VARIATION);

@@ -100,14 +100,13 @@ public class PacManSprites extends SpriteStore {
 	 *            The colour of the ghost.
 	 * @return The Sprite for the ghost.
 	 */
-	public Map<Direction, Sprite> getGhostSprite(GhostColor color) {
+	public Map<Direction, Sprite> getGhostSprite(GhostColor color) 
+	{
 		assert color != null;
-
-		String resource = "/sprite/ghost_" + color.name().toLowerCase()
-				+ ".png";
+		String resource = "/sprite/ghost_" + color.name().toLowerCase()+ ".png";			
 		return directionSprite(resource, GHOST_ANIMATION_FRAMES);
 	}
-
+	
 	/**
 	 * @return The sprite for the wall.
 	 */
@@ -123,11 +122,19 @@ public class PacManSprites extends SpriteStore {
 	}
 
 	/**
-	 * @return The sprite for the
+	 * @return The sprite for the pellet
 	 */
 	public Sprite getPelletSprite() {
 		return loadSprite("/sprite/pellet.png");
 	}
+	/**
+	 * @return The sprite for the pomegranate
+	 */
+	public Sprite getPomegranateSprite()
+	{
+		return loadSprite("/sprite/apple.png");
+	}
+	
 
 	/**
 	 * Overloads the default sprite loading, ignoring the exception. This class

@@ -31,6 +31,7 @@ public class GhostFactory {
 	 */
 	public Ghost createBlinky() {
 		return new Blinky(sprites.getGhostSprite(GhostColor.RED));
+		
 	}
 
 	/**

@@ -6,6 +6,7 @@ import java.util.Map;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.fruit.Pomegranate;
 import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
@@ -54,7 +55,8 @@ public class LevelFactory {
 	 * @param ghostFactory
 	 *            The factory providing ghosts.
 	 */
-	public LevelFactory(PacManSprites spriteStore, GhostFactory ghostFactory) {
+	public LevelFactory(PacManSprites spriteStore, GhostFactory ghostFactory) 
+	{
 		this.sprites = spriteStore;
 		this.ghostIndex = -1;
 		this.ghostFact = ghostFactory;
@@ -71,8 +73,8 @@ public class LevelFactory {
 	 *            A list of squares from which players may start the game.
 	 * @return A new level for the board.
 	 */
-	public Level createLevel(Board board, List<NPC> ghosts,
-			List<Square> startPositions) {
+	public Level createLevel(Board board, List<NPC> ghosts,List<Square> startPositions) 
+	{
 
 		// We'll adopt the simple collision map for now.
 		CollisionMap collisionMap = new PlayerCollisions();
@@ -85,10 +87,12 @@ public class LevelFactory {
 	 * 
 	 * @return The new ghost.
 	 */
-	NPC createGhost() {
+	NPC createGhost() 
+	{
 		ghostIndex++;
 		ghostIndex %= GHOSTS;
-		switch (ghostIndex) {
+		switch (ghostIndex)
+		{
 		case BLINKY:
 			return ghostFact.createBlinky();
 		case INKY:
@@ -107,9 +111,17 @@ public class LevelFactory {
 	 * 
 	 * @return The new pellet.
 	 */
-	public Pellet createPellet() {
+	public Pellet createPellet() 
+	{
 		return new Pellet(PELLET_VALUE, sprites.getPelletSprite());
 	}
+	
+	public Pellet createPommegranate()
+	{
+		return new Pomegranate(0,sprites.getPomegranateSprite());
+	}
+	
+	
 
 	/**
 	 * Implementation of an NPC that wanders around randomly.
@@ -141,6 +153,18 @@ public class LevelFactory {
 		@Override
 		public Direction nextMove() {
 			return randomMove();
+		}
+
+		@Override
+		public void dead() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public boolean isDead() {
+			// TODO Auto-generated method stub
+			return false;
 		}
 	}
 }

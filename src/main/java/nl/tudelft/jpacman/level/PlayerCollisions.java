@@ -1,6 +1,8 @@
 package nl.tudelft.jpacman.level;
 
 import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.fruit.Fruit;
+import nl.tudelft.jpacman.fruit.Pomegranate;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 /**
@@ -27,19 +29,30 @@ public class PlayerCollisions implements CollisionMap {
 		}
 	}
 	
-	private void playerColliding(Player player, Unit collidedOn) {
-		if (collidedOn instanceof Ghost) {
-			playerVersusGhost(player, (Ghost) collidedOn);
+	private void playerColliding(Player player, Unit collidedOn)
+	{
+		if (collidedOn instanceof Ghost) 
+		{
+		   
+			   playerVersusGhost(player, (Ghost) collidedOn);
+		   
+			
 		}
 		
-		if (collidedOn instanceof Pellet) {
+		if (collidedOn instanceof Pellet) 
+		{
 			playerVersusPellet(player, (Pellet) collidedOn);
 		}		
+
 	}
 	
 	private void ghostColliding(Ghost ghost, Unit collidedOn) {
-		if (collidedOn instanceof Player) {
-			playerVersusGhost((Player) collidedOn, ghost);
+		if (collidedOn instanceof Player) 
+		{
+			
+				playerVersusGhost((Player) collidedOn, ghost);
+			
+			
 		}
 	}
 	

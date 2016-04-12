@@ -49,9 +49,8 @@ public class CollisionInteractionMap implements CollisionMap {
 	 * @param handler
 	 *            The handler that handles the collision.
 	 */
-	public <C1 extends Unit, C2 extends Unit> void onCollision(
-			Class<C1> collider, Class<C2> collidee,
-			CollisionHandler<C1, C2> handler) {
+	public <C1 extends Unit, C2 extends Unit> void onCollision(Class<C1> collider, Class<C2> collidee,CollisionHandler<C1, C2> handler)
+	 {	
 		onCollision(collider, collidee, true, handler);
 	}
 
@@ -74,13 +73,13 @@ public class CollisionInteractionMap implements CollisionMap {
 	 * @param handler
 	 *            The handler that handles the collision.
 	 */
-	public <C1 extends Unit, C2 extends Unit> void onCollision(
-			Class<C1> collider, Class<C2> collidee, boolean symetric,
-			CollisionHandler<C1, C2> handler) {
+	public <C1 extends Unit, C2 extends Unit> void onCollision(Class<C1> collider, Class<C2> collidee, boolean symetric,CollisionHandler<C1, C2> handler)
+	{
 		addHandler(collider, collidee, handler);
-		if (symetric) {
-			addHandler(collidee, collider, new InverseCollisionHandler<C2, C1>(
-					handler));
+		if (symetric) 
+		{
+			addHandler(collidee, collider, new InverseCollisionHandler<C2, C1>(	handler));
+				
 		}
 	}
 

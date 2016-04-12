@@ -15,7 +15,8 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * 
  * @author Jeroen Roosen 
  */
-public abstract class Square {
+public abstract class Square
+{
 
 	/**
 	 * The units occupying this square, in order of appearance.
@@ -30,7 +31,8 @@ public abstract class Square {
 	/**
 	 * Creates a new, empty square.
 	 */
-	protected Square() {
+	protected Square() 
+	{
 		this.occupants = new ArrayList<>();
 		this.neighbours = new EnumMap<>(Direction.class);
 	}
@@ -42,7 +44,8 @@ public abstract class Square {
 	 *            The direction of the adjacent square.
 	 * @return The adjacent square in the given direction.
 	 */
-	public Square getSquareAt(Direction direction) {
+	public Square getSquareAt(Direction direction) 
+	{
 		return neighbours.get(direction);
 	}
 
@@ -55,7 +58,8 @@ public abstract class Square {
 	 * @param direction
 	 *            The direction the new neighbour is in, as seen from this cell.
 	 */
-	public void link(Square neighbour, Direction direction) {
+	public void link(Square neighbour, Direction direction) 
+	{
 		neighbours.put(direction, neighbour);
 	}
 
@@ -66,7 +70,8 @@ public abstract class Square {
 	 * @return An immutable list of units occupying this square, in the order in
 	 *         which they occupied this square (i.e. oldest first.)
 	 */
-	public List<Unit> getOccupants() {
+	public List<Unit> getOccupants()
+	{
 		return ImmutableList.copyOf(occupants);
 	}
 
@@ -78,9 +83,11 @@ public abstract class Square {
 	 *            The unit to occupy this square.
 	 * @return <code>true</code> iff the unit successfully occupied this square.
 	 */
-	boolean put(Unit occupant) {
+	boolean put(Unit occupant) 
+	{
 		assert occupant != null;
-		if (!occupants.contains(occupant)) {
+		if (!occupants.contains(occupant)) 
+		{
 			occupants.add(occupant);
 			return true;
 		}
@@ -93,7 +100,8 @@ public abstract class Square {
 	 * @param occupant
 	 *            The unit to be removed from this square.
 	 */
-	void remove(Unit occupant) {
+	void remove(Unit occupant) 
+	{
 		assert occupant != null;
 		occupants.remove(occupant);
 	}
@@ -105,7 +113,8 @@ public abstract class Square {
 	 * @return <code>true</code> iff all occupants of this square have this
 	 *         square listed as the square they are currently occupying.
 	 */
-	protected boolean invariant() {
+	protected boolean invariant()
+    {
 		for (Unit occupant : occupants) {
 			if (occupant.getSquare() != this) {
 				return false;

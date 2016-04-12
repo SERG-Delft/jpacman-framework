@@ -13,12 +13,12 @@ public class Pellet extends Unit {
 	/**
 	 * The sprite of this unit.
 	 */
-	private final Sprite image;
+	protected final Sprite image;
 	
 	/**
 	 * The point value of this pellet.
 	 */
-	private final int value;
+	protected final int value;
 	
 	/**
 	 * Creates a new pellet.

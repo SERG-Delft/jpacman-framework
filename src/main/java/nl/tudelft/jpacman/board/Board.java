@@ -73,6 +73,42 @@ public class Board {
 		assert result != null : "Follows from invariant.";
 		return result;
 	}
+	
+	
+	public int getAbscisseSquare(Square square)
+	{
+		int abscisse=0;
+		for (int x = 0; x < board.length; x++) 
+		{
+			for (int y = 0; y < board[x].length; y++) 
+			{
+				if (board[x][y] == square) 
+				{
+					abscisse=x;
+				}
+			}
+		}
+		
+		return abscisse;
+	}
+	
+	public int getOrdonneSquare(Square square)
+	{
+		int ordonne=0;
+		for (int x = 0; x < board.length; x++)
+		{
+			for (int y = 0; y < board[x].length; y++) 
+			{
+				if (board[x][y] == square) 
+				{
+					ordonne=y;
+				}
+			}
+		}
+		return ordonne;
+	}
+	
+	
 
 	/**
 	 * Determines whether the given <code>x,y</code> position is on this board.

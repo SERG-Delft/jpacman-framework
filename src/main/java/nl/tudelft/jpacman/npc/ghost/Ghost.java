@@ -8,6 +8,8 @@ import java.util.Random;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.sprite.EmptySprite;
+import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
 
 /**
@@ -17,10 +19,12 @@ import nl.tudelft.jpacman.sprite.Sprite;
  */
 public abstract class Ghost extends NPC {
 	
+	
+	
 	/**
 	 * The sprite map, one sprite for each direction.
 	 */
-	private Map<Direction, Sprite> sprites;
+	protected Map<Direction, Sprite> sprites;
 
 	/**
 	 * Creates a new ghost.
@@ -28,7 +32,8 @@ public abstract class Ghost extends NPC {
 	 * @param spriteMap
 	 *            The sprites for every direction.
 	 */
-	protected Ghost(Map<Direction, Sprite> spriteMap) {
+	protected Ghost(Map<Direction, Sprite> spriteMap)
+	{
 		this.sprites = spriteMap;
 	}
 
@@ -37,6 +42,21 @@ public abstract class Ghost extends NPC {
 		return sprites.get(getDirection());
 	}
 
+	
+	@Override
+	public void dead()
+	{
+        PacManSprites sprits= new PacManSprites();
+		this.isDead=true;
+		
+	}
+	
+	@Override
+	public boolean isDead()
+	{
+		return this.isDead;
+	}
+	
 	/**
 	 * Determines a possible move in a random direction.
 	 * 

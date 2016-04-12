@@ -2,6 +2,7 @@ package nl.tudelft.jpacman.level;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,6 +14,8 @@ import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.fruit.Fruit;
+import nl.tudelft.jpacman.fruit.Pomegranate;
 import nl.tudelft.jpacman.npc.NPC;
 
 /**
@@ -42,7 +45,7 @@ public class Level {
 	/**
 	 * The NPCs of this level and, if they are running, their schedules.
 	 */
-	private final Map<NPC, ScheduledExecutorService> npcs;
+	private  Map<NPC, ScheduledExecutorService> npcs;
 
 	/**
 	 * <code>true</code> iff this level is currently in progress, i.e. players
@@ -182,16 +185,108 @@ public class Level {
 			Square location = unit.getSquare();
 			Square destination = location.getSquareAt(direction);
 
-			if (destination.isAccessibleTo(unit)) {
+			if (destination.isAccessibleTo(unit))
+			{
 				List<Unit> occupants = destination.getOccupants();
 				unit.occupy(destination);
-				for (Unit occupant : occupants) {
+				for (Unit occupant : occupants)
+				{
 					collisions.collide(unit, occupant);
+					if(occupant instanceof Fruit)
+					{
+						fruitEffect(occupant,unit.getSquare());
+					}
 				}
 			}
 			updateObservers();
 		}
 	}
+	
+	
+	/**
+	 * performs the effect according to the fruit
+	 * @param fruit  CollisionFruit
+	 * @param unit Destination square
+	 */
+	public void fruitEffect(Unit fruit,Square unit)
+	{
+		switch(fruit.getClass().getSimpleName())
+		{
+		case "Pomegranate":	
+			
+			int abscisseUnit= board.getAbscisseSquare(unit);
+			int ordonneUnit= board.getOrdonneSquare(unit);
+			
+			for ( NPC npc : npcs.keySet())
+			{
+				
+				Square location=npc.getSquare();	
+			    int abscisseNpc=board.getAbscisseSquare(location);
+			    int ordonneNpc=board.getOrdonneSquare(location);
+			    
+			
+			   if(((Pomegranate)fruit).isClose(abscisseUnit, ordonneUnit, abscisseNpc, ordonneNpc)) 
+			   {
+				   npc.dead();
+			   }
+
+			}
+			
+			
+			
+			
+		break;
+		
+		case "Pepper":
+		break;
+		
+		case "Tomato":
+		break;
+		
+		case "Bean":
+		break;
+		
+		case "Potato":
+		break;
+		
+		case "Fish":
+		break;
+		
+		default:
+		break;
+		}
+	}
+	
+	public boolean isClose(int abscisseUnit,int ordonneUnit,int abscisseNpc,int ordonneNpc)
+	{
+		int diffAbscisse=0;
+		int diffOrdonne=0;
+		
+		if(abscisseUnit>abscisseNpc)
+		{
+			diffAbscisse=abscisseUnit-abscisseNpc;
+		}else
+		{
+			diffAbscisse=abscisseNpc-abscisseUnit;
+		}
+		if(ordonneUnit>ordonneNpc)
+		{
+			diffOrdonne=ordonneUnit-ordonneNpc;
+		}else
+		{
+			diffOrdonne=ordonneNpc-ordonneUnit;
+		}
+		
+		if((diffAbscisse<=4)&&(diffOrdonne<=4))
+		{
+			return true;
+		}else
+		{
+			return false;
+		}
+		
+	}
+	
 
 	/**
 	 * Starts or resumes this level, allowing movement and (re)starting the
@@ -213,7 +308,8 @@ public class Level {
 	 * and stopping all NPCs.
 	 */
 	public void stop() {
-		synchronized (startStopLock) {
+		synchronized (startStopLock) 
+		{
 			if (!isInProgress()) {
 				return;
 			}
@@ -225,12 +321,13 @@ public class Level {
 	/**
 	 * Starts all NPC movement scheduling.
 	 */
-	private void startNPCs() {
-		for (final NPC npc : npcs.keySet()) {
-			ScheduledExecutorService service = Executors
-					.newSingleThreadScheduledExecutor();
-			service.schedule(new NpcMoveTask(service, npc),
-					npc.getInterval() / 2, TimeUnit.MILLISECONDS);
+	private void startNPCs()
+	{
+		
+		for ( NPC npc : npcs.keySet())
+		{
+			ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();					
+			service.schedule(new NpcMoveTask(service, npc),npc.getInterval() / 2, TimeUnit.MILLISECONDS);					
 			npcs.put(npc, service);
 		}
 	}
@@ -239,8 +336,10 @@ public class Level {
 	 * Stops all NPC movement scheduling and interrupts any movements being
 	 * executed.
 	 */
-	private void stopNPCs() {
-		for (Entry<NPC, ScheduledExecutorService> e : npcs.entrySet()) {
+	private void stopNPCs()
+	{
+		for (Entry<NPC, ScheduledExecutorService> e : npcs.entrySet())
+		{
 			e.getValue().shutdownNow();
 		}
 	}
@@ -317,12 +416,12 @@ public class Level {
 		/**
 		 * The service executing the task.
 		 */
-		private final ScheduledExecutorService service;
+		private  ScheduledExecutorService service;
 
 		/**
 		 * The NPC to move.
 		 */
-		private final NPC npc;
+		private  NPC npc;
 
 		/**
 		 * Creates a new task.
@@ -335,16 +434,31 @@ public class Level {
 		private NpcMoveTask(ScheduledExecutorService s, NPC n) {
 			this.service = s;
 			this.npc = n;
+		
 		}
 
 		@Override
 		public void run() {
-			Direction nextMove = npc.nextMove();
-			if (nextMove != null) {
+			
+			if(npc.isDead()==false)
+			{
+					Direction nextMove = npc.nextMove();
+			if (nextMove != null)
+			{
 				move(npc, nextMove);
 			}
 			long interval = npc.getInterval();
 			service.schedule(this, interval, TimeUnit.MILLISECONDS);
+			}
+			else
+			{
+				npc.leaveSquare();
+			}
+		
+				
+	
+			
+			
 		}
 	}
 
