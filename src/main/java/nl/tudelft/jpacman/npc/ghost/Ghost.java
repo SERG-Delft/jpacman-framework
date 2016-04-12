@@ -46,7 +46,6 @@ public abstract class Ghost extends NPC {
 	@Override
 	public void dead()
 	{
-        PacManSprites sprits= new PacManSprites();
 		this.isDead=true;
 		
 	}

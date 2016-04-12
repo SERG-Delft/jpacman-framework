@@ -15,6 +15,7 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.fruit.Fruit;
+import nl.tudelft.jpacman.fruit.Pepper;
 import nl.tudelft.jpacman.fruit.Pomegranate;
 import nl.tudelft.jpacman.npc.NPC;
 
@@ -77,6 +78,11 @@ public class Level {
 	 * The objects observing this level.
 	 */
 	private final List<LevelObserver> observers;
+	
+	private float coefficientVitesse;
+	
+	private List<Fruit> effects;
+	
 
 	/**
 	 * Creates a new level for the board.
@@ -107,6 +113,8 @@ public class Level {
 		this.players = new ArrayList<>();
 		this.collisions = collisionMap;
 		this.observers = new ArrayList<>();
+		this.coefficientVitesse=1;
+		this.effects= new ArrayList<Fruit>();
 	}
 
 	/**
@@ -231,13 +239,20 @@ public class Level {
 			   }
 
 			}
-			
-			
-			
-			
 		break;
 		
 		case "Pepper":
+					if(this.coefficientVitesse!=1)
+					{
+						this.coefficientVitesse=1;
+					}
+					else
+					{
+						this.coefficientVitesse=1.4f;
+				        ((Fruit)fruit).activate();
+				         effects.add( ((Fruit) fruit));
+					}
+				
 		break;
 		
 		case "Tomato":
@@ -247,6 +262,17 @@ public class Level {
 		break;
 		
 		case "Potato":
+			if(this.coefficientVitesse!=1)
+			{
+				this.coefficientVitesse=1;
+			}
+			else
+			{
+			this.coefficientVitesse=0.7f;
+			((Fruit)fruit).activate();
+			effects.add( ((Fruit) fruit));
+			}
+			
 		break;
 		
 		case "Fish":
@@ -256,36 +282,7 @@ public class Level {
 		break;
 		}
 	}
-	
-	public boolean isClose(int abscisseUnit,int ordonneUnit,int abscisseNpc,int ordonneNpc)
-	{
-		int diffAbscisse=0;
-		int diffOrdonne=0;
-		
-		if(abscisseUnit>abscisseNpc)
-		{
-			diffAbscisse=abscisseUnit-abscisseNpc;
-		}else
-		{
-			diffAbscisse=abscisseNpc-abscisseUnit;
-		}
-		if(ordonneUnit>ordonneNpc)
-		{
-			diffOrdonne=ordonneUnit-ordonneNpc;
-		}else
-		{
-			diffOrdonne=ordonneNpc-ordonneUnit;
-		}
-		
-		if((diffAbscisse<=4)&&(diffOrdonne<=4))
-		{
-			return true;
-		}else
-		{
-			return false;
-		}
-		
-	}
+
 	
 
 	/**
@@ -327,7 +324,7 @@ public class Level {
 		for ( NPC npc : npcs.keySet())
 		{
 			ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();					
-			service.schedule(new NpcMoveTask(service, npc),npc.getInterval() / 2, TimeUnit.MILLISECONDS);					
+			service.schedule(new NpcMoveTask(service, npc), ((npc.getInterval() /2)), TimeUnit.MILLISECONDS);	
 			npcs.put(npc, service);
 		}
 	}
@@ -440,6 +437,23 @@ public class Level {
 		@Override
 		public void run() {
 			
+			int sizeEffects=effects.size();
+			if(sizeEffects>0)
+			{
+				for(int i=0;i<sizeEffects;i++)
+				{
+					if(effects.get(i).check())
+					{
+					    coefficientVitesse=1;	
+						effects.remove(i);
+						i--;	
+					}
+				}
+								
+			}
+			
+			
+
 			if(npc.isDead()==false)
 			{
 					Direction nextMove = npc.nextMove();
@@ -447,7 +461,7 @@ public class Level {
 			{
 				move(npc, nextMove);
 			}
-			long interval = npc.getInterval();
+			long interval =(long) (npc.getInterval()*coefficientVitesse);
 			service.schedule(this, interval, TimeUnit.MILLISECONDS);
 			}
 			else

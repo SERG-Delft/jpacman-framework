@@ -114,10 +114,21 @@ public class MapParser {
 			startPositions.add(playerSquare);
 			break;
 		case 'q':
-			Square fruitSquare = boardCreator.createGround();
-			grid[x][y] = fruitSquare;
-			levelCreator.createPommegranate().occupy(fruitSquare);
+			Square granateSquare = boardCreator.createGround();
+			grid[x][y] = granateSquare;
+			levelCreator.createPommegranate().occupy(granateSquare);
 			break;
+		case 'k':
+			Square pepperSquare=boardCreator.createGround();
+			grid[x][y]=pepperSquare;
+			levelCreator.createPepper().occupy(pepperSquare);	
+			break;
+		case 'v':
+			Square potatoSquare=boardCreator.createGround();
+			grid[x][y]= potatoSquare;
+			levelCreator.createPotato().occupy(potatoSquare);
+			break;
+			
 		default:
 			throw new PacmanConfigurationException("Invalid character at "+ x + "," + y + ": " + c);
 					
