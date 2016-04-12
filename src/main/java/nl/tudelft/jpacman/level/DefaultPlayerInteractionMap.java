@@ -17,7 +17,7 @@ import nl.tudelft.jpacman.npc.ghost.Ghost;
  */
 public class DefaultPlayerInteractionMap implements CollisionMap {
 
-	private CollisionMap collisions = defaultCollisions();
+	private final CollisionMap collisions = defaultCollisions();
 
 	@Override
 	public void collide(Unit mover, Unit movedInto) {

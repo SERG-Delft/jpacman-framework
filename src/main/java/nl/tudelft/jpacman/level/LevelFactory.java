@@ -129,7 +129,7 @@ public class LevelFactory {
 		 * @param ghostSprite
 		 *            The sprite for the ghost.
 		 */
-		private RandomGhost(Map<Direction, Sprite> ghostSprite) {
+		RandomGhost(Map<Direction, Sprite> ghostSprite) {
 			super(ghostSprite);
 		}
 

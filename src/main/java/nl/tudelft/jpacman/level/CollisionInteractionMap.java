@@ -248,7 +248,7 @@ public class CollisionInteractionMap implements CollisionMap {
 		 * @param handler
 		 *            The symmetric handler for this collision.
 		 */
-		public InverseCollisionHandler(CollisionHandler<C2, C1> handler) {
+		InverseCollisionHandler(CollisionHandler<C2, C1> handler) {
 			this.handler = handler;
 		}
 

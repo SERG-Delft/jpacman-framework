@@ -19,7 +19,7 @@ public class SpriteStore {
 	 * We only need to load images once, so we keep track
 	 * of them in a hash map.
 	 */
-	private Map<String, Sprite> spriteMap;
+	private final Map<String, Sprite> spriteMap;
 	
 	/**
 	 * Create a new sprite store.

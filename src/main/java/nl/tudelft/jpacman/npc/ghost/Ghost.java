@@ -20,7 +20,7 @@ public abstract class Ghost extends NPC {
 	/**
 	 * The sprite map, one sprite for each direction.
 	 */
-	private Map<Direction, Sprite> sprites;
+	private final Map<Direction, Sprite> sprites;
 
 	/**
 	 * Creates a new ghost.
