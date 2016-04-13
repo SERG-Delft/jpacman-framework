@@ -401,7 +401,7 @@ public class Level {
 		}
 	}
 	/**
-	 * An observer that will be notified when the level is won or lost.
+	 * An observer that will be notified when the level is won or lost  .
 	 * 
 	 * @author Jeroen Roosen 
 	 */
