@@ -23,7 +23,7 @@ import nl.tudelft.jpacman.ui.PacManUiBuilder;
 /**
  * Creates and launches the JPacMan UI.
  * 
- * @author Jeroen Roosen 
+ * @author Jeroen Roosen
  */
 public class Launcher {
 
@@ -177,10 +177,21 @@ public class Launcher {
 		addSinglePlayerKeys(builder, game);
 		pacManUI = builder.build(game);
 		pacManUI.start();
+		//IApac();
+
 	}
 
 	/**
-	 * Disposes of the UI. For more information see {@link javax.swing.JFrame#dispose()}.
+	 * 
+	 */
+	public void IApac() {
+		while (true)
+			game.move(getSinglePlayer(game), Direction.EAST);
+	}
+
+	/**
+	 * Disposes of the UI. For more information see
+	 * {@link javax.swing.JFrame#dispose()}.
 	 */
 	public void dispose() {
 		pacManUI.dispose();

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -203,6 +204,7 @@ public class Level {
 				return;
 			}
 			startNPCs();
+			startPacMan();
 			inProgress = true;
 			updateObservers();
 		}
@@ -235,6 +237,16 @@ public class Level {
 		}
 	}
 
+	/**
+	 * @author bellafkih
+	 * Starts Pac Man movement scheduling.
+	 */
+	private void startPacMan() {
+			ScheduledExecutorService s = Executors
+					.newSingleThreadScheduledExecutor();
+			s.schedule(new PacmanMoveTask(s,players.get(0)) ,500, TimeUnit.MILLISECONDS);
+		
+	}
 	/**
 	 * Stops all NPC movement scheduling and interrupts any movements being
 	 * executed.
@@ -348,6 +360,46 @@ public class Level {
 		}
 	}
 
+	/**
+	 * A task that moves the single player  and reschedules itself after it finished.
+	 * 
+	 * @author bellafkih
+	 */
+	private final class PacmanMoveTask implements Runnable {
+
+		/**
+		 * The service executing the task.
+		 */
+		private final ScheduledExecutorService service;
+
+		/**
+		 * The player to move.
+		 */
+		private final Player p;
+
+		/**
+		 * Creates a new task.
+		 * 
+		 * @param s
+		 *            The service that executes the task.
+		 * @param p
+		 *            The player to move.
+		 */
+		private PacmanMoveTask(ScheduledExecutorService s, Player p) {
+			this.service = s;
+			this.p = p;
+		}
+
+		@Override
+		public void run() {
+			Direction nextMove = this.p.getDirection();
+			if (nextMove != null) {
+				move(this.p, nextMove);
+			}
+			long interval = 500;
+			service.schedule(this, interval, TimeUnit.MILLISECONDS);
+		}
+	}
 	/**
 	 * An observer that will be notified when the level is won or lost.
 	 * 
