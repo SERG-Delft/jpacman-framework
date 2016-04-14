@@ -16,6 +16,11 @@ public  class Fruit  extends Pellet
 		super(points, sprite);
 	}
 	
+	public String effect()
+	{
+		return "";
+	}
+	
 	
 	
 	public void activate()

@@ -9,5 +9,11 @@ public class Potato extends Fruit
 	{
 		super(points, sprite);
 	}
+	
+	@Override
+	public String effect()
+	{
+		return "Boost Ghosts speed";
+	}
 
 }

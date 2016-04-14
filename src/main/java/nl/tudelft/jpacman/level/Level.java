@@ -80,8 +80,7 @@ public class Level {
 	private final List<LevelObserver> observers;
 	
 	private float coefficientVitesse;
-	
-	private List<Fruit> effects;
+
 	
 
 	/**
@@ -114,7 +113,6 @@ public class Level {
 		this.collisions = collisionMap;
 		this.observers = new ArrayList<>();
 		this.coefficientVitesse=1;
-		this.effects= new ArrayList<Fruit>();
 	}
 
 	/**
@@ -193,7 +191,7 @@ public class Level {
 		{
 			if((((Player)unit).isInvisible())||(((Player)unit).isStun()))
 		    {
-			 if(((Player)unit).getEffect().check())
+			 if(((Fruit) ((Player)unit).getEffect()).check())
 			 {
 				((Player)unit).resetEffect();
 			 }
@@ -235,6 +233,8 @@ public class Level {
 	 */
 	public void fruitEffect(Unit fruit,Square unit)
 	{
+		players.get(0).defineEffect((Fruit) fruit);
+		
 		switch(fruit.getClass().getSimpleName())
 		{
 		case "Pomegranate":	
@@ -256,6 +256,7 @@ public class Level {
 			   }
 
 			}
+			players.get(0).resetEffect();
 		break;
 		
 		case "Pepper":
@@ -267,15 +268,14 @@ public class Level {
 					{
 						this.coefficientVitesse=1.4f;
 				        ((Fruit)fruit).activate();
-				         effects.add( ((Fruit) fruit));
+				       				 
 					}
 				
 		break;
 		
 		case "Tomato":
 					players.get(0).setInvisible(true);
-					players.get(0).defineEffect((Fruit) fruit);
-					players.get(0).getEffect().activate();
+					((Fruit) players.get(0).getEffect()).activate();
 		break;
 		
 		case "Bean":
@@ -290,14 +290,12 @@ public class Level {
 			{
 			this.coefficientVitesse=0.7f;
 			((Fruit)fruit).activate();
-			effects.add( ((Fruit) fruit));
 			}
 			
 		break;		
 		case "Fish":
 			players.get(0).setStun(true);
-			players.get(0).defineEffect((Fruit) fruit);
-			players.get(0).getEffect().activate();
+			((Fruit) players.get(0).getEffect()).activate();
 		break;
 		
 		default:
@@ -458,24 +456,18 @@ public class Level {
 
 		@Override
 		public void run() {
-			
-			int sizeEffects=effects.size();
-			if(sizeEffects>0)
+					
+			if(players.get(0).getEffect() instanceof Fruit)
 			{
-				for(int i=0;i<sizeEffects;i++)
+				if(((Fruit)players.get(0).getEffect() ).check())
 				{
-					if(effects.get(i).check())
-					{
-					    coefficientVitesse=1;	
-						effects.remove(i);
-						i--;	
-					}
+					coefficientVitesse=1;
+					players.get(0).resetEffect();
+					players.get(0).resetEffect();
 				}
-								
 			}
 			
-			
-
+		
 			if(npc.isDead()==false)
 			{
 					Direction nextMove = npc.nextMove();

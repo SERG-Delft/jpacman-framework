@@ -38,6 +38,12 @@ public class Pomegranate extends Fruit
 		}
 		
 	}
+	
+	@Override
+	public String effect()
+	{
+		return "Bomb !!!";
+	}
 
 
 

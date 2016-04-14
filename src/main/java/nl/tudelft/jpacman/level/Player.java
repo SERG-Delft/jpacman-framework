@@ -69,11 +69,21 @@ public class Player extends Unit {
 		this.invisible=false;
 		this.stun=false;
 	}
-	public Fruit getEffect()
+	public Object getEffect()
 	{
-		return ((Fruit) effect);
+		//return ((Fruit) effect);
+		return effect;
 	}
-	
+	public boolean isEffect()
+	{
+		if(effect instanceof Fruit)
+		{
+			return true;
+		}else
+		{
+			return false;
+		}
+	}
 	
 	public boolean isInvisible()
 	{

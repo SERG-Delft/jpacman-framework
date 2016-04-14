@@ -1,9 +1,6 @@
 package nl.tudelft.jpacman.fruit;
 
 
-
-import java.util.Date;
-
 import nl.tudelft.jpacman.sprite.Sprite;
 
 public class Pepper extends Fruit
@@ -15,7 +12,11 @@ public class Pepper extends Fruit
 		super(points, sprite);	
 	}
 	
-	
+	@Override
+	public String effect()
+	{
+		return "Boost PacMan Speed ";
+	}
 	
 
 }

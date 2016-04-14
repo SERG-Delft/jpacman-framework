@@ -9,5 +9,11 @@ public class Tomato extends Fruit
 	{
 		super(points, sprite);	
 	}
+	
+	@Override
+	public String effect()
+	{
+		return "Invisible Pacman";
+	}
 
 }

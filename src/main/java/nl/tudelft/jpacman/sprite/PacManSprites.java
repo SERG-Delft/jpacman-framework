@@ -132,27 +132,27 @@ public class PacManSprites extends SpriteStore {
 	 */
 	public Sprite getPomegranateSprite()
 	{
-		return loadSprite("/sprite/apple.png");
+		return loadSprite("/sprite/pomegranate.png");
 	}
 	
 	public Sprite getPepperSprite()
 	{
-		return loadSprite("/sprite/strawberry.png");
+		return loadSprite("/sprite/pepper.png");
 	}
 	
 	public Sprite getPotatoSprite()
 	{
-		return loadSprite("/sprite/orange.png");
+		return loadSprite("/sprite/potato.png");
 	}
 	
 	public Sprite getTomatoSprite()
 	{
-		return loadSprite("/sprite/melon.png");
+		return loadSprite("/sprite/tomato.png");
 	}
 	
 	public Sprite getFishSprite()
 	{
-		return loadSprite("/sprite/cherry.png");
+		return loadSprite("/sprite/fish.png");
 	}
 	
 

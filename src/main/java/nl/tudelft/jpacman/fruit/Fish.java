@@ -10,5 +10,11 @@ public class Fish extends Fruit
 		super(points, sprite);
 	}
 	
+	
+	@Override
+	public String effect()
+	{
+		return "Freeze PacMan";
+	}
 
 }

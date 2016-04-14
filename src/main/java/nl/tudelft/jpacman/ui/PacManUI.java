@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
+import nl.tudelft.jpacman.ui.StatePanel.StateFormatter;
 
 /**
  * The default JPacMan UI frame. The PacManUI consists of the following
@@ -49,6 +50,13 @@ public class PacManUI extends JFrame {
 	 * The panel displaying the game.
 	 */
 	private final BoardPanel boardPanel;
+	
+	
+	private final StatePanel statePanel;
+	
+	
+	
+	
 
 	/**
 	 * Creates a new UI for a JPac-Man game.
@@ -83,13 +91,19 @@ public class PacManUI extends JFrame {
 			scorePanel.setScoreFormatter(sf);
 		}
 		
+		statePanel=new StatePanel(game.getPlayers());
+		if (sf != null) {
+			statePanel.setScoreFormatter( sf);
+		}
+		
 		boardPanel = new BoardPanel(game);
 		
 		Container contentPanel = getContentPane();
 		contentPanel.setLayout(new BorderLayout());
-		contentPanel.add(buttonPanel, BorderLayout.SOUTH);
 		contentPanel.add(scorePanel, BorderLayout.NORTH);
+		contentPanel.add(statePanel,BorderLayout.SOUTH);
 		contentPanel.add(boardPanel, BorderLayout.CENTER);
+		contentPanel.add(buttonPanel, BorderLayout.EAST);
 
 		pack();
 	}
@@ -120,5 +134,6 @@ public class PacManUI extends JFrame {
 	private void nextFrame() {
 		boardPanel.repaint();
 		scorePanel.refresh();
+		statePanel.refresh();
 	}
 }
