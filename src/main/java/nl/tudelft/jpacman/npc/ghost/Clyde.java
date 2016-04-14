@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Random;
 
 import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.sprite.Sprite;
 
@@ -60,9 +60,9 @@ public class Clyde extends Ghost {
 	/**
 	 * A map of opposite directions.
 	 */
-	private static final Map<Direction, Direction> OPPOSITES = new EnumMap<Direction, Direction>(
+	private static final Map<Direction, Direction> OPPOSITES = new EnumMap<>(
 			Direction.class);
-	{
+	static {
 		OPPOSITES.put(Direction.NORTH, Direction.SOUTH);
 		OPPOSITES.put(Direction.SOUTH, Direction.NORTH);
 		OPPOSITES.put(Direction.WEST, Direction.EAST);
@@ -103,23 +103,20 @@ public class Clyde extends Ghost {
 	 */
 	@Override
 	public Direction nextMove() {
-		Square target = Navigation.findNearest(Player.class, getSquare())
-				.getSquare();
-		if (target == null) {
-			return randomMove();
+		Unit target = Navigation.findNearest(Player.class, getSquare());
+		List<Direction> path;
+		Direction d = randomMove();
+
+		if (target != null) {
+			path = Navigation.shortestPath(getSquare(), target.getSquare(), this);
+
+			if(path != null && !path.isEmpty()){
+				d = path.get(0);
+
+				if(path.size() <= SHYNESS) d = OPPOSITES.get(d);
+			}
 		}
 
-		List<Direction> path = Navigation.shortestPath(getSquare(), target,
-				this);
-		if (path != null && !path.isEmpty()) {
-			Direction d = path.get(0);
-			if (path.size() <= SHYNESS) {
-				Direction oppositeDir = OPPOSITES.get(d);
-				return oppositeDir;
-			}
-			return d;
-		}
-		Direction d = randomMove();
 		return d;
 	}
 }
