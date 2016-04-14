@@ -6,9 +6,11 @@ import java.util.Map;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.fruit.Fish;
 import nl.tudelft.jpacman.fruit.Pepper;
 import nl.tudelft.jpacman.fruit.Pomegranate;
 import nl.tudelft.jpacman.fruit.Potato;
+import nl.tudelft.jpacman.fruit.Tomato;
 import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
@@ -131,6 +133,16 @@ public class LevelFactory {
 	public Pellet createPotato()
 	{
 		return new Potato(0,sprites.getPotatoSprite());
+	}
+	
+	public Pellet createTomato()
+	{
+		return new Tomato(0,sprites.getTomatoSprite());
+	}
+	
+	public Pellet createFish()
+	{
+		return new Fish(0,sprites.getFishSprite());
 	}
 	
 

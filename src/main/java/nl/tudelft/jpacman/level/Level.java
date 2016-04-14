@@ -180,18 +180,35 @@ public class Level {
 	 * @param direction
 	 *            The direction to move the unit in.
 	 */
-	public void move(Unit unit, Direction direction) {
+	public void move(Unit unit, Direction direction) 
+	{
 		assert unit != null;
 		assert direction != null;
 
-		if (!isInProgress()) {
+		if (!isInProgress())
+		{
 			return;
 		}
+		if(unit instanceof Player)
+		{
+			if((((Player)unit).isInvisible())||(((Player)unit).isStun()))
+		    {
+			 if(((Player)unit).getEffect().check())
+			 {
+				((Player)unit).resetEffect();
+			 }
+		    }
+		}
 
-		synchronized (moveLock) {
+		synchronized (moveLock) 
+		{
 			unit.setDirection(direction);
 			Square location = unit.getSquare();
 			Square destination = location.getSquareAt(direction);
+			if((unit instanceof Player)&&((Player)unit).isStun())
+			{
+				destination=location;
+			}
 
 			if (destination.isAccessibleTo(unit))
 			{
@@ -200,7 +217,7 @@ public class Level {
 				for (Unit occupant : occupants)
 				{
 					collisions.collide(unit, occupant);
-					if(occupant instanceof Fruit)
+					if((occupant instanceof Fruit)&&(unit instanceof Player))
 					{
 						fruitEffect(occupant,unit.getSquare());
 					}
@@ -256,6 +273,9 @@ public class Level {
 		break;
 		
 		case "Tomato":
+					players.get(0).setInvisible(true);
+					players.get(0).defineEffect((Fruit) fruit);
+					players.get(0).getEffect().activate();
 		break;
 		
 		case "Bean":
@@ -273,9 +293,11 @@ public class Level {
 			effects.add( ((Fruit) fruit));
 			}
 			
-		break;
-		
+		break;		
 		case "Fish":
+			players.get(0).setStun(true);
+			players.get(0).defineEffect((Fruit) fruit);
+			players.get(0).getEffect().activate();
 		break;
 		
 		default:

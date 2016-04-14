@@ -4,6 +4,7 @@ import java.util.Map;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.fruit.Fruit;
 import nl.tudelft.jpacman.sprite.AnimatedSprite;
 import nl.tudelft.jpacman.sprite.Sprite;
 
@@ -33,6 +34,10 @@ public class Player extends Unit {
 	 * <code>true</code> iff this player is alive.
 	 */
 	private boolean alive;
+	private boolean invisible;
+	private Object effect;
+	private boolean stun;
+	
 
 	/**
 	 * Creates a new player with a score of 0 points.
@@ -48,7 +53,46 @@ public class Player extends Unit {
 		this.sprites = spriteMap;
 		this.deathSprite = deathAnimation;
 		deathSprite.setAnimating(false);
+		this.invisible=false;
+		this.effect= new Object();
+		this.stun=false;
 	}
+	
+	public void defineEffect(Fruit fruit)
+	{
+		this.effect=fruit;
+	}
+	
+	public void resetEffect()
+	{
+		this.effect= new Object();
+		this.invisible=false;
+		this.stun=false;
+	}
+	public Fruit getEffect()
+	{
+		return ((Fruit) effect);
+	}
+	
+	
+	public boolean isInvisible()
+	{
+		return this.invisible;
+	}
+	public boolean isStun()
+	{
+		return this.stun;
+	}
+	
+	public void setInvisible(boolean invisible_)
+	{
+		invisible=invisible_;
+	}
+	public void setStun(boolean stun_)
+	{
+		stun=stun_;
+	}
+	
 
 	/**
 	 * Returns whether this player is alive or not.

@@ -10,11 +10,14 @@ public  class Fruit  extends Pellet
 	protected Date beginDate;
 	protected boolean isActive;
 
+	
 	public Fruit(int points, Sprite sprite) 
 	{
 		super(points, sprite);
-		// TODO Auto-generated constructor stub
 	}
+	
+	
+	
 	public void activate()
 	{	
 		beginDate= new Date();	

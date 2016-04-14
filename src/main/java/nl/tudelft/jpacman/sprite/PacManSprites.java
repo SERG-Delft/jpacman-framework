@@ -145,6 +145,16 @@ public class PacManSprites extends SpriteStore {
 		return loadSprite("/sprite/orange.png");
 	}
 	
+	public Sprite getTomatoSprite()
+	{
+		return loadSprite("/sprite/melon.png");
+	}
+	
+	public Sprite getFishSprite()
+	{
+		return loadSprite("/sprite/cherry.png");
+	}
+	
 
 	/**
 	 * Overloads the default sprite loading, ignoring the exception. This class

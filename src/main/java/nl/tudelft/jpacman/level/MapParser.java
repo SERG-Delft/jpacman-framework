@@ -129,6 +129,17 @@ public class MapParser {
 			levelCreator.createPotato().occupy(potatoSquare);
 			break;
 			
+		case 's':
+			Square tomatoSquare=boardCreator.createGround();
+			grid[x][y]=tomatoSquare;
+			levelCreator.createTomato().occupy(tomatoSquare);
+			break;
+			
+		case 'u':
+			Square fishSquare=boardCreator.createGround();
+			grid[x][y]=fishSquare;
+			levelCreator.createFish().occupy(fishSquare);
+			break;
 		default:
 			throw new PacmanConfigurationException("Invalid character at "+ x + "," + y + ": " + c);
 					
