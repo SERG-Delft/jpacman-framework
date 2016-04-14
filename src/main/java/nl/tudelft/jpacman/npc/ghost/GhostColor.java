@@ -25,5 +25,5 @@ public enum GhostColor {
 	/**
 	 * Pokey, a.k.a. Clyde.
 	 */
-	ORANGE;
+	ORANGE
 }
