@@ -93,25 +93,53 @@ public class Pinky extends Ghost {
 	 */
 	@Override
 	public Direction nextMove() {
-		Unit player = Navigation.findNearest(Player.class, getSquare());
-		if (player == null) {
-			Direction d = randomMove();
-			return d;
-		}
-
-		Direction targetDirection = player.getDirection();
-		Square destination = player.getSquare();
-		for (int i = 0; i < SQUARES_AHEAD; i++) {
-			destination = destination.getSquareAt(targetDirection);
-		}
-
-		List<Direction> path = Navigation.shortestPath(getSquare(),
-				destination, this);
-		if (path != null && !path.isEmpty()) {
-			Direction d = path.get(0);
-			return d;
-		}
 		Direction d = randomMove();
+
+		Unit player = Navigation.findNearest(Player.class, getSquare());
+
+		if (player != null) {
+			Square destination = fourSquaresAway(player.getDirection(), player.getSquare());
+
+			d = myPath(destination);
+		}
+
+		return d;
+	}
+
+	/**
+	 * Locate four squares in front of Pac-Man.
+	 *
+	 * @param d
+	 * 		The direction currently followed by Pac-Man.
+	 *
+	 * @param s
+	 * 		The Pac-Man current position.
+	 *
+	 * @return
+	 * 		Four squares in front of Pac-Man in his current direction of travel.
+	 */
+	private Square fourSquaresAway(Direction d, Square s){
+		for (int i = 0; i < SQUARES_AHEAD; i++)
+			s = s.getSquareAt(d);
+
+		return s;
+	}
+
+	/**
+	 * The path to follow by Pinky towards the square at four squares in front of Pac-Man.
+	 *
+	 * @param destination
+	 * 		The square at four squares in front of Pac-Man.
+	 *
+	 * @return
+	 * 		The next direction to take by Pinky.
+     */
+	private Direction myPath(Square destination){
+		Direction d = randomMove();
+		List<Direction> path = Navigation.shortestPath(getSquare(),destination, this);
+
+		if (path != null && !path.isEmpty()) d = path.get(0);
+
 		return d;
 	}
 }
