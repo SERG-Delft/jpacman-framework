@@ -85,12 +85,12 @@ public class Blinky extends Ghost {
 	public Direction nextMove() {
 		// TODO Blinky should patrol his corner every once in a while
 		// TODO Implement his actual behaviour instead of simply chasing.
-		Unit target = Navigation.findNearest(Player.class, getSquare());
+		Unit player = Navigation.findNearest(Player.class, getSquare());
 		List<Direction> path;
 		Direction d = randomMove();
 
-		if(target != null){
-			path = Navigation.shortestPath(getSquare(), target.getSquare(), this);
+		if(player != null){
+			path = Navigation.shortestPath(getSquare(), player.getSquare(), this);
 
 			if (path != null && !path.isEmpty()) {d = path.get(0);}
 		}

@@ -44,8 +44,7 @@ public abstract class Ghost extends NPC {
 	 *         the ghost is shut in by inaccessible squares.
 	 */
 	protected Direction randomMove() {
-		Square square = getSquare();
-		List<Direction> directions = directions(new ArrayList<>(), square);
+		List<Direction> directions = directions(new ArrayList<>(), getSquare());
 		Direction dChosen = null;
 
 		if (!directions.isEmpty()) {
