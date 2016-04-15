@@ -7,9 +7,11 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import nl.tudelft.jpacman.board.Board;
+import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.level.Player;
 
 /**
  * Panel displaying a game.
@@ -80,17 +82,34 @@ class BoardPanel extends JPanel {
 	private void render(Board board, Graphics g, Dimension window) {
 		int cellW = window.width / board.getWidth();
 		int cellH = window.height / board.getHeight();
+		Player pl = this.game.getPlayers().get(0);
+		Square posPlayer = pl.getSquare();
+		int dx = board.getWidth()/2 - posPlayer.getCoordX();
+		int dy = board.getHeight()/2 - posPlayer.getCoordY();
 
 		g.setColor(BACKGROUND_COLOR);
 		g.fillRect(0, 0, window.width, window.height);
 
 		for (int y = 0; y < board.getHeight(); y++) {
 			for (int x = 0; x < board.getWidth(); x++) {
-				int cellX = x * cellW;
-				int cellY = y * cellH;
+				int cellX = (dx+x) * cellW;
+				int cellY = (dy+y) * cellH;
 				Square square = board.squareAt(x, y);
 				render(square, g, cellX, cellY, cellW, cellH);
 			}
+		}
+
+		if(posPlayer.getCoordX() > board.getWidth() - 10){
+			board.extend(Direction.EAST);
+		}
+		if(posPlayer.getCoordX() < 10){
+			board.extend(Direction.WEST);
+		}
+		if(posPlayer.getCoordY() > board.getHeight() - 10){
+			board.extend(Direction.SOUTH);
+		}
+		if(posPlayer.getCoordY() < 10){
+			board.extend(Direction.NORTH);
 		}
 	}
 

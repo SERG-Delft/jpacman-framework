@@ -28,9 +28,18 @@ import nl.tudelft.jpacman.ui.PacManUiBuilder;
 public class Launcher {
 
 	private static final PacManSprites SPRITE_STORE = new PacManSprites();
+	private static Launcher launcher;
 
 	private PacManUI pacManUI;
 	private Game game;
+
+	public Launcher()
+	{
+		if(launcher==null)
+		{
+			Launcher.launcher = this;
+		}
+	}
 
 	/**
 	 * @return The game object this launcher will start when {@link #launch()}
@@ -195,5 +204,10 @@ public class Launcher {
 	 */
 	public static void main(String[] args) throws IOException {
 		new Launcher().launch();
+	}
+
+	public static Launcher getLauncher()
+	{
+		return launcher;
 	}
 }

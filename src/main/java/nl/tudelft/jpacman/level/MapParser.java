@@ -64,6 +64,13 @@ public class MapParser {
 		int width = map.length;
 		int height = map[0].length;
 
+		char[] line = new char[]{'#','#','#','#','#','#','.','#','#','#','#','#',
+				'#','#','#','#','.','#','#','#','#','#','#'};
+		for(int i = 0; i < width; i++){
+			map[i][0] = line[i];
+			map[i][height-1] = line[i];
+		}
+
 		Square[][] grid = new Square[width][height];
 
 		List<NPC> ghosts = new ArrayList<>();
