@@ -100,45 +100,38 @@ public class Inky extends Ghost {
 	// CHECKSTYLE:OFF To keep this more readable.
 	@Override
 	public Direction nextMove() {
-		Unit blinky = Navigation.findNearest(Blinky.class, getSquare());
-		if (blinky == null) {
-			Direction d = randomMove();
-			return d;
-		}
-
-		Unit player = Navigation.findNearest(Player.class, getSquare());
-		if (player == null) {
-			Direction d = randomMove();
-			return d;
-		}
-
-		Direction targetDirection = player.getDirection();
-		Square playerDestination = player.getSquare();
-		for (int i = 0; i < SQUARES_AHEAD; i++) {
-			playerDestination = playerDestination.getSquareAt(targetDirection);
-		}
-
-		Square destination = playerDestination;
-		List<Direction> firstHalf = Navigation.shortestPath(blinky.getSquare(),
-				playerDestination, null);
-		if (firstHalf == null) {
-			Direction d = randomMove();
-			return d;
-		}
-
-		for (Direction d : firstHalf) {
-			destination = playerDestination.getSquareAt(d);
-		}
-
-		List<Direction> path = Navigation.shortestPath(getSquare(),
-				destination, this);
-		if (path != null && !path.isEmpty()) {
-			Direction d = path.get(0);
-			return d;
-		}
 		Direction d = randomMove();
+		Unit blinky = Navigation.findNearest(Blinky.class, getSquare());
+		Unit player = Navigation.findNearest(Player.class, getSquare());
+
+		if (blinky != null && player != null) {
+			Square destination = twoSquaresAway(player.getDirection(), player.getSquare());
+
+			List<Direction> firstHalf = Navigation.shortestPath(blinky.getSquare(),
+					destination, null);
+
+			if(firstHalf != null){
+				for (Direction e : firstHalf) {
+					destination = destination.getSquareAt(e);
+				}
+
+				List<Direction> path = Navigation.shortestPath(getSquare(),destination, this);
+
+				if (path != null && !path.isEmpty()) {
+					d = path.get(0);
+				}
+			}
+		}
+
 		return d;
 	}
 	// CHECKSTYLE:ON
+
+	private Square twoSquaresAway(Direction d, Square s){
+		for (int i = 0; i < SQUARES_AHEAD; i++)
+			s = s.getSquareAt(d);
+
+		return s;
+	}
 
 }
