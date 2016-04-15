@@ -28,6 +28,16 @@ public abstract class Square {
 	private final Map<Direction, Square> neighbours;
 
 	/**
+	 * La position x du square
+	 */
+	private int coordX;
+
+	/**
+	 * La position y du square
+	 */
+	private int coordY;
+
+	/**
 	 * Creates a new, empty square.
 	 */
 	protected Square() {
@@ -112,6 +122,28 @@ public abstract class Square {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Retourne la coordonée x du square
+	 * @return La position x du square
+     */
+	public int getCoordX() {
+		return coordX;
+	}
+
+	/**
+	 * Retourne la coordonée y du square
+	 * @return La position y du square
+	 */
+	public int getCoordY() {
+		return coordY;
+	}
+
+	public void setCoord(int x, int y)
+	{
+		this.coordX = x;
+		this.coordY = y;
 	}
 
 	/**

@@ -1,5 +1,8 @@
 package nl.tudelft.jpacman.board;
 
+import nl.tudelft.jpacman.Launcher;
+import nl.tudelft.jpacman.level.Level;
+
 /**
  * A top-down view of a matrix of {@link Square}s.
  * 
@@ -10,7 +13,7 @@ public class Board {
 	/**
 	 * The grid of squares with board[x][y] being the square at column x, row y.
 	 */
-	private final Square[][] board;
+	private Square[][] board;
 
 	/**
 	 * Creates a new board.
@@ -85,5 +88,83 @@ public class Board {
 	 */
 	public boolean withinBorders(int x, int y) {
 		return x >= 0 && x < getWidth() && y >= 0 && y < getHeight();
+	}
+
+	public void extend(Direction direction)
+	{
+		Square[][] newGrid = null;
+		int extendScale = 5;
+		if(direction == Direction.EAST || direction == Direction.WEST)
+		{
+			extendScale = this.getWidth();
+		}
+		else
+		{
+			extendScale = this.getHeight();
+		}
+		newGrid = new Square[this.getWidth() + Math.abs(direction.getDeltaX()*extendScale)][this.getHeight() + Math.abs(direction.getDeltaY()*extendScale)];
+		if(direction == Direction.EAST)
+		{
+			this.boardCopy(this.board, newGrid, 0, 0);
+			this.createSquare(newGrid, this.getWidth(), 0, this.getWidth()+extendScale, this.getHeight());
+		}
+		else if(direction == Direction.NORTH)
+		{
+			this.boardCopy(this.board, newGrid, 0, extendScale);
+			this.createSquare(newGrid, 0, 0, this.getWidth(), extendScale);
+		}
+		else if(direction == Direction.SOUTH)
+		{
+			this.boardCopy(this.board, newGrid, 0, 0);
+			this.createSquare(newGrid, 0, this.getHeight(), this.getWidth(), this.getHeight()+extendScale);
+		}
+		else
+		{
+			this.boardCopy(this.board, newGrid, extendScale, 0);
+			this.createSquare(newGrid, 0, 0, extendScale, this.getHeight());
+		}
+		this.setPositions(newGrid);
+		this.board = newGrid;
+	}
+
+	private void boardCopy(Square[][] originalBoard, Square[][] newBoard, int width, int height)
+	{
+		for(int i = 0; i < originalBoard.length; i++)
+		{
+			for(int j = 0; j < originalBoard[0].length; j++)
+			{
+				newBoard[i + width][j + height] = originalBoard[i][j];
+			}
+		}
+	}
+
+	private void setPositions(Square[][] grid)
+	{
+		for(int i = 0; i < grid.length; i++)
+		{
+			for(int j = 0; j < grid[0].length; j++)
+			{
+				grid[i][j].setCoord(i, j);
+			}
+		}
+	}
+
+	private void createSquare(Square[][] grid, int startX, int startY, int endX, int endY)
+	{
+		for(int i = 0; i < (endX - startX)/this.getWidth(); i++)
+		{
+			for(int j = 0; j < (endY - startY)/this.getHeight(); j++)
+			{
+				Level lev = Launcher.getLauncher().makeLevel();
+				Square[][] board = lev.getBoard().board;
+				for(int k = 0; k < board.length; k++)
+				{
+					for(int l = 0; l < board[0].length; l++)
+					{
+						grid[startX+(i*this.getWidth())+k][startY+(j*this.getHeight())+l] = board[i][j];
+					}
+				}
+			}
+		}
 	}
 }
