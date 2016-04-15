@@ -13,14 +13,14 @@ public enum Direction {
 	NORTH(0, -1),
 
 	/**
-	 * South, or down.
-	 */
-	SOUTH(0, 1),
-
-	/**
 	 * West, or left.
 	 */
 	WEST(-1, 0),
+
+	/**
+	 * South, or down.
+	 */
+	SOUTH(0, 1),
 
 	/**
 	 * East, or right.
