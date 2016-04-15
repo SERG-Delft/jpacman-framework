@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.sprite.Sprite;
@@ -103,17 +104,37 @@ public class Clyde extends Ghost {
 	 */
 	@Override
 	public Direction nextMove() {
-		Unit player = Navigation.findNearest(Player.class, getSquare());
-		List<Direction> path;
 		Direction d = randomMove();
+		Unit player = Navigation.findNearest(Player.class, getSquare());
 
-		if (player != null) {
-			path = Navigation.shortestPath(getSquare(), player.getSquare(), this);
+		if (player != null){
+			System.out.println("Pac-Man direction: "+player.getDirection());
+			d = myPath(player.getSquare());
+		}
 
-			if(path != null && !path.isEmpty()){
-				d = path.get(0);
+		return d;
+	}
 
-				if(path.size() <= SHYNESS) d = OPPOSITES.get(d);
+	/**
+	 * The path to follow by Clyde towards the square of Pac-Man.
+	 *
+	 * @param destination
+	 * 		The square of Pac-Man.
+	 *
+	 * @return
+	 * 		The next direction to take by Clyde.
+	 */
+	private Direction myPath(Square destination){
+		Direction d = randomMove();
+		List<Direction> path = Navigation.shortestPath(getSquare(), destination, this);
+
+		if (path != null && !path.isEmpty()){
+			d = path.get(0);
+
+			if(path.size() <= SHYNESS){
+				System.out.println("Clyde direction: "+d);
+				d = OPPOSITES.get(d);
+				System.out.println("Clyde opposite direction: "+d);
 			}
 		}
 
