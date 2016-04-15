@@ -45,16 +45,34 @@ public abstract class Ghost extends NPC {
 	 */
 	protected Direction randomMove() {
 		Square square = getSquare();
-		List<Direction> directions = new ArrayList<>();
+		List<Direction> directions = directions(new ArrayList<>(), square);
+		Direction dChosen = null;
+
+		if (!directions.isEmpty()) {
+			dChosen = directions.get(new Random().nextInt(directions.size()));
+		}
+
+		return dChosen;
+	}
+
+	/**
+	 * Determmines the accessible adjacent squares next to the square where he is.
+	 *
+	 * @param directions
+	 * 		List of the accessible adjacent squares.
+	 *
+	 * @param s
+	 * 		The ghost square
+	 *
+     * @return List of the accessible adjacent squares by the ghost from where he is.
+     */
+	private List<Direction> directions(List<Direction> directions, Square s){
 		for (Direction d : Direction.values()) {
-			if (square.getSquareAt(d).isAccessibleTo(this)) {
+			if (s.getSquareAt(d).isAccessibleTo(this)) {
 				directions.add(d);
 			}
 		}
-		if (directions.isEmpty()) {
-			return null;
-		}
-		int i = new Random().nextInt(directions.size());
-		return directions.get(i);
+
+		return directions;
 	}
 }
