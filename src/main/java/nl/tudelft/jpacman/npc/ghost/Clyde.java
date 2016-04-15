@@ -131,11 +131,7 @@ public class Clyde extends Ghost {
 		if (path != null && !path.isEmpty()){
 			d = path.get(0);
 
-			if(path.size() <= SHYNESS){
-				System.out.println("Clyde direction: "+d);
-				d = OPPOSITES.get(d);
-				System.out.println("Clyde opposite direction: "+d);
-			}
+			if(path.size() <= SHYNESS) d = OPPOSITES.get(d);
 		}
 
 		return d;
