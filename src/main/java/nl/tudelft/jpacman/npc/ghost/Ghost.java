@@ -44,20 +44,18 @@ public abstract class Ghost extends NPC {
 	 *         the ghost is shut in by inaccessible squares.
 	 */
 	protected Direction randomMove() {
-		List<Direction> directions = directions(new ArrayList<>(), getSquare());
-		Direction dChosen = null;
+		List<Direction> thePath = path(new ArrayList<>(), getSquare());
+		Direction d = null;
 
-		if (!directions.isEmpty()) {
-			dChosen = directions.get(new Random().nextInt(directions.size()));
-		}
+		if (!thePath.isEmpty()) d = thePath.get(new Random().nextInt(thePath.size()));
 
-		return dChosen;
+		return d;
 	}
 
 	/**
 	 * Determmines the accessible adjacent squares next to the square where he is.
 	 *
-	 * @param directions
+	 * @param path
 	 * 		List of the accessible adjacent squares.
 	 *
 	 * @param s
@@ -65,13 +63,11 @@ public abstract class Ghost extends NPC {
 	 *
      * @return List of the accessible adjacent squares by the ghost from where he is.
      */
-	private List<Direction> directions(List<Direction> directions, Square s){
-		for (Direction d : Direction.values()) {
-			if (s.getSquareAt(d).isAccessibleTo(this)) {
-				directions.add(d);
-			}
-		}
+	private List<Direction> path(List<Direction> path, Square s){
+		for (Direction d : Direction.values())
+			if (s.getSquareAt(d).isAccessibleTo(this)) path.add(d);
 
-		return directions;
+
+		return path;
 	}
 }
