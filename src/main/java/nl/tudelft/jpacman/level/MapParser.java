@@ -140,6 +140,23 @@ public class MapParser {
 			grid[x][y]=fishSquare;
 			levelCreator.createFish().occupy(fishSquare);
 			break;
+			
+		case 'm':
+			Square trapSquare= boardCreator.createGround();
+			grid[x][y]=trapSquare;
+			levelCreator.createTrap().occupy(trapSquare);
+			break;
+		case 't':
+			Square teleporterSquare= boardCreator.createGround();
+			grid[x][y]=teleporterSquare;
+			levelCreator.createTeleporter().occupy(teleporterSquare);
+			break;
+		case 'b':
+			Square bridgeSquare = boardCreator.createGround();
+			grid[x][y]=bridgeSquare;
+			levelCreator.createBridge().occupy(bridgeSquare);
+			break;
+			
 		default:
 			throw new PacmanConfigurationException("Invalid character at "+ x + "," + y + ": " + c);
 					

@@ -15,8 +15,13 @@ import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
+import nl.tudelft.jpacman.specialcase.Bridge;
+import nl.tudelft.jpacman.specialcase.SpecialSquare;
+import nl.tudelft.jpacman.specialcase.Teleporter;
+import nl.tudelft.jpacman.specialcase.Trap;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
+
 
 /**
  * Factory that creates levels and units.
@@ -145,6 +150,20 @@ public class LevelFactory {
 		return new Fish(0,sprites.getFishSprite());
 	}
 	
+	public SpecialSquare createTrap()
+	{
+		return new Trap(sprites.getTrapSprite());
+	}
+	public SpecialSquare createTeleporter()
+	{
+		return new Teleporter(sprites.getTeleporterSprite());
+	}
+	
+	public SpecialSquare createBridge()
+	{
+		return new Bridge(sprites.getBridgeSprite());
+	}
+	
 
 	/**
 	 * Implementation of an NPC that wanders around randomly.
@@ -166,6 +185,8 @@ public class LevelFactory {
 		 */
 		private RandomGhost(Map<Direction, Sprite> ghostSprite) {
 			super(ghostSprite);
+			this.isDead=false;
+			this.trap=false;
 		}
 
 		@Override
@@ -178,16 +199,5 @@ public class LevelFactory {
 			return randomMove();
 		}
 
-		@Override
-		public void dead() {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public boolean isDead() {
-			// TODO Auto-generated method stub
-			return false;
-		}
 	}
 }

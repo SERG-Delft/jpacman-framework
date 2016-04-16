@@ -78,7 +78,7 @@ public class Clyde extends Ghost {
 	 */
 	public Clyde(Map<Direction, Sprite> spriteMap) {
 		super(spriteMap);
-		this.isDead=false;
+	
 	}
 	
 	
@@ -128,4 +128,10 @@ public class Clyde extends Ghost {
 		Direction d = randomMove();
 		return d;
 	}
+
+
+
+
+
+	
 }

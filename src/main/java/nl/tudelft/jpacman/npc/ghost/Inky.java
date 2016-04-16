@@ -65,7 +65,6 @@ public class Inky extends Ghost {
 	 */
 	public Inky(Map<Direction, Sprite> spriteMap) {
 		super(spriteMap);
-		this.isDead=false;
 	
 	}
 	
@@ -146,5 +145,10 @@ public class Inky extends Ghost {
 		return d;
 	}
 	// CHECKSTYLE:ON
+
+
+
+
+	
 
 }

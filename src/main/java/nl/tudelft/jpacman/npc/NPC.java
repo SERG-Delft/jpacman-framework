@@ -2,6 +2,7 @@ package nl.tudelft.jpacman.npc;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.specialcase.SpecialSquare;
 
 /**
  * A non-player unit.
@@ -12,12 +13,15 @@ public abstract class NPC extends Unit {
 
 	
       protected  boolean isDead;
+      protected boolean  trap;
 	
 	
 	public abstract  void dead();
 
 	public abstract boolean isDead();
 	
+	public abstract void trap(SpecialSquare square);
+	public abstract boolean isTrap();
 	
 	
 	/**

@@ -3,6 +3,7 @@ package nl.tudelft.jpacman.level;
 import java.util.Map;
 
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.fruit.Fruit;
 import nl.tudelft.jpacman.sprite.AnimatedSprite;
@@ -37,6 +38,7 @@ public class Player extends Unit {
 	private boolean invisible;
 	private Object effect;
 	private boolean stun;
+	private Square spawn;
 	
 
 	/**
@@ -156,4 +158,15 @@ public class Player extends Unit {
 	public void addPoints(int points) {
 		score += points;
 	}
+	
+	public void setSpawn(Square spawn_)
+	{
+		this.spawn=spawn_;
+	}
+	public Square getSpawn()
+	{
+		return this.spawn;
+	}
+	
+	
 }

@@ -155,6 +155,20 @@ public class PacManSprites extends SpriteStore {
 		return loadSprite("/sprite/fish.png");
 	}
 	
+	public Sprite getBridgeSprite()
+	{
+		return loadSprite("/sprite/bridge.png");
+	}
+	public Sprite getTeleporterSprite()
+	{
+		return loadSprite("/sprite/teleporter.png");
+	}
+	public Sprite getTrapSprite()
+	{
+		return loadSprite("/sprite/trap.png");
+	}
+	
+	
 
 	/**
 	 * Overloads the default sprite loading, ignoring the exception. This class

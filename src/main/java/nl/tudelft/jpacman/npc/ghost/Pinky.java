@@ -71,7 +71,6 @@ public class Pinky extends Ghost {
 	 */
 	public Pinky(Map<Direction, Sprite> spriteMap) {
 		super(spriteMap);
-		this.isDead=false;
 	
 	}
 
@@ -119,4 +118,7 @@ public class Pinky extends Ghost {
 		Direction d = randomMove();
 		return d;
 	}
+
+
+
 }

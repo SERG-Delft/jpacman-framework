@@ -1,5 +1,6 @@
 package nl.tudelft.jpacman.board;
 
+import nl.tudelft.jpacman.specialcase.Bridge;
 import nl.tudelft.jpacman.sprite.Sprite;
 
 /**
@@ -111,5 +112,17 @@ public abstract class Unit {
 	 * @return The sprite of this unit.
 	 */
 	public abstract Sprite getSprite();
+	
+	public Object checkOnBridge(Square location)
+	{
+		for(Unit occupant: location.getOccupants())
+		{
+			if(occupant instanceof Bridge)
+			{
+				return (Bridge) occupant;
+			}
+		}
+		return new Object();
+	}
 
 }

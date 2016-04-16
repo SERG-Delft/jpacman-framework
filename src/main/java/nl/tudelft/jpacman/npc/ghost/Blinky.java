@@ -60,7 +60,7 @@ public class Blinky extends Ghost {
 	 */
 	public Blinky(Map<Direction, Sprite> spriteMap) {
 		super(spriteMap);
-		this.isDead=false;
+		
 	}
 	
 
@@ -108,4 +108,6 @@ public class Blinky extends Ghost {
 		Direction d = randomMove();
 		return d;
 	}
+
+
 }

@@ -18,6 +18,8 @@ import nl.tudelft.jpacman.fruit.Fruit;
 import nl.tudelft.jpacman.fruit.Pepper;
 import nl.tudelft.jpacman.fruit.Pomegranate;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.specialcase.Bridge;
 
 /**
  * A level of Pac-Man. A level consists of the board with the players and the
@@ -153,8 +155,9 @@ public class Level {
 		if (players.contains(p)) {
 			return;
 		}
+		p.setSpawn(startSquares.get(startSquareIndex));
 		players.add(p);
-		Square square = startSquares.get(startSquareIndex);
+		Square square= p.getSpawn();
 		p.occupy(square);
 		startSquareIndex++;
 		startSquareIndex %= startSquares.size();
@@ -197,13 +200,94 @@ public class Level {
 			 }
 		    }
 		}
+		if((unit instanceof Ghost)&&((Ghost)unit).isTrap())
+		{
+			((Ghost)unit).check();
+		
+		}
+		
+		
 
 		synchronized (moveLock) 
 		{
 			unit.setDirection(direction);
 			Square location = unit.getSquare();
 			Square destination = location.getSquareAt(direction);
+			Object researchBridge=unit.checkOnBridge(location);
+			
+			if(researchBridge instanceof Bridge)
+			{
+				Bridge bridge= (Bridge) researchBridge;
+				String position= bridge.getEnterDirection(unit);
+				switch (direction)
+				{
+				case EAST:
+					if(position.equals("before"))
+					{
+						destination=location;
+					}else
+					{
+						bridge.removeUnit(unit);
+						if(unit instanceof Player)
+						{
+							((Player)unit).addPoints(10);
+						}
+					}
+
+					break;
+				case WEST:
+					if(position.equals("before"))
+					{
+						destination=location;
+						
+					}
+					else
+					{
+						bridge.removeUnit(unit);
+						if(unit instanceof Player)
+						{
+							((Player)unit).addPoints(10);
+						}
+					}
+					break;
+					
+				case NORTH:
+					if(position.equals("behind"))
+					{
+						destination=location;
+						
+					}
+					else
+					{
+						bridge.removeUnit(unit);
+					
+					
+					}
+					
+					break;
+				case SOUTH:
+					if(position.equals("behind"))
+					{
+						destination=location;
+						
+					}
+					else
+					{
+						bridge.removeUnit(unit);
+					}
+					
+					break;
+				
+				}
+			
+			}
+			
+			
 			if((unit instanceof Player)&&((Player)unit).isStun())
+			{
+				destination=location;
+			}
+			if((unit instanceof Ghost)&&((Ghost)unit).isTrap())
 			{
 				destination=location;
 			}
@@ -224,6 +308,16 @@ public class Level {
 			updateObservers();
 		}
 	}
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
 	
 	
 	/**

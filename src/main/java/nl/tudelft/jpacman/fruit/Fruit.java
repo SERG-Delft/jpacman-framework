@@ -37,7 +37,7 @@ public  class Fruit  extends Pellet
 		long begin=beginDate.getTime();
 		
 		long diffSecond=(date.getTime()-beginDate.getTime());
-		if(diffSecond>5000)
+		if(diffSecond>4000)
 		{
 			isActive=false;
 			return true;

@@ -1,9 +1,14 @@
 package nl.tudelft.jpacman.level;
 
+import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.fruit.Fruit;
 import nl.tudelft.jpacman.fruit.Pomegranate;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.specialcase.Bridge;
+import nl.tudelft.jpacman.specialcase.SpecialSquare;
+import nl.tudelft.jpacman.specialcase.Teleporter;
+import nl.tudelft.jpacman.specialcase.Trap;
 
 /**
  * A simple implementation of a collision map for the JPacman player.
@@ -21,12 +26,29 @@ public class PlayerCollisions implements CollisionMap {
 	@Override
 	public void collide(Unit mover, Unit collidedOn) {
 		
-		if (mover instanceof Player) {
-			playerColliding((Player) mover, collidedOn);
-		}
-		else if (mover instanceof Ghost) {
+		if(collidedOn instanceof Bridge)
+		{
+		
+			
+			
+			if(((Bridge)collidedOn).knowUnit(mover)==false)
+			{
+				((Bridge)collidedOn).addUnit(mover);
+			}
+			
+			
+			
+		}else
+		 {
+			if (mover instanceof Player)
+		    {
+			  playerColliding((Player) mover, collidedOn);
+		     }
+		     else if (mover instanceof Ghost) 
+		     {
 			ghostColliding((Ghost) mover, collidedOn);
-		}
+		    }
+		 }	
 	}
 	
 	private void playerColliding(Player player, Unit collidedOn)
@@ -39,7 +61,13 @@ public class PlayerCollisions implements CollisionMap {
 		if (collidedOn instanceof Pellet) 
 		{
 			playerVersusPellet(player, (Pellet) collidedOn);
-		}		
+		}	
+		if(collidedOn instanceof Teleporter)
+		{
+			player.occupy(player.getSpawn());
+		
+		}
+		
 
 	}
 	
@@ -49,6 +77,11 @@ public class PlayerCollisions implements CollisionMap {
 		{
 				playerVersusGhost((Player) collidedOn, ghost);		
 		}
+		if(collidedOn instanceof Trap)
+		{
+			ghost.trap(((SpecialSquare)collidedOn));
+		}
+		
 	}
 	
 	
@@ -62,7 +95,23 @@ public class PlayerCollisions implements CollisionMap {
 	{
 		if(player.isInvisible()==false)
 		{
-				player.setAlive(false);
+			if((player.checkOnBridge(player.getSquare())instanceof Bridge)&&(ghost.checkOnBridge(ghost.getSquare())instanceof Bridge))
+			{
+				Bridge playerBridge=(Bridge) player.checkOnBridge(player.getSquare());
+				Bridge ghostBridge=(Bridge) ghost.checkOnBridge(ghost.getSquare());
+				
+				
+				if(playerBridge.getEnterDirection(player).equals(ghostBridge.getEnterDirection(ghost)) )
+				{
+					player.setAlive(false);
+				}
+				
+			}else
+			{
+					player.setAlive(false);
+			}
+		
+			
 		}
 	}
 	
