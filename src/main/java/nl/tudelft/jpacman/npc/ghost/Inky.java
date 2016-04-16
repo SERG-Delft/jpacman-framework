@@ -106,7 +106,7 @@ public class Inky extends Ghost {
 
 		if (blinky != null && player != null) {
 			Square destination = twoSquaresAway(player.getDirection(), player.getSquare());
-			d = myPath(blinky.getSquare(),destination);
+			d = myPathTo(blinky.getSquare(),destination);
 		}
 
 		return d;
@@ -126,8 +126,8 @@ public class Inky extends Ghost {
 	 * 		Two squares in front of Pac-Man in his current direction of travel.
      */
 	private Square twoSquaresAway(Direction d, Square s){
-		for (int i = 0; i < SQUARES_AHEAD; i++)
-			s = s.getSquareAt(d);
+
+		for (int i = 0; i < SQUARES_AHEAD; i++) s = s.getSquareAt(d);
 
 		return s;
 	}
@@ -144,7 +144,7 @@ public class Inky extends Ghost {
      * @return
 	 * 		The next square where to go.
      */
-	private Direction myPath(Square blinkyPlace, Square destination){
+	private Direction myPathTo(Square blinkyPlace, Square destination){
 		Direction d = randomMove();
 		List<Direction> firstHalf = Navigation.shortestPath(blinkyPlace,destination, null);
 

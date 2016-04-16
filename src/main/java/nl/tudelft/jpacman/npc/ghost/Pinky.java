@@ -100,7 +100,7 @@ public class Pinky extends Ghost {
 		if (player != null) {
 			Square destination = fourSquaresAway(player.getDirection(), player.getSquare());
 
-			d = myPath(destination);
+			d = myPathTo(destination);
 		}
 
 		return d;
@@ -119,8 +119,7 @@ public class Pinky extends Ghost {
 	 * 		Four squares in front of Pac-Man in his current direction of travel.
 	 */
 	private Square fourSquaresAway(Direction d, Square s){
-		for (int i = 0; i < SQUARES_AHEAD; i++)
-			s = s.getSquareAt(d);
+		for (int i = 0; i < SQUARES_AHEAD; i++) s = s.getSquareAt(d);
 
 		return s;
 	}
@@ -134,7 +133,7 @@ public class Pinky extends Ghost {
 	 * @return
 	 * 		The next direction to take by Pinky.
      */
-	private Direction myPath(Square destination){
+	private Direction myPathTo(Square destination){
 		Direction d = randomMove();
 		List<Direction> path = Navigation.shortestPath(getSquare(),destination, this);
 

@@ -89,7 +89,7 @@ public class Blinky extends Ghost {
 		Direction d = randomMove();
 		Unit player = Navigation.findNearest(Player.class, getSquare());
 
-		if(player != null) d = myPath(player.getSquare());
+		if(player != null) d = myPathTo(player.getSquare());
 
 		return d;
 	}
@@ -103,7 +103,7 @@ public class Blinky extends Ghost {
 	 * @return
 	 * 		The next direction to take by Blinky.
 	 */
-	private Direction myPath(Square destination){
+	private Direction myPathTo(Square destination){
 		Direction d = randomMove();
 		List<Direction> path = Navigation.shortestPath(getSquare(), destination, this);
 
