@@ -40,35 +40,40 @@ public final class Navigation {
 	 */
 	public static List<Direction> shortestPath(Square from, Square to,
 			Unit traveller) {
-		if (from == to) {
-			return new ArrayList<>();
+		List<Direction> path = null;
+		List<Node> targets = new ArrayList<>();
+		Node n = new Node(null, from, null);
+		Set<Square> visited = new HashSet<>();
+
+		targets.add(n);
+
+		while (from!=to && !targets.isEmpty()) {
+			Node m  = targets.remove(0);
+			Square s = m.getSquare();
+
+			visited.add(from);
+			addNewTargets(traveller, targets, visited, m, s);
+
+			n = m;
+			from = s;
 		}
 
-		List<Node> targets = new ArrayList<>();
-		Set<Square> visited = new HashSet<>();
-		targets.add(new Node(null, from, null));
-		while (!targets.isEmpty()) {
-			Node n = targets.remove(0);
-			Square s = n.getSquare();
-			if (s == to) {
-				List<Direction> path = n.getPath();
-				return path;
-			}
-			visited.add(s);
-			addNewTargets(traveller, targets, visited, n, s);
-		}
-		return null;
+		if(from == to) path = n.getPath();
+
+		return path;
 	}
+
+
 
 	private static void addNewTargets(Unit traveller, List<Node> targets,
 			Set<Square> visited, Node n, Square s) {
 		for (Direction d : Direction.values()) {
 			Square target = s.getSquareAt(d);
+
 			if (!visited.contains(target)
 					&& (traveller == null || target
-							.isAccessibleTo(traveller))) {
+							.isAccessibleTo(traveller)))
 				targets.add(new Node(d, target, n));
-			}
 		}
 	}
 
@@ -88,24 +93,29 @@ public final class Navigation {
 			Square currentLocation) {
 		List<Square> toDo = new ArrayList<>();
 		Set<Square> visited = new HashSet<>();
+		Unit unit = findUnit(type, currentLocation);
 
 		toDo.add(currentLocation);
 
-		while (!toDo.isEmpty()) {
+		while (!toDo.isEmpty() && unit == null) {
 			Square square = toDo.remove(0);
-			Unit unit = findUnit(type, square);
-			if (unit != null) {
-				return unit;
-			}
+
 			visited.add(square);
-			for (Direction d : Direction.values()) {
-				Square newTarget = square.getSquareAt(d);
-				if (!visited.contains(newTarget) && !toDo.contains(newTarget)) {
-					toDo.add(newTarget);
-				}
-			}
+			addNewTargetsToDo(square,visited,toDo);
+
+			unit = findUnit(type, square);
 		}
-		return null;
+
+		return unit;
+	}
+
+	private static void addNewTargetsToDo(Square s, Set<Square> visited, List<Square> toDo){
+		for (Direction d : Direction.values()) {
+			Square newTarget = s.getSquareAt(d);
+
+			if (!visited.contains(newTarget) && !toDo.contains(newTarget))
+				toDo.add(newTarget);
+		}
 	}
 
 	/**
@@ -118,13 +128,16 @@ public final class Navigation {
 	 * @return A unit of type T, iff such a unit occupies this square, or
 	 *         <code>null</code> of none does.
 	 */
-	public static Unit findUnit(Class<? extends Unit> type, Square square) {
-		for (Unit u : square.getOccupants()) {
+	private static Unit findUnit(Class<? extends Unit> type, Square square) {
+		Unit unit = null;
+
+		for (Unit u : square.getOccupants())
 			if (type.isInstance(u)) {
-				return u;
+				unit = u;
+				break;
 			}
-		}
-		return null;
+
+		return unit;
 	}
 
 	/**
@@ -168,13 +181,17 @@ public final class Navigation {
 			this.parent = p;
 		}
 
-		/**
-		 * @return The direction for this node, or <code>null</code> if this
-		 *         node is a root node.
-		 */
-		private Direction getDirection() {
-			return direction;
-		}
+
+// --Commented out by Inspection START (16/04/2016 20:06):
+//		/**
+//		 * @return The direction for this node, or <code>null</code> if this
+//		 *         node is a root node.
+//		 */
+//		private Direction getDirection() {
+//			return direction;
+//		}
+// --Commented out by Inspection STOP (16/04/2016 20:06)
+
 
 		/**
 		 * @return The square for this node.
@@ -183,13 +200,16 @@ public final class Navigation {
 			return square;
 		}
 
-		/**
-		 * @return The parent node, or <code>null</code> if this node is a root
-		 *         node.
-		 */
-		private Node getParent() {
-			return parent;
-		}
+
+// --Commented out by Inspection START (16/04/2016 20:06):
+//		/**
+//		 * @return The parent node, or <code>null</code> if this node is a root
+//		 *         node.
+//		 */
+//		private Node getParent() {
+//			return parent;
+//		}
+// --Commented out by Inspection STOP (16/04/2016 20:06)
 
 		/**
 		 * Returns the list of values from the root of the tree to this node.
@@ -197,11 +217,15 @@ public final class Navigation {
 		 * @return The list of values from the root of the tree to this node.
 		 */
 		private List<Direction> getPath() {
-			if (getParent() == null) {
-				return new ArrayList<>();
+			List<Direction> path;
+
+			if (parent != null) {
+				path = parent.getPath();
+				path.add(direction);
+			}else{
+				path = new ArrayList<>();
 			}
-			List<Direction> path = parent.getPath();
-			path.add(getDirection());
+
 			return path;
 		}
 	}
