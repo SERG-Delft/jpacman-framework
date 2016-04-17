@@ -18,6 +18,11 @@ public class Player extends Unit {
 	 * The amount of points accumulated by this player.
 	 */
 	private int score;
+	
+	/**
+	 * The amount of remaining lifes the player has.
+	 */
+	private int lifes;
 
 	/**
 	 * The animations for every direction.
@@ -44,6 +49,7 @@ public class Player extends Unit {
 	 */
 	Player(Map<Direction, Sprite> spriteMap, AnimatedSprite deathAnimation) {
 		this.score = 0;
+		this.lifes = 3;
 		this.alive = true;
 		this.sprites = spriteMap;
 		this.deathSprite = deathAnimation;
@@ -68,11 +74,13 @@ public class Player extends Unit {
 	public void setAlive(boolean isAlive) {
 		if (isAlive) {
 			deathSprite.setAnimating(false);
+			this.alive = true;
 		}
-		if (!isAlive) {
+		if (!isAlive && isAlive()) {
+			this.lifes--;
 			deathSprite.restart();
+			this.alive = false;
 		}
-		this.alive = isAlive;
 	}
 
 	/**
@@ -101,5 +109,15 @@ public class Player extends Unit {
 	 */
 	public void addPoints(int points) {
 		score += points;
+	}
+
+	/**
+	 * Returns true if the player has at least a remaining life
+	 * 
+	 * @return
+	 */
+	public boolean hasLifeRemaining() {
+		// TODO Auto-generated method stub
+		return lifes >= 0;
 	}
 }

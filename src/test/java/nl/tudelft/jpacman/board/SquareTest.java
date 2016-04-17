@@ -2,8 +2,13 @@ package nl.tudelft.jpacman.board;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+
+import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.npc.ghost.Clyde;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,9 +21,11 @@ import org.junit.Test;
 public class SquareTest {
 
 	/**
-	 * The square under test.
+	 * The squares under test.
 	 */
 	private Square square;
+	private Square[][] s;
+	
 
 	/**
 	 * Resets the square under test.
@@ -26,6 +33,23 @@ public class SquareTest {
 	@Before
 	public void setUp() {
 		square = new BasicSquare();
+		s = new Square[8][8];
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8;j++){
+				s[i][j] = new BasicSquare();
+			}
+		}
+		for (int x = 0; x < 8; x++) {
+			for (int y = 0; y < 8; y++) {
+				Square square = s[x][y];
+				for (Direction dir : Direction.values()) {
+					int dirX = (8 + x + dir.getDeltaX()) % 8;
+					int dirY = (8 + y + dir.getDeltaY()) % 8;
+					Square neighbour = s[dirX][dirY];
+					square.link(neighbour, dir);
+				}
+			}
+		}
 	}
 
 	/**
@@ -64,5 +88,45 @@ public class SquareTest {
 
 		Object[] occupantsAsArray = square.getOccupants().toArray();
 		assertArrayEquals(new Object[] { o1, o2 }, occupantsAsArray);
+	}
+	
+	/**
+	 * Tests the method isValidRespawnPoint in the class Square to ensure that 
+	 * it returns the expected value
+	 */
+	@Test
+	public void testIsValidRespawn(){
+		Unit player = mock(Player.class);
+		Unit ghost = mock(Clyde.class);
+		s[0][0].put(player);
+		s[3][3].put(ghost);
+		
+		
+		assertTrue(s[1][1].isValidRespawnPoint(player, 3, null));
+		assertTrue(s[5][5].isValidRespawnPoint(player, 3, null));
+		assertFalse(s[4][3].isValidRespawnPoint(player, 3, null));
+		assertFalse(s[1][2].isValidRespawnPoint(player, 3, null));
+		
+	}
+	
+	/**
+	 * Tests the method nearestValidRespawn in the class Square to ensure that 
+	 * it returns the expected value
+	 */
+	@Test
+	public void testNearestValidRespawn(){
+		Unit player = mock(Player.class);
+		Unit ghost = mock(Clyde.class);
+		s[0][0].put(player);
+		s[3][3].put(ghost);
+		
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; i < 8; i++){
+				assertTrue(s[i][j].nearestValidRespawn(
+						player, null).isValidRespawnPoint(player, 3, null));
+			}
+		}
+		
+		
 	}
 }

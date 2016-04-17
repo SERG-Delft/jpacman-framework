@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 
+import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.sprite.Sprite;
 
 /**
@@ -111,6 +112,51 @@ public abstract class Square {
 				return false;
 			}
 		}
+		return true;
+	}
+	/**
+	 * Returns the nearest square which is valid for pacman to respawn in
+	 * @return
+	 */
+	public Square nearestValidRespawn(Unit player, Direction direction) {
+		if(isAccessibleTo(player) && isValidRespawnPoint(player, 3, null)){
+			return this;
+		}
+		for(Direction d: Direction.values()){
+			if(direction == null || !direction.isOppositeDirection(d)){
+				return getSquareAt(d).nearestValidRespawn(player, d);
+			}
+		}
+		return null;
+		
+	}
+	
+	/**
+	 * Determines whether the unit is allowed to respawn on this square
+	 * 
+	 * @param player
+	 * @param x
+	 * @return true iff there is no ghost x squares around this square
+	 */
+	public boolean isValidRespawnPoint(Unit player, int x, Direction direction){
+		for(Unit unit : occupants){
+			if(unit instanceof Ghost){
+				return false;
+			}
+		}
+		if(x > 0){
+			for(Direction d : Direction.values()){
+				if(direction == null || !direction.isOppositeDirection(d)){
+					Square s = getSquareAt(d);
+					if(s.isAccessibleTo(player)){
+						if(!s.isValidRespawnPoint(player, x-1, d)){
+							return false;
+						}
+					}
+				}
+			}
+		}
+		
 		return true;
 	}
 

@@ -69,4 +69,13 @@ public enum Direction {
 	public int getDeltaY() {
 		return dy;
 	}
+	
+	/**
+	 * Determines if a direction is the opposite of this direction
+	 * @param d
+	 * @return true iff the directions are opposites of each other
+	 */
+	public boolean isOppositeDirection(Direction d){
+		return d.getDeltaX() + d.getDeltaY() + dx + dy == 0;
+	}
 }

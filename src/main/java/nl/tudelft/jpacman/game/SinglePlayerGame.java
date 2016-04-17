@@ -1,8 +1,10 @@
 package nl.tudelft.jpacman.game;
 
 import java.util.List;
+import java.util.Random;
 
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Player;
 
@@ -78,6 +80,28 @@ public class SinglePlayerGame extends Game {
 	 */
 	public void moveRight() {
 		move(player, Direction.EAST);
+	}
+	
+	@Override
+	public void levelWon() {
+		stop();
+	}
+	
+	@Override
+	/**
+	 * Override the levelLost method to handle the death of pacman
+	 */
+	public void levelLost() {
+		stop();
+		Random rand = new Random();
+		int x = rand.nextInt(level.getBoard().getWidth());
+		int y = rand.nextInt(level.getBoard().getHeight());
+		if(player.hasLifeRemaining()){
+			Square target = level.getBoard().squareAt(x, y);
+			player.occupy(target.nearestValidRespawn(player, null));
+			player.setAlive(true);
+			start();
+		}
 	}
 
 }
