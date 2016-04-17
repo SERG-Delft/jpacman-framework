@@ -57,6 +57,7 @@
 		<pmd.plugin.version>3.6</pmd.plugin.version>
 		<findbugs.plugin.version>3.0.3</findbugs.plugin.version>
 		<cobertura.plugin.version>2.7</cobertura.plugin.version>
+		<jacoco.plugin.version>0.7.6.201602180812</jacoco.plugin.version>
 	</properties>
 
 	<dependencies>
@@ -293,6 +294,13 @@
 				<artifactId>cobertura-maven-plugin</artifactId>
 				<version>${cobertura.plugin.version}</version>
 			</plugin>
+
+			<plugin>
+			    <groupId>org.jacoco</groupId>
+    			<artifactId>jacoco-maven-plugin</artifactId>
+    			<version>${jacoco.plugin.version}</version>
+			</plugin>
+
 
 			<!-- PMD configuration for JUnit tests -->
 			<plugin>
