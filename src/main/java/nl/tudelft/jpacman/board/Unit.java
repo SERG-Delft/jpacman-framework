@@ -113,6 +113,13 @@ public abstract class Unit {
 	 */
 	public abstract Sprite getSprite();
 	
+	
+	/**
+	 * Define if the unit is on a bridge.
+	 * @param Location of unit
+	 * @return new Object if isn't on a bridge
+	 * @return Bridge id on a bridge
+	 */
 	public Object checkOnBridge(Square location)
 	{
 		for(Unit occupant: location.getOccupants())

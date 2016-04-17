@@ -125,39 +125,86 @@ public class LevelFactory {
 		return new Pellet(PELLET_VALUE, sprites.getPelletSprite());
 	}
 	
+	/**
+	 * Creates a new Pellet
+	 * 
+	 * @return the new Pomegranate
+	 */
+	
 	public Pellet createPommegranate()
 	{
 		return new Pomegranate(0,sprites.getPomegranateSprite());
 	}
+	
+	/**
+	 * Creates a new Pellet
+	 * 
+	 * @return the new Pepper
+	 */
 	
 	public Pellet createPepper()
 	{
 		return new Pepper(0,sprites.getPepperSprite());
 	}
 	
+	/**
+	 * Creates a new Pellet
+	 * 
+	 * @return the new Potato
+	 */
+	
 	public Pellet createPotato()
 	{
 		return new Potato(0,sprites.getPotatoSprite());
 	}
+	
+	/**
+	 * Creates a new Pellet
+	 * 
+	 * @return the new Tomato
+	 */
 	
 	public Pellet createTomato()
 	{
 		return new Tomato(0,sprites.getTomatoSprite());
 	}
 	
+	/**
+	 * Creates a new Pellet
+	 * 
+	 * @return the new Fish
+	 */
+	
 	public Pellet createFish()
 	{
 		return new Fish(0,sprites.getFishSprite());
 	}
 	
+	/**
+	 * Creates a SpecialSquare
+	 * 
+	 * @return the new Trap
+	 */
+	
 	public SpecialSquare createTrap()
 	{
 		return new Trap(sprites.getTrapSprite());
 	}
+	
+	/**
+	 * Creates a SpecialSquare
+	 * 
+	 * @return the new Teleporter
+	 */
 	public SpecialSquare createTeleporter()
 	{
 		return new Teleporter(sprites.getTeleporterSprite());
 	}
+	
+	/**
+	 * Creates a SpecialSquare
+	 * @return  the New Bridge
+	 */
 	
 	public SpecialSquare createBridge()
 	{

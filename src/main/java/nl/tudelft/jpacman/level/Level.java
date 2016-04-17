@@ -311,15 +311,6 @@ public class Level {
 	
 	
 	
-
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * performs the effect according to the fruit
 	 * @param fruit  CollisionFruit

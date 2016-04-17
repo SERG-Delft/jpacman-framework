@@ -135,34 +135,64 @@ public class PacManSprites extends SpriteStore {
 		return loadSprite("/sprite/pomegranate.png");
 	}
 	
+	/**
+	 * @return The sprite for the pepper
+	 */
+	
 	public Sprite getPepperSprite()
 	{
 		return loadSprite("/sprite/pepper.png");
 	}
+	
+	/**
+	 * @return The sprite for the potato
+	 */
 	
 	public Sprite getPotatoSprite()
 	{
 		return loadSprite("/sprite/potato.png");
 	}
 	
+	/**
+	 * @return The sprite for the tomato
+	 */
+	
 	public Sprite getTomatoSprite()
 	{
 		return loadSprite("/sprite/tomato.png");
 	}
+	
+	/**
+	 * @return The sprite for the fish
+	 */
 	
 	public Sprite getFishSprite()
 	{
 		return loadSprite("/sprite/fish.png");
 	}
 	
+	/**
+	 * @return The sprite for the bridge
+	 */
+	
 	public Sprite getBridgeSprite()
 	{
 		return loadSprite("/sprite/bridge.png");
 	}
+	
+	/**
+	 * @return The sprite for the teleporter
+	 */
+	
 	public Sprite getTeleporterSprite()
 	{
 		return loadSprite("/sprite/teleporter.png");
 	}
+	
+	/**
+	 * @return The sprite for the trap
+	 */
+	
 	public Sprite getTrapSprite()
 	{
 		return loadSprite("/sprite/trap.png");

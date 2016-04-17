@@ -7,7 +7,6 @@ public class Teleporter extends SpecialSquare
 
 	public Teleporter(Sprite sprite) {
 		super(sprite);
-		// TODO Auto-generated constructor stub
 	}
 
 }

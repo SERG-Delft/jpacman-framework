@@ -74,6 +74,11 @@ public abstract class Ghost extends NPC
 		this.trap=true;	
 	}
 	
+	
+	/**
+	 * Check if ghost can leave the trap
+	 */
+	
 	public void check()
 	{
 		if(effect instanceof SpecialSquare)

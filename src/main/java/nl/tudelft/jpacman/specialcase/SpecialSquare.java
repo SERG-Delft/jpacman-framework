@@ -13,7 +13,12 @@ public class SpecialSquare extends Unit
 	 */
 	public Sprite image;
 	
+	/**
+	 * Begin time where an Unit fall in this square.
+	 */
+	
 	protected Date beginDate;
+	
 	
 	public SpecialSquare(Sprite sprite)
 	{
@@ -25,10 +30,19 @@ public class SpecialSquare extends Unit
 		return image;
 	}
 	
+	/**
+	 * Activate effect of the SpecialCase
+	 */
+	
 	public void activate()
 	{
 		beginDate= new Date();	
 	}
+	
+	/**
+	 * Check if the unit can leave this square
+	 * @return
+	 */
 	
 	public boolean check()
 	{

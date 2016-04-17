@@ -35,9 +35,26 @@ public class Player extends Unit {
 	 * <code>true</code> iff this player is alive.
 	 */
 	private boolean alive;
+	
+	
+	/**
+	 * <code>true</code> if this player is invisible.
+	 */
 	private boolean invisible;
+	
+	/**
+	 * Effect of a player
+	 */
 	private Object effect;
+	
+	/**
+	 * Define if the player is stun
+	 */
 	private boolean stun;
+	
+	/**
+	 * Define The spawn square of the player
+	 */
 	private Square spawn;
 	
 
@@ -60,10 +77,19 @@ public class Player extends Unit {
 		this.stun=false;
 	}
 	
+	/**
+	 * Define the effect of a player
+	 * @param fruit Fruit act as effect
+	 */
+	
 	public void defineEffect(Fruit fruit)
 	{
 		this.effect=fruit;
 	}
+	
+	/**
+	 * Reset default effect
+	 */
 	
 	public void resetEffect()
 	{
@@ -71,11 +97,22 @@ public class Player extends Unit {
 		this.invisible=false;
 		this.stun=false;
 	}
+	
+	/**
+	 * Give current effect
+	 * @return the effect
+	 */
+	
 	public Object getEffect()
 	{
-		//return ((Fruit) effect);
 		return effect;
 	}
+	
+	/**
+	 * Define if playr has different effect taht the default
+	 * @return true if yess, false in other way
+	 */
+	
 	public boolean isEffect()
 	{
 		if(effect instanceof Fruit)
@@ -87,19 +124,41 @@ public class Player extends Unit {
 		}
 	}
 	
+	/**
+	 * Define if the player is invisible.
+	 * @return true if yess, false in other way
+	 */
+	
 	public boolean isInvisible()
 	{
 		return this.invisible;
 	}
+	
+	/**
+	 * Define if the player is Stun.
+	 * @return true if yess, false in other way
+	 */
+	
 	public boolean isStun()
 	{
 		return this.stun;
 	}
 	
+	/**
+	 * Change invisible status
+	 * @param invisible_ true if invisble, false in other way
+	 */
+	
 	public void setInvisible(boolean invisible_)
 	{
 		invisible=invisible_;
 	}
+	
+	/**
+	 * Change stun status
+	 * @param stun_ true if stun, false in other way
+	 */
+	
 	public void setStun(boolean stun_)
 	{
 		stun=stun_;
@@ -159,10 +218,21 @@ public class Player extends Unit {
 		score += points;
 	}
 	
+	/**
+	 * Change square spawn of the player
+	 * @param spawn_ current spawn
+	 */
+	
+	
 	public void setSpawn(Square spawn_)
 	{
 		this.spawn=spawn_;
 	}
+	
+	/**
+	 * Give spawn of the player
+	 * @return  current spawn
+	 */
 	public Square getSpawn()
 	{
 		return this.spawn;

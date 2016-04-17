@@ -55,6 +55,14 @@ public class MapParser {
 	 * <li>'.' (period) a square with a pellet.
 	 * <li>'P' (capital P) a starting square for players.
 	 * <li>'G' (capital G) a square with a ghost.
+	 * <li>'q' (q) a square with a Pomegrenata.
+	 * <li>'k' (k) a square with a Pepper.
+	 * <li>'s' (s) a square with a Tomato.
+	 * <li>'v' (v) a square with a Potato.
+	 * <li>'u' (u) a square with a Fish
+	 * <li>'m' (m) a square with a Trap.
+	 * <li>'t' (t) a square with a Teleporter.
+	 * <li>'b' (q) a square with a Bridge.
 	 * </ul>
 	 * 
 	 * @param map
