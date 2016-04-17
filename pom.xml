@@ -2,12 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
-
-	<prerequisites>
-		<maven>3.0.1</maven>
-	</prerequisites>
-
 	<groupId>nl.tudelft.jpacman</groupId>
 	<artifactId>jpacman-framework</artifactId>
 	<version>6.3.0</version>
@@ -38,11 +32,23 @@
 		</snapshotRepository>
 	</distributionManagement>
 
+	<modelVersion>4.0.0</modelVersion>
+
+	<prerequisites>
+		<maven>3.0.1</maven>
+	</prerequisites>
+
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<junit.version>4.12</junit.version>
+		<mockito.version>2.0.47-beta</mockito.version>
+		<hamcrest.version>1.3</hamcrest.version>
+
 		<surefire.plugin.version>2.19.1</surefire.plugin.version>
 		<javadoc.plugin.version>2.10.3</javadoc.plugin.version>
 		<projectinfo.plugin.version>2.9</projectinfo.plugin.version>
@@ -51,13 +57,14 @@
 		<pmd.plugin.version>3.6</pmd.plugin.version>
 		<findbugs.plugin.version>3.0.3</findbugs.plugin.version>
 		<cobertura.plugin.version>2.7</cobertura.plugin.version>
+		<jacoco.plugin.version>0.7.6.201602180812</jacoco.plugin.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${junit.version}</version>
             <scope>test</scope>
 		</dependency>
 		<dependency>
@@ -68,13 +75,13 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>2.0.44-beta</version>
+			<version>${mockito.version}</version>
 	        <scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-library</artifactId>
-			<version>1.3</version>
+			<version>${hamcrest.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -260,6 +267,24 @@
 				<version>2.5</version>
 			</plugin>
 
+			<plugin> <!-- JUnit report -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>${surefire.plugin.version}</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>${cobertura.plugin.version}</version>
+			</plugin>
+
+			<plugin>
+			    <groupId>org.jacoco</groupId>
+    			<artifactId>jacoco-maven-plugin</artifactId>
+    			<version>${jacoco.plugin.version}</version>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
@@ -276,19 +301,6 @@
 				<version>${findbugs.plugin.version}</version>
 			</plugin>
 
-			<plugin> <!-- JUnit report -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>${surefire.plugin.version}</version>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>${cobertura.plugin.version}</version>
-			</plugin>
-
-			<!-- PMD configuration for JUnit tests -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
