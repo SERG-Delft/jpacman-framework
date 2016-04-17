@@ -126,9 +126,11 @@ public class Launcher {
 	 *            The {@link PacManUiBuilder} that will provide the UI.
 	 * @param game
 	 *            The game that will process the events.
+	 *   changes @bellafkih : adding update of position
 	 */
 	protected void addSinglePlayerKeys(final PacManUiBuilder builder,
 			final Game game) {
+		
 		final Player p1 = getSinglePlayer(game);
 
 		builder.addKey(KeyEvent.VK_UP, new Action() {
@@ -136,17 +138,20 @@ public class Launcher {
 			@Override
 			public void doAction() {
 				game.move(p1, Direction.NORTH);
+				game.getLevel().setCurrentPacManPosition(0, -1);
 			}
 		}).addKey(KeyEvent.VK_DOWN, new Action() {
 
 			@Override
 			public void doAction() {
 				game.move(p1, Direction.SOUTH);
+				game.getLevel().setCurrentPacManPosition(0, 1);
 			}
 		}).addKey(KeyEvent.VK_LEFT, new Action() {
 
 			@Override
 			public void doAction() {
+				game.getLevel().setCurrentPacManPosition(-1, 0);
 				game.move(p1, Direction.WEST);
 			}
 		}).addKey(KeyEvent.VK_RIGHT, new Action() {
@@ -154,6 +159,7 @@ public class Launcher {
 			@Override
 			public void doAction() {
 				game.move(p1, Direction.EAST);
+				game.getLevel().setCurrentPacManPosition(1, 0);
 			}
 		});
 

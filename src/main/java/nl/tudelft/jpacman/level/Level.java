@@ -5,13 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.Callable;
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.Position;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.NPC;
@@ -20,7 +21,7 @@ import nl.tudelft.jpacman.npc.NPC;
  * A level of Pac-Man. A level consists of the board with the players and the
  * AIs on it.
  * 
- * @author Jeroen Roosen 
+ * @author Jeroen Roosen
  */
 public class Level {
 
@@ -77,6 +78,11 @@ public class Level {
 	private final List<LevelObserver> observers;
 
 	/**
+	 * the current square ocupayed by the player
+	 */
+	private Position currentPacmanPosition;
+
+	/**
 	 * Creates a new level for the board.
 	 * 
 	 * @param b
@@ -105,6 +111,8 @@ public class Level {
 		this.players = new ArrayList<>();
 		this.collisions = collisionMap;
 		this.observers = new ArrayList<>();
+		/*** the first square ocuped by pac man **/
+		currentPacmanPosition = new Position(10, 14);
 	}
 
 	/**
@@ -194,6 +202,21 @@ public class Level {
 		}
 	}
 
+	
+	/**
+	 * @author bellafkih
+	 * @param dx
+	 * @param dy
+	 */
+	public void setCurrentPacManPosition(int dx, int dy) {
+		currentPacmanPosition.setX(currentPacmanPosition.getX());
+		currentPacmanPosition.setY(currentPacmanPosition.getY() + dy);
+	}
+
+	public Position getCurrentPacManPosition() {
+		return currentPacmanPosition;
+	}
+
 	/**
 	 * Starts or resumes this level, allowing movement and (re)starting the
 	 * NPCs.
@@ -203,7 +226,7 @@ public class Level {
 			if (isInProgress()) {
 				return;
 			}
-			startNPCs();
+			 startNPCs();
 			startPacMan();
 			inProgress = true;
 			updateObservers();
@@ -238,15 +261,16 @@ public class Level {
 	}
 
 	/**
-	 * @author bellafkih
-	 * Starts Pac Man movement scheduling.
+	 * @author bellafkih Starts Pac Man movement scheduling.
 	 */
 	private void startPacMan() {
-			ScheduledExecutorService s = Executors
-					.newSingleThreadScheduledExecutor();
-			s.schedule(new PacmanMoveTask(s,players.get(0)) ,500, TimeUnit.MILLISECONDS);
-		
+		ScheduledExecutorService s = Executors
+				.newSingleThreadScheduledExecutor();
+		s.schedule(new PacmanMoveTask(s, players.get(0)), 200,
+				TimeUnit.MILLISECONDS);
+
 	}
+
 	/**
 	 * Stops all NPC movement scheduling and interrupts any movements being
 	 * executed.
@@ -322,7 +346,7 @@ public class Level {
 	/**
 	 * A task that moves an NPC and reschedules itself after it finished.
 	 * 
-	 * @author Jeroen Roosen 
+	 * @author Jeroen Roosen
 	 */
 	private final class NpcMoveTask implements Runnable {
 
@@ -361,7 +385,8 @@ public class Level {
 	}
 
 	/**
-	 * A task that moves the single player  and reschedules itself after it finished.
+	 * A task that moves the single player and reschedules itself after it
+	 * finished.
 	 * 
 	 * @author bellafkih
 	 */
@@ -392,18 +417,89 @@ public class Level {
 
 		@Override
 		public void run() {
-			Direction nextMove = this.p.getDirection();
-			if (nextMove != null) {
-				move(this.p, nextMove);
+			Direction currentDirection = this.p.getDirection();
+			List<Direction> listOfPossibleDirection = new ArrayList<Direction>();
+			Square leftSquare = board.squareAt(getCurrentPacManPosition()
+					.getX() - 1, getCurrentPacManPosition().getY());
+
+			Square rightSquare = board.squareAt(getCurrentPacManPosition()
+					.getX() + 1, getCurrentPacManPosition().getY());
+
+			Square northSquare = board.squareAt(getCurrentPacManPosition()
+					.getX(), getCurrentPacManPosition().getY() - 1);
+
+			Square southSquare = board.squareAt(getCurrentPacManPosition()
+					.getX(), getCurrentPacManPosition().getY() + 1);
+			switch (currentDirection) {
+			case SOUTH:
+				if (leftSquare.isAccessibleTo(p)) {
+					listOfPossibleDirection.add(Direction.WEST);
+				}
+				if (rightSquare.isAccessibleTo(p)) {
+					listOfPossibleDirection.add(Direction.EAST);
+				}
+				if (southSquare.isAccessibleTo(p)) {
+					listOfPossibleDirection.add(Direction.SOUTH);
+				}
+				break;
+
+			case NORTH:
+				if (leftSquare.isAccessibleTo(p)) {
+					listOfPossibleDirection.add(Direction.WEST);
+				}
+				if (rightSquare.isAccessibleTo(p)) {
+					listOfPossibleDirection.add(Direction.EAST);
+				}
+
+				if (northSquare.isAccessibleTo(p)) {
+					listOfPossibleDirection.add(Direction.NORTH);
+				}
+				break;
+
+			case EAST:
+				if (rightSquare.isAccessibleTo(p)) {
+					listOfPossibleDirection.add(Direction.EAST);
+				}
+				if (northSquare.isAccessibleTo(p)) {
+					listOfPossibleDirection.add(Direction.NORTH);
+				}
+				if (southSquare.isAccessibleTo(p)) {
+					listOfPossibleDirection.add(Direction.SOUTH);
+				}
+				break;
+
+			case WEST:
+				if (leftSquare.isAccessibleTo(p)) {
+					listOfPossibleDirection.add(Direction.WEST);
+				}
+				if (northSquare.isAccessibleTo(p)) {
+					listOfPossibleDirection.add(Direction.NORTH);
+				}
+
+				if (southSquare.isAccessibleTo(p)) {
+					listOfPossibleDirection.add(Direction.SOUTH);
+				}
 			}
-			long interval = 500;
+
+			Direction nextmove = listOfPossibleDirection.get(new Random()
+					.nextInt(listOfPossibleDirection.size()));
+
+			if (nextmove != null) {
+				move(this.p, nextmove);
+				currentPacmanPosition.setX(currentPacmanPosition.getX()
+						+ nextmove.getDeltaX());
+				currentPacmanPosition.setY(currentPacmanPosition.getY()
+						+ nextmove.getDeltaY());
+			}
+			long interval = 200;
 			service.schedule(this, interval, TimeUnit.MILLISECONDS);
 		}
 	}
+
 	/**
-	 * An observer that will be notified when the level is won or lost  .
+	 * An observer that will be notified when the level is won or lost .
 	 * 
-	 * @author Jeroen Roosen 
+	 * @author Jeroen Roosen
 	 */
 	public interface LevelObserver {
 
