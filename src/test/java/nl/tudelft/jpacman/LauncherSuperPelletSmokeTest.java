@@ -73,8 +73,18 @@ public class LauncherSuperPelletSmokeTest extends LauncherSmokeTest{
         for (Map.Entry<NPC, ScheduledExecutorService> e : game.getLevel().getNpcs().entrySet()){
             assertFalse(((VulnerableGhost)e.getKey()).isHunter());
         }
-        Thread.sleep(7000L);
+        //on test si le timer se met en pause
+        game.stop();
+        Thread.sleep(2000L);
+        game.start();
+        Thread.sleep(5000L);
 
+        //vérifie que les ghost sont pas encore repassé en mode chasseur
+        for (Map.Entry<NPC, ScheduledExecutorService> e : game.getLevel().getNpcs().entrySet()){
+            assertFalse(((VulnerableGhost)e.getKey()).isHunter());
+        }
+
+        Thread.sleep(2000L);
         //vérifie que les ghost sont repassé en mode chasseur
         for (Map.Entry<NPC, ScheduledExecutorService> e : game.getLevel().getNpcs().entrySet()){
             assertTrue(((VulnerableGhost)e.getKey()).isHunter());
