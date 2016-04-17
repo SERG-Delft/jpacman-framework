@@ -7,9 +7,14 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.level.Player;
 
+import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.VulnerableGhost;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Smoke test launching the full game,
@@ -116,30 +121,5 @@ public class LauncherSmokeTest {
         }
     }
 
-    /**
-     * Launch the game, and imitate what would happen when you eat a super pellet.
-     *
-     */
-    @SuppressWarnings("methodlength")
-    @Test
-    public void smokeTestSuperPellet(){
-        Game game = launcher.getGame();
-        Player player = game.getPlayers().get(0);
 
-        // start cleanly.
-        assertFalse(game.isInProgress());
-        game.start();
-        assertTrue(game.isInProgress());
-        assertEquals(0, player.getScore());
-
-        // get super pelet and verify score
-        move(game, Direction.EAST,6);
-        move(game, Direction.SOUTH,2);
-        move(game, Direction.EAST,4);
-        move(game, Direction.SOUTH,2);
-        assertEquals(180, player.getScore());
-
-        game.stop();
-        assertFalse(game.isInProgress());
-    }
 }
