@@ -1,6 +1,10 @@
 package nl.tudelft.jpacman.level;
 
+import CraeyeMathieu.ChoiceMonster;
+import CraeyeMathieu.Classement;
+import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 /**
@@ -52,6 +56,27 @@ public class PlayerCollisions implements CollisionMap {
 	 */
 	public void playerVersusGhost(Player player, Ghost ghost) {
 		player.setAlive(false);
+		Launcher l=new Launcher();
+		if(player.getName()=="blinky")
+		{
+			l.cM.jBlinky.setScore(player.getScore());
+			l.launch();
+		}
+		if(player.getName()=="inky")
+		{
+			l.cM.jInky.setScore(player.getScore());
+			l.launch();
+		}
+		if(player.getName()=="clyde")
+		{
+			l.cM.jClyde.setScore(player.getScore());
+			l.launch();
+		}
+		if(player.getName()=="pinky")
+		{
+			l.cM.jPinky.setScore(player.getScore());
+			l.launch();
+		}
 	}
 	
 	/**

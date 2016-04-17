@@ -2,6 +2,7 @@ package nl.tudelft.jpacman.level;
 
 import java.util.Map;
 
+import CraeyeMathieu.ChoiceMonster;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.sprite.AnimatedSprite;
@@ -14,6 +15,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
  */
 public class Player extends Unit {
 
+	private String name;
 	/**
 	 * The amount of points accumulated by this player.
 	 */
@@ -42,11 +44,12 @@ public class Player extends Unit {
 	 * @param deathAnimation
 	 *            The sprite to be shown when this player dies.
 	 */
-	Player(Map<Direction, Sprite> spriteMap, AnimatedSprite deathAnimation) {
+	Player(Map<Direction, Sprite> spriteMap, AnimatedSprite deathAnimation,String name) {
 		this.score = 0;
 		this.alive = true;
 		this.sprites = spriteMap;
 		this.deathSprite = deathAnimation;
+		this.setName(name);
 		deathSprite.setAnimating(false);
 	}
 
@@ -56,6 +59,7 @@ public class Player extends Unit {
 	 * @return <code>true</code> iff the player is alive.
 	 */
 	public boolean isAlive() {
+	
 		return alive;
 	}
 
@@ -101,5 +105,13 @@ public class Player extends Unit {
 	 */
 	public void addPoints(int points) {
 		score += points;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

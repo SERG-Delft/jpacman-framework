@@ -1,5 +1,6 @@
 package nl.tudelft.jpacman.game;
 
+import CraeyeMathieu.Joueur;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.PlayerFactory;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
@@ -33,13 +34,10 @@ public class GameFactory {
 	 *            The level to create a game for.
 	 * @return A new single player game.
 	 */
-	public Game createSinglePlayerGame(Level level) {
-		return new SinglePlayerGame(playerFact.createPacMan(), level);
+	public Game createSinglePlayerGame(Level level,Joueur name) {
+		return new SinglePlayerGame(playerFact.createGhost(name), level);
 	}
-	public Game createSinglePlayerGame(Level level,GhostColor c) {
-		return new SinglePlayerGame(playerFact.createGhost(c), level);
-	}
-
+	
 	/**
 	 * Returns the player factory associated with this game factory.
 	 * @return the player factory associated with this game factory.

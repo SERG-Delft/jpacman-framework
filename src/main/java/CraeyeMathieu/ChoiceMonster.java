@@ -13,34 +13,27 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import nl.tudelft.jpacman.Launcher;
-import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.game.GameFactory;
-import nl.tudelft.jpacman.level.Level;
-import nl.tudelft.jpacman.npc.ghost.GhostColor;
 
 public class ChoiceMonster extends JFrame implements ActionListener {
 	
 	 private JButton TwoPlayers,ThirdPlayers,FourPlayers;
-	 private ArrayList<JButton> listPlayer = new ArrayList<JButton>();
 	private JButton blinky,clyde,inky,pinky;
 	private JLabel Player;
+	
 	private final static int height=40;
 	private int numPlayer=0;
 	private final static int widht=1000;
 	JPanel panel = new JPanel();
-	private Game game;
+	public Joueur jInky,jClyde,jPinky,jBlinky,j;
+	public ArrayList<Joueur>listJ=new ArrayList<Joueur>();
 	private Launcher l = new Launcher();
 	public void ButtonGhost()
 	{
-	
+		j=new Joueur();
 		blinky = new JButton("Blinky");
 		clyde = new JButton("Clyde");
 		inky = new JButton("Inky");
 		pinky = new JButton("Pinky");
-	/*	listButton.add(blinky);
-		listButton.add(clyde);
-		listButton.add(inky);
-		listButton.add(pinky);*/
 		blinky.addActionListener(this);
 		blinky.setVisible(false);
 		blinky.setForeground(Color.RED);
@@ -58,8 +51,7 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 		panel.add(inky,BorderLayout.CENTER);
 		panel.add(pinky,BorderLayout.CENTER);
 		panel.add(clyde,BorderLayout.CENTER);
-		panel.add(Player);
-		
+		panel.add(Player);		
 	}
 	public void AppaerButtonGhost()
 	{
@@ -90,51 +82,88 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 		panel.add(TwoPlayers, BorderLayout.NORTH);
 		panel.add(ThirdPlayers, BorderLayout.NORTH);
 		panel.add(FourPlayers, BorderLayout.NORTH);
-		
 		this.setContentPane(panel);
 		this.setVisible(true);
 		ButtonGhost();
 	}
-	public void addPlayer( Object o)
-	{
-		listPlayer.add((JButton) o);
-	}
+
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-	
-		if (source==pinky ||source==inky ||source==clyde || source==blinky)
-		{
-			((JComponent) source).setVisible(false); numPlayer--;
-			addPlayer(source);
-			AffPlayer();
-			if(numPlayer==0 && source==pinky)
+
+			
+			if(source==pinky)
 			{
-				GameFactory gf = l.getGameFactory();
-				Level level = l.makeLevel();
-				gf.createSinglePlayerGame(level,GhostColor.PINK);
-				this.dispose();
+				((JComponent) source).setVisible(false); 
+				numPlayer--;
+				AffPlayer();
+				jPinky=new Joueur("pinky",numPlayer,0);
+				listJ.add(jPinky);
+				if (numPlayer==0)
+				{
+				l.launch();
+				j.setListJoueur(listJ);
+				}
+				
 			}
-		}
+			if(source==clyde)
+			{
+			((JComponent) source).setVisible(false); 
+				numPlayer--;
+				AffPlayer();
+				jClyde=new Joueur("clyde",numPlayer,0);listJ.add(jClyde);
+				listJ.add(jClyde);
+				if (numPlayer==0)
+				{
+				l.launch();
+				j.setListJoueur(listJ);
+				}
+				
+			}
+			if( source==inky)
+			{
+				((JComponent) source).setVisible(false);
+				numPlayer--;
+				AffPlayer(); 
+				jInky=new Joueur("inky",numPlayer,0);listJ.add(jInky);
+				listJ.add(jInky);
+				if (numPlayer==0)
+				{
+				l.launch();
+				j.setListJoueur(listJ);
+				}
+				
+			}
+			if(source==blinky)
+			{
+				((JComponent) source).setVisible(false);
+				numPlayer--;
+				AffPlayer(); 
+				jBlinky=new Joueur("blinky",numPlayer,0);listJ.add(jBlinky);
+				listJ.add(jBlinky);
+				if (numPlayer==0)
+				{
+				l.launch();
+				j.setListJoueur(listJ);
+				}
+				
+			}
+		
 		if(source == TwoPlayers)
 		{
 			AppaerButtonGhost();
-			numPlayer=2;AffPlayer();
+			numPlayer=2;AffPlayer();j.SetNbrJoueur(2);
 		}
 			if(source == ThirdPlayers)
 			{
-				AppaerButtonGhost();numPlayer=3;AffPlayer();
+				AppaerButtonGhost();numPlayer=3;AffPlayer();j.SetNbrJoueur(3);
 			}
 				
 					if(source == FourPlayers)
 				{
-						AppaerButtonGhost();numPlayer=4;AffPlayer();
+						AppaerButtonGhost();numPlayer=4;AffPlayer();j.SetNbrJoueur(4);
 				}
-		
-			
-		
-
-			
-	}
+					
+		}
 
 	
 

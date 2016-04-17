@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import CraeyeMathieu.Classement;
 import nl.tudelft.jpacman.PacmanConfigurationException;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
@@ -64,7 +65,6 @@ public class PacManSprites extends SpriteStore {
 		AnimatedSprite animation = createAnimatedSprite(baseImage, PACMAN_DEATH_FRAMES,
 				ANIMATION_DELAY, false);
 		animation.setAnimating(false);
-
 		return animation;
 	}
 
