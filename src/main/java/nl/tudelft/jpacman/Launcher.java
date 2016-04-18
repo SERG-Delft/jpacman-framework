@@ -28,6 +28,9 @@ import nl.tudelft.jpacman.ui.PacManUiBuilder;
 public class Launcher {
 
 	private static final PacManSprites SPRITE_STORE = new PacManSprites();
+	
+	public static final String DEFAULT_MAP = "/board.txt";
+	private String levelMap = DEFAULT_MAP;
 
 	private PacManUI pacManUI;
 	private Game game;
@@ -38,6 +41,24 @@ public class Launcher {
 	 */
 	public Game getGame() {
 		return game;
+	}
+	
+	/**
+	 * The map file used to populate the level.
+	 * @return The name of the map file.
+	 */
+	protected String getLevelMap() {
+		return levelMap;
+	}
+	
+	/**
+	 * Set the name of the file containing this level's map.
+	 * @param fileName Map to be used.
+	 * @return Level corresponding to the given map.
+	 */
+	public Launcher withMapFile(String fileName) {
+		levelMap = fileName;
+		return this;
 	}
 
 	/**
@@ -60,12 +81,13 @@ public class Launcher {
 	public Level makeLevel() {
 		MapParser parser = getMapParser();
 		try (InputStream boardStream = Launcher.class
-				.getResourceAsStream("/board.txt")) {
+				.getResourceAsStream(getLevelMap())) {
 			return parser.parseMap(boardStream);
 		} catch (IOException e) {
 			throw new PacmanConfigurationException("Unable to create level.", e);
 		}
 	}
+	
 
 	/**
 	 * @return A new map parser object using the factories from
