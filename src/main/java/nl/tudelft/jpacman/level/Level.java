@@ -21,7 +21,7 @@ import nl.tudelft.jpacman.npc.NPC;
  * 
  * @author Jeroen Roosen 
  */
-public class Level {
+public class Level{
 
 	/**
 	 * The board of this level.

@@ -37,7 +37,7 @@ public class ScorePanel extends JPanel {
 			// player) -> String.format("Score: %3d", player.getScore());
 			new ScoreFormatter() {
 				public String format(Player p) {
-					return String.format("Score: %3d", p.getScore());
+					return String.format("Score: %3d  Lifes: %d", p.getScore(), p.getLifes());
 				}
 			};
 	

@@ -33,7 +33,7 @@ public class SinglePlayerGameTest {
 	
 	/**
 	 * Basic test to verify that the method levelWon indeed switches the level
-	 * to the good one, that it loops well if it was the last level
+	 * to the good one
 	 * Also test that the method previousLevel rolls back to the desired level
 	 */
 	@Test
@@ -49,13 +49,8 @@ public class SinglePlayerGameTest {
 		assertNotSame(l1, l2);
 		assertSame(lvl2, l2);
 		
-		game.levelWon();
-		
-		Level l3 = game.getLevel();
-		assertSame(l1, l3);
-		
 		game.previousLevel();
-		assertSame(l2, game.getLevel());
+		assertSame(l1, game.getLevel());
 	}
 
 }

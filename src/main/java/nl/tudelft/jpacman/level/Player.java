@@ -136,4 +136,8 @@ public class Player extends Unit{
 	public int getMaxLevel() {
 		return maxLevel;
 	}
+
+	public int getLifes() {
+		return lifes;
+	}
 }
