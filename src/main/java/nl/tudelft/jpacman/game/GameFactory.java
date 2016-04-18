@@ -43,4 +43,8 @@ public class GameFactory {
 	protected PlayerFactory getPlayerFactory() {
 		return playerFact;
 	}
+
+	public Game createSinglePlayerGame(Level[] lvls) {
+		return new SinglePlayerGame(playerFact.createPacMan(), lvls);
+	}
 }

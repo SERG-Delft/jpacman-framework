@@ -1,9 +1,11 @@
 package nl.tudelft.jpacman;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Player;
 
 import org.junit.After;
@@ -11,7 +13,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 /*
- * This is a complete test to ensure that the game react as expected when pacman dies
+ * This is a complete test to ensure that the game react as expected when
+ *  pacman dies or  win a level
+ *  
  */
 public class DeathTest {
 		
@@ -63,9 +67,15 @@ public class DeathTest {
         Thread.sleep(150L);
         assertTrue(player.isAlive());
         assertTrue(game.isInProgress());
+        
+        Level level1 = game.getLevel();
+        game.levelWon();
+        Thread.sleep(150);
+        Level level2 = game.getLevel();
+        assertNotSame(level1, level2);
 
         player.setAlive(false);
-        Thread.sleep(50L);
+        Thread.sleep(150L);
         assertFalse(player.isAlive());
         assertFalse(game.isInProgress());
     }

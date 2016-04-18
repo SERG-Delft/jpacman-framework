@@ -1,8 +1,12 @@
 package nl.tudelft.jpacman;
 
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import nl.tudelft.jpacman.board.BoardFactory;
@@ -47,8 +51,56 @@ public class Launcher {
 	 */
 	public Game makeGame() {
 		GameFactory gf = getGameFactory();
+		if(hasMultipleLevels()){
+			Level[] lvls = makeLevels();
+			return gf.createSinglePlayerGame(lvls);
+		}
 		Level level = makeLevel();
 		return gf.createSinglePlayerGame(level);
+	}
+	
+	/**
+	 * Return files of the different levels
+	 * 
+	 * @return Array of level files
+	 */
+	private File[] getLevelFiles(){
+		File[] files = new File(Launcher.class.getResource("/").getPath())
+		.listFiles(new FilenameFilter(){
+
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.startsWith("board") && name.endsWith(".txt");
+			}
+			
+		});
+		return files;
+	}
+	
+	/**
+	 * Return filenames of the different levels in order
+	 * 
+	 * @return Array of names of the files containing levels
+	 */
+	String[] getLevelNames(){
+		File[] files = getLevelFiles();
+		ArrayList<String> filenames = new ArrayList<String>();
+		for(File f: files){
+			filenames.add(f.getName());
+		}
+		Collections.sort(filenames);
+		return filenames.toArray(new String[filenames.size()]);
+		
+	}
+
+	/**
+	 * Determines if more than a single level can be loaded
+	 * 
+	 * @return true iff multiple levels are accessible in ressources in files
+	 * board*.txt
+	 */
+	public boolean hasMultipleLevels() {
+		return getLevelFiles().length >= 2;
 	}
 
 	/**
@@ -65,6 +117,26 @@ public class Launcher {
 		} catch (IOException e) {
 			throw new PacmanConfigurationException("Unable to create level.", e);
 		}
+	}
+	
+	/**
+	 * Load levels stored in board*.txt using the default parser
+	 * 
+	 * @return an Array on levels
+	 */
+	public Level[] makeLevels() {
+		MapParser parser = getMapParser();
+		String[] filenames = getLevelNames();
+		Level[] lvls = new Level[filenames.length];
+		for(int i = 0;i < filenames.length; i++){
+			try (InputStream boardStream = Launcher.class
+					.getResourceAsStream("/" + filenames[i])) {
+				lvls[i] = parser.parseMap(boardStream);
+			} catch (IOException e) {
+				throw new PacmanConfigurationException("Unable to create level.", e);
+			}
+		}
+		return lvls;
 	}
 
 	/**

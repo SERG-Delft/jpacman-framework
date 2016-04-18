@@ -25,7 +25,11 @@ public class SinglePlayerGame extends Game {
 	/**
 	 * The level of this game.
 	 */
-	private final Level level;
+	private Level level;
+	
+	private Level[] levels;
+	
+	private int levelIndex;
 
 	/**
 	 * Create a new single player game for the provided level and player.
@@ -43,7 +47,17 @@ public class SinglePlayerGame extends Game {
 		this.level = l;
 		level.registerPlayer(p);
 	}
-
+	
+	protected SinglePlayerGame(Player p, Level[] lvls){
+		assert p != null;
+		
+		this.player = p;
+		this.levels = lvls;
+		this.level = lvls[0];
+		this.levelIndex = 0;
+		level.registerPlayer(p);
+	}
+	
 	@Override
 	public List<Player> getPlayers() {
 		return ImmutableList.of(player);
@@ -82,15 +96,24 @@ public class SinglePlayerGame extends Game {
 		move(player, Direction.EAST);
 	}
 	
+	/**
+	 * Override the levelLost method to handle the win of a level
+	 */
 	@Override
 	public void levelWon() {
 		stop();
+		if(levels != null && levels.length > levelIndex + 1){
+			levelIndex++;
+			level = levels[levelIndex];
+			level.registerPlayer(player);
+			start();
+		}
 	}
 	
-	@Override
 	/**
 	 * Override the levelLost method to handle the death of pacman
 	 */
+	@Override
 	public void levelLost() {
 		stop();
 		Random rand = new Random();
