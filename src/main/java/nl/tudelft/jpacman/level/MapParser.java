@@ -1,17 +1,18 @@
 package nl.tudelft.jpacman.level;
 
+import nl.tudelft.jpacman.PacmanConfigurationException;
+import nl.tudelft.jpacman.board.Board;
+import nl.tudelft.jpacman.board.BoardFactory;
+import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import nl.tudelft.jpacman.PacmanConfigurationException;
-import nl.tudelft.jpacman.board.Board;
-import nl.tudelft.jpacman.board.BoardFactory;
-import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.npc.NPC;
 
 /**
  * Creates new {@link Level}s from text representations.
@@ -53,6 +54,7 @@ public class MapParser {
 	 * <li>'.' (period) a square with a pellet.
 	 * <li>'P' (capital P) a starting square for players.
 	 * <li>'G' (capital G) a square with a ghost.
+	 * <li>'H' (capital H) a square to locate ghost home.
 	 * </ul>
 	 * 
 	 * @param map
@@ -67,26 +69,30 @@ public class MapParser {
 		Square[][] grid = new Square[width][height];
 
 		List<NPC> ghosts = new ArrayList<>();
+		List<Square> ghostsHouses = new ArrayList<>();
 		List<Square> startPositions = new ArrayList<>();
 
-		makeGrid(map, width, height, grid, ghosts, startPositions);
+		makeGrid(map, width, height, grid, ghostsHouses, ghosts, startPositions);
 		
 		Board board = boardCreator.createBoard(grid);
 		return levelCreator.createLevel(board, ghosts, startPositions);
 	}
 
 	private void makeGrid(char[][] map, int width, int height,
-			Square[][] grid, List<NPC> ghosts, List<Square> startPositions) {
+						  Square[][] grid, List<Square> ghostsHouses,
+						  List<NPC> ghosts, List<Square> startPositions) {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				char c = map[x][y];
-				addSquare(grid, ghosts, startPositions, x, y, c);
+				addSquare(grid, ghostsHouses, ghosts, startPositions, x, y, c);
 			}
 		}
+
+		assignHouseToGhost(ghostsHouses,ghosts);
 	}
 
-	private void addSquare(Square[][] grid, List<NPC> ghosts,
-			List<Square> startPositions, int x, int y, char c) {
+	private void addSquare(Square[][] grid, List<Square> ghostsHouses, List<NPC> ghosts,
+						   List<Square> startPositions, int x, int y, char c) {
 		switch (c) {
 		case ' ':
 			grid[x][y] = boardCreator.createGround();
@@ -94,6 +100,14 @@ public class MapParser {
 		case '#':
 			grid[x][y] = boardCreator.createWall();
 			break;
+
+		case 'H':
+			Square ghostHouseSquare = boardCreator.createGround();
+			grid[x][y] = ghostHouseSquare;
+			ghostsHouses.add(ghostHouseSquare);
+			levelCreator.createPellet().occupy(ghostHouseSquare);
+			break;
+
 		case '.':
 			Square pelletSquare = boardCreator.createGround();
 			grid[x][y] = pelletSquare;
@@ -120,6 +134,14 @@ public class MapParser {
 		ghosts.add(ghost);
 		ghost.occupy(ghostSquare);
 		return ghostSquare;
+	}
+
+	private void assignHouseToGhost(List<Square> houses, List<NPC> ghosts){
+		int size = ghosts.size();
+		int[] housePlace = {3,2,0,1};
+
+		for(int i = 0; i < size; i++)
+			((Ghost)ghosts.get(i)).setHome(houses.get(housePlace[i]));
 	}
 
 	/**
