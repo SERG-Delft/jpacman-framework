@@ -78,19 +78,19 @@ When  I press an arrow key towards that square;
 Then  my Pacman can move to that square
  and  my points remain the same.
 
-Scenario S2.3: The player dies
+Scenario S2.3: The move fails
+Given the game has started,
+  and my Pacman is next to a cell containing a wall;
+When  I press an arrow key towards that cell;
+Then  the move is not conducted.
+
+Scenario S2.4: The player dies
 Given the game has started,
  and  my Pacman is next to a cell containing a ghost;
 When  I press an arrow key towards that square;
 Then  my Pacman dies,
  and  the game is over.
   
-Scenario S2.4: The move fails
-Given the game has started,
-  and my Pacman is next to a cell containing a wall;
-When  I press an arrow key towards that cell;
-Then  the move is not conducted.
-
 Scenario S2.5: Player wins, extends S2.2
 When  I have eaten the last pellet;
 Then  I win the game.
