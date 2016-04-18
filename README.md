@@ -13,13 +13,14 @@ Parts of the code are well tested, whereas others are left untested intentionall
 
 We have developed and are using this code at a software testing course at Delft University of Technology, The Netherlands. Teachers interested in seeing the exercises I use there are invited to contact me.
 
-Other universities who have used this material include Antwerp, Eindhoven, and UBC (Vancouver).
+Other universities who have used this material include Antwerp, Mons, Eindhoven, and UBC (Vancouver).
+At TU Delft, we use it in combination with [DevHub](https://github.com/devhub-tud/devhub) as git, continuous integration, and feedback server.
 
-If you have any suggestions on how to improve this framework, please do not hesitate to contact us, open issue, or provide a pull request.
+If you have any suggestions on how to improve this framework, please do not hesitate to contact us, open issue, or provide a pull request. Since testing is deliberately left as an exercise, pull requests that "solve" exercises or offer full coverage are less likely to be merged.
 
 Main contributors:
 
-*	Arie van Deursen (versions 1.0-5.x, 2003-2013)
+*	Arie van Deursen (versions 1.0-5.x, 2003-2013, updates to versions 6.x and further, 2014-...)
 *	Jeroen Roosen (major rewrite, version 6.0, 2014)
 
 
