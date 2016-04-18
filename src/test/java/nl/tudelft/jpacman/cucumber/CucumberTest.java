@@ -18,7 +18,7 @@ import org.junit.runner.RunWith;
 public class CucumberTest {
 
 	/**
-	 * This class should be empty, step definitions should be in Stepdefs.
+	 * This class should be empty, step definitions should be in separate classes.
 	 */
 
 }
