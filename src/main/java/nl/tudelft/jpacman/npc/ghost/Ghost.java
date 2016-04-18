@@ -1,14 +1,14 @@
 package nl.tudelft.jpacman.npc.ghost;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.sprite.Sprite;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * An antagonist in the game of Pac-Man, a ghost.
@@ -23,6 +23,11 @@ public abstract class Ghost extends NPC {
 	private final Map<Direction, Sprite> sprites;
 
 	/**
+	 * The square to state the ghost home place.
+	 */
+	private Square home;
+
+	/**
 	 * Creates a new ghost.
 	 * 
 	 * @param spriteMap
@@ -30,12 +35,26 @@ public abstract class Ghost extends NPC {
 	 */
 	protected Ghost(Map<Direction, Sprite> spriteMap) {
 		this.sprites = spriteMap;
+		this.home = null;
 	}
 
 	@Override
-	public Sprite getSprite() {
-		return sprites.get(getDirection());
-	}
+	public Sprite getSprite() { return sprites.get(getDirection()); }
+
+	/**
+	 * Assign a place for ghost house.
+	 *
+	 * @param h
+	 * 		The place for the ghost house.
+     */
+	public void setHome(Square h){ this.home = h; }
+
+	/**
+	 * Return the house place.
+	 *
+	 * @return The place for the ghost house.
+	 */
+	public Square getHome(){ return this.home; }
 
 	/**
 	 * Determines a possible move in a random direction.
