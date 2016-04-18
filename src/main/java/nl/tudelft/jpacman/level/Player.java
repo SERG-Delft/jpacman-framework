@@ -104,14 +104,18 @@ public class Player extends Unit{
 	}
 
 	/**
-	 * Adds points to the score of this player.
+	 * Adds points to the score of this player and handle the lifes bonus.
 	 * 
 	 * @param points
 	 *            The amount of points to add to the points this player already
 	 *            has.
 	 */
 	public void addPoints(int points) {
-		score += points;
+		int newScore = score + points;
+		if(newScore / 10000 > score / 10000){
+			lifes += (newScore / 10000) - (score / 10000);
+		}
+		score = newScore;
 	}
 
 	/**
