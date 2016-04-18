@@ -2,10 +2,12 @@ package CraeyeMathieu;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -19,14 +21,14 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 	 private JButton TwoPlayers,ThirdPlayers,FourPlayers;
 	private JButton blinky,clyde,inky,pinky;
 	private JLabel Player;
-	
-	private final static int height=40;
 	private int numPlayer=0;
-	private final static int widht=1000;
+	private static int gamers;
 	JPanel panel = new JPanel();
 	public Joueur jInky,jClyde,jPinky,jBlinky,j;
 	public ArrayList<Joueur>listJ=new ArrayList<Joueur>();
 	private Launcher l = new Launcher();
+	
+
 	public void ButtonGhost()
 	{
 		j=new Joueur();
@@ -46,12 +48,13 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 		inky.addActionListener(this);
 		pinky.addActionListener(this);
 		clyde.addActionListener(this);
-
-		panel.add(blinky,BorderLayout.SOUTH);
-		panel.add(inky,BorderLayout.CENTER);
-		panel.add(pinky,BorderLayout.CENTER);
-		panel.add(clyde,BorderLayout.CENTER);
-		panel.add(Player);		
+		JPanel panel2=new JPanel();
+		panel2.add(blinky);
+		panel2.add(inky);
+		panel2.add(pinky);
+		panel2.add(clyde);
+		panel.add(panel2);
+		panel.add(Player,BorderLayout.SOUTH);
 	}
 	public void AppaerButtonGhost()
 	{
@@ -71,17 +74,16 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 		ThirdPlayers = new JButton("3 joueurs");
 		FourPlayers = new JButton("4 joueurs");
 		TwoPlayers.addActionListener(this);
-		TwoPlayers.setSize(widht, height);
-		ThirdPlayers.addActionListener(this);
-		ThirdPlayers.setSize(widht, height);
-		FourPlayers.addActionListener(this);
-		FourPlayers.setSize(widht, height);
-		this.setTitle("Nombre de joueurs");
-		this.setSize(600,300);
 	
-		panel.add(TwoPlayers, BorderLayout.NORTH);
-		panel.add(ThirdPlayers, BorderLayout.NORTH);
-		panel.add(FourPlayers, BorderLayout.NORTH);
+		ThirdPlayers.addActionListener(this);
+		
+		FourPlayers.addActionListener(this);
+
+		this.setTitle("Nombre de joueurs");
+		this.setSize(500,300);
+		panel.add(TwoPlayers);
+		panel.add(ThirdPlayers);
+		panel.add(FourPlayers);
 		this.setContentPane(panel);
 		this.setVisible(true);
 		ButtonGhost();
@@ -98,7 +100,7 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 				AffPlayer();
 				jPinky=new Joueur("pinky",numPlayer,0);
 				listJ.add(jPinky);
-				if (numPlayer==0)
+				if (gamers==j.getNbrJoueur())
 				{
 				l.launch();
 				j.setListJoueur(listJ);
@@ -151,16 +153,16 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 		if(source == TwoPlayers)
 		{
 			AppaerButtonGhost();
-			numPlayer=2;AffPlayer();j.SetNbrJoueur(2);
+			numPlayer=2;AffPlayer();j.SetNbrJoueur(2);gamers=2;
 		}
 			if(source == ThirdPlayers)
 			{
-				AppaerButtonGhost();numPlayer=3;AffPlayer();j.SetNbrJoueur(3);
+				AppaerButtonGhost();numPlayer=3;AffPlayer();j.SetNbrJoueur(3);gamers=3;
 			}
 				
 					if(source == FourPlayers)
 				{
-						AppaerButtonGhost();numPlayer=4;AffPlayer();j.SetNbrJoueur(4);
+						AppaerButtonGhost();numPlayer=4;AffPlayer();j.SetNbrJoueur(4);gamers=4;
 				}
 					
 		}

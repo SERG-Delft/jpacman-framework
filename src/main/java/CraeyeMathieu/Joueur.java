@@ -1,5 +1,6 @@
 package CraeyeMathieu;
 
+import java.awt.List;
 import java.util.ArrayList;
 
 public class Joueur {
@@ -51,6 +52,7 @@ public class Joueur {
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
