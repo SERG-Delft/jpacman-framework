@@ -112,9 +112,10 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 			((JComponent) source).setVisible(false); 
 				numPlayer--;
 				AffPlayer();
-				jClyde=new Joueur("clyde",numPlayer,0);listJ.add(jClyde);
+				jClyde=new Joueur("clyde",numPlayer,0);
 				listJ.add(jClyde);
-				if (numPlayer==0)				{
+				if (numPlayer==0)
+				{
 				l.launch();
 				j.setListJoueur(listJ);
 				}
@@ -125,7 +126,7 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 				((JComponent) source).setVisible(false);
 				numPlayer--;
 				AffPlayer(); 
-				jInky=new Joueur("inky",numPlayer,0);listJ.add(jInky);
+				jInky=new Joueur("inky",numPlayer,0);
 				listJ.add(jInky);
 				if (numPlayer==0)
 				{
@@ -139,7 +140,7 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 				((JComponent) source).setVisible(false);
 				numPlayer--;
 				AffPlayer(); 
-				jBlinky=new Joueur("blinky",numPlayer,0);listJ.add(jBlinky);
+				jBlinky=new Joueur("blinky",numPlayer,0);
 				listJ.add(jBlinky);
 				if (numPlayer==0)
 				{

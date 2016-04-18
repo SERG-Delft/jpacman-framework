@@ -34,7 +34,6 @@ public class Launcher {
 	public static ChoiceMonster cM;
 	private PacManUI pacManUI;
 	private Game game;
-	private Joueur j;
 
 	/**
 	 * @return The game object this launcher will start when {@link #launch()}
