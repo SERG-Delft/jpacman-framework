@@ -82,7 +82,7 @@ public class Launcher {
 	 * 
 	 * @return Array of names of the files containing levels
 	 */
-	String[] getLevelNames(){
+	private String[] getLevelNames(){
 		File[] files = getLevelFiles();
 		ArrayList<String> filenames = new ArrayList<String>();
 		for(File f: files){
@@ -99,7 +99,7 @@ public class Launcher {
 	 * @return true iff multiple levels are accessible in ressources in files
 	 * board*.txt
 	 */
-	public boolean hasMultipleLevels() {
+	private boolean hasMultipleLevels() {
 		return getLevelFiles().length >= 2;
 	}
 
@@ -245,7 +245,12 @@ public class Launcher {
 	 */
 	public void launch() {
 		game = makeGame();
-		PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
+		PacManUiBuilder builder;
+		if(hasMultipleLevels()){
+			builder = new PacManUiBuilder().withLevelsButtons();
+		}else{
+			builder = new PacManUiBuilder().withDefaultButtons();
+		}
 		addSinglePlayerKeys(builder, game);
 		pacManUI = builder.build(game);
 		pacManUI.start();

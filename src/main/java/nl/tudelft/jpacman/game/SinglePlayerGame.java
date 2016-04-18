@@ -102,10 +102,8 @@ public class SinglePlayerGame extends Game {
 	@Override
 	public void levelWon() {
 		stop();
-		if(levels != null && levels.length > levelIndex + 1){
-			levelIndex++;
-			level = levels[levelIndex];
-			level.registerPlayer(player);
+		if(levels != null){
+			nextLevel();
 			start();
 		}
 	}
@@ -125,6 +123,32 @@ public class SinglePlayerGame extends Game {
 			player.setAlive(true);
 			start();
 		}
+	}
+	
+	/**
+	 * Switches to the next level if the game is in a state accepting it
+	 */
+	public void nextLevel() {
+		if(!getLevel().hasBeenStarted() && !isInProgress()){
+			level.unregisterPlayer(player);
+			levelIndex = (levelIndex + 1) % levels.length;
+			level = levels[levelIndex];
+			level.registerPlayer(player);
+		}
+		
+	}
+
+	/**
+	 * Switches to the previous level if the game is in a state accepting it
+	 */
+	public void previousLevel() {
+		if(!getLevel().hasBeenStarted() && !isInProgress()){
+			level.unregisterPlayer(player);
+			levelIndex = (levels.length + levelIndex - 1) % levels.length;
+			level = levels[levelIndex];
+			level.registerPlayer(player);
+		}
+		
 	}
 
 }

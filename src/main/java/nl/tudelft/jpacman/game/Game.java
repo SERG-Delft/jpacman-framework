@@ -102,4 +102,12 @@ public abstract class Game implements LevelObserver {
 	public void levelLost() {
 		stop();
 	}
+	
+	public void nextLevel() {
+		
+	}
+
+	public void previousLevel() {
+		
+	}
 }
