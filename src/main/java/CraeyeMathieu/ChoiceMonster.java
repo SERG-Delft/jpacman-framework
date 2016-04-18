@@ -114,8 +114,7 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 				AffPlayer();
 				jClyde=new Joueur("clyde",numPlayer,0);listJ.add(jClyde);
 				listJ.add(jClyde);
-				if (numPlayer==0)
-				{
+				if (numPlayer==0)				{
 				l.launch();
 				j.setListJoueur(listJ);
 				}

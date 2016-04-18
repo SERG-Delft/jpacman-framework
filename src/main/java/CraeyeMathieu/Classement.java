@@ -45,7 +45,8 @@ public class Classement extends JFrame {
 		
 		/*if(((l.cM.jBlinky.getScore()>l.cM.jPinky.getScore()&& l.cM.jBlinky.getScore()> l.cM.jInky.getScore())
 				&& l.cM.jBlinky.getScore()>l.cM.jClyde.getScore())
-				&& l.cM.jPinky!=null && l.cM.jBlinky!=null&& l.cM.jInky!=null && l.cM.jClyde!=null)
+				&& l.cM.jPinky!=null
+				 && l.cM.jBlinky!=null&& l.cM.jInky!=null && l.cM.jClyde!=null)
 		{
 			Winner= new JLabel("Le Gagnant est : Blinky");
 		}
