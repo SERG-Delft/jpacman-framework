@@ -27,7 +27,7 @@ public class DeathTest {
 	@Before
 	public void setUpPacman() {
 		launcher = new Launcher();
-		launcher.launch();
+		launcher.launch(false);
 	}
 		
 	/**
@@ -67,12 +67,6 @@ public class DeathTest {
         Thread.sleep(150L);
         assertTrue(player.isAlive());
         assertTrue(game.isInProgress());
-        
-        Level level1 = game.getLevel();
-        game.levelWon();
-        Thread.sleep(150);
-        Level level2 = game.getLevel();
-        assertNotSame(level1, level2);
 
         player.setAlive(false);
         Thread.sleep(150L);

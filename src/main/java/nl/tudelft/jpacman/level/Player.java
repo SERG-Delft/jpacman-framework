@@ -39,6 +39,8 @@ public class Player extends Unit{
 	 */
 	private boolean alive;
 
+	private int maxLevel;
+
 	/**
 	 * Creates a new player with a score of 0 points.
 	 * 
@@ -50,6 +52,7 @@ public class Player extends Unit{
 	Player(Map<Direction, Sprite> spriteMap, AnimatedSprite deathAnimation) {
 		this.score = 0;
 		this.lifes = 3;
+		this.maxLevel = 0;
 		this.alive = true;
 		this.sprites = spriteMap;
 		this.deathSprite = deathAnimation;
@@ -119,5 +122,14 @@ public class Player extends Unit{
 	public boolean hasLifeRemaining() {
 		// TODO Auto-generated method stub
 		return lifes >= 0;
+	}
+
+	public void setMaxLevel(int level) {
+		maxLevel = level;
+		
+	}
+
+	public int getMaxLevel() {
+		return maxLevel;
 	}
 }

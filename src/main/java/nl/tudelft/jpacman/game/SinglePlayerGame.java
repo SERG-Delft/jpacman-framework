@@ -3,6 +3,8 @@ package nl.tudelft.jpacman.game;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.level.Level;
@@ -48,6 +50,14 @@ public class SinglePlayerGame extends Game {
 		level.registerPlayer(p);
 	}
 	
+	/**
+	 * Create a new single player game for the provided levels and player.
+	 * 
+	 * @param p
+	 *            The player.
+	 * @param lvls
+	 *            An Array of levels.
+	 */
 	protected SinglePlayerGame(Player p, Level[] lvls){
 		assert p != null;
 		
@@ -66,6 +76,10 @@ public class SinglePlayerGame extends Game {
 	@Override
 	public Level getLevel() {
 		return level;
+	}
+	
+	public int getLevelIndex(){
+		return levelIndex;
 	}
 
 	/**
@@ -97,12 +111,17 @@ public class SinglePlayerGame extends Game {
 	}
 	
 	/**
-	 * Override the levelLost method to handle the win of a level
+	 * Override the levelWon method to handle the win of a level
 	 */
 	@Override
 	public void levelWon() {
 		stop();
 		if(levels != null){
+			if(levelIndex + 1 > player.getMaxLevel()){
+				notifyVictory(levelIndex+1);
+				player.setMaxLevel(levelIndex+1);
+				System.out.println(player.getMaxLevel());
+			}
 			nextLevel();
 			start();
 		}
@@ -122,6 +141,8 @@ public class SinglePlayerGame extends Game {
 			player.occupy(target.nearestValidRespawn(player, null));
 			player.setAlive(true);
 			start();
+		}else{
+			notifyDefeat();
 		}
 	}
 	
@@ -129,7 +150,8 @@ public class SinglePlayerGame extends Game {
 	 * Switches to the next level if the game is in a state accepting it
 	 */
 	public void nextLevel() {
-		if(!getLevel().hasBeenStarted() && !isInProgress()){
+		if((!getLevel().hasBeenStarted() && !isInProgress())
+			|| getLevel().remainingPellets() <= 0){
 			level.unregisterPlayer(player);
 			levelIndex = (levelIndex + 1) % levels.length;
 			level = levels[levelIndex];
@@ -149,6 +171,38 @@ public class SinglePlayerGame extends Game {
 			level.registerPlayer(player);
 		}
 		
+	}
+
+	/**
+	 * Sets the maximum level reached by the player
+	 */
+	@Override
+	public void setPlayerLevel(int level) {
+		player.setMaxLevel(level);
+		
+	}
+	
+	/**
+	 * Overrides the start method to handle the fact that
+	 * a player could be unable to start a level if his maximum
+	 * level is too low
+	 */
+	@Override
+	public void start() {
+		synchronized (progressLock) {
+			if (isInProgress()) {
+				return;
+			}
+			if (getLevel().isAnyPlayerAlive()
+					&& getLevel().remainingPellets() > 0
+					&& player.getMaxLevel() >= levelIndex) {
+				inProgress = true;
+				getLevel().addObserver(this);
+				getLevel().start();
+			}else{
+				notifyCantStart();
+			}
+		}
 	}
 
 }

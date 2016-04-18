@@ -1,5 +1,6 @@
 package nl.tudelft.jpacman.game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nl.tudelft.jpacman.board.Direction;
@@ -17,12 +18,14 @@ public abstract class Game implements LevelObserver {
 	/**
 	 * <code>true</code> if the game is in progress.
 	 */
-	private boolean inProgress;
+	protected boolean inProgress;
 
 	/**
 	 * Object that locks the start and stop methods.
 	 */
-	private final Object progressLock = new Object();
+	protected final Object progressLock = new Object();
+	
+	private final List<GameObserver> observers = new ArrayList<GameObserver>();
 
 	/**
 	 * Creates a new game.
@@ -93,6 +96,42 @@ public abstract class Game implements LevelObserver {
 		}
 	}
 	
+	public void addObserver(GameObserver observ){
+		if (observers.contains(observ)) {
+			return;
+		}
+		observers.add(observ);
+	}
+	
+	/**
+	 * notify observers that a player as beaten his highest level
+	 * @param i index of the level beaten
+	 */
+	public void notifyVictory(int i){
+		for(GameObserver o : observers){
+			o.playerWon(i);
+		}
+	}
+	
+	/**
+	 * notify observers that the player is dead and has no life remaining
+	 */
+	public void notifyDefeat(){
+		for(GameObserver o : observers){
+			o.playerDied();
+		}
+	}
+	
+	/**
+	 * notify observers that the game is unable to start due to too
+	 * low highest level beaten
+	 */
+	public void notifyCantStart(){
+		for(GameObserver o : observers){
+			o.cantStart();
+		}
+	}
+	
 	@Override
 	public void levelWon() {
 		stop();
@@ -110,4 +149,21 @@ public abstract class Game implements LevelObserver {
 	public void previousLevel() {
 		
 	}
+
+	public abstract void setPlayerLevel(int level);
+	
+	/**
+	 * interface to implement to observe some game states
+	 * @author santorin
+	 *
+	 */
+	public interface GameObserver{
+		
+		void playerWon(int i);
+		
+		void playerDied();
+		
+		void cantStart();
+	}
+	
 }

@@ -1,17 +1,26 @@
 package nl.tudelft.jpacman;
 
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.game.Game.GameObserver;
 import nl.tudelft.jpacman.game.GameFactory;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.LevelFactory;
@@ -29,12 +38,13 @@ import nl.tudelft.jpacman.ui.PacManUiBuilder;
  * 
  * @author Jeroen Roosen 
  */
-public class Launcher {
+public class Launcher implements GameObserver{
 
 	private static final PacManSprites SPRITE_STORE = new PacManSprites();
 
 	private PacManUI pacManUI;
 	private Game game;
+	private String playerName;
 
 	/**
 	 * @return The game object this launcher will start when {@link #launch()}
@@ -243,8 +253,9 @@ public class Launcher {
 	/**
 	 * Creates and starts a JPac-Man game.
 	 */
-	public void launch() {
+	public void launch(boolean askForName) {
 		game = makeGame();
+		game.addObserver(this);
 		PacManUiBuilder builder;
 		if(hasMultipleLevels()){
 			builder = new PacManUiBuilder().withLevelsButtons();
@@ -254,6 +265,108 @@ public class Launcher {
 		addSinglePlayerKeys(builder, game);
 		pacManUI = builder.build(game);
 		pacManUI.start();
+		if(askForName){
+			askForPlayerName(pacManUI);
+		}
+	}
+
+	/**
+	 * Display a pop-up window to ask the player his name
+	 * 
+	 * @param UI The User Interface the game uses
+	 */
+	private void askForPlayerName(PacManUI UI) {
+		String name = null;
+		while(name == null || name == ""){
+			name = (String) JOptionPane.showInputDialog(UI,
+					"Enter your player name","Player Name",
+					JOptionPane.QUESTION_MESSAGE);
+		}
+		playerName = name;
+		loadProgression(name);
+	}
+
+	/**
+	 * Loads the progression of a player
+	 * 
+	 * @param name The name of the player
+	 */
+	private void loadProgression(String name) {
+		File playerSave = new File(Launcher.class.getResource("/").getPath()
+				+ "/" + name + ".save");
+		if(playerSave.exists()){
+			String line;
+			try {
+				BufferedReader br = new BufferedReader(new FileReader(playerSave));
+				while((line = br.readLine()) != null){
+					if(line.startsWith("max_level")){
+						game.setPlayerLevel(Integer.parseInt(line.split("=")[1]));
+					}
+				}
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Save the progression of the current player
+	 * 
+	 * @param i Highest level beaten
+	 */
+	private void saveProgression(int i) {
+		if(playerName != null && playerName != ""){
+			File playerSave = new File(Launcher.class.getResource("/").getPath()
+					+ "/" + playerName + ".save");
+			try {
+				if(playerSave.exists()){
+					String line;
+					String fileResult = "";
+					BufferedReader br = new BufferedReader(new FileReader(playerSave));
+					while((line = br.readLine()) != null){
+						if(line.startsWith("max_level")){
+							fileResult += "max_level=" + i + "\n";
+						}else{
+							fileResult += line + "\n";
+						}
+					}
+					br.close();
+					PrintWriter pw = new PrintWriter(playerSave);
+					pw.print(fileResult);
+					pw.flush();
+					pw.close();
+				}else{
+					PrintWriter pw = new PrintWriter(playerSave);
+					pw.println("max_level=" + i);
+					pw.flush();
+					pw.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Override
+	public void playerWon(int i) {
+		saveProgression(i);
+	}
+
+	@Override
+	public void playerDied() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cantStart() {
+		System.out.println("CantStart");
+		JOptionPane.showMessageDialog(pacManUI, "You haven't beated " +
+				"the previous level\n" +
+				"You are not allowed to play this level !");
+		
 	}
 
 	/**
@@ -272,6 +385,6 @@ public class Launcher {
 	 *             When a resource could not be read.
 	 */
 	public static void main(String[] args) throws IOException {
-		new Launcher().launch();
+		new Launcher().launch(true);
 	}
 }
