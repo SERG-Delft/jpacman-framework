@@ -142,13 +142,9 @@ public abstract class Game implements LevelObserver {
 		stop();
 	}
 	
-	public void nextLevel() {
-		
-	}
+	public abstract boolean nextLevel();
 
-	public void previousLevel() {
-		
-	}
+	public abstract boolean previousLevel();
 
 	public abstract void setPlayerLevel(int level);
 	

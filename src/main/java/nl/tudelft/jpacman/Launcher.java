@@ -362,7 +362,6 @@ public class Launcher implements GameObserver{
 
 	@Override
 	public void cantStart() {
-		System.out.println("CantStart");
 		JOptionPane.showMessageDialog(pacManUI, "You haven't beated " +
 				"the previous level\n" +
 				"You are not allowed to play this level !");

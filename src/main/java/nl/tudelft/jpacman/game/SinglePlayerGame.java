@@ -121,7 +121,9 @@ public class SinglePlayerGame extends Game {
 				notifyVictory(levelIndex+1);
 				player.setMaxLevel(levelIndex+1);
 			}
-			nextLevel();
+			if(nextLevel()){
+				start();
+			}
 		}
 	}
 	
@@ -147,30 +149,35 @@ public class SinglePlayerGame extends Game {
 	/**
 	 * Switches to the next level if the game is in a state accepting it
 	 */
-	public void nextLevel() {
+	public boolean nextLevel() {
 		if((!getLevel().hasBeenStarted() && !isInProgress())
 			|| getLevel().remainingPellets() <= 0){
-			level.unregisterPlayer(player);
-			levelIndex = (levelIndex + 1);
-			if(levelIndex < levels.length){
+			if(levelIndex + 1 < levels.length){
+				level.unregisterPlayer(player);
+				levelIndex++;
 				level = levels[levelIndex];
 				level.registerPlayer(player);
-				start();
+				return true;
 			}
 		}
+		return false;
 		
 	}
 
 	/**
 	 * Switches to the previous level if the game is in a state accepting it
 	 */
-	public void previousLevel() {
+	public boolean previousLevel() {
 		if(!getLevel().hasBeenStarted() && !isInProgress()){
-			level.unregisterPlayer(player);
-			levelIndex = (levels.length + levelIndex - 1) % levels.length;
-			level = levels[levelIndex];
-			level.registerPlayer(player);
+			if(levelIndex - 1 >= 0){
+				level.unregisterPlayer(player);
+				levelIndex--;
+				level = levels[levelIndex];
+				level.registerPlayer(player);
+				return true;
+			}
 		}
+		return false;
 		
 	}
 

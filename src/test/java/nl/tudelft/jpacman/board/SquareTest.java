@@ -1,14 +1,19 @@
 package nl.tudelft.jpacman.board;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
+import java.util.ArrayList;
+
 import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.level.PlayerFactory;
 import nl.tudelft.jpacman.npc.ghost.Clyde;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.sprite.PacManSprites;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +30,7 @@ public class SquareTest {
 	 */
 	private Square square;
 	private Square[][] s;
+	private Player player;
 	
 
 	/**
@@ -32,6 +38,9 @@ public class SquareTest {
 	 */
 	@Before
 	public void setUp() {
+		PacManSprites sprites = new PacManSprites();
+		PlayerFactory pf = new PlayerFactory(sprites);
+		player = pf.createPacMan();
 		square = new BasicSquare();
 		s = new Square[8][8];
 		for(int i = 0; i < 8; i++){
@@ -96,16 +105,20 @@ public class SquareTest {
 	 */
 	@Test
 	public void testIsValidRespawn(){
-		Unit player = mock(Player.class);
 		Unit ghost = mock(Clyde.class);
-		s[0][0].put(player);
+		player.occupy(s[0][0]);
 		s[3][3].put(ghost);
 		
 		
-		assertTrue(s[1][1].isValidRespawnPoint(player, 3, null));
-		assertTrue(s[5][5].isValidRespawnPoint(player, 3, null));
-		assertFalse(s[4][3].isValidRespawnPoint(player, 3, null));
-		assertFalse(s[1][2].isValidRespawnPoint(player, 3, null));
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				if(Math.abs(i - 3) + Math.abs(j-3) > 3){
+					assertTrue(s[i][j].isValidRespawnPoint(player, 3));
+				}else{
+					assertFalse(s[i][j].isValidRespawnPoint(player, 3));
+				}
+			}
+		}
 		
 	}
 	
@@ -115,15 +128,14 @@ public class SquareTest {
 	 */
 	@Test
 	public void testNearestValidRespawn(){
-		Unit player = mock(Player.class);
 		Unit ghost = mock(Clyde.class);
-		s[0][0].put(player);
+		player.occupy(s[0][0]);
 		s[3][3].put(ghost);
 		
 		for(int i = 0; i < 8; i++){
-			for(int j = 0; i < 8; i++){
-				assertTrue(s[i][j].nearestValidRespawn(
-						player, null).isValidRespawnPoint(player, 3, null));
+			for(int j = 0; j < 8; j++){
+				assertTrue(s[i][j].nearestValidRespawn(player,null)
+						.isValidRespawnPoint(player, 3));
 			}
 		}
 		
