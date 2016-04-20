@@ -28,7 +28,9 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 	public ArrayList<Joueur>listJ=new ArrayList<Joueur>();
 	private Launcher l = new Launcher();
 	
-
+	/**
+	 * Creating buttons for different Monsters
+	 */
 	public void ButtonGhost()
 	{
 		j=new Joueur();
@@ -56,6 +58,9 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 		panel.add(panel2);
 		panel.add(Player,BorderLayout.SOUTH);
 	}
+	/**
+	 * it brings up the buttons one time we chose a number of players
+	 */
 	public void AppaerButtonGhost()
 	{
 		blinky.setVisible(true);
@@ -63,10 +68,16 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 		clyde.setVisible(true);
 		inky.setVisible(true);
 	}
+	/**
+	 * update texte players
+	 */
 	public void AffPlayer()
 	{
 		Player.setText("Joueur "+ numPlayer +", Veuillez chosir votre monstre");
 	}
+	/**
+	 * creating buttons for choosing the number of players
+	 */
 	public void ButtonPlayer()
 	{
 		Player= new JLabel("Joueur "+ numPlayer +", Veuillez chosir votre monstre");
@@ -88,7 +99,9 @@ public class ChoiceMonster extends JFrame implements ActionListener {
 		this.setVisible(true);
 		ButtonGhost();
 	}
-
+	/**
+	 * manages the event of button clicks
+	 */
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
