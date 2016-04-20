@@ -123,7 +123,7 @@ public abstract class Ghost extends NPC {
 	public boolean inPursuitMove(){ return currentMove instanceof PursuitMove; }
 
 	/**
-	 * Define the ghost move strategies.
+	 * Define the ghost move moveStrategies.
 	 *
 	 * @param d
 	 * 		The ghost dispersion move.
@@ -131,7 +131,7 @@ public abstract class Ghost extends NPC {
 	 * @param p
 	 * 		The ghost pursuit move.
      */
-	protected void strategies(MoveStrategy d, MoveStrategy p){
+	protected void moveStrategies(MoveStrategy d, MoveStrategy p){
 		this.dispersion = d;
 		this.pursuit = p;
 		this.currentMove = d;
