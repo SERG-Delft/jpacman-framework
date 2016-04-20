@@ -30,7 +30,7 @@ import com.google.common.collect.Lists;
  * @author Jeroen Roosen 
  * 
  */
-@SuppressWarnings({"magicnumber", "PMD.AvoidDuplicateLiterals"})
+@SuppressWarnings({"magicnumber", "PMD.AvoidDuplicateLiterals", "PMD.TooManyStaticImports"})
 public class NavigationTest {
 
 	/**

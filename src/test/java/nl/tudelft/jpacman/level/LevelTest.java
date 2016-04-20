@@ -20,6 +20,8 @@ import com.google.common.collect.Lists;
  * 
  * @author Jeroen Roosen 
  */
+// The four suppresswarnings ignore the same rule, which results in 4 same string literals
+@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyStaticImports"})
 public class LevelTest {
 
 	/**
