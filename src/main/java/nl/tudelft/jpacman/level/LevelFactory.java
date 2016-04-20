@@ -1,8 +1,5 @@
 package nl.tudelft.jpacman.level;
 
-import java.util.List;
-import java.util.Map;
-
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
@@ -10,8 +7,12 @@ import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
+import nl.tudelft.jpacman.npc.ghost.MoveStrategy;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Factory that creates levels and units.
@@ -21,8 +22,8 @@ import nl.tudelft.jpacman.sprite.Sprite;
 public class LevelFactory {
 
 	private static final int GHOSTS = 4;
-	private static final int BLINKY = 0;
-	private static final int INKY = 1;
+	private static final int BLINKY = 1;
+	private static final int INKY = 0;
 	private static final int PINKY = 2;
 	private static final int CLYDE = 3;
 
@@ -98,7 +99,7 @@ public class LevelFactory {
 		case CLYDE:
 			return ghostFact.createClyde();
 		default:
-			return new RandomGhost(sprites.getGhostSprite(GhostColor.RED));
+			return new RandomGhost(sprites.getGhostSprite(GhostColor.RANDOM));
 		}
 	}
 
@@ -141,6 +142,11 @@ public class LevelFactory {
 		@Override
 		public Direction nextMove() {
 			return randomMove();
+		}
+
+		@Override
+		public MoveStrategy changeMove() {
+			return null;
 		}
 	}
 }
