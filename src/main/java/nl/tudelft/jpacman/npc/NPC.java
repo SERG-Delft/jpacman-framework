@@ -28,7 +28,7 @@ public abstract class NPC extends Unit {
 	public abstract Direction nextMove();
 
 	/**
-	 * Change the ghost move strategy.
+	 * Change the move strategy.
 	 *
 	 * @return The new move strategy between Dispersion and Pursuit to follow.
      */
