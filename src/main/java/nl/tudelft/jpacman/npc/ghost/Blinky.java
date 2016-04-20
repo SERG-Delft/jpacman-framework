@@ -1,14 +1,10 @@
 package nl.tudelft.jpacman.npc.ghost;
 
-import java.util.List;
+import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.sprite.Sprite;
+
 import java.util.Map;
 import java.util.Random;
-
-import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.sprite.Sprite;
 
 /**
  * <p>
@@ -60,6 +56,7 @@ public class Blinky extends Ghost {
 	 */
 	public Blinky(Map<Direction, Sprite> spriteMap) {
 		super(spriteMap);
+		strategies(new BlinkyDispersion(this), new BlinkyPursuit(this));
 	}
 
 	@Override
@@ -84,31 +81,6 @@ public class Blinky extends Ghost {
 	 */
 	@Override
 	public Direction nextMove() {
-		// TODO Blinky should patrol his corner every once in a while
-		// TODO Implement his actual behaviour instead of simply chasing.
-		Direction d = randomMove();
-		Unit player = Navigation.findNearest(Player.class, getSquare());
-
-		if(player != null) d = myPathTo(player.getSquare());
-
-		return d;
-	}
-
-	/**
-	 * The path to follow by Blinky towards the square of Pac-Man.
-	 *
-	 * @param destination
-	 * 		The square of Pac-Man.
-	 *
-	 * @return
-	 * 		The next direction to take by Blinky.
-	 */
-	private Direction myPathTo(Square destination){
-		Direction d = randomMove();
-		List<Direction> path = Navigation.shortestPath(getSquare(), destination, this);
-
-		if (path != null && !path.isEmpty()) d = path.get(0);
-
-		return d;
+		return getCurrentMove().nextMove();
 	}
 }

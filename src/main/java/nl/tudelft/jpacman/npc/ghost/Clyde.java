@@ -1,15 +1,10 @@
 package nl.tudelft.jpacman.npc.ghost;
 
-import java.util.EnumMap;
-import java.util.List;
+import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.sprite.Sprite;
+
 import java.util.Map;
 import java.util.Random;
-
-import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.sprite.Sprite;
 
 /**
  * <p>
@@ -43,11 +38,6 @@ import nl.tudelft.jpacman.sprite.Sprite;
 public class Clyde extends Ghost {
 
 	/**
-	 * The amount of cells Clyde wants to stay away from Pac Man.
-	 */
-	private static final int SHYNESS = 8;
-
-	/**
 	 * The variation in intervals, this makes the ghosts look more dynamic and
 	 * less predictable.
 	 */
@@ -59,18 +49,6 @@ public class Clyde extends Ghost {
 	private static final int MOVE_INTERVAL = 250;
 
 	/**
-	 * A map of opposite directions.
-	 */
-	private static final Map<Direction, Direction> OPPOSITES = new EnumMap<>(
-			Direction.class);
-	static {
-		OPPOSITES.put(Direction.NORTH, Direction.SOUTH);
-		OPPOSITES.put(Direction.SOUTH, Direction.NORTH);
-		OPPOSITES.put(Direction.WEST, Direction.EAST);
-		OPPOSITES.put(Direction.EAST, Direction.WEST);
-	}
-
-	/**
 	 * Creates a new "Clyde", a.k.a. "Pokey".
 	 * 
 	 * @param spriteMap
@@ -78,6 +56,7 @@ public class Clyde extends Ghost {
 	 */
 	public Clyde(Map<Direction, Sprite> spriteMap) {
 		super(spriteMap);
+		strategies(new ClydeDispersion(this), new ClydePursuit(this));
 	}
 
 	@Override
@@ -104,33 +83,6 @@ public class Clyde extends Ghost {
 	 */
 	@Override
 	public Direction nextMove() {
-		Direction d = randomMove();
-		Unit player = Navigation.findNearest(Player.class, getSquare());
-
-		if (player != null) d = myPathTo(player.getSquare());
-
-		return d;
-	}
-
-	/**
-	 * The path to follow by Clyde towards the square of Pac-Man.
-	 *
-	 * @param destination
-	 * 		The square of Pac-Man.
-	 *
-	 * @return
-	 * 		The next direction to take by Clyde.
-	 */
-	private Direction myPathTo(Square destination){
-		Direction d = randomMove();
-		List<Direction> path = Navigation.shortestPath(getSquare(), destination, this);
-
-		if (path != null && !path.isEmpty()){
-			d = path.get(0);
-
-			if(path.size() <= SHYNESS) d = OPPOSITES.get(d);
-		}
-
-		return d;
+		return getCurrentMove().nextMove();
 	}
 }

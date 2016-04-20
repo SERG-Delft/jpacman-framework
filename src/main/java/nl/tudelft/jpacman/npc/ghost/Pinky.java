@@ -1,14 +1,10 @@
 package nl.tudelft.jpacman.npc.ghost;
 
-import java.util.List;
+import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.sprite.Sprite;
+
 import java.util.Map;
 import java.util.Random;
-
-import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.sprite.Sprite;
 
 /**
  * <p>
@@ -49,8 +45,6 @@ import nl.tudelft.jpacman.sprite.Sprite;
  */
 public class Pinky extends Ghost {
 
-	private static final int SQUARES_AHEAD = 4;
-
 	/**
 	 * The variation in intervals, this makes the ghosts look more dynamic and
 	 * less predictable.
@@ -69,7 +63,9 @@ public class Pinky extends Ghost {
 	 *            The sprites for this ghost.
 	 */
 	public Pinky(Map<Direction, Sprite> spriteMap) {
+
 		super(spriteMap);
+		strategies(new PinkyDispersion(this), new PinkyPursuit(this));
 	}
 
 	@Override
@@ -93,52 +89,6 @@ public class Pinky extends Ghost {
 	 */
 	@Override
 	public Direction nextMove() {
-		Direction d = randomMove();
-
-		Unit player = Navigation.findNearest(Player.class, getSquare());
-
-		if (player != null) {
-			Square destination = fourSquaresAway(player.getDirection(), player.getSquare());
-
-			d = myPathTo(destination);
-		}
-
-		return d;
-	}
-
-	/**
-	 * Locate four squares in front of Pac-Man.
-	 *
-	 * @param d
-	 * 		The direction currently followed by Pac-Man.
-	 *
-	 * @param s
-	 * 		The Pac-Man current position.
-	 *
-	 * @return
-	 * 		Four squares in front of Pac-Man in his current direction of travel.
-	 */
-	private Square fourSquaresAway(Direction d, Square s){
-		for (int i = 0; i < SQUARES_AHEAD; i++) s = s.getSquareAt(d);
-
-		return s;
-	}
-
-	/**
-	 * The path to follow by Pinky towards the square at four squares in front of Pac-Man.
-	 *
-	 * @param destination
-	 * 		The square at four squares in front of Pac-Man.
-	 *
-	 * @return
-	 * 		The next direction to take by Pinky.
-     */
-	private Direction myPathTo(Square destination){
-		Direction d = randomMove();
-		List<Direction> path = Navigation.shortestPath(getSquare(),destination, this);
-
-		if (path != null && !path.isEmpty()) d = path.get(0);
-
-		return d;
+		return getCurrentMove().nextMove();
 	}
 }
