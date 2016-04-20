@@ -28,6 +28,12 @@ public class DispersionMove implements MoveStrategy{
      */
     private Direction [] cycle;
 
+    /**
+     * Creates a dispersion mode for the specified ghost.
+     *
+     * @param g
+     *      The ghost at which this will be assigned.
+     */
     public DispersionMove(Ghost g){
         this.ghost = g;
         this.directionCounter = -1;
