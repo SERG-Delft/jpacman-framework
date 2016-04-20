@@ -1,5 +1,11 @@
 package nl.tudelft.jpacman.level;
 
+import nl.tudelft.jpacman.board.Board;
+import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.npc.NPC;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,12 +14,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import nl.tudelft.jpacman.board.Board;
-import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.npc.NPC;
 
 /**
  * A level of Pac-Man. A level consists of the board with the players and the
@@ -325,6 +325,17 @@ public class Level {
 		private final NPC npc;
 
 		/**
+		 * The time to change move strategy.
+		 */
+		private long time;
+
+		/**
+		 * <code>counter</code>: To count the transition from one move mode to another.
+		 * <code>duration</code>: The move duration.
+		 */
+		private int counter, duration;
+
+		/**
 		 * Creates a new task.
 		 * 
 		 * @param s
@@ -335,16 +346,118 @@ public class Level {
 		private NpcMoveTask(ScheduledExecutorService s, NPC n) {
 			this.service = s;
 			this.npc = n;
+			this.time = 0;
+			this.duration = 7000;
+			this.counter = 0;
 		}
 
 		@Override
 		public void run() {
+			if(npc.isInMyCorner() && !npc.inPursuitMove() && getCounter()<7){
+				pursuit();
+			}
+
+			if(!npc.isInMyCorner() && npc.inPursuitMove() && getCounter()<6){
+				dispersion();
+			}
+
 			Direction nextMove = npc.nextMove();
 			if (nextMove != null) {
 				move(npc, nextMove);
 			}
 			long interval = npc.getInterval();
 			service.schedule(this, interval, TimeUnit.MILLISECONDS);
+		}
+
+		/**
+		 * Stopwatch the time spent in move mode.
+		 *
+		 * @return
+		 * 		The time spent in move mode.
+         */
+		private long timer(){
+			return this.time += 238;
+		}
+
+		/**
+		 * Reset <code>time</code>.
+		 */
+		private void resetTimer(){
+			this.time = 0;
+		}
+
+		/**
+		 * Modify the move duration.
+		 *
+		 * @param d
+		 * 		The new duration.
+         */
+		private void setDuration(int d){
+			this.duration = d;
+		}
+
+		/**
+		 * @return
+		 * 		The move duration.
+         */
+		private int getDuration(){
+			return duration;
+		}
+
+		/**
+		 * It counts the transition from one move mode to another.
+		 */
+		private void incrementCounter(){
+			this.counter++;
+		}
+
+		/**
+		 * @return
+		 * 		The number of transition already did.
+         */
+		private int getCounter(){
+			return this.counter;
+		}
+
+		/**
+		 * To pass to the pursuit mode.
+		 */
+		private void pursuit(){
+			if((timer()/getDuration())>=1){
+				npc.changeMove();
+				incrementCounter();
+				resetTimer();
+				setPursuitDuration();
+			}
+		}
+
+		/**
+		 * To pass to the dispersion mode.
+		 */
+		private void dispersion(){
+			if((timer()/getDuration())>=1){
+				npc.changeMove();
+				incrementCounter();
+				resetTimer();
+				setDispersionDuration();
+			}
+		}
+
+		/**
+		 * To set the dispersion move duration.
+		 */
+		private void setDispersionDuration(){
+			if(getCounter() < 4)
+				setDuration(7000);
+			else
+				setDuration(5000);
+		}
+
+		/**
+		 * To set the pursuit move duration.
+		 */
+		private void setPursuitDuration(){
+			setDuration(20000);
 		}
 	}
 
