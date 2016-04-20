@@ -23,18 +23,39 @@ public abstract class Ghost extends NPC {
 	private final Map<Direction, Sprite> sprites;
 
 	/**
+	 * The base move interval of the ghost.
+	 */
+	private final int moveInterval;
+
+	/**
+	 * The random variation added to the {@link #moveInterval}.
+	 */
+	private final int intervalVariation;
+
+	/**
 	 * Creates a new ghost.
-	 * 
+	 *
 	 * @param spriteMap
 	 *            The sprites for every direction.
+	 * @param moveInterval
+	 * 			  The base interval of movement.
+	 * @param intervalVariation
+	 * 			  The variation of the interval.
 	 */
-	protected Ghost(Map<Direction, Sprite> spriteMap) {
+	protected Ghost(Map<Direction, Sprite> spriteMap, int moveInterval, int intervalVariation) {
 		this.sprites = spriteMap;
+		this.intervalVariation = intervalVariation;
+		this.moveInterval = moveInterval;
 	}
 
 	@Override
 	public Sprite getSprite() {
 		return sprites.get(getDirection());
+	}
+
+	@Override
+	public long getInterval() {
+		return this.moveInterval + new Random().nextInt(this.intervalVariation);
 	}
 
 	/**
