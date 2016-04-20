@@ -23,9 +23,21 @@ public abstract class Ghost extends NPC {
 	private final Map<Direction, Sprite> sprites;
 
 	/**
+	 * <code>currentMove</code>: Move currently followed by the ghost.
+	 * <code>dispersion</code>: Ghost dispersion move.
+	 * <code>pursuitMove</code>: Ghost pursuit move.
+	 */
+	private MoveStrategy currentMove, dispersion, pursuit;
+
+	/**
 	 * The square to state the ghost home place.
 	 */
 	private Square home;
+
+	/**
+	 * Boolean to know if it is in corner.
+	 */
+	private boolean inMyCorner;
 
 	/**
 	 * Creates a new ghost.
@@ -35,7 +47,7 @@ public abstract class Ghost extends NPC {
 	 */
 	protected Ghost(Map<Direction, Sprite> spriteMap) {
 		this.sprites = spriteMap;
-		this.home = null;
+		this.inMyCorner = false;
 	}
 
 	@Override
@@ -50,11 +62,80 @@ public abstract class Ghost extends NPC {
 	public void setHome(Square h){ this.home = h; }
 
 	/**
+	 * Allow to a ghost to say if it is in its corner.
+	 *
+	 * @param t
+	 * 		Boolean value. <code>true</code> if it is in its corner, <code>false</code> else.
+     */
+	public void inMyCorner(boolean t){ inMyCorner = t; }
+
+	@Override
+	public boolean isInMyCorner(){ return inMyCorner; }
+
+	/**
 	 * Return the house place.
 	 *
 	 * @return The place for the ghost house.
 	 */
 	public Square getHome(){ return this.home; }
+
+	@Override
+	public MoveStrategy changeMove() {
+		if(!inPursuitMove()){
+			setCurrentMove(pursuit());
+		}else{
+			setCurrentMove(dispersion());
+		}
+
+		return getCurrentMove();
+	}
+
+	/**
+	 *@return The move currently followed by the ghost.
+     */
+	protected MoveStrategy getCurrentMove(){ return currentMove; }
+
+	/**
+	 * Modify the ghost current move.
+	 * @param m
+	 * 		A move strategy.
+     */
+	private void setCurrentMove(MoveStrategy m){
+		currentMove = m;
+	}
+
+	/**
+	 * @return The dispersion move.
+     */
+	private MoveStrategy dispersion(){
+		return dispersion;
+	}
+
+	/**
+	 * @return The pursuit move.
+	 */
+	private MoveStrategy pursuit(){
+		((DispersionMove)dispersion).resetDirectionCounter();
+
+		return pursuit;
+	}
+
+	public boolean inPursuitMove(){ return currentMove instanceof PursuitMove; }
+
+	/**
+	 * Define the ghost move strategies.
+	 *
+	 * @param d
+	 * 		The ghost dispersion move.
+	 *
+	 * @param p
+	 * 		The ghost pursuit move.
+     */
+	protected void strategies(MoveStrategy d, MoveStrategy p){
+		this.dispersion = d;
+		this.pursuit = p;
+		this.currentMove = d;
+	}
 
 	/**
 	 * Determines a possible move in a random direction.
