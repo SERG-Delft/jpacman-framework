@@ -65,7 +65,7 @@ public class Pinky extends Ghost {
 	public Pinky(Map<Direction, Sprite> spriteMap) {
 
 		super(spriteMap);
-		strategies(new PinkyDispersion(this), new PinkyPursuit(this));
+		moveStrategies(new PinkyDispersion(this), new PinkyPursuit(this));
 	}
 
 	@Override

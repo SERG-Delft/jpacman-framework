@@ -60,7 +60,7 @@ public class Inky extends Ghost {
 	 */
 	public Inky(Map<Direction, Sprite> spriteMap) {
 		super(spriteMap);
-		strategies(new InkyDispersion(this), new InkyPursuit(this));
+		moveStrategies(new InkyDispersion(this), new InkyPursuit(this));
 	}
 
 	@Override

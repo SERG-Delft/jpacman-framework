@@ -56,7 +56,7 @@ public class Blinky extends Ghost {
 	 */
 	public Blinky(Map<Direction, Sprite> spriteMap) {
 		super(spriteMap);
-		strategies(new BlinkyDispersion(this), new BlinkyPursuit(this));
+		moveStrategies(new BlinkyDispersion(this), new BlinkyPursuit(this));
 	}
 
 	@Override

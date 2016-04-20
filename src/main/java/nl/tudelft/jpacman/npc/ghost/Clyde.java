@@ -56,7 +56,7 @@ public class Clyde extends Ghost {
 	 */
 	public Clyde(Map<Direction, Sprite> spriteMap) {
 		super(spriteMap);
-		strategies(new ClydeDispersion(this), new ClydePursuit(this));
+		moveStrategies(new ClydeDispersion(this), new ClydePursuit(this));
 	}
 
 	@Override
