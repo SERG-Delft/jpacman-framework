@@ -6,11 +6,26 @@ import nl.tudelft.jpacman.board.Square;
 import java.util.List;
 
 /**
- * Created by NONO TATOU
+ * The ghost dispersion move. This class implements the function <code>nextMove</code> from interface
+ * <code>{@link MoveStrategy}</code>.
+ *
+ * @author NONO TATOU P.G.
  */
 public class DispersionMove implements MoveStrategy{
+    /**
+     * The ghost at which implement this move.
+     */
     private Ghost ghost;
+
+    /**
+     * <code>directionCounter</code>: Useful to determine the next direction to take.
+     * <code>pathLength</code>: The length path to follow.
+     */
     private int directionCounter, pathLength;
+
+    /**
+     * The path to follow.
+     */
     private Direction [] cycle;
 
     public DispersionMove(Ghost g){
@@ -24,7 +39,7 @@ public class DispersionMove implements MoveStrategy{
         Square home = getGhost().getHome();
         Direction d = getGhost().randomMove();
 
-        if(origin == home || this.directionCounter > -1) {
+        if(origin == home || getGhost().isInMyCorner()) {
             d = cycle();
         }else{
             List<Direction> path = Navigation.shortestPath(origin,home,getGhost());
@@ -35,25 +50,61 @@ public class DispersionMove implements MoveStrategy{
         return d;
     }
 
+    /**
+     * Compute the next direction to take in the path to follow.
+     *
+     * @return
+     *      The direction to take.
+     */
     private Direction cycle(){
-        getGhost().atHome(true);
+        getGhost().inMyCorner(true);
 
         return this.cycle[nextDirection()];
     }
 
+    /**
+     * @return The ghost at which this is implemented.
+     */
     private Ghost getGhost(){ return this.ghost; }
 
+    /**
+     * Increments the direction counter.
+     *
+     * @return
+     *      The number of directions already followed.
+     */
     private int getDirectionCounter(){ return ++this.directionCounter; }
 
+    /**
+     * Set the direction counter to '-1'.
+     */
     public void resetDirectionCounter(){
-        getGhost().atHome(false);
+        getGhost().inMyCorner(false);
 
         this.directionCounter = -1;
     }
 
+    /**
+     * Set the path to follow by the ghost.
+     *
+     * @param c
+     *      The path to follow by the ghost.
+     */
     protected void setCycle(Direction[] c){ this.cycle = c; }
 
+    /**
+     * Set the path length to follow by the ghost.
+     *
+     * @param l
+     *      The path length to follow.
+     */
     protected void setCycleLength(int l){ this.pathLength = l; }
 
+    /**
+     * Computes the next direction to take.
+     *
+     * @return
+     *      The next direction to take.
+     */
     private int nextDirection(){ return getDirectionCounter() % this.pathLength;}
 }
