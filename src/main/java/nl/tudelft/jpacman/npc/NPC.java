@@ -2,6 +2,7 @@ package nl.tudelft.jpacman.npc;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.npc.ghost.MoveStrategy;
 
 /**
  * A non-player unit.
@@ -26,4 +27,24 @@ public abstract class NPC extends Unit {
 	 */
 	public abstract Direction nextMove();
 
+	/**
+	 * Change the ghost move strategy.
+	 *
+	 * @return The new move strategy between Dispersion and Pursuit to follow.
+     */
+	public abstract MoveStrategy changeMove();
+
+	/**
+	 * Test if it is in its corner.
+	 *
+	 * @return True if it is in its corner.
+     */
+	public abstract boolean isInMyCorner();
+
+	/**
+	 * Test if it is in pursuit move.
+	 *
+	 * @return True if it is in pursuit move.
+     */
+	public abstract boolean inPursuitMove();
 }
