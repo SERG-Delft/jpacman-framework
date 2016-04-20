@@ -138,7 +138,7 @@ public class MapParser {
 
 	private void assignHouseToGhost(List<Square> houses, List<NPC> ghosts){
 		int size = ghosts.size();
-		int[] housePlace = {3,2,0,1};
+		int[] housePlace = {2,3,0,1};
 
 		for(int i = 0; i < size; i++)
 			((Ghost)ghosts.get(i)).setHome(houses.get(housePlace[i]));
