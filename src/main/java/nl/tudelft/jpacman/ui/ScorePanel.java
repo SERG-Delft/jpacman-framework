@@ -32,7 +32,7 @@ public class ScorePanel extends JPanel {
 	/**
 	 * The default way in which the score is shown.
 	 */
-	public static final ScoreFormatter DEFAULT_SCORE_FORMATTER = 
+	public static final ScoreFormatter DEFAULT_SCORE_FORMATTER =
 			// this lambda breaks cobertura 2.7 ...
 			// player) -> String.format("Score: %3d", player.getScore());
 			new ScoreFormatter() {
@@ -40,7 +40,7 @@ public class ScorePanel extends JPanel {
 					return String.format("Score: %3d", p.getScore());
 				}
 			};
-	
+
 	/**
 	 * The way to format the score information.
 	 */
@@ -73,13 +73,14 @@ public class ScorePanel extends JPanel {
 	 * Refreshes the scores of the players.
 	 */
 	protected void refresh() {
-		for (Player p : scoreLabels.keySet()) {
+		for (Map.Entry<Player, JLabel> entry : scoreLabels.entrySet()) {
+			Player p = entry.getKey();
 			String score = "";
 			if (!p.isAlive()) {
 				score = "You died. ";
 			}
 			score += scoreFormatter.format(p);
-			scoreLabels.get(p).setText(score);
+			entry.getValue().setText(score);
 		}
 	}
 	
