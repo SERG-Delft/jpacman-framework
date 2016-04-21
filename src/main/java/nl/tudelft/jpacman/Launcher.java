@@ -19,6 +19,9 @@ import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.ui.Action;
 import nl.tudelft.jpacman.ui.PacManUI;
 import nl.tudelft.jpacman.ui.PacManUiBuilder;
+import CraeyeMathieu.ChoiceMonster;
+import CraeyeMathieu.Classement;
+import CraeyeMathieu.Joueur;
 
 /**
  * Creates and launches the JPacMan UI.
@@ -28,7 +31,7 @@ import nl.tudelft.jpacman.ui.PacManUiBuilder;
 public class Launcher {
 
 	private static final PacManSprites SPRITE_STORE = new PacManSprites();
-
+	public static ChoiceMonster cM;
 	private PacManUI pacManUI;
 	private Game game;
 
@@ -45,10 +48,10 @@ public class Launcher {
 	 * 
 	 * @return a new Game.
 	 */
-	public Game makeGame() {
+	public Game makeGame(Joueur joueur) {
 		GameFactory gf = getGameFactory();
 		Level level = makeLevel();
-		return gf.createSinglePlayerGame(level);
+		return gf.createSinglePlayerGame(level,joueur);
 	}
 
 	/**
@@ -108,7 +111,7 @@ public class Launcher {
 	/**
 	 * @return A new factory using the players from {@link #getPlayerFactory()}.
 	 */
-	protected GameFactory getGameFactory() {
+	public GameFactory getGameFactory() {
 		return new GameFactory(getPlayerFactory());
 	}
 
@@ -172,13 +175,18 @@ public class Launcher {
 	 * Creates and starts a JPac-Man game.
 	 */
 	public void launch() {
-		game = makeGame();
+		new Classement().ClassementJoueur();
+		game = makeGame(cM.listJ.get(cM.j.getNbrJoueur()-1));
 		PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
 		addSinglePlayerKeys(builder, game);
 		pacManUI = builder.build(game);
 		pacManUI.start();
+		cM.j.SetNbrJoueur(cM.j.getNbrJoueur()-1);
 	}
-
+	public void before()
+	{
+		cM.ButtonPlayer();
+	}
 	/**
 	 * Disposes of the UI. For more information see {@link javax.swing.JFrame#dispose()}.
 	 */
@@ -195,6 +203,7 @@ public class Launcher {
 	 *             When a resource could not be read.
 	 */
 	public static void main(String[] args) throws IOException {
-		new Launcher().launch();
+		cM=new ChoiceMonster();
+		new Launcher().before();
 	}
 }

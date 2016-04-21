@@ -1,9 +1,14 @@
 package nl.tudelft.jpacman.level;
 
+
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.fruit.Fruit;
 import nl.tudelft.jpacman.fruit.Pomegranate;
+import CraeyeMathieu.ChoiceMonster;
+import CraeyeMathieu.Classement;
+import nl.tudelft.jpacman.Launcher;
+import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.specialcase.Bridge;
 import nl.tudelft.jpacman.specialcase.SpecialSquare;
@@ -91,6 +96,7 @@ public class PlayerCollisions implements CollisionMap {
      * @param player The player involved in the collision.
      * @param ghost The ghost involved in the collision.
 	 */
+
 	public void playerVersusGhost(Player player, Ghost ghost)
 	{
 		if(player.isInvisible()==false)
@@ -104,16 +110,45 @@ public class PlayerCollisions implements CollisionMap {
 				if(playerBridge.getEnterDirection(player).equals(ghostBridge.getEnterDirection(ghost)) )
 				{
 					player.setAlive(false);
+					changePlayer(player);
 				}
 				
 			}else
 			{
 					player.setAlive(false);
+					changePlayer(player);
 			}
-		
-			
 		}
 	}
+	
+	
+	public  void changePlayer(Player player)
+	{
+		Launcher l=new Launcher();
+		
+		switch(player.getName())
+		{
+		case "blinky":
+			l.cM.jBlinky.setScore(player.getScore());
+		break;
+		case "inky":
+			l.cM.jInky.setScore(player.getScore());
+		break;
+		case "clyde":
+			l.cM.jClyde.setScore(player.getScore());
+		break;
+		case "pinky":
+			l.cM.jPinky.setScore(player.getScore());
+		break;
+		
+		
+		}
+		l.launch();
+		
+	}
+	
+		
+
 	
 	/**
 	 * Actual case of player consuming a pellet.

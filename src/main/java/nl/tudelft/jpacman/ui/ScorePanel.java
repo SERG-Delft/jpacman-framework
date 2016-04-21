@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import CraeyeMathieu.ChoiceMonster;
 import nl.tudelft.jpacman.level.Player;
 
 /**
@@ -37,6 +38,7 @@ public class ScorePanel extends JPanel {
 			// player) -> String.format("Score: %3d", player.getScore());
 			new ScoreFormatter() {
 				public String format(Player p) {
+							
 					return String.format("Score: %3d", p.getScore());
 				}
 			};
@@ -77,6 +79,7 @@ public class ScorePanel extends JPanel {
 			String score = "";
 			if (!p.isAlive()) {
 				score = "You died. ";
+				
 			}
 			score += scoreFormatter.format(p);
 			scoreLabels.get(p).setText(score);
