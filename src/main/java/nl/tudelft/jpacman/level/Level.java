@@ -23,6 +23,7 @@ import nl.tudelft.jpacman.npc.NPC;
  * 
  * @author Jeroen Roosen 
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class Level {
 
 	/**

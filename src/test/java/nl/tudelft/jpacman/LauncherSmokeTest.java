@@ -55,7 +55,7 @@ public class LauncherSmokeTest {
      * 
      * @throws InterruptedException Since we're sleeping in this test.
      */
-    @SuppressWarnings("methodlength")
+    @SuppressWarnings({"methodlength", "PMD.JUnitTestContainsTooManyAsserts"})
     @Test
     public void smokeTest() throws InterruptedException {
         Game game = launcher.getGame();        
