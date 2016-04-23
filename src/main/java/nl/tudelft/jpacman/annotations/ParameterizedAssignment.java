@@ -8,11 +8,13 @@ import java.lang.annotation.RetentionPolicy;
  *
  * A Students Solution class for the boundary testing exercise should have the following:
  *
- * @ParameterizedAssignment
- * @RunWith(Parameterized.class)
+ * <pre class="code"><code class="java">
+ * &#064;ParameterizedAssignment
+ * &#064;RunWith(Parameterized.class)
  * public class WithinBordersTest {
  *     //tests
  * }
+ * </code></pre>
  */
 @Retention(RetentionPolicy.CLASS)
 public @interface ParameterizedAssignment {
