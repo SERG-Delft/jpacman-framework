@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import nl.tudelft.jpacman.board.Board;
@@ -154,9 +155,11 @@ public class NavigationTest {
 	 */
 	@Test
 	public void testFullSizedLevel() throws IOException {
-		Board b = parser.parseMap(getClass().getResourceAsStream("/board.txt")).getBoard();
-		Square s1 = b.squareAt(1, 1);
-		Unit unit = Navigation.findNearest(Ghost.class, s1);
-		assertNotNull(unit);
+		try (InputStream i = getClass().getResourceAsStream("/board.txt")) {
+			Board b = parser.parseMap(i).getBoard();
+			Square s1 = b.squareAt(1, 1);
+			Unit unit = Navigation.findNearest(Ghost.class, s1);
+			assertNotNull(unit);
+		}
 	}
 }
