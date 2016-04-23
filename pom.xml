@@ -155,6 +155,8 @@
 				<configuration>
 					<configLocation>${basedir}/checkstyle.xml</configLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					<failOnViolation>true</failOnViolation>
+					<violationSeverity>warning</violationSeverity>
 				</configuration>
 			</plugin>
 
@@ -308,12 +310,6 @@
 					<configLocation>${basedir}/checkstyle.xml</configLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>${findbugs.plugin.version}</version>
 			</plugin>
 
 			<plugin>

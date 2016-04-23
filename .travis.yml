@@ -1,7 +1,13 @@
 language: java
+sudo: false
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 jdk:
   - oraclejdk8
-script: "mvn clean test"
+env:
+  - COMMAND=test
+  - COMMAND=checkstyle:check
+  - COMMAND=pmd:check
+  - COMMAND="install -D skipTests=true findbugs:check"
+script: "mvn clean $COMMAND"
