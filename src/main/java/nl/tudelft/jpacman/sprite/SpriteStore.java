@@ -25,7 +25,7 @@ public class SpriteStore {
 	 * Create a new sprite store.
 	 */
 	public SpriteStore() {
-		spriteMap = new HashMap<String, Sprite>();
+		spriteMap = new HashMap<>();
 	}
 	
 	/**

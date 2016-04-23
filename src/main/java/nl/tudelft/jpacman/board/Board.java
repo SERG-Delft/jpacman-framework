@@ -30,9 +30,9 @@ public class Board {
 	 * @return false if any square on the board is null.
 	 */
 	protected final boolean invariant() {
-		for (int x = 0; x < board.length; x++) {
-			for (int y = 0; y < board[x].length; y++) {
-				if (board[x][y] == null) {
+		for (Square[] row : board) {
+			for (Square square : row) {
+				if (square == null) {
 					return false;
 				}
 			}
