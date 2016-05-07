@@ -31,7 +31,7 @@ public class LauncherSuperPelletSmokeTest extends LauncherSmokeTest{
     @Before
     public void setUpPacman() {
         launcher = new LauncherSuperPellet();
-        launcher.launch();
+        launcher.launch(false);
     }
 
     /**
