@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 
+import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.sprite.Sprite;
 
 /**
@@ -112,6 +113,78 @@ public abstract class Square {
 			}
 		}
 		return true;
+	}
+	/**
+	 * Returns the nearest square which is valid for pacman to respawn in
+	 * @return
+	 */
+	public Square nearestValidRespawn(Unit player, List<Square> visited) {
+		if(visited == null){
+			visited = new ArrayList<Square>();
+		}
+		if(this != null){
+			if(isAccessibleTo(player) && isValidRespawnPoint(player, 3)
+					&& isConnectedTo(player, player.getSquare(), null)){
+				return this;
+			}
+			for(Direction d: Direction.values()){
+				Square sq = getSquareAt(d);
+				if(!visited.contains(sq) && sq != null){
+					visited.add(sq);
+					Square result = sq.nearestValidRespawn(player, visited);
+					if(result != null)
+					return result;
+				}
+			}
+		}
+		return null;
+		
+	}
+	
+	/**
+	 * Determines whether the unit is allowed to respawn on this square
+	 * 
+	 * @param player
+	 * @param x
+	 * @return true iff there is no ghost x squares around this square
+	 */
+	public boolean isValidRespawnPoint(Unit player, int x){
+		for(Unit unit : occupants){
+			if(unit instanceof Ghost){
+				return false;
+			}
+		}
+		if(x > 0){
+			for(Direction d : Direction.values()){
+				Square s = getSquareAt(d);
+				if(!s.isValidRespawnPoint(player, x-1)){
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public boolean isConnectedTo(Unit player, Square s, List<Square> visited){
+		if(visited == null){
+			visited = new ArrayList<Square>();
+		}
+		if(s == this){
+			return true;
+		}
+		for(Direction d : Direction.values()){
+			Square sq = s.getSquareAt(d);
+			if(!visited.contains(sq)){
+				visited.add(sq);
+				if(sq.isAccessibleTo(player)){
+					if(isConnectedTo(player, sq, visited)){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	/**

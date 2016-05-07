@@ -21,7 +21,7 @@ import nl.tudelft.jpacman.npc.NPC;
  * 
  * @author Jeroen Roosen 
  */
-public class Level {
+public class Level{
 
 	/**
 	 * The board of this level.
@@ -74,6 +74,11 @@ public class Level {
 	 * The objects observing this level.
 	 */
 	private final List<LevelObserver> observers;
+
+	/**
+	 * true iff this level has ever been started
+	 */
+	private boolean alreadyStarted = false;
 
 	/**
 	 * Creates a new level for the board.
@@ -150,6 +155,20 @@ public class Level {
 		startSquareIndex++;
 		startSquareIndex %= startSquares.size();
 	}
+	
+	/**
+	 * Unregister a player of this level if it is indeed present
+	 * 
+	 * @param p
+	 * 			The player to remove
+	 */
+	public void unregisterPlayer(Player p){
+		assert p != null;
+		if (players.contains(p)){
+			p.leaveSquare();
+			players.remove(p);
+		}
+	}
 
 	/**
 	 * Returns the board of this level.
@@ -199,6 +218,7 @@ public class Level {
 	 */
 	public void start() {
 		synchronized (startStopLock) {
+			alreadyStarted  = true;
 			if (isInProgress()) {
 				return;
 			}
@@ -249,6 +269,14 @@ public class Level {
 	 */
 	public boolean isInProgress() {
 		return inProgress;
+	}
+	/**
+	 * Returns whether this level has been started or not
+	 * 
+	 * @return true iff this level has ever been started
+	 */
+	public boolean hasBeenStarted(){
+		return alreadyStarted;
 	}
 
 	/**

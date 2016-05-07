@@ -71,6 +71,19 @@ public class LevelTest {
 	public void noStart() {
 		assertFalse(level.isInProgress());
 	}
+	
+	/**
+	 * Tests that the method hasBeenStarted do what it is upposed 
+	 * to do
+	 */
+	@Test
+	public void alreadyStartedTest(){
+		assertFalse(level.hasBeenStarted());
+		level.start();
+		assertTrue(level.hasBeenStarted());
+		level.stop();
+		assertTrue(level.hasBeenStarted());
+	}
 
 	/**
 	 * Validates the state of the level when it is stopped without starting.
@@ -153,4 +166,19 @@ public class LevelTest {
 		level.registerPlayer(p3);
 		verify(p3).occupy(square1);
 	}
+	
+	/**
+	 * Verifies that the unregister method is functionnal
+	 */
+	@Test
+	@SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
+	public void unregisterTest(){
+		Player p1 = mock(Player.class);
+		level.registerPlayer(p1);
+		verify(p1).occupy(square1);
+		level.unregisterPlayer(p1);
+		verify(p1).leaveSquare();
+		
+	}
+	
 }

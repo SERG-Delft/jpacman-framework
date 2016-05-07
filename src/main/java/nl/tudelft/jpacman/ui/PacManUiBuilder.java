@@ -23,6 +23,8 @@ public class PacManUiBuilder {
 	 * Caption for the default start button.
 	 */
 	private static final String START_CAPTION = "Start";
+	private static final String NEXT_CAPTION = "Next Level";
+	private static final String PREVIOUS_CAPTION = "Previous Level";
 
 	/**
 	 * Map of buttons and their actions.
@@ -43,6 +45,11 @@ public class PacManUiBuilder {
 	 * Way to format the score.
 	 */
 	private ScoreFormatter scoreFormatter = null;
+
+	/**
+	 * true iff this UI has the multiple level button pattern
+	 */
+	private boolean levelButtons;
 
 	/**
 	 * Creates a new Pac-Man UI builder without any mapped keys or buttons.
@@ -66,8 +73,49 @@ public class PacManUiBuilder {
 		if (defaultButtons) {
 			addStartButton(game);
 			addStopButton(game);
+		}else if(levelButtons){
+			addPreviousLevelButton(game);
+			addStartButton(game);
+			addStopButton(game);
+			addNextLevelButton(game);
 		}
 		return new PacManUI(game, buttons, keyMappings, scoreFormatter);
+	}
+
+	/**
+	 * Adds a button to switch to the next level
+	 * 
+	 * @param game
+	 * 				The game that needs to switch to the next level
+	 */
+	private void addNextLevelButton(final Game game) {
+		assert game != null;
+
+		buttons.put(NEXT_CAPTION, new Action() {
+			@Override
+			public void doAction() {
+				game.nextLevel();
+			}
+		});
+		
+	}
+	
+	/**
+	 * Adds a button to switch to the previous level
+	 * 
+	 * @param game
+	 * 				the game that needs to switch to the previous level
+	 */
+	private void addPreviousLevelButton(final Game game) {
+		assert game != null;
+
+		buttons.put(PREVIOUS_CAPTION, new Action() {
+			@Override
+			public void doAction() {
+				game.previousLevel();
+			}
+		});
+		
 	}
 
 	/**
@@ -164,6 +212,21 @@ public class PacManUiBuilder {
 	 */
 	public PacManUiBuilder withScoreFormatter(ScoreFormatter sf) {
 		scoreFormatter = sf;
+		return this;
+	}
+
+	/**
+	 * Adds a previous level, start, stop and next level button to the UI
+	 * The actions will be added upon building the UI
+	 * 
+	 * @return The builder
+	 */
+	public PacManUiBuilder withLevelsButtons() {
+		levelButtons = true;
+		buttons.put(PREVIOUS_CAPTION, null);
+		buttons.put(START_CAPTION, null);
+		buttons.put(STOP_CAPTION, null);
+		buttons.put(NEXT_CAPTION, null);
 		return this;
 	}
 }

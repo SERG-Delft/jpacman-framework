@@ -13,7 +13,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * 
  * @author Jeroen Roosen 
  */
-public class Player extends Unit {
+public class Player extends Unit{
 
 	/**
 	 * number of ghost eated.
@@ -28,6 +28,11 @@ public class Player extends Unit {
 	 * The amount of points accumulated by this player.
 	 */
 	private int score;
+	
+	/**
+	 * The amount of remaining lifes the player has.
+	 */
+	private int lifes;
 
 	/**
 	 * The animations for every direction.
@@ -44,6 +49,8 @@ public class Player extends Unit {
 	 */
 	private boolean alive;
 
+	private int maxLevel;
+
 	/**
 	 * Creates a new player with a score of 0 points.
 	 * 
@@ -54,6 +61,8 @@ public class Player extends Unit {
 	 */
 	Player(Map<Direction, Sprite> spriteMap, AnimatedSprite deathAnimation) {
 		this.score = 0;
+		this.lifes = 3;
+		this.maxLevel = 0;
 		this.alive = true;
 		this.sprites = spriteMap;
 		this.deathSprite = deathAnimation;
@@ -80,11 +89,13 @@ public class Player extends Unit {
 	public void setAlive(boolean isAlive) {
 		if (isAlive) {
 			deathSprite.setAnimating(false);
+			this.alive = true;
 		}
-		if (!isAlive) {
+		if (!isAlive && isAlive()) {
+			this.lifes--;
 			deathSprite.restart();
+			this.alive = false;
 		}
-		this.alive = isAlive;
 	}
 
 	/**
@@ -105,14 +116,41 @@ public class Player extends Unit {
 	}
 
 	/**
-	 * Adds points to the score of this player.
+	 * Adds points to the score of this player and handle the lifes bonus.
 	 * 
 	 * @param points
 	 *            The amount of points to add to the points this player already
 	 *            has.
 	 */
 	public void addPoints(int points) {
-		score += points;
+		int newScore = score + points;
+		if(newScore / 10000 > score / 10000){
+			lifes += (newScore / 10000) - (score / 10000);
+		}
+		score = newScore;
+	}
+
+	/**
+	 * Returns true if the player has at least a remaining life
+	 * 
+	 * @return
+	 */
+	public boolean hasLifeRemaining() {
+		// TODO Auto-generated method stub
+		return lifes >= 0;
+	}
+
+	public void setMaxLevel(int level) {
+		maxLevel = level;
+		
+	}
+
+	public int getMaxLevel() {
+		return maxLevel;
+	}
+
+	public int getLifes() {
+		return lifes;
 	}
 
 	/**
