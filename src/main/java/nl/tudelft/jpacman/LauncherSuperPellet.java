@@ -22,7 +22,7 @@ public class LauncherSuperPellet extends Launcher {
      *             When a resource could not be read.
      */
     public static void main(String[] args) throws IOException {
-        new LauncherSuperPellet().launch(false);
+        new LauncherSuperPellet().launch(true);
     }
 
     @Override
