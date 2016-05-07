@@ -2,6 +2,8 @@ package nl.tudelft.jpacman.npc;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.npc.ghost.Strategy;
+
 
 /**
  * A non-player unit.
@@ -16,6 +18,12 @@ public abstract class NPC extends Unit {
 	 * @return The suggested delay between moves in milliseconds.
 	 */
 	public abstract long getInterval();
+	
+	protected String strategy;
+	
+	public NPC(String strategy){
+		this.strategy=strategy;
+	}
 
 	/**
 	 * Calculates the next move for this unit and returns the direction to move
@@ -26,4 +34,8 @@ public abstract class NPC extends Unit {
 	 */
 	public abstract Direction nextMove();
 
+	public abstract String getStrategy();
+	
+	
+	public abstract void setStrategy(String strategy);
 }

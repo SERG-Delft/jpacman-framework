@@ -27,6 +27,8 @@ public class Level {
 	 * The board of this level.
 	 */
 	private final Board board;
+	
+	
 
 	/**
 	 * The lock that ensures moves are executed sequential.
@@ -198,6 +200,7 @@ public class Level {
 	 * NPCs.
 	 */
 	public void start() {
+
 		synchronized (startStopLock) {
 			if (isInProgress()) {
 				return;
@@ -226,6 +229,7 @@ public class Level {
 	 * Starts all NPC movement scheduling.
 	 */
 	private void startNPCs() {
+		
 		for (final NPC npc : npcs.keySet()) {
 			ScheduledExecutorService service = Executors
 					.newSingleThreadScheduledExecutor();
@@ -240,6 +244,7 @@ public class Level {
 	 * executed.
 	 */
 	private void stopNPCs() {
+		
 		for (Entry<NPC, ScheduledExecutorService> e : npcs.entrySet()) {
 			e.getValue().shutdownNow();
 		}
@@ -307,6 +312,8 @@ public class Level {
 		return pellets;
 	}
 
+	
+	
 	/**
 	 * A task that moves an NPC and reschedules itself after it finished.
 	 * 
@@ -324,6 +331,7 @@ public class Level {
 		 */
 		private final NPC npc;
 
+		private long temps;
 		/**
 		 * Creates a new task.
 		 * 
@@ -335,19 +343,31 @@ public class Level {
 		private NpcMoveTask(ScheduledExecutorService s, NPC n) {
 			this.service = s;
 			this.npc = n;
+			this.temps=0;
 		}
-
+		
 		@Override
 		public void run() {
+			System.out.println(this.temps);
+		   if ((this.temps >=7000 && this.temps < 27000) || (this.temps >=34000 && this.temps < 54000)
+				   || (this.temps >=59000 && this.temps < 79000) || (this.temps >= 84000)){
+			   npc.setStrategy("modePoursuite");
+		   }
+		   else if ((this.temps >=27000 && this.temps < 34000) || (this.temps >=54000 && this.temps < 59000)
+				   || (this.temps >=79000 && this.temps < 84000)){
+			   npc.setStrategy("modeDispersion");
+		   }
 			Direction nextMove = npc.nextMove();
 			if (nextMove != null) {
 				move(npc, nextMove);
 			}
 			long interval = npc.getInterval();
 			service.schedule(this, interval, TimeUnit.MILLISECONDS);
+			this.temps=this.temps + 262;
+		
+			}
 		}
-	}
-
+	
 	/**
 	 * An observer that will be notified when the level is won or lost.
 	 * 

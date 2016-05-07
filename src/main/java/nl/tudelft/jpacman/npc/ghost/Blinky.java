@@ -49,7 +49,8 @@ public class Blinky extends Ghost {
 	/**
 	 * The base movement interval.
 	 */
-	private static final int MOVE_INTERVAL = 250;
+	private /*static final*/ int MOVE_INTERVAL = 250;
+
 
 	/**
 	 * Creates a new "Blinky", a.k.a. "Shadow".
@@ -57,17 +58,29 @@ public class Blinky extends Ghost {
 	 * @param spriteMap
 	 *            The sprites for this ghost.
 	 */
-	public Blinky(Map<Direction, Sprite> spriteMap) {
-		super(spriteMap);
+	public Blinky(Map<Direction, Sprite> spriteMap, boolean aH, String strategy, Direction[] dir) {
+		super(spriteMap, aH, strategy);
+		this.cheminEnCours=dir;
+		this.chemin=dir;
 	}
 
+	
+	public Direction[] getChemin(){
+		return this.chemin;
+	}
 	@Override
 	public long getInterval() {
 		// TODO Blinky should speed up when there are a few pellets left, but he
 		// has no way to find out how many there are.
-		return MOVE_INTERVAL + new Random().nextInt(INTERVAL_VARIATION);
+		if ((int)(Math.random()*(10))==5){
+		MOVE_INTERVAL = MOVE_INTERVAL - 5;
+		}
+		return MOVE_INTERVAL+ new Random().nextInt(INTERVAL_VARIATION);
 	}
 
+	
+
+	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -83,23 +96,14 @@ public class Blinky extends Ghost {
 	 */
 	@Override
 	public Direction nextMove() {
-		// TODO Blinky should patrol his corner every once in a while
-		// TODO Implement his actual behaviour instead of simply chasing.
-		Square target = Navigation.findNearest(Player.class, getSquare())
-				.getSquare();
-
-		if (target == null) {
-			Direction d = randomMove();
-			return d;
+		if (this.getStrategy() == "modePoursuite"){
+			PoursuiteBlinky pp = new PoursuiteBlinky(this);
+			return pp.nextMove();
 		}
-		
-		List<Direction> path = Navigation.shortestPath(getSquare(), target,
-				this);
-		if (path != null && !path.isEmpty()) {
-			Direction d = path.get(0);
-			return d;
+		else if (this.getStrategy() == "modeDispersion"){
+			DispersionBlinky db = new DispersionBlinky(this);
+			return db.nextMove();
 		}
-		Direction d = randomMove();
-		return d;
+		return this.randomMove();
 	}
 }

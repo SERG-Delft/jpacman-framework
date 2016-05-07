@@ -62,14 +62,17 @@ public class Pinky extends Ghost {
 	 */
 	private static final int MOVE_INTERVAL = 200;
 
+	
 	/**
 	 * Creates a new "Pinky", a.k.a. "Speedy".
 	 * 
 	 * @param spriteMap
 	 *            The sprites for this ghost.
 	 */
-	public Pinky(Map<Direction, Sprite> spriteMap) {
-		super(spriteMap);
+	public Pinky(Map<Direction, Sprite> spriteMap, boolean aH,String strategy, Direction[] dir) {
+		super(spriteMap,aH, strategy);
+		this.chemin=dir;
+		this.cheminEnCours=dir;
 	}
 
 	@Override
@@ -92,26 +95,19 @@ public class Pinky extends Ghost {
 	 * </p>
 	 */
 	@Override
-	public Direction nextMove() {
-		Unit player = Navigation.findNearest(Player.class, getSquare());
-		if (player == null) {
-			Direction d = randomMove();
-			return d;
+	public Direction nextMove(){
+		
+		if (this.getStrategy() == "modePoursuite"){
+			PoursuitePinky pp = new PoursuitePinky(this);
+			return pp.nextMove();
 		}
-
-		Direction targetDirection = player.getDirection();
-		Square destination = player.getSquare();
-		for (int i = 0; i < SQUARES_AHEAD; i++) {
-			destination = destination.getSquareAt(targetDirection);
+		else if (this.getStrategy() == "modeDispersion"){
+			DispersionPinky dp = new DispersionPinky(this);
+			return dp.nextMove();
 		}
-
-		List<Direction> path = Navigation.shortestPath(getSquare(),
-				destination, this);
-		if (path != null && !path.isEmpty()) {
-			Direction d = path.get(0);
-			return d;
+		return this.randomMove();
 		}
-		Direction d = randomMove();
-		return d;
-	}
 }
+
+
+

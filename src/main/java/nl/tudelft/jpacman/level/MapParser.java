@@ -12,6 +12,8 @@ import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.Blinky;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 /**
  * Creates new {@link Level}s from text representations.
@@ -43,6 +45,7 @@ public class MapParser {
 		this.boardCreator = boardFactory;
 	}
 
+	public List<Square> SqA;
 	/**
 	 * Parses the text representation of the board into an actual level.
 	 * 
@@ -72,11 +75,13 @@ public class MapParser {
 		makeGrid(map, width, height, grid, ghosts, startPositions);
 		
 		Board board = boardCreator.createBoard(grid);
+		Rangement(ghosts);
 		return levelCreator.createLevel(board, ghosts, startPositions);
 	}
 
 	private void makeGrid(char[][] map, int width, int height,
 			Square[][] grid, List<NPC> ghosts, List<Square> startPositions) {
+		this.SqA = new ArrayList<>();
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				char c = map[x][y];
@@ -87,12 +92,20 @@ public class MapParser {
 
 	private void addSquare(Square[][] grid, List<NPC> ghosts,
 			List<Square> startPositions, int x, int y, char c) {
+		//Créer une liste de Square représentant les squares des coins
 		switch (c) {
 		case ' ':
 			grid[x][y] = boardCreator.createGround();
 			break;
 		case '#':
 			grid[x][y] = boardCreator.createWall();
+			break;
+		case 'A':
+			Square pelletSquare1 = boardCreator.createGround();
+			System.out.println(x+" "+ y);
+			grid[x][y] = pelletSquare1;
+			this.SqA.add(pelletSquare1);
+			levelCreator.createPellet().occupy(pelletSquare1);
 			break;
 		case '.':
 			Square pelletSquare = boardCreator.createGround();
@@ -113,7 +126,38 @@ public class MapParser {
 					+ x + "," + y + ": " + c);
 		}
 	}
-
+	
+	public void Rangement(List<NPC> ghosts){
+		ArrayList<Ghost> gH = new ArrayList<Ghost>();
+		for (NPC z : ghosts){
+				if (z instanceof Ghost){
+				gH.add((Ghost)z);
+			}
+		}
+		System.out.println(this.SqA);
+		System.out.println(ghosts.get(0));
+		System.out.println(ghosts.get(1));
+		System.out.println(ghosts.get(2));
+		System.out.println(ghosts.get(3));
+		gH.get(0).setHome(this.SqA.get(2));
+		gH.get(1).setHome(this.SqA.get(3));
+		gH.get(2).setHome(this.SqA.get(0));
+		gH.get(3).setHome(this.SqA.get(1));
+}
+	
+	
+	/*public void Imprimer(List<NPC>  ghosts){
+	int i=0;
+		for (NPC z : ghosts){
+			if (z instanceof Ghost){
+				System.out.println("GHOST"+ i);
+			}
+			else{
+				System.out.println("NPC");
+			}
+			i++;
+		}
+	}*/
 	private Square makeGhostSquare(List<NPC> ghosts) {
 		Square ghostSquare = boardCreator.createGround();
 		NPC ghost = levelCreator.createGhost();

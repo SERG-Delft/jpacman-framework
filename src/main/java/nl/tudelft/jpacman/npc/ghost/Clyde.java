@@ -60,6 +60,9 @@ public class Clyde extends Ghost {
 	/**
 	 * A map of opposite directions.
 	 */
+	
+
+	
 	private static final Map<Direction, Direction> OPPOSITES = new EnumMap<Direction, Direction>(
 			Direction.class);
 	{
@@ -69,14 +72,17 @@ public class Clyde extends Ghost {
 		OPPOSITES.put(Direction.EAST, Direction.WEST);
 	}
 
+	
 	/**
 	 * Creates a new "Clyde", a.k.a. "Pokey".
 	 * 
 	 * @param spriteMap
 	 *            The sprites for this ghost.
 	 */
-	public Clyde(Map<Direction, Sprite> spriteMap) {
-		super(spriteMap);
+	public Clyde(Map<Direction, Sprite> spriteMap, boolean aH, String strategy,Direction[] dir) {
+		super(spriteMap, aH, strategy);
+		this.cheminEnCours=dir;
+		this.chemin=dir;
 	}
 
 	@Override
@@ -84,6 +90,7 @@ public class Clyde extends Ghost {
 		return MOVE_INTERVAL + new Random().nextInt(INTERVAL_VARIATION);
 	}
 
+	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -103,23 +110,17 @@ public class Clyde extends Ghost {
 	 */
 	@Override
 	public Direction nextMove() {
-		Square target = Navigation.findNearest(Player.class, getSquare())
-				.getSquare();
-		if (target == null) {
-			return randomMove();
-		}
 
-		List<Direction> path = Navigation.shortestPath(getSquare(), target,
-				this);
-		if (path != null && !path.isEmpty()) {
-			Direction d = path.get(0);
-			if (path.size() <= SHYNESS) {
-				Direction oppositeDir = OPPOSITES.get(d);
-				return oppositeDir;
-			}
-			return d;
+		if (this.getStrategy() == "modePoursuite"){
+			PoursuiteClyde pc = new PoursuiteClyde(this);
+			return pc.nextMove();
 		}
-		Direction d = randomMove();
-		return d;
+		else if (this.getStrategy() == "modeDispersion"){
+			DispersionClyde dc = new DispersionClyde(this);
+			return dc.nextMove();
+		}
+		return this.randomMove();
 	}
-}
+	}
+
+
