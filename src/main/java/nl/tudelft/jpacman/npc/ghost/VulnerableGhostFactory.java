@@ -24,7 +24,7 @@ public class VulnerableGhostFactory extends GhostFactory {
      * @return A new Blinky.
      */
     public VulnerableGhost createBlinky() {
-        return new Blinky(getSprites().getGhostSprite(GhostColor.RED));
+        return new Blinky(getSprites().getGhostSprite(GhostColor.RED), false,"modeDispersion", cheminB);
     }
 
     /**
@@ -34,7 +34,7 @@ public class VulnerableGhostFactory extends GhostFactory {
      * @return A new Pinky.
      */
     public VulnerableGhost createPinky() {
-        return new Pinky(getSprites().getGhostSprite(GhostColor.PINK));
+        return new Pinky(getSprites().getGhostSprite(GhostColor.PINK),false,"modeDispersion", cheminP);
     }
 
     /**
@@ -44,7 +44,7 @@ public class VulnerableGhostFactory extends GhostFactory {
      * @return A new Inky.
      */
     public VulnerableGhost createInky() {
-        return new Inky(getSprites().getGhostSprite(GhostColor.CYAN));
+        return new Inky(getSprites().getGhostSprite(GhostColor.CYAN), false,"modeDispersion", cheminI);
     }
 
     /**
@@ -54,7 +54,7 @@ public class VulnerableGhostFactory extends GhostFactory {
      * @return A new Clyde.
      */
     public VulnerableGhost createClyde() {
-        return new Clyde(getSprites().getGhostSprite(GhostColor.ORANGE));
+        return new Clyde(getSprites().getGhostSprite(GhostColor.ORANGE),  false,"modeDispersion",cheminC);
     }
 
 

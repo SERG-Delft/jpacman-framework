@@ -103,7 +103,7 @@ public class LevelFactory {
 		case CLYDE:
 			return ghostFact.createClyde();
 		default:
-			return new RandomGhost(sprites.getGhostSprite(GhostColor.RED));
+			return new RandomGhost(sprites.getGhostSprite(GhostColor.RED), "modeDispersion");
 		}
 	}
 
@@ -143,8 +143,8 @@ public class LevelFactory {
 		 * @param ghostSprite
 		 *            The sprite for the ghost.
 		 */
-		private RandomGhost(Map<Direction, Sprite> ghostSprite) {
-			super(ghostSprite);
+		private RandomGhost(Map<Direction, Sprite> ghostSprite, String strategy) {
+			super(ghostSprite, strategy);
 		}
 
 		@Override

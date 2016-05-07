@@ -48,6 +48,10 @@ public abstract class VulnerableGhost extends Ghost{
         hunter=true;
     }
 
+    public VulnerableGhost(Map<Direction, Sprite> spriteMap, boolean aH, String strategy){
+        super(spriteMap,aH,strategy);
+        hunter=true;
+    }
     public void respawn(){
         occupy(initialPosition);
         hunter=true;

@@ -56,16 +56,28 @@ public class Inky extends VulnerableGhost {
 	 */
 	private static final int MOVE_INTERVAL = 250;
 
+	
+	private Direction[] chemin= {Direction.WEST, Direction.WEST,Direction.WEST,
+			Direction.WEST,Direction.WEST,Direction.WEST,Direction.WEST,Direction.WEST,
+			Direction.WEST,Direction.NORTH,Direction.NORTH,Direction.EAST,Direction.EAST,
+			Direction.EAST,Direction.NORTH,Direction.NORTH,Direction.EAST,Direction.EAST,
+			Direction.SOUTH,Direction.SOUTH,Direction.EAST,Direction.EAST,Direction.EAST,
+			Direction.EAST,Direction.SOUTH,Direction.SOUTH}; 
 	/**
 	 * Creates a new "Inky", a.k.a. Bashful.
 	 *
 	 * @param spriteMap
 	 *            The sprites for this ghost.
 	 */
-	public Inky(Map<Direction, Sprite> spriteMap) {
-		super(spriteMap);
+	public Inky(Map<Direction, Sprite> spriteMap, boolean aH,String strategy,Direction[] dir) {
+		super(spriteMap, aH, strategy);
+		this.chemin=dir;
+		this.cheminEnCours=dir;
 	}
 
+	public Inky(Map<Direction, Sprite> spriteMap){
+		super(spriteMap);
+	}
 	@Override
 	public long getInterval() {
 		return MOVE_INTERVAL + new Random().nextInt(INTERVAL_VARIATION);
@@ -103,45 +115,16 @@ public class Inky extends VulnerableGhost {
 		if(!isHunter()){
 			return randomMove();
 		}
-		Unit blinky = Navigation.findNearest(Blinky.class, getSquare());
-		if (blinky == null) {
-			Direction d = randomMove();
-			return d;
-		}
 
-		Unit player = Navigation.findNearest(Player.class, getSquare());
-		if (player == null) {
-			Direction d = randomMove();
-			return d;
+		if (this.getStrategy() == "modePoursuite"){
+			PoursuiteInky pi = new PoursuiteInky(this);
+			return pi.nextMove();
 		}
-
-		Direction targetDirection = player.getDirection();
-		Square playerDestination = player.getSquare();
-		for (int i = 0; i < SQUARES_AHEAD; i++) {
-			playerDestination = playerDestination.getSquareAt(targetDirection);
+		else if (this.getStrategy() == "modeDispersion"){
+			DispersionInky di = new DispersionInky(this);
+			return di.nextMove();
 		}
-
-		Square destination = playerDestination;
-		List<Direction> firstHalf = Navigation.shortestPath(blinky.getSquare(),
-				playerDestination, null);
-		if (firstHalf == null) {
-			Direction d = randomMove();
-			return d;
+		return this.randomMove();
 		}
-
-		for (Direction d : firstHalf) {
-			destination = playerDestination.getSquareAt(d);
-		}
-
-		List<Direction> path = Navigation.shortestPath(getSquare(),
-				destination, this);
-		if (path != null && !path.isEmpty()) {
-			Direction d = path.get(0);
-			return d;
-		}
-		Direction d = randomMove();
-		return d;
 	}
-	// CHECKSTYLE:ON
 
-}
