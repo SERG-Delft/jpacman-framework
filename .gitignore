@@ -13,3 +13,8 @@ target/
 .idea/
 *.iml
 /bin
+
+# latex
+rapport/*
+!rapport.tex
+!ressource

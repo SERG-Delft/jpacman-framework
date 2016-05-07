@@ -1,0 +1,53 @@
+\documentclass[a4paper,12pt]{report} % Format du papier, type de document
+ 
+\usepackage[utf8]{inputenc} % Permet de tapper les accents tels quels
+\usepackage[T1]{fontenc} % Permet l'utilisation d'accents
+\usepackage[french]{babel} % Dit que le document est en français
+\usepackage{amsfonts} % Différents packages... Lire la doc....
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{graphicx} %affichage d'image
+\usepackage{moreverb}
+\usepackage[colorlinks=true,linkcolor=black]{hyperref} %lien hypertexte
+\usepackage{fullpage}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\thesection}{\arabic{section}}
+\setcounter{tocdepth}{5}
+\setcounter{secnumdepth}{5}
+
+\renewcommand{\headrulewidth}{0pt} 
+\fancyhead{} %retire en tete
+
+\renewcommand{\footrulewidth}{1pt} %bas de page
+\fancyfoot[C]{\textbf{\thepage}} 
+\fancyfoot[L]{}
+\fancyfoot[R]{}
+
+\title{}
+\author{}
+\date{Année académique\\2015 - 2016}
+%\begin{figure}[!h] %on ouvre l'environnement figure
+%		\centering
+%		\includegraphics[width=108mm,height=65mm]{impulsion.png}
+%	\end{figure} 
+
+%\begin{figure}%[H] si on veut que l image soit a cet endroit
+%	\centering
+%	\includegraphics[width=108mm,height=65mm]{./scr/logo}
+%	\caption{Icône}
+%	\label{fig:Icône}
+%\end{figure}
+
+\begin{document} 
+\maketitle
+\newpage 
+\addtocontents{toc}{\protect\thispagestyle{fancy}} %modifie mise en page table des matiere
+\tableofcontents
+\newpage
+%\raggedright
+\section{}
+
+
+\end{document}
