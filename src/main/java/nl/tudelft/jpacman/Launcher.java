@@ -278,7 +278,7 @@ public class Launcher implements GameObserver{
 	private void askForPlayerName(PacManUI UI) {
 		String name = null;
 		while(name == null || name == ""){
-			name = (String) JOptionPane.showInputDialog(UI,
+			name = JOptionPane.showInputDialog(UI,
 					"Enter your player name","Player Name",
 					JOptionPane.QUESTION_MESSAGE);
 		}

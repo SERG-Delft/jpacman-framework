@@ -11,5 +11,5 @@ import nl.tudelft.jpacman.sprite.Sprite;
 
 public interface Strategy {
 
-	public Direction nextMove();
+	Direction nextMove();
 }

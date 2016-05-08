@@ -49,7 +49,7 @@ public enum Direction {
 	 *            The delta y (height difference) to an element in the direction
 	 *            in a matrix with 0,0 (x,y) as its top-left element.
 	 */
-	private Direction(int deltaX, int deltaY) {
+	Direction(int deltaX, int deltaY) {
 		this.dx = deltaX;
 		this.dy = deltaY;
 	}
