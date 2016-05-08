@@ -3,8 +3,6 @@ package nl.tudelft.jpacman.game;
 import java.util.List;
 import java.util.Random;
 
-import javax.swing.JOptionPane;
-
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.level.Level;

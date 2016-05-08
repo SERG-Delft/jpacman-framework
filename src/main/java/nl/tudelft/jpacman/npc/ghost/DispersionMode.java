@@ -3,10 +3,6 @@ package nl.tudelft.jpacman.npc.ghost;
 import java.util.List;
 
 import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.sprite.Sprite;
 
 public class DispersionMode implements Strategy{
 

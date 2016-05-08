@@ -1,7 +1,5 @@
 package nl.tudelft.jpacman.npc.ghost;
 
-import java.util.List;
-
 import nl.tudelft.jpacman.board.Direction;
 
 public class DispersionBlinky extends DispersionMode{
