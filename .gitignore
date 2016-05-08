@@ -17,4 +17,5 @@ target/
 # latex
 rapport/*
 !rapport.tex
-!ressource
+!ressources
+!rapport.pdf
