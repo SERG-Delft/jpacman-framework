@@ -102,7 +102,7 @@ public class LevelSuperPellet extends Level {
      * Add a timer for respawning of death ghost.
      * @param g a death ghost.
      */
-    public void addRespawnGhost(VulnerableGhost g){
+    public void addRespawnGhost(final VulnerableGhost g){
         TimerWithPause t = new TimerWithPause(new TimerTaskCloneable() {
             @Override
             public void run() {
