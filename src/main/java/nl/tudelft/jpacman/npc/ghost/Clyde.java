@@ -83,11 +83,23 @@ public class Clyde extends VulnerableGhost {
 		super(spriteMap, aH, strategy);
 		this.cheminEnCours=dir;
 		this.chemin=dir;
+		this.strategyMode=new DispersionClyde(this);
 	}
 
 	public Clyde(Map<Direction, Sprite> spriteMap){
 		super(spriteMap);
 	}
+
+	@Override
+	public void setPoursuiteMode() {
+		strategyMode=new PoursuiteClyde(this);
+	}
+
+	@Override
+	public void setDispersionMode() {
+		strategyMode= new DispersionClyde(this);
+	}
+
 	@Override
 	public long getInterval() {
 		return MOVE_INTERVAL + new Random().nextInt(INTERVAL_VARIATION);
@@ -113,10 +125,11 @@ public class Clyde extends VulnerableGhost {
 	 */
 	@Override
 	public Direction nextMove() {
+
 		if(!isHunter()){
 			return randomMove();
 		}
-
+		/*
 		if (this.getStrategy() == "modePoursuite"){
 			PoursuiteClyde pc = new PoursuiteClyde(this);
 			return pc.nextMove();
@@ -125,8 +138,9 @@ public class Clyde extends VulnerableGhost {
 			DispersionClyde dc = new DispersionClyde(this);
 			return dc.nextMove();
 		}
-		return this.randomMove();
+		return this.randomMove();*/
+		return strategyMode.nextMove();
 	}
-	}
+}
 
 

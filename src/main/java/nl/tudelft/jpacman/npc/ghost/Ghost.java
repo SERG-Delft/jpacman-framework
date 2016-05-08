@@ -16,7 +16,11 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * @author Jeroen Roosen 
  */
 public abstract class Ghost extends NPC {
-	
+
+	/**
+	 * Strategy used by ghosts to choose which way to go.
+	 */
+	protected Strategy strategyMode;
 	/**
 	 * The sprite map, one sprite for each direction.
 	 */
@@ -47,6 +51,13 @@ public abstract class Ghost extends NPC {
 		this.sprites = spriteMap;
 		this.atteintHome = aH;
 	}
+
+	public void setStrategyMode(Strategy strategyMode) {
+		this.strategyMode = strategyMode;
+	}
+	public abstract void setPoursuiteMode();
+	public abstract void setDispersionMode();
+
 
 	@Override
 	public Sprite getSprite() {

@@ -14,6 +14,7 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 /**
  * A level of Pac-Man. A level consists of the board with the players and the
@@ -397,13 +398,18 @@ public class Level{
 		@Override
 		public void run() {
 			//System.out.println(this.temps);
+			((Ghost)npc).setDispersionMode();
 		   if ((this.temps >=7000 && this.temps < 27000) || (this.temps >=34000 && this.temps < 54000)
 				   || (this.temps >=59000 && this.temps < 79000) || (this.temps >= 84000)){
-			   npc.setStrategy("modePoursuite");
+			   //npc.setStrategy("modePoursuite");
+			   //System.out.println("poursuite");
+			   ((Ghost)npc).setPoursuiteMode();
 		   }
 		   else if ((this.temps >=27000 && this.temps < 34000) || (this.temps >=54000 && this.temps < 59000)
 				   || (this.temps >=79000 && this.temps < 84000)){
-			   npc.setStrategy("modeDispersion");
+			   //npc.setStrategy("modeDispersion");
+			   //System.out.println("dispersion");
+			   ((Ghost)npc).setDispersionMode();
 		   }
 			Direction nextMove = npc.nextMove();
 			if (nextMove != null) {

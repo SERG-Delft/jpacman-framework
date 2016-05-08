@@ -148,6 +148,16 @@ public class LevelFactory {
 		}
 
 		@Override
+		public void setPoursuiteMode() {
+			//TODO
+		}
+
+		@Override
+		public void setDispersionMode() {
+			//TODO
+		}
+
+		@Override
 		public long getInterval() {
 			return DELAY;
 		}

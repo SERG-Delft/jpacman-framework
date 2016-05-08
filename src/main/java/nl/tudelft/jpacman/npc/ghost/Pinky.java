@@ -73,11 +73,23 @@ public class Pinky extends VulnerableGhost {
 		super(spriteMap,aH, strategy);
 		this.chemin=dir;
 		this.cheminEnCours=dir;
+		this.strategyMode=new DispersionPinky(this);
 	}
 
 	public Pinky(Map<Direction, Sprite> spriteMap){
 		super(spriteMap);
 	}
+
+	@Override
+	public void setPoursuiteMode() {
+		strategyMode=new PoursuitePinky(this);
+	}
+
+	@Override
+	public void setDispersionMode() {
+		strategyMode= new DispersionPinky(this);
+	}
+
 	@Override
 	public long getInterval() {
 		return MOVE_INTERVAL + new Random().nextInt(INTERVAL_VARIATION);
@@ -99,9 +111,11 @@ public class Pinky extends VulnerableGhost {
 	 */
 	@Override
 	public Direction nextMove() {
-		if(!isHunter()){
+
+		if (!isHunter()) {
 			return randomMove();
 		}
+		/*
 	if (this.getStrategy() == "modePoursuite"){
 		PoursuitePinky pp = new PoursuitePinky(this);
 		return pp.nextMove();
@@ -111,6 +125,9 @@ public class Pinky extends VulnerableGhost {
 		return dp.nextMove();
 	}
 	return this.randomMove();
+	}
+	*/
+		return strategyMode.nextMove();
 	}
 }
 

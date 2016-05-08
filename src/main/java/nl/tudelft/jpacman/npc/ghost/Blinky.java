@@ -62,11 +62,22 @@ public class  Blinky extends VulnerableGhost {
 		super(spriteMap, aH, strategy);
 		this.cheminEnCours=dir;
 		this.chemin=dir;
+		this.strategyMode=new DispersionBlinky(this);
 	}
 	public Blinky(Map<Direction, Sprite> spriteMap){
 		super(spriteMap);
 	}
-	
+
+	@Override
+	public void setPoursuiteMode() {
+		strategyMode=new PoursuiteBlinky(this);
+	}
+
+	@Override
+	public void setDispersionMode() {
+		strategyMode=new DispersionBlinky(this);
+	}
+
 	public Direction[] getChemin(){
 		return this.chemin;
 	}
@@ -80,7 +91,7 @@ public class  Blinky extends VulnerableGhost {
 		return MOVE_INTERVAL+ new Random().nextInt(INTERVAL_VARIATION);
 	}
 
-	
+
 
 	
 	/**
@@ -98,9 +109,11 @@ public class  Blinky extends VulnerableGhost {
 	 */
 	@Override
 	public Direction nextMove() {
+
 		if(!isHunter()){
 			return randomMove();
 		}
+		/*
 		if (this.getStrategy() == "modePoursuite"){
 			PoursuiteBlinky pp = new PoursuiteBlinky(this);
 			return pp.nextMove();
@@ -110,5 +123,7 @@ public class  Blinky extends VulnerableGhost {
 			return db.nextMove();
 		}
 		return this.randomMove();
+		*/
+		return strategyMode.nextMove();
 	}
 }

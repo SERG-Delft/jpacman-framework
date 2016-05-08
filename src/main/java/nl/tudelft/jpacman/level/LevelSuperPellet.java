@@ -56,6 +56,7 @@ public class LevelSuperPellet extends Level {
 
             for (Map.Entry<NPC, ScheduledExecutorService> e : this.getNpcs().entrySet()) {
                 ((VulnerableGhost) e.getKey()).setHunter(false);
+                //((VulnerableGhost) e.getKey()).setHunterMode();
                 setSpeedNPCs(e.getKey(),0.5f);
             }
         }
@@ -70,6 +71,7 @@ public class LevelSuperPellet extends Level {
         }
         for (Map.Entry<NPC, ScheduledExecutorService> e : this.getNpcs().entrySet()) {
             ((VulnerableGhost) e.getKey()).setHunter(true);
+            //((VulnerableGhost) e.getKey()).setPoursuiteMode();
             setSpeedNPCs(e.getKey(),1);
         }
     }

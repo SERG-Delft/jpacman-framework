@@ -13,6 +13,7 @@ import java.util.Map;
  */
 public abstract class VulnerableGhost extends Ghost{
 
+
     /**
      * The default score value of a ghost.
      */
@@ -95,6 +96,7 @@ public abstract class VulnerableGhost extends Ghost{
     public void setHunter(boolean hunter) {
         this.hunter = hunter;
     }
+
 
     /**
      * get the initial position of the ghost.

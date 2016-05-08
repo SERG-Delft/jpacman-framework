@@ -73,11 +73,23 @@ public class Inky extends VulnerableGhost {
 		super(spriteMap, aH, strategy);
 		this.chemin=dir;
 		this.cheminEnCours=dir;
+		this.strategyMode=new DispersionInky(this);
 	}
 
 	public Inky(Map<Direction, Sprite> spriteMap){
 		super(spriteMap);
 	}
+
+	@Override
+	public void setPoursuiteMode() {
+		strategyMode=new PoursuiteInky(this);
+	}
+
+	@Override
+	public void setDispersionMode() {
+		strategyMode=new DispersionInky(this);
+	}
+
 	@Override
 	public long getInterval() {
 		return MOVE_INTERVAL + new Random().nextInt(INTERVAL_VARIATION);
@@ -112,10 +124,11 @@ public class Inky extends VulnerableGhost {
 	// CHECKSTYLE:OFF To keep this more readable.
 	@Override
 	public Direction nextMove() {
-		if(!isHunter()){
+
+		if (!isHunter()) {
 			return randomMove();
 		}
-
+		/*
 		if (this.getStrategy() == "modePoursuite"){
 			PoursuiteInky pi = new PoursuiteInky(this);
 			return pi.nextMove();
@@ -125,6 +138,8 @@ public class Inky extends VulnerableGhost {
 			return di.nextMove();
 		}
 		return this.randomMove();
-		}
+		}*/
+		return strategyMode.nextMove();
 	}
+}
 
