@@ -3,7 +3,6 @@ package nl.tudelft.jpacman;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.level.LevelFactory;
 import nl.tudelft.jpacman.level.LevelFactorySuperPellet;
-import nl.tudelft.jpacman.level.LevelSuperPellet;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 import nl.tudelft.jpacman.npc.ghost.VulnerableGhostFactory;
 

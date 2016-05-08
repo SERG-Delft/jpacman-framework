@@ -8,9 +8,7 @@ import nl.tudelft.jpacman.util.TimerTaskCloneable;
 import nl.tudelft.jpacman.util.TimerWithPause;
 
 import java.util.*;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by coco- on 09-04-16.
