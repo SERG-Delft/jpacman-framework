@@ -22,8 +22,8 @@
 
 \renewcommand{\footrulewidth}{1pt} %bas de page
 \fancyfoot[C]{\textbf{\thepage}} 
-\fancyfoot[L]{}
-\fancyfoot[R]{}
+\fancyfoot[L]{Software evolution}
+\fancyfoot[R]{Jpacman framework}
 
 \title{Software evolution \\ JPacman framework}
 \author{Ducruet Corentin \\ Gallois Florent \\ Ledru Santorin}
@@ -51,10 +51,19 @@
 
 Dans le cadre du cours de Softare Evolution, nous devons mettre en pratique les concepts d'évolution logicielle vus en cours. Le projet qui nous est confié consiste à récupérer un projet de pacman et d'y implémenter plusieurs fonctionnalités. Ces mêmes fonctionnalités doivent être faites tout en suivant un processus de développement dirigé par les tests . Après la réalisation de ces tâches, il nous est demandé de rassembler ces différents travaux dans le logiciel. Enfin, une analyse de la qualité ainsi qu'une amélioration du code doit nous permettre de terminer le logiciel.
 Dans un premier temps, nous étudierons chaque tâche individuelle : dans un premier temps nous parlerons de la réalisation de la supergomme, puis de la série de labyrinthe et enfin l'implémentation de l'IA des fantômes.
-Dans un second temps, nous parlerons de l'analyse du code et des améliorations.
+Dans un deuxième temps, nous parlerons des difficultés rencontrés lors du merge des trois fonctionnalités et enfin nous parlerons de l'analyse du code et des améliorations.
 
-\section{IA pour fantômes - GALLOIS Florent}
+\section{Supergomme - Ducruet Corentin}
+\subsection{Programme initial et objectifs}
+Dans la version de initial du framework Jpacman, il n'y avais qu'un seul type de gomme qui avait pour seul effet d'augmenter notre score de 10 points. 
+\subsection{Démarche suivie}
 
+\section{Série de labyrinthe- Ledru Santorin}
+\subsection{Programme initial et objectifs}
+\subsection{Démarche suivie}
+
+
+\section{IA pour fantômes - Gallois Florent}
 \subsection{Programme initial et objectifs}
 Actuellement, les comportements des 4 fantômes du jeu Pac-man sont erratiques : 
 leur trajectoire est déterminée aléatoirement.
@@ -75,6 +84,7 @@ Comme il nous l'est suggéré, nous nous sommes intéréssées au strategy desig
 \begin{figure}[!h] %on ouvre l'environnement figure
 		\centering
 		\includegraphics[scale=0.7]{ressources/StrategyDesignPattern.png}
+		\caption{Design pattern strategy}
 \end{figure} 
 
 
@@ -90,6 +100,7 @@ Pour la première version du logiciel, un pattern comme celui qui suit a été c
 \begin{figure}[!h] %on ouvre l'environnement figure
 		\centering
 		\includegraphics[scale=0.9]{ressources/StrategyDP.png}
+		\caption{Design pattern strategy appliqué}
 \end{figure}
 
 
@@ -111,6 +122,8 @@ Enfin, pour la 4ème et dernière version du logiciel, nous avons indiqué au pr
 Dans la classe NpcMoveTask, une variable temps est crée pour suivre l'écoulement du temps. Celle-ci est incrémentée à chaque occurence de la fonction run de la moyenne d' intervalle entre 2 coups d'un fantôme. 
 Dans la fonction run, en fonction de la valeur de cette variable, nous appelons la méthode setStrategy de la classe NPC afin de switcher la stratégie des fantômes.
 
+\section{Difficultés liées au merge}
 
+\section{Analyse du code et amélioration}
 
 \end{document}
