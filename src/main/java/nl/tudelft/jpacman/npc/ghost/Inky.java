@@ -79,6 +79,8 @@ public class Inky extends VulnerableGhost {
 	@Override
 	public void setPoursuiteMode() {
 		strategyMode=new PoursuiteInky(this);
+		this.cheminEnCours=this.chemin;
+		this.atteintHome=false;
 	}
 
 	@Override

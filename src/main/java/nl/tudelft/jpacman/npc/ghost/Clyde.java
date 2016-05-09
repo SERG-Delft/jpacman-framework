@@ -90,6 +90,8 @@ public class Clyde extends VulnerableGhost {
 	@Override
 	public void setPoursuiteMode() {
 		strategyMode=new PoursuiteClyde(this);
+		this.cheminEnCours=this.chemin;
+		this.atteintHome=false;
 	}
 
 	@Override
