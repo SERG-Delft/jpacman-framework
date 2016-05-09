@@ -29,7 +29,7 @@ public abstract class Ghost extends NPC {
 	private Square home;//Sa case maison
 	public Direction[] chemin;
 	public Direction[] cheminEnCours;//Ses prochaines directions à prendre lors du tour dans la maison
-	private boolean atteintHome;//S'il a atteint sa case maison
+	public boolean atteintHome;//S'il a atteint sa case maison
 	
 	/**
 	 * Creates a new ghost.

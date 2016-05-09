@@ -68,6 +68,8 @@ public class  Blinky extends VulnerableGhost {
 	@Override
 	public void setPoursuiteMode() {
 		strategyMode=new PoursuiteBlinky(this);
+		this.cheminEnCours=this.chemin;
+		this.atteintHome=false;
 	}
 
 	@Override
