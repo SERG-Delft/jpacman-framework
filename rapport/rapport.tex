@@ -55,7 +55,7 @@ Dans un deuxième temps, nous parlerons des difficultés rencontrés lors du mer
 
 \section{Supergomme - Ducruet Corentin}
 \subsection{Programme initial et objectifs}
-Dans la version de initial du framework Jpacman, il n'y avais qu'un seul type de gomme qui avait pour seul effet d'augmenter notre score de 10 points. 
+Dans la version de initial du framework Jpacman, il n'y avais qu'un seul type de gomme qui avait pour seul effet d'augmenter notre score de 10 points. Il nous a été demandé d'ajouter la fonctionnalité "Supergomme". Cette fonctionnalité ajoute un nouveau type de gomme (les "Supergomme"). celles-ci se distinguent des autres gommes par leur effet. Tout d'abord, elles sont rouges pour pouvoir les différentier visuellement. Ensuite, lorsqu'elles sont mangés par Pacman, le score est augmanté de 50 points et les rôles sont inversés. En effet, Pacman devient chasseur et les fantômes deviennent les proies (pendant 7 secondes lors des deux premières "Supergomme" mangés, 5 secondes pour les deux dernières). Lorsque les fantômes sont des proies, ils sont bleus et fuient pacman. Si pacman arrive à manger un fantôme, cela lui rapporte des points.(200 pour le premier, 400 pour le deuxième, 800 pour le troisième et 1600 pour le quatrième).
 \subsection{Démarche suivie}
 
 \section{Série de labyrinthe- Ledru Santorin}
@@ -124,6 +124,201 @@ Dans la fonction run, en fonction de la valeur de cette variable, nous appelons 
 
 \section{Difficultés liées au merge}
 
-\section{Analyse du code et amélioration}
+\section{Analyse de la qualité du code}
+
+
+\subsection{Outils utilisés}
+
+
+\subsubsection{Google CodePro AnalitiX}
+
+Le premier outil utilisé est Google CodePro AnalitiX, sous sa forme
+plugin Eclipse.
+
+Il s'agit d'un outil très complet qui permet le calcul des métriques,
+la détection de code dupliqué, l'analyse des dépendances, la couverture
+du code et des tests. Ici, nous l'utiliserons pour le calcul des métriques,
+la détection de code dupliqué et l'analyse des dépendances.
+
+
+\subsubsection{EclEmma}
+
+Le second outil est Emma, sous sa forme plugin Eclipse (EclEmma).
+
+Emma est un outils utilisé pour vérifier la couverture du code ainsi
+que des tests lors de l'exécution de ces derniers.
+
+
+\subsubsection{CodeCity}
+
+Le troisième outil est CodeCity.
+
+CodeCity est un outil qui permet de visualiser les métriques sous
+forme graphique. Nous l'utiliserons pour constater les différences
+entre le projet de base et le projet modifié.
+
+
+\subsubsection{PMD}
+
+Le dernier outils utilisé est PMD, sous sa forme plugin Eclipse.
+
+PMD est un logiciel permettant de détecter les mauvaises pratiques
+de programmation (``Bad Smells''). Nous regarderons la variation
+de l'apparition de ces ``bad smells'' lors de la modification du
+projet.
+
+
+\subsection{Analyse des dépendances}
+
+
+\subsubsection{Projet de base}
+
+On peut voir sur la Figure 1 un graphe des dépendances entre packages
+du projet de base. On constate sur celui-ci qu'il y a beaucoup de
+dépendances cycliques et que certaines classes ont une interdépendance
+forte (par exemple ghost et level).
+
+\begin{figure}[!h]
+\begin{center}\includegraphics[scale=0.5]{ressources/final_initial_dependencies}\end{center}
+\caption{Dépendances du projet de base}
+\end{figure}
+
+
+
+\subsubsection{Projet modifié}
+
+Un graphe des dépendances est représenté à la Figure 2, on peut constater
+qu'en général les dépendances ont augmenté et que nous avons aussi
+ajoutés des interdépendance entre deux packages qui n'en possédaient
+pas.
+
+\begin{figure}[!h]
+\begin{center}\includegraphics[scale=0.5]{ressources/final_new_dependencies}\end{center}\caption{Dépendances du projet modifié}
+
+
+\end{figure}
+
+
+
+\subsection{Code dupliqué}
+
+Selon Google CodePro AnalitiX, il y a 54 lignes de code dupliquées
+dans le projet de base. Cette valeur est assez basse et montre la
+volonté des développeurs du projet d'éviter la programmation ``copier-coller''
+
+Google CodePro AnalitiX, pointe toujours 54 lignes de code dupliquées,
+nous n'avons donc pas altéré ce point précis du code lors de nos modifications.
+
+
+\subsection{Test \& Code Coverage}
+
+
+\subsubsection{Projet de base}
+
+EclEmma nous donne comme valeurs:
+\begin{itemize}
+\item test coverage : 80.9\%
+\item code coverage (exécution sans jouer) : 41\%
+\item code coverage (exécution partie type): $\sim$60\%
+\end{itemize}
+
+\subsubsection{Projet modifié}
+
+EclEmma nous donne comme valeurs:
+\begin{itemize}
+\item test coverage : 71\%
+\item code coverage (exécution sans jouer) : 35.9\%
+\item code coverage (exécution partie type): $\sim$60\%
+\end{itemize}
+On peut constater que de manière générale le coverage a diminué, surtout
+au niveau du test coverage. Bien qu'un paradigme de programmation
+défensive à été utilisé, nous n'avons pas réussi à trouver de tests
+qui couvrent l'entièreté du code ajouté.
+
+
+\subsection{Métriques}
+
+
+\subsubsection{Tableaux de métriques}
+
+La Figure 3 montre les deux tableaux de métriques côte à côte, ce
+qui permet de comparer facilement les résultats.
+
+On peux noter, entre autres, un légère augmentation de la complexité
+cyclomatique, un accroissement général de la taille des différentes
+classes (nombre de méthodes et nombre de lignes) et une légère diminution
+du ratio de commentaires.
+
+\begin{figure}[!h]
+\includegraphics[scale=0.45]{ressources/final_initial_metrics}\includegraphics[scale=0.45]{ressources/final_new_metrics}\caption{Comparaison des tableaux de métriques (initial à gauche)}
+
+
+\end{figure}
+
+
+
+\subsubsection{CodeCity : méthodes par classes}
+
+Codecity nous permet de représenter graphiquement certaines métriques
+par classes sur l'ensemble du projet.
+
+Ici nous nous intéressons au nombre de méthodes par classe, on voit
+que, de manière générale, celui augmente pour l'ensemble du projet.
+
+\begin{figure}[!h]
+\includegraphics[scale=0.5]{ressources/final_initial_declared_methods}\includegraphics[scale=0.5]{ressources/final_new_declared_methods}\caption{Comparaison du nombre de méthodes par classe (initial à gauche)}
+
+
+\end{figure}
+
+
+
+\subsubsection{CodeCity : complexité cyclomatique}
+
+On voit sur la Figure 5 que la complexité cyclomatique reste sensiblement
+la même.
+
+\begin{figure}[!h]
+\includegraphics[scale=0.5]{ressources/final_initial_cyclomatic}\includegraphics[scale=0.5]{ressources/final_new_cyclomatic}\caption{Comparaison de la complexité cyclomatique par classe (initial à gauche)}
+
+
+\end{figure}
+
+
+
+\subsubsection{CodeCity : nombre de lignes de code}
+
+Sur la Figure 6 on peut voir que le nombre de lignes de codes par
+classe est resté sensiblement identique, sauf pour deux d'entres elles
+(Launcher et Level), qui mériteraient d'être séparée en plus petites
+classes pour éviter le phénomène de ``God Class''.
+
+\begin{figure}[!h]
+\includegraphics[scale=0.5]{ressources/final_initial_lines_of_code}\includegraphics[scale=0.5]{ressources/final_new_lines_of_code}\caption{Comparaison du nombre de lignes de code par classe (initial à gauche)}
+
+
+\end{figure}
+
+
+
+\subsection{Bad Smells}
+
+PMD à mis en évidence 827 violations des bonnes pratiques de programmation
+dans le projet initial. En ce qui concerne le projet final, on monte
+à 1442 violations. Les erreurs les plus fréquentes sont ``variable
+or argument could be final'' (39.6\% des violations pour le projet
+initial contre 33\% pour le projet modifié) et ``law of demeter''
+(10\% pour le projet initial contre 12\% pour le projet modifié) et
+``short variable'' (10\% pour le projet initial contre 11\% pour
+le projet modifié).
+
+On a donc un accroisement de 74\% de violations selon PMD, à savoir
+que le code est lui passé 2415 à 3825 lignes de code, c'est à dire
+un accroissement de 58\% en ce qui concerne la taille du projet niveau
+lignes de codes (lignes de code effectives, selon Google CodePro AnalitiX).
+A noter aussi que PMD nous donne deux avertissements pour ``God Class''
+pour les classes Level et Launcher, qui ont beaucoup crû pendant nos
+modifications respectives. Il semble qu'un refactoring soit nécessaire
+à ce niveau là pour pouvoir poursuivre la maintenance logicielle.
 
 \end{document}
