@@ -67,7 +67,7 @@ public class StateNavigationSteps {
 	/**
 	 * Close the UI after all tests are finished.
 	 */
-	@After
+	@After("@Framework")
 	public void tearDownUI() {
 		launcher.dispose();
 	}

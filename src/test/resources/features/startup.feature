@@ -1,3 +1,4 @@
+@Framework
 Feature: 1. Startup
 	As a player
 	I want to start the game
