@@ -158,25 +158,25 @@ public class Launcher {
 
 			@Override
 			public void doAction() {
-				game.move(p1, Direction.NORTH);
+				p1.setDirection(Direction.NORTH);
 			}
 		}).addKey(KeyEvent.VK_DOWN, new Action() {
 
 			@Override
 			public void doAction() {
-				game.move(p1, Direction.SOUTH);
+				p1.setDirection(Direction.SOUTH);
 			}
 		}).addKey(KeyEvent.VK_LEFT, new Action() {
 
 			@Override
 			public void doAction() {
-				game.move(p1, Direction.WEST);
+				p1.setDirection(Direction.WEST);
 			}
 		}).addKey(KeyEvent.VK_RIGHT, new Action() {
 
 			@Override
 			public void doAction() {
-				game.move(p1, Direction.EAST);
+				p1.setDirection(Direction.EAST);
 			}
 		});
 

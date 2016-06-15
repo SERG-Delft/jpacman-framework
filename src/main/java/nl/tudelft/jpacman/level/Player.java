@@ -3,7 +3,7 @@ package nl.tudelft.jpacman.level;
 import java.util.Map;
 
 import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.sprite.AnimatedSprite;
 import nl.tudelft.jpacman.sprite.Sprite;
 
@@ -12,7 +12,11 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * 
  * @author Jeroen Roosen 
  */
-public class Player extends Unit {
+public class Player extends NPC {
+	/**
+	 * The current direction that the player is moving in.
+	 */
+	private Direction direction = Direction.EAST;
 
 	/**
 	 * The amount of points accumulated by this player.
@@ -101,5 +105,23 @@ public class Player extends Unit {
 	 */
 	public void addPoints(int points) {
 		score += points;
+	}
+
+	@Override
+	public long getInterval() {
+		final int MOVE_INTERVAL = 175;
+		return MOVE_INTERVAL;
+	}
+
+	@Override
+	public Direction nextMove() {
+		return direction;
+	}
+	
+	/**
+	 * Set the direction that the player moves in.
+	 */
+	public void setDirection(Direction d){
+		this.direction = d;
 	}
 }
