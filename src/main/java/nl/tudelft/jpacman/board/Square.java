@@ -78,7 +78,7 @@ public abstract class Square {
 	 * @param occupant
 	 *            The unit to occupy this square.
 	 */
-	void put(Unit occupant) {
+	public void put(Unit occupant) {
 		assert occupant != null;
 		assert !occupants.contains(occupant);
 		
