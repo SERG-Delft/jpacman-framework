@@ -23,13 +23,13 @@ import nl.tudelft.jpacman.ui.PacManUiBuilder;
 /**
  * Creates and launches the JPacMan UI.
  * 
- * @author Jeroen Roosen 
+ * @author Jeroen Roosen
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public class Launcher {
 
 	private static final PacManSprites SPRITE_STORE = new PacManSprites();
-	
+
 	public static final String DEFAULT_MAP = "/board.txt";
 	private String levelMap = DEFAULT_MAP;
 
@@ -43,18 +43,21 @@ public class Launcher {
 	public Game getGame() {
 		return game;
 	}
-	
+
 	/**
 	 * The map file used to populate the level.
+	 * 
 	 * @return The name of the map file.
 	 */
 	protected String getLevelMap() {
 		return levelMap;
 	}
-	
+
 	/**
 	 * Set the name of the file containing this level's map.
-	 * @param fileName Map to be used.
+	 * 
+	 * @param fileName
+	 *            Map to be used.
 	 * @return Level corresponding to the given map.
 	 */
 	public Launcher withMapFile(String fileName) {
@@ -81,14 +84,12 @@ public class Launcher {
 	 */
 	public Level makeLevel() {
 		MapParser parser = getMapParser();
-		try (InputStream boardStream = Launcher.class
-				.getResourceAsStream(getLevelMap())) {
+		try (InputStream boardStream = Launcher.class.getResourceAsStream(getLevelMap())) {
 			return parser.parseMap(boardStream);
 		} catch (IOException e) {
 			throw new PacmanConfigurationException("Unable to create level.", e);
 		}
 	}
-	
 
 	/**
 	 * @return A new map parser object using the factories from
@@ -150,36 +151,23 @@ public class Launcher {
 	 * @param game
 	 *            The game that will process the events.
 	 */
-	protected void addSinglePlayerKeys(final PacManUiBuilder builder,
-			final Game game) {
+	protected void addSinglePlayerKeys(final PacManUiBuilder builder, final Game game) {
 		final Player p1 = getSinglePlayer(game);
 
-		builder.addKey(KeyEvent.VK_UP, new Action() {
+		builder.addKey(KeyEvent.VK_UP, moveTowardsDirection(game, p1, Direction.NORTH))
+				.addKey(KeyEvent.VK_DOWN, moveTowardsDirection(game, p1, Direction.SOUTH))
+				.addKey(KeyEvent.VK_LEFT, moveTowardsDirection(game, p1, Direction.WEST))
+				.addKey(KeyEvent.VK_RIGHT, moveTowardsDirection(game, p1, Direction.EAST));
+	}
+
+	private Action moveTowardsDirection(final Game game, final Player p1, Direction direction) {
+		return new Action() {
 
 			@Override
 			public void doAction() {
-				game.move(p1, Direction.NORTH);
+				game.move(p1, direction);
 			}
-		}).addKey(KeyEvent.VK_DOWN, new Action() {
-
-			@Override
-			public void doAction() {
-				game.move(p1, Direction.SOUTH);
-			}
-		}).addKey(KeyEvent.VK_LEFT, new Action() {
-
-			@Override
-			public void doAction() {
-				game.move(p1, Direction.WEST);
-			}
-		}).addKey(KeyEvent.VK_RIGHT, new Action() {
-
-			@Override
-			public void doAction() {
-				game.move(p1, Direction.EAST);
-			}
-		});
-
+		};
 	}
 
 	private Player getSinglePlayer(final Game game) {
@@ -202,7 +190,8 @@ public class Launcher {
 	}
 
 	/**
-	 * Disposes of the UI. For more information see {@link javax.swing.JFrame#dispose()}.
+	 * Disposes of the UI. For more information see
+	 * {@link javax.swing.JFrame#dispose()}.
 	 */
 	public void dispose() {
 		pacManUI.dispose();
