@@ -172,12 +172,23 @@ public class MapParser {
 				"Input text lines cannot be empty.");
 		}
 
+		boolean mapContainsPlayer = false;
 		for (String line : text) {
 			if (line.length() != width) {
 				throw new PacmanConfigurationException(
 					"Input text lines are not of equal width.");
 			}
+			
+			if (line.contains("P")) {
+				mapContainsPlayer = true;
+			}
+			
 		}		
+		
+		if (!mapContainsPlayer) {
+			throw new PacmanConfigurationException(
+					"Mapdesign must contian at least 1 player.");
+		}
 	}
 
 	/**
