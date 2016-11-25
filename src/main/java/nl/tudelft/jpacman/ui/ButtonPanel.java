@@ -43,4 +43,8 @@ class ButtonPanel extends JPanel {
 			add(button);
 		}
 	}
+	
+	public static void endGameMenu() {
+		System.exit(0);
+	}
 }

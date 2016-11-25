@@ -60,7 +60,7 @@ public abstract class Game implements LevelObserver {
 			getLevel().stop();
 		}
 	}
-
+	
 	/**
 	 * @return <code>true</code> iff the game is started and in progress.
 	 */
@@ -101,5 +101,9 @@ public abstract class Game implements LevelObserver {
 	@Override
 	public void levelLost() {
 		stop();
+	}
+	
+	public void endGame() {
+		System.exit(0);
 	}
 }
