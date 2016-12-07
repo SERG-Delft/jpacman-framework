@@ -1,9 +1,7 @@
 package nl.tudelft.jpacman.board;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,8 +43,8 @@ public class OccupantTest {
 	public void testOccupy() {
 		Square target = new BasicSquare();
 		unit.occupy(target);
-		assertThat(unit.getSquare(), is(target));
-		assertThat(target.getOccupants(), contains(unit));
+		assertThat(unit.getSquare()).isEqualTo(target);
+		assertThat(target.getOccupants()).contains(unit);
 	}
 	
     /**
@@ -58,7 +56,7 @@ public class OccupantTest {
 		Square target = new BasicSquare();
 		unit.occupy(target);
 		unit.occupy(target);
-		assertThat(unit.getSquare(), is(target));
-		assertThat(target.getOccupants(), contains(unit));
+		assertThat(unit.getSquare()).isEqualTo(target);
+		assertThat(target.getOccupants()).contains(unit);
 	}
 }
