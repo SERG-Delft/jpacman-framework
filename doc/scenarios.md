@@ -91,7 +91,7 @@ When  I press an arrow key towards that square;
 Then  my Pacman dies,
  and  the game is over.
   
-Scenario S2.5: Player wins, extends S2.2
+Scenario S2.5: Player wins, extends S2.1
 When  I have eaten the last pellet;
 Then  I win the game.
 ```
