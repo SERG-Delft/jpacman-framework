@@ -149,6 +149,7 @@ public class Level {
 		p.occupy(square);
 		startSquareIndex++;
 		startSquareIndex %= startSquares.size();
+		npcs.put(p, null); // register the player as npc so it keeps moving
 	}
 
 	/**
