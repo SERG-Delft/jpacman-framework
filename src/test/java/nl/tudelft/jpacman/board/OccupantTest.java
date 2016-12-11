@@ -3,8 +3,8 @@ package nl.tudelft.jpacman.board;
 import static org.junit.Assert.assertNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test suite to confirm that {@link Unit}s correctly (de)occupy squares.
@@ -22,7 +22,7 @@ public class OccupantTest {
 	/**
 	 * Resets the unit under test.
 	 */
-	@Before
+	@BeforeEach
 	public void setUp() {
 		unit = new BasicUnit();
 	}
