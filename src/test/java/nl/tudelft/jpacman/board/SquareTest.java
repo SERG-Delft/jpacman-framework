@@ -1,7 +1,7 @@
 package nl.tudelft.jpacman.board;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -21,7 +21,7 @@ public class SquareTest {
 	/**
 	 * Resets the square under test.
 	 */
-	@Before
+	@BeforeEach
 	public void setUp() {
 		square = new BasicSquare();
 	}
@@ -30,7 +30,7 @@ public class SquareTest {
 	 * Assert that the square holds the occupant once it has occupied it.
 	 */
 	@Test
-	public void testOccupy() {
+ 	public void testOccupy() {
 		Unit occupant = mock(Unit.class);
 		square.put(occupant);
 
