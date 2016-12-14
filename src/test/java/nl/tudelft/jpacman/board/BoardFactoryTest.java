@@ -1,11 +1,13 @@
 package nl.tudelft.jpacman.board;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
 
 /**
  * Tests the linking of squares done by the board factory.
@@ -18,14 +20,22 @@ public class BoardFactoryTest {
 	 * The factory under test.
 	 */
 	private BoardFactory factory;
-	
+
+	/**
+	 * Squares on the board to test.
+	 */
+	private Square s1, s2;
+
 	/**
 	 * Resets the factory under test.
 	 */
-	@Before
+	@BeforeEach
 	public void setUp() {
 		PacManSprites sprites = mock(PacManSprites.class);
 		factory = new BoardFactory(sprites);
+
+		s1 = new BasicSquare();
+		s2 = new BasicSquare();
 	}
 	
 	/**
@@ -33,13 +43,13 @@ public class BoardFactoryTest {
 	 */
 	@Test
 	public void worldIsRound() {
-		Square s = new BasicSquare();
-		Square[][] grid = new Square[][]{{s}};
-		factory.createBoard(grid);
-		assertEquals(s, s.getSquareAt(Direction.NORTH));
-		assertEquals(s, s.getSquareAt(Direction.SOUTH));
-		assertEquals(s, s.getSquareAt(Direction.WEST));
-		assertEquals(s, s.getSquareAt(Direction.EAST));
+		// Create a round world with just one cell.
+		factory.createBoard(new Square[][]{{s1}});
+
+		// All directions from that single cell point back to that cell.
+		Arrays.stream(Direction.values()).forEach((dir) ->
+			assertThat(s1.getSquareAt(dir)).isEqualTo(s1)
+		);
 	}
 	
 	/**
@@ -47,12 +57,9 @@ public class BoardFactoryTest {
 	 */
 	@Test
 	public void connectedEast() {
-		Square s1 = new BasicSquare();
-		Square s2 = new BasicSquare();
-		Square[][] grid = new Square[][]{{s1}, {s2}};
-		factory.createBoard(grid);
-		assertEquals(s2, s1.getSquareAt(Direction.EAST));
-		assertEquals(s1, s2.getSquareAt(Direction.EAST));
+		factory.createBoard(new Square[][]{{s1}, {s2}});
+		assertThat(s1.getSquareAt(Direction.EAST)).isEqualTo(s2);
+		assertThat(s2.getSquareAt(Direction.EAST)).isEqualTo(s1);
 	}
 	
 	/**
@@ -60,12 +67,9 @@ public class BoardFactoryTest {
 	 */
 	@Test
 	public void connectedWest() {
-		Square s1 = new BasicSquare();
-		Square s2 = new BasicSquare();
-		Square[][] grid = new Square[][]{{s1}, {s2}};
-		factory.createBoard(grid);
-		assertEquals(s2, s1.getSquareAt(Direction.WEST));
-		assertEquals(s1, s2.getSquareAt(Direction.WEST));
+		factory.createBoard(new Square[][]{{s1}, {s2}});
+		assertThat(s1.getSquareAt(Direction.WEST)).isEqualTo(s2);
+		assertThat(s2.getSquareAt(Direction.WEST)).isEqualTo(s1);
 	}
 	
 	/**
@@ -73,12 +77,9 @@ public class BoardFactoryTest {
 	 */
 	@Test
 	public void connectedNorth() {
-		Square s1 = new BasicSquare();
-		Square s2 = new BasicSquare();
-		Square[][] grid = new Square[][]{{s1, s2}};
-		factory.createBoard(grid);
-		assertEquals(s2, s1.getSquareAt(Direction.NORTH));
-		assertEquals(s1, s2.getSquareAt(Direction.NORTH));
+		factory.createBoard(new Square[][]{{s1, s2}});
+		assertThat(s1.getSquareAt(Direction.NORTH)).isEqualTo(s2);
+		assertThat(s2.getSquareAt(Direction.NORTH)).isEqualTo(s1);
 	}
 	
 	/**
@@ -86,11 +87,8 @@ public class BoardFactoryTest {
 	 */
 	@Test
 	public void connectedSouth() {
-		Square s1 = new BasicSquare();
-		Square s2 = new BasicSquare();
-		Square[][] grid = new Square[][]{{s1, s2}};
-		factory.createBoard(grid);
-		assertEquals(s2, s1.getSquareAt(Direction.SOUTH));
-		assertEquals(s1, s2.getSquareAt(Direction.SOUTH));
+		factory.createBoard(new Square[][]{{s1, s2}});
+		assertThat(s1.getSquareAt(Direction.SOUTH)).isEqualTo(s2);
+		assertThat(s2.getSquareAt(Direction.SOUTH)).isEqualTo(s1);
 	}
 }
