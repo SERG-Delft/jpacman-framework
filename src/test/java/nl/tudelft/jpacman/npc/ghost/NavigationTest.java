@@ -1,10 +1,8 @@
 package nl.tudelft.jpacman.npc.ghost;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,18 +18,17 @@ import nl.tudelft.jpacman.level.MapParser;
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import com.google.common.collect.Lists;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the various methods provided by the {@link Navigation} class.
- * 
- * @author Jeroen Roosen 
- * 
+ *
+ * @author Jeroen Roosen
+ *
  */
-@SuppressWarnings({"magicnumber", "PMD.AvoidDuplicateLiterals", "PMD.TooManyStaticImports"})
+@SuppressWarnings({"magicnumber", "PMD.AvoidDuplicateLiterals"})
 public class NavigationTest {
 
 	/**
@@ -42,7 +39,7 @@ public class NavigationTest {
 	/**
 	 * Set up the map parser.
 	 */
-	@Before
+	@BeforeEach
 	public void setUp() {
 		PacManSprites sprites = new PacManSprites();
 		parser = new MapParser(new LevelFactory(sprites, new GhostFactory(
@@ -59,7 +56,7 @@ public class NavigationTest {
 		Square s2 = b.squareAt(0, 0);
 		List<Direction> path = Navigation
 				.shortestPath(s1, s2, mock(Unit.class));
-		assertEquals(0, path.size());
+		assertThat(path).isEmpty();
 	}
 
 	/**
@@ -74,7 +71,7 @@ public class NavigationTest {
 		Square s2 = b.squareAt(3, 1);
 		List<Direction> path = Navigation
 				.shortestPath(s1, s2, mock(Unit.class));
-		assertNull(path);
+		assertThat(path).isNull();
 	}
 
 	/**
@@ -88,8 +85,7 @@ public class NavigationTest {
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(3, 1);
 		List<Direction> path = Navigation.shortestPath(s1, s2, null);
-		assertArrayEquals(new Direction[] { Direction.EAST, Direction.EAST },
-				path.toArray(new Direction[] {}));
+		assertThat(path).containsExactly(Direction.EAST, Direction.EAST);
 	}
 
 	/**
@@ -103,8 +99,7 @@ public class NavigationTest {
 		Square s2 = b.squareAt(2, 1);
 		List<Direction> path = Navigation
 				.shortestPath(s1, s2, mock(Unit.class));
-		assertArrayEquals(new Direction[] { Direction.EAST },
-				path.toArray(new Direction[] {}));
+        assertThat(path).containsExactly(Direction.EAST);
 	}
 
 	/**
@@ -118,8 +113,7 @@ public class NavigationTest {
 		Square s2 = b.squareAt(2, 2);
 		List<Direction> path = Navigation
 				.shortestPath(s1, s2, mock(Unit.class));
-		assertArrayEquals(new Direction[] { Direction.EAST, Direction.SOUTH },
-				path.toArray(new Direction[] {}));
+        assertThat(path).containsExactly(Direction.EAST, Direction.SOUTH);
 	}
 
 	/**
@@ -133,7 +127,7 @@ public class NavigationTest {
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(2, 1);
 		Square result = Navigation.findNearest(Pellet.class, s1).getSquare();
-		assertEquals(s2, result);
+		assertThat(result).isEqualTo(s2);
 	}
 
 	/**
@@ -144,13 +138,13 @@ public class NavigationTest {
 		Board b = parser.parseMap(Lists.newArrayList(" ")).getBoard();
 		Square s1 = b.squareAt(0, 0);
 		Unit unit = Navigation.findNearest(Pellet.class, s1);
-		assertNull(unit);
+		assertThat(unit).isNull();
 	}
-	
+
 	/**
 	 * Verifies that there is ghost on the default board
 	 * next to cell [1, 1].
-	 *  
+	 *
 	 * @throws IOException if board reading fails.
 	 */
 	@Test
@@ -159,7 +153,7 @@ public class NavigationTest {
 			Board b = parser.parseMap(i).getBoard();
 			Square s1 = b.squareAt(1, 1);
 			Unit unit = Navigation.findNearest(Ghost.class, s1);
-			assertNotNull(unit);
+			assertThat(unit).isNotNull();
 		}
 	}
 }
