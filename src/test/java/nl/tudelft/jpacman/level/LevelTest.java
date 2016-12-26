@@ -1,7 +1,7 @@
 package nl.tudelft.jpacman.level;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -10,17 +10,16 @@ import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import com.google.common.collect.Lists;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests various aspects of level.
  * 
  * @author Jeroen Roosen 
  */
-// The four suppresswarnings ignore the same rule, which results in 4 same string literals
+// The four suppress warnings ignore the same rule, which results in 4 same string literals
 @SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyStaticImports"})
 public class LevelTest {
 
@@ -58,7 +57,7 @@ public class LevelTest {
 	 * Sets up the level with the default board, a single NPC and a starting
 	 * square.
 	 */
-	@Before
+	@BeforeEach
 	public void setUp() {
 		final long defaultInterval = 100L;
 		level = new Level(board, Lists.newArrayList(ghost), Lists.newArrayList(
@@ -71,7 +70,7 @@ public class LevelTest {
 	 */
 	@Test
 	public void noStart() {
-		assertFalse(level.isInProgress());
+		assertThat(level.isInProgress()).isFalse();
 	}
 
 	/**
@@ -80,7 +79,7 @@ public class LevelTest {
 	@Test
 	public void stop() {
 		level.stop();
-		assertFalse(level.isInProgress());
+		assertThat(level.isInProgress()).isFalse();
 	}
 
 	/**
@@ -89,7 +88,7 @@ public class LevelTest {
 	@Test
 	public void start() {
 		level.start();
-		assertTrue(level.isInProgress());
+		assertThat(level.isInProgress()).isTrue();
 	}
 
 	/**
@@ -99,7 +98,7 @@ public class LevelTest {
 	public void startStop() {
 		level.start();
 		level.stop();
-		assertFalse(level.isInProgress());
+		assertThat(level.isInProgress()).isFalse();
 	}
 
 	/**
