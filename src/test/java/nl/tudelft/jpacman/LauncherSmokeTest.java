@@ -1,15 +1,13 @@
 package nl.tudelft.jpacman;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.level.Player;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Smoke test launching the full game,
@@ -26,7 +24,6 @@ import org.junit.Test;
  *
  * @author Arie van Deursen, March 2014.
  */
-@SuppressWarnings("magicnumber")
 public class LauncherSmokeTest {
 	
 	private Launcher launcher;
@@ -34,7 +31,7 @@ public class LauncherSmokeTest {
 	/**
 	 * Launch the user interface.
 	 */
-	@Before
+	@BeforeEach
 	public void setUpPacman() {
 		launcher = new Launcher();
 		launcher.launch();
@@ -43,7 +40,7 @@ public class LauncherSmokeTest {
 	/**
 	 * Quit the user interface when we're done.
 	 */
-	@After
+	@AfterEach
 	public void tearDown() {
 		launcher.dispose();
 	}
@@ -55,37 +52,37 @@ public class LauncherSmokeTest {
      * 
      * @throws InterruptedException Since we're sleeping in this test.
      */
-    @SuppressWarnings({"methodlength", "PMD.JUnitTestContainsTooManyAsserts"})
+    @SuppressWarnings({"magicnumber", "methodlength", "PMD.JUnitTestContainsTooManyAsserts"})
     @Test
     public void smokeTest() throws InterruptedException {
         Game game = launcher.getGame();        
         Player player = game.getPlayers().get(0);
  
         // start cleanly.
-        assertFalse(game.isInProgress());
+        assertThat(game.isInProgress()).isFalse();
         game.start();
-        assertTrue(game.isInProgress());
-        assertEquals(0, player.getScore());
+        assertThat(game.isInProgress()).isTrue();
+        assertThat(player.getScore()).isZero();
 
         // get points
         game.move(player, Direction.EAST);
-        assertEquals(10, player.getScore());
+        assertThat(player.getScore()).isEqualTo(10);
 
         // now moving back does not change the score
         game.move(player, Direction.WEST);
-        assertEquals(10, player.getScore());
+        assertThat(player.getScore()).isEqualTo(10);
 
         // try to move as far as we can
         move(game, Direction.EAST, 7);
-        assertEquals(60, player.getScore());
+        assertThat(player.getScore()).isEqualTo(60);
 
         // move towards the monsters
         move(game, Direction.NORTH, 6);
-        assertEquals(120, player.getScore());
+        assertThat(player.getScore()).isEqualTo(120);
 
         // no more points to earn here.
         move(game, Direction.WEST, 2);
-        assertEquals(120, player.getScore());
+        assertThat(player.getScore()).isEqualTo(120);
 
         move(game, Direction.NORTH, 2);
         
@@ -96,10 +93,10 @@ public class LauncherSmokeTest {
         // we're close to monsters, this will get us killed.
         move(game, Direction.WEST, 10);
         move(game, Direction.EAST, 10);
-        assertFalse(player.isAlive());
+        assertThat(player.isAlive()).isFalse();
 
         game.stop();
-        assertFalse(game.isInProgress());
+        assertThat(game.isInProgress()).isFalse();
      }
 
     /**
