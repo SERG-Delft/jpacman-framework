@@ -4,7 +4,7 @@
 
 	<groupId>nl.tudelft.jpacman</groupId>
 	<artifactId>jpacman-framework</artifactId>
-	<version>6.4.0</version>
+	<version>6.5.0-SNAPSHOT</version>
 	<url>https://github.com/serg-delft/jpacman-framework</url>
 	<description>
 		Pacman-inspired game, for teaching testing purposes.
@@ -45,19 +45,21 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<cucumber.version>1.2.5</cucumber.version>
-		<assertj.version>3.6.1</assertj.version>
-		<junit.version>4.12</junit.version>
-		<mockito.version>2.3.0</mockito.version>
-		<junit.jupiter.version>5.0.0-M3</junit.jupiter.version>
-		<junit.vintage.version>${junit.version}.0-M3</junit.vintage.version>
-		<junit.platform.version>1.0.0-M3</junit.platform.version>
+        <junit.jupiter.version>5.0.0-M3</junit.jupiter.version>
+        <junit.platform.version>1.0.0-M3</junit.platform.version>
 
-		<assembly.plugin.version>2.6</assembly.plugin.version>
+        <junit.version>4.12</junit.version>
+        <junit.vintage.version>${junit.version}.0-M3</junit.vintage.version>
+
+        <cucumber.version>1.2.5</cucumber.version>
+        <assertj.version>3.6.2</assertj.version>
+        <mockito.version>2.7.19</mockito.version>
+
+        <assembly.plugin.version>2.6</assembly.plugin.version>
 		<checkstyle.plugin.version>2.17</checkstyle.plugin.version>
 		<cobertura.plugin.version>2.7</cobertura.plugin.version>
 		<findbugs.plugin.version>3.0.3</findbugs.plugin.version>
-		<guava.plugin.version>20.0</guava.plugin.version>
+		<guava.plugin.version>21.0</guava.plugin.version>
 		<jacoco.plugin.version>0.7.6.201602180812</jacoco.plugin.version>
 		<jar.plugin.version>2.6</jar.plugin.version>
 		<jxr.plugin.version>2.5</jxr.plugin.version>
