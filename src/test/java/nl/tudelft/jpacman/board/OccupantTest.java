@@ -1,6 +1,5 @@
 package nl.tudelft.jpacman.board;
 
-import static org.junit.Assert.assertNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +31,7 @@ public class OccupantTest {
 	 */
 	@Test
 	public void noStartSquare() {
-		assertNull(unit.getSquare());
+		assertThat(unit.getSquare()).isNull();
 	}
 
 	/**
