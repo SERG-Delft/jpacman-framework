@@ -1,12 +1,12 @@
 package nl.tudelft.jpacman.sprite;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Verifies the loading of sprites.
@@ -28,7 +28,7 @@ public class SpriteTest {
      * @throws java.io.IOException
      *      when the sprite could not be loaded.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         store = new SpriteStore();
         sprite = store.loadSprite("/sprite/64x64white.png");
@@ -39,7 +39,7 @@ public class SpriteTest {
 	 */
 	@Test
 	public void spriteWidth() {
-		assertEquals(SPRITE_SIZE, sprite.getWidth());
+	    assertThat(sprite.getWidth()).isEqualTo(SPRITE_SIZE);
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class SpriteTest {
 	 */
 	@Test
 	public void spriteHeight() {
-		assertEquals(SPRITE_SIZE, sprite.getHeight());
+        assertThat(sprite.getHeight()).isEqualTo(SPRITE_SIZE);
 	}
 
 	/**
@@ -57,9 +57,10 @@ public class SpriteTest {
 	 * @throws java.io.IOException
 	 *             since the sprite cannot be loaded.
 	 */
-	@Test(expected = IOException.class)
+    @Test
 	public void resourceMissing() throws IOException {
-		store.loadSprite("/sprite/nonexistingresource.png");
+	    assertThatThrownBy(() -> store.loadSprite("/sprite/nonexistingresource.png"))
+                .isInstanceOf(IOException.class);
 	}
 
 	/**
@@ -69,8 +70,8 @@ public class SpriteTest {
 	public void animationWidth() {
 		AnimatedSprite animation = store.createAnimatedSprite(sprite, 4, 0,
 				false);
-		assertEquals(16, animation.getWidth());
-	}
+        assertThat(animation.getWidth()).isEqualTo(16);
+    }
 	
 	/**
 	 * Verifies that an animated sprite is correctly cut from its base image.
@@ -79,7 +80,7 @@ public class SpriteTest {
 	public void animationHeight() {
 		AnimatedSprite animation = store.createAnimatedSprite(sprite, 4, 0,
 				false);
-		assertEquals(64, animation.getHeight());
+        assertThat(animation.getHeight()).isEqualTo(64);
 	}
 	
 	/**
@@ -88,7 +89,7 @@ public class SpriteTest {
 	@Test
 	public void splitWidth() {
 		Sprite split = sprite.split(10, 11, 12, 13);
-		assertEquals(12, split.getWidth());
+        assertThat(split.getWidth()).isEqualTo(12);
 	}
 	
 	/**
@@ -97,7 +98,7 @@ public class SpriteTest {
 	@Test
 	public void splitHeight() {
 		Sprite split = sprite.split(10, 11, 12, 13);
-		assertEquals(13, split.getHeight());
+        assertThat(split.getHeight()).isEqualTo(13);
 	}
 	
 	/**
@@ -106,6 +107,6 @@ public class SpriteTest {
 	@Test
 	public void splitOutOfBounds() {
 		Sprite split = sprite.split(10, 10, 64, 10);
-		assertTrue(split instanceof EmptySprite);
+		assertThat(split).isInstanceOf(EmptySprite.class);
 	}
 }
