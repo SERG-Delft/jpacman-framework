@@ -45,11 +45,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <junit.jupiter.version>5.0.0-M3</junit.jupiter.version>
-        <junit.platform.version>1.0.0-M3</junit.platform.version>
+        <junit.jupiter.version>5.0.0-M4</junit.jupiter.version>
+        <junit.platform.version>1.0.0-M4</junit.platform.version>
 
         <junit.version>4.12</junit.version>
-        <junit.vintage.version>${junit.version}.0-M3</junit.vintage.version>
+        <junit.vintage.version>${junit.version}.0-M4</junit.vintage.version>
 
         <cucumber.version>1.2.5</cucumber.version>
         <assertj.version>3.6.2</assertj.version>
