@@ -43,13 +43,8 @@ public class BoardFactoryTest {
 	 */
 	@Test
 	public void worldIsRound() {
-		// Create a round world with just one cell.
 		factory.createBoard(new Square[][]{{s1}});
-
-		// All directions from that single cell point back to that cell.
-		Arrays.stream(Direction.values()).forEach((dir) ->
-			assertThat(s1.getSquareAt(dir)).isEqualTo(s1)
-		);
+		assertThat(Arrays.stream(Direction.values()).map(s1::getSquareAt)).containsOnly(s1);
 	}
 	
 	/**
