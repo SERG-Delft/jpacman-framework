@@ -60,7 +60,7 @@ Then  the game should start.
 
 ```
 As a player, 
- I want to move my Pacman arround on the board;
+ I want to move my Pacman around on the board;
 So that I can earn all points and win the game.
 
 Scenario S2.1: The player consumes
