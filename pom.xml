@@ -215,6 +215,9 @@
 						<version>${junit.vintage.version}</version>
 					</dependency>
 				</dependencies>
+				<configuration>
+					<trimStackTrace>false</trimStackTrace>
+				</configuration>
 			</plugin>
 
 			<plugin>
