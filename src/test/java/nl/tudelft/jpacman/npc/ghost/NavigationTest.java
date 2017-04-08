@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  *
  */
 @SuppressWarnings({"magicnumber", "PMD.AvoidDuplicateLiterals"})
-public class NavigationTest {
+class NavigationTest {
 
 	/**
 	 * Map parser used to construct boards.
@@ -40,7 +40,7 @@ public class NavigationTest {
 	 * Set up the map parser.
 	 */
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		PacManSprites sprites = new PacManSprites();
 		parser = new MapParser(new LevelFactory(sprites, new GhostFactory(
 				sprites)), new BoardFactory(sprites));
@@ -50,7 +50,7 @@ public class NavigationTest {
 	 * Verifies that the path to the same square is empty.
 	 */
 	@Test
-	public void testShortestPathEmpty() {
+	void testShortestPathEmpty() {
 		Board b = parser.parseMap(Lists.newArrayList(" ")).getBoard();
 		Square s1 = b.squareAt(0, 0);
 		Square s2 = b.squareAt(0, 0);
@@ -63,7 +63,7 @@ public class NavigationTest {
 	 * Verifies that if no path exists, the result is <code>null</code>.
 	 */
 	@Test
-	public void testNoShortestPath() {
+	void testNoShortestPath() {
 		Board b = parser
 				.parseMap(Lists.newArrayList("#####", "# # #", "#####"))
 				.getBoard();
@@ -78,7 +78,7 @@ public class NavigationTest {
 	 * Verifies that having no traveller ignores terrain.
 	 */
 	@Test
-	public void testNoTraveller() {
+	void testNoTraveller() {
 		Board b = parser
 				.parseMap(Lists.newArrayList("#####", "# # #", "#####"))
 				.getBoard();
@@ -92,7 +92,7 @@ public class NavigationTest {
 	 * Tests if the algorithm can find a path in a straight line.
 	 */
 	@Test
-	public void testSimplePath() {
+	void testSimplePath() {
 		Board b = parser.parseMap(Lists.newArrayList("####", "#  #", "####"))
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
@@ -106,7 +106,7 @@ public class NavigationTest {
 	 * Verifies that the algorithm can find a path when it has to take corners.
 	 */
 	@Test
-	public void testCornerPath() {
+	void testCornerPath() {
 		Board b = parser.parseMap(
 				Lists.newArrayList("####", "#  #", "## #", "####")).getBoard();
 		Square s1 = b.squareAt(1, 1);
@@ -120,7 +120,7 @@ public class NavigationTest {
 	 * Verifies that the nearest object is detected.
 	 */
 	@Test
-	public void testNearestUnit() {
+	void testNearestUnit() {
 		Board b = parser
 				.parseMap(Lists.newArrayList("#####", "# ..#", "#####"))
 				.getBoard();
@@ -134,7 +134,7 @@ public class NavigationTest {
 	 * Verifies that there is no such location if there is no nearest object.
 	 */
 	@Test
-	public void testNoNearestUnit() {
+	void testNoNearestUnit() {
 		Board b = parser.parseMap(Lists.newArrayList(" ")).getBoard();
 		Square s1 = b.squareAt(0, 0);
 		Unit unit = Navigation.findNearest(Pellet.class, s1);
@@ -148,7 +148,7 @@ public class NavigationTest {
 	 * @throws IOException if board reading fails.
 	 */
 	@Test
-	public void testFullSizedLevel() throws IOException {
+	void testFullSizedLevel() throws IOException {
 		try (InputStream i = getClass().getResourceAsStream("/board.txt")) {
 			Board b = parser.parseMap(i).getBoard();
 			Square s1 = b.squareAt(1, 1);

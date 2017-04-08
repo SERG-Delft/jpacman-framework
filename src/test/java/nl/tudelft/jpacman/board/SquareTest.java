@@ -11,7 +11,7 @@ import static org.mockito.Mockito.mock;
  * 
  * @author Jeroen Roosen 
  */
-public class SquareTest {
+class SquareTest {
 
 	/**
 	 * The square under test.
@@ -22,7 +22,7 @@ public class SquareTest {
 	 * Resets the square under test.
 	 */
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		square = new BasicSquare();
 	}
 
@@ -30,7 +30,7 @@ public class SquareTest {
 	 * Assert that the square holds the occupant once it has occupied it.
 	 */
 	@Test
- 	public void testOccupy() {
+ 	void testOccupy() {
 		Unit occupant = mock(Unit.class);
 		square.put(occupant);
 
@@ -42,7 +42,7 @@ public class SquareTest {
 	 * square.
 	 */
 	@Test
-	public void testLeave() {
+	void testLeave() {
 		Unit occupant = mock(Unit.class);
 		square.put(occupant);
 		square.remove(occupant);
@@ -54,7 +54,7 @@ public class SquareTest {
 	 * Assert that the order in which units entered the square is preserved.
 	 */
 	@Test
-	public void testOrder() {
+	void testOrder() {
 		Unit o1 = mock(Unit.class);
 		Unit o2 = mock(Unit.class);
 		square.put(o1);

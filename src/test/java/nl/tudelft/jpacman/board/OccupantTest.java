@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
  * @author Jeroen Roosen 
  * 
  */
-public class OccupantTest {
+class OccupantTest {
 
 	/**
 	 * The unit under test.
@@ -22,7 +22,7 @@ public class OccupantTest {
 	 * Resets the unit under test.
 	 */
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		unit = new BasicUnit();
 	}
 
@@ -30,7 +30,7 @@ public class OccupantTest {
 	 * Asserts that a unit has no square to start with.
 	 */
 	@Test
-	public void noStartSquare() {
+	void noStartSquare() {
 		assertThat(unit.getSquare()).isNull();
 	}
 
@@ -39,7 +39,7 @@ public class OccupantTest {
 	 * occupation.
 	 */
 	@Test
-	public void testOccupy() {
+	void testOccupy() {
 		Square target = new BasicSquare();
 		unit.occupy(target);
 		assertThat(unit.getSquare()).isEqualTo(target);
@@ -51,7 +51,7 @@ public class OccupantTest {
      * double occupation.
      */
 	@Test
-	public void testReoccupy() {
+	void testReoccupy() {
 		Square target = new BasicSquare();
 		unit.occupy(target);
 		unit.occupy(target);

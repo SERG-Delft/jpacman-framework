@@ -14,7 +14,7 @@ import java.util.Arrays;
  * 
  * @author Jeroen Roosen 
  */
-public class BoardFactoryTest {
+class BoardFactoryTest {
 
 	/**
 	 * The factory under test.
@@ -30,7 +30,7 @@ public class BoardFactoryTest {
 	 * Resets the factory under test.
 	 */
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		PacManSprites sprites = mock(PacManSprites.class);
 		factory = new BoardFactory(sprites);
 
@@ -42,7 +42,7 @@ public class BoardFactoryTest {
 	 * Verifies that a single cell is connected to itself on all sides.
 	 */
 	@Test
-	public void worldIsRound() {
+	void worldIsRound() {
 		factory.createBoard(new Square[][]{{s1}});
 		assertThat(Arrays.stream(Direction.values()).map(s1::getSquareAt)).containsOnly(s1);
 	}
@@ -51,7 +51,7 @@ public class BoardFactoryTest {
 	 * Verifies a chain of cells is connected to the east.
 	 */
 	@Test
-	public void connectedEast() {
+	void connectedEast() {
 		factory.createBoard(new Square[][]{{s1}, {s2}});
 		assertThat(s1.getSquareAt(Direction.EAST)).isEqualTo(s2);
 		assertThat(s2.getSquareAt(Direction.EAST)).isEqualTo(s1);
@@ -61,7 +61,7 @@ public class BoardFactoryTest {
 	 * Verifies a chain of cells is connected to the west.
 	 */
 	@Test
-	public void connectedWest() {
+	void connectedWest() {
 		factory.createBoard(new Square[][]{{s1}, {s2}});
 		assertThat(s1.getSquareAt(Direction.WEST)).isEqualTo(s2);
 		assertThat(s2.getSquareAt(Direction.WEST)).isEqualTo(s1);
@@ -71,7 +71,7 @@ public class BoardFactoryTest {
 	 * Verifies a chain of cells is connected to the north.
 	 */
 	@Test
-	public void connectedNorth() {
+	void connectedNorth() {
 		factory.createBoard(new Square[][]{{s1, s2}});
 		assertThat(s1.getSquareAt(Direction.NORTH)).isEqualTo(s2);
 		assertThat(s2.getSquareAt(Direction.NORTH)).isEqualTo(s1);
@@ -81,7 +81,7 @@ public class BoardFactoryTest {
 	 * Verifies a chain of cells is connected to the south.
 	 */
 	@Test
-	public void connectedSouth() {
+	void connectedSouth() {
 		factory.createBoard(new Square[][]{{s1, s2}});
 		assertThat(s1.getSquareAt(Direction.SOUTH)).isEqualTo(s2);
 		assertThat(s2.getSquareAt(Direction.SOUTH)).isEqualTo(s1);

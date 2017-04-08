@@ -15,7 +15,7 @@ import static org.mockito.Mockito.mock;
  *
  * @author Jeroen Roosen 
  */
-public class BoardTest {
+class BoardTest {
 
     private static final int MAX_WIDTH = 2;
     private static final int MAX_HEIGHT = 3;
@@ -30,7 +30,7 @@ public class BoardTest {
      * Verifies the board has the correct width.
      */
     @Test
-    public void verifyWidth() {
+    void verifyWidth() {
         assertThat(board.getWidth()).isEqualTo(MAX_WIDTH);
     }
 
@@ -38,7 +38,7 @@ public class BoardTest {
      * Verifies the board has the correct height.
      */
     @Test
-    public void verifyHeight() {
+    void verifyHeight() {
         assertThat(board.getHeight()).isEqualTo(MAX_HEIGHT);
     }
 
@@ -47,7 +47,7 @@ public class BoardTest {
      * @return Tests for the various places.
      */
     @TestFactory
-    public Iterable<DynamicTest> verifySquares() {
+    Iterable<DynamicTest> verifySquares() {
         return Arrays.asList(
                 testSquareAt(0, 0),
                 testSquareAt(1, 2),

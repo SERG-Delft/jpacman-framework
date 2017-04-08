@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Arie van Deursen, March 2014.
  */
-public class LauncherSmokeTest {
+class LauncherSmokeTest {
 	
 	private Launcher launcher;
 	
@@ -32,7 +32,7 @@ public class LauncherSmokeTest {
 	 * Launch the user interface.
 	 */
 	@BeforeEach
-	public void setUpPacman() {
+	void setUpPacman() {
 		launcher = new Launcher();
 		launcher.launch();
 	}
@@ -41,7 +41,7 @@ public class LauncherSmokeTest {
 	 * Quit the user interface when we're done.
 	 */
 	@AfterEach
-	public void tearDown() {
+	void tearDown() {
 		launcher.dispose();
 	}
 
@@ -54,7 +54,7 @@ public class LauncherSmokeTest {
      */
     @SuppressWarnings({"magicnumber", "methodlength", "PMD.JUnitTestContainsTooManyAsserts"})
     @Test
-    public void smokeTest() throws InterruptedException {
+    void smokeTest() throws InterruptedException {
         Game game = launcher.getGame();        
         Player player = game.getPlayers().get(0);
  
@@ -106,7 +106,7 @@ public class LauncherSmokeTest {
      * @param dir The direction to be taken
      * @param numSteps The number of steps to take
      */
-    public static void move(Game game, Direction dir, int numSteps) {
+    static void move(Game game, Direction dir, int numSteps) {
         Player player = game.getPlayers().get(0);
         for (int i = 0; i < numSteps; i++) {
             game.move(player, dir);
