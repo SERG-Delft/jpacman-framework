@@ -87,10 +87,15 @@ public class Launcher {
 	 */
 	public Level makeLevel() {
 		MapParser parser = getMapParser();
-		try (InputStream boardStream = Launcher.class.getResourceAsStream(getLevelMap())) {
-			return parser.parseMap(boardStream);
+		String mapName = getLevelMap();
+		try (InputStream boardStream = Launcher.class.getResourceAsStream(mapName)) {
+			if (boardStream != null) {
+				return parser.parseMap(boardStream);
+			} else {
+				throw new PacmanConfigurationException("Could not get resource for: " + mapName);
+			}
 		} catch (IOException e) {
-			throw new PacmanConfigurationException("Unable to create level.", e);
+			throw new PacmanConfigurationException("Unable to create level, name = " + mapName, e);
 		}
 	}
 
