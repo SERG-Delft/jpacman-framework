@@ -67,6 +67,8 @@
 		<pmd.plugin.version>3.6</pmd.plugin.version>
 		<shade.plugin.version>2.4.3</shade.plugin.version>
 		<surefire.plugin.version>2.19.1</surefire.plugin.version>
+
+		<annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
 	</properties>
 
 	<dependencies>
@@ -112,10 +114,62 @@
 			<version>${cucumber.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- annotations from the Checker Framework: nullness, interning, locking, ... -->
+		<dependency>
+			<groupId>org.checkerframework</groupId>
+			<artifactId>checker-qual</artifactId>
+			<version>2.1.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.checkerframework</groupId>
+			<artifactId>checker</artifactId>
+			<version>2.1.10</version>
+		</dependency>
+		<!-- The annotated JDK to use (change to jdk7 if using Java 7). -->
+		<dependency>
+			<groupId>org.checkerframework</groupId>
+			<artifactId>jdk8</artifactId>
+			<version>2.1.10</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
+			<plugin>
+				<!-- This plugin will set properties values using dependency information -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>properties</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<fork>true</fork>
+					<annotationProcessors>
+						<annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+					</annotationProcessors>
+					<compilerArgs>
+						<arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+						<arg>-AskipUses=^java</arg>
+						<arg>-AassumeAssertionsAreEnabled</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+
+
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>${assembly.plugin.version}</version>

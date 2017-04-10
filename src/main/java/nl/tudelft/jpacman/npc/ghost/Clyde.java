@@ -6,8 +6,10 @@ import java.util.Map;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.sprite.Sprite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * <p>
@@ -95,13 +97,16 @@ public class Clyde extends Ghost {
 	 * move in the opposite direction when he gets within 8 cells of Pac-Man.
 	 * </p>
 	 */
-	@Override
+	@Override @Nullable
 	public Direction nextMove() {
-		Square target = Navigation.findNearest(Player.class, getSquare())
-				.getSquare();
-		if (target == null) {
+		assert hasSquare();
+
+		Unit nearest = Navigation.findNearest(Player.class, getSquare());
+		if (nearest == null) {
 			return randomMove();
 		}
+		assert nearest.hasSquare();
+		Square target = nearest.getSquare();
 
 		List<Direction> path = Navigation.shortestPath(getSquare(), target,
 				this);

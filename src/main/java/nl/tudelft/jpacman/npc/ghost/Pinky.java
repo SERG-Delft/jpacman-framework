@@ -8,6 +8,7 @@ import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.sprite.Sprite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * <p>
@@ -85,12 +86,15 @@ public class Pinky extends Ghost {
 	 * spaces.
 	 * </p>
 	 */
-	@Override
+	@Override @Nullable
 	public Direction nextMove() {
+		assert hasSquare();
+
 		Unit player = Navigation.findNearest(Player.class, getSquare());
 		if (player == null) {
 			return randomMove();
 		}
+		assert player.hasSquare();
 
 		Direction targetDirection = player.getDirection();
 		Square destination = player.getSquare();
@@ -98,7 +102,7 @@ public class Pinky extends Ghost {
 			destination = destination.getSquareAt(targetDirection);
 		}
 
-		List<Direction> path = Navigation.shortestPath(getSquare(),
+		@Nullable List<Direction> path = Navigation.shortestPath(getSquare(),
 				destination, this);
 		if (path != null && !path.isEmpty()) {
 			return path.get(0);

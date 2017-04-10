@@ -5,8 +5,10 @@ import java.util.Map;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.sprite.Sprite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * <p>
@@ -75,17 +77,19 @@ public class Blinky extends Ghost {
 	 * Blinky, he'll try to move up towards Pac-Man before he moves to the left.
 	 * </p>
 	 */
-	@Override
+	@Override @Nullable
 	public Direction nextMove() {
+		assert hasSquare();
+
 		// TODO Blinky should patrol his corner every once in a while
 		// TODO Implement his actual behaviour instead of simply chasing.
-		Square target = Navigation.findNearest(Player.class, getSquare())
-				.getSquare();
-
-		if (target == null) {
+		Unit nearest = Navigation.findNearest(Player.class, getSquare());
+		if (nearest == null) {
 			return randomMove();
 		}
-		
+		assert nearest.hasSquare();
+		Square target = nearest.getSquare();
+
 		List<Direction> path = Navigation.shortestPath(getSquare(), target,
 				this);
 		if (path != null && !path.isEmpty()) {

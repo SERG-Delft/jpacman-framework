@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Arie van Deursen, March 2014.
  */
-class LauncherSmokeTest {
+public class LauncherSmokeTest {
 	
 	private Launcher launcher;
 	
@@ -106,7 +106,7 @@ class LauncherSmokeTest {
      * @param dir The direction to be taken
      * @param numSteps The number of steps to take
      */
-    static void move(Game game, Direction dir, int numSteps) {
+    public static void move(Game game, Direction dir, int numSteps) {
         Player player = game.getPlayers().get(0);
         for (int i = 0; i < numSteps; i++) {
             game.move(player, dir);

@@ -8,6 +8,7 @@ import java.util.Set;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Navigation provides utility to nagivate on {@link Square}s.
@@ -38,8 +39,8 @@ public final class Navigation {
 	 *         such path could be found. When the destination is the current
 	 *         square, an empty list is returned.
 	 */
-	public static List<Direction> shortestPath(Square from, Square to,
-			Unit traveller) {
+	@Nullable public static List<Direction> shortestPath(Square from, Square to,
+			@Nullable  Unit traveller) {
 		if (from.equals(to)) {
 			return new ArrayList<>();
 		}
@@ -59,7 +60,7 @@ public final class Navigation {
 		return null;
 	}
 
-	private static void addNewTargets(Unit traveller, List<Node> targets,
+	private static void addNewTargets(@Nullable Unit traveller, List<Node> targets,
 			Set<Square> visited, Node n, Square s) {
 		for (Direction d : Direction.values()) {
 			Square target = s.getSquareAt(d);
@@ -83,7 +84,7 @@ public final class Navigation {
 	 * @return The nearest unit of the given type, or <code>null</code> if no
 	 *         such unit could be found.
 	 */
-	public static Unit findNearest(Class<? extends Unit> type,
+	@Nullable public static Unit findNearest(Class<? extends Unit> type,
 			Square currentLocation) {
 		List<Square> toDo = new ArrayList<>();
 		Set<Square> visited = new HashSet<>();
@@ -94,6 +95,7 @@ public final class Navigation {
 			Square square = toDo.remove(0);
 			Unit unit = findUnit(type, square);
 			if (unit != null) {
+				assert unit.hasSquare();
 				return unit;
 			}
 			visited.add(square);
@@ -117,9 +119,10 @@ public final class Navigation {
 	 * @return A unit of type T, iff such a unit occupies this square, or
 	 *         <code>null</code> of none does.
 	 */
-	public static Unit findUnit(Class<? extends Unit> type, Square square) {
+	@Nullable public static Unit findUnit(Class<? extends Unit> type, Square square) {
 		for (Unit u : square.getOccupants()) {
 			if (type.isInstance(u)) {
+				assert u.hasSquare();
 				return u;
 			}
 		}
@@ -137,12 +140,12 @@ public final class Navigation {
 		 * The direction for this node, which is <code>null</code> for the root
 		 * node.
 		 */
-		private final Direction direction;
+		@Nullable private final Direction direction;
 
 		/**
 		 * The parent node, which is <code>null</code> for the root node.
 		 */
-		private final Node parent;
+		@Nullable private final Node parent;
 
 		/**
 		 * The square associated with this node.
@@ -161,7 +164,7 @@ public final class Navigation {
 		 *            The parent node, which is <code>null</code> for the root
 		 *            node.
 		 */
-		Node(Direction d, Square s, Node p) {
+		Node(@Nullable Direction d, Square s, @Nullable Node p) {
 			this.direction = d;
 			this.square = s;
 			this.parent = p;
@@ -171,7 +174,7 @@ public final class Navigation {
 		 * @return The direction for this node, or <code>null</code> if this
 		 *         node is a root node.
 		 */
-		private Direction getDirection() {
+		@Nullable private Direction getDirection() {
 			return direction;
 		}
 
@@ -186,7 +189,7 @@ public final class Navigation {
 		 * @return The parent node, or <code>null</code> if this node is a root
 		 *         node.
 		 */
-		private Node getParent() {
+		@Nullable private Node getParent() {
 			return parent;
 		}
 
