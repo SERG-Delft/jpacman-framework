@@ -199,7 +199,7 @@ public final class Navigation {
 		 * @return The list of values from the root of the tree to this node.
 		 */
 		private List<Direction> getPath() {
-			if (getParent() == null) {
+			if (parent == null) {
 				return new ArrayList<>();
 			}
 			List<Direction> path = parent.getPath();

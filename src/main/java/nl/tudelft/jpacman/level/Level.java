@@ -243,8 +243,10 @@ public class Level {
 	 * executed.
 	 */
 	private void stopNPCs() {
-		for (Entry<NPC, ScheduledExecutorService> e : npcs.entrySet()) {
-			e.getValue().shutdownNow();
+		for (Entry<NPC, @Nullable ScheduledExecutorService> e : npcs.entrySet()) {
+			ScheduledExecutorService schedule = e.getValue();
+			assert schedule != null;
+			schedule.shutdownNow();
 		}
 	}
 

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import nl.tudelft.jpacman.board.Unit;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A map of possible collisions and their handlers.
@@ -128,6 +129,7 @@ public class CollisionInteractionMap implements CollisionMap {
 			return;
 		}
 
+		assert handlers.containsKey(colliderKey);
 		Map<Class<? extends Unit>, CollisionHandler<?, ?>> map = handlers
 				.get(colliderKey);
 		Class<? extends Unit> collideeKey = getMostSpecificClass(map,
@@ -155,7 +157,7 @@ public class CollisionInteractionMap implements CollisionMap {
 	 *            The class to search the most suitable key for.
 	 * @return The most specific class from the key collection.
 	 */
-	private Class<? extends Unit> getMostSpecificClass(
+	@Nullable private Class<? extends Unit> getMostSpecificClass(
 			Map<Class<? extends Unit>, ?> map, Class<? extends Unit> key) {
 		List<Class<? extends Unit>> collideeInheritance = getInheritance(key);
 		for (Class<? extends Unit> pointer : collideeInheritance) {
