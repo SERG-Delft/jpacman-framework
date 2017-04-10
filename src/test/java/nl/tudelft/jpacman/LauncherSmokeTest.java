@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Arie van Deursen, March 2014.
  */
+@SuppressWarnings("initialization")
 public class LauncherSmokeTest {
 	
 	private Launcher launcher;
