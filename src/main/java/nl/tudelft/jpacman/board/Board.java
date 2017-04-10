@@ -21,6 +21,7 @@ public class Board {
 	 *            The grid of squares with grid[x][y] being the square at column
 	 *            x, row y.
 	 */
+	@SuppressWarnings("initialization") // invariant uses fields set in constructor.
 	Board(Square[][] grid) {
 		assert grid != null;
 		this.board = grid;
@@ -31,7 +32,7 @@ public class Board {
 	 * Whatever happens, the squares on the board can't be null.
 	 * @return false if any square on the board is null.
 	 */
-	protected final boolean invariant(@UnderInitialization Board this) {
+	protected final boolean invariant() {
 		for (Square[] row : board) {
 			for (Square square : row) {
 				if (square == null) {
@@ -62,6 +63,9 @@ public class Board {
 
 	/**
 	 * Returns the square at the given <code>x,y</code> position.
+	 *
+	 * Precondition: The <code>(x, y)</code> coordinates are within the
+	 * width and height of the board.
 	 * 
 	 * @param x
 	 *            The <code>x</code> position (column) of the requested square.
