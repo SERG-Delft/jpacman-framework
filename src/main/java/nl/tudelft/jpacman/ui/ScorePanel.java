@@ -33,13 +33,7 @@ public class ScorePanel extends JPanel {
 	 * The default way in which the score is shown.
 	 */
 	public static final ScoreFormatter DEFAULT_SCORE_FORMATTER =
-			// this lambda breaks cobertura 2.7 ...
-			// player) -> String.format("Score: %3d", player.getScore());
-			new ScoreFormatter() {
-				public String format(Player p) {
-					return String.format("Score: %3d", p.getScore());
-				}
-			};
+			(Player player) -> String.format("Score: %3d", player.getScore());
 
 	/**
 	 * The way to format the score information.

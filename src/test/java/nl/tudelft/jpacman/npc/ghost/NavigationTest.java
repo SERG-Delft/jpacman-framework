@@ -1,10 +1,8 @@
 package nl.tudelft.jpacman.npc.ghost;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,19 +18,18 @@ import nl.tudelft.jpacman.level.MapParser;
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import com.google.common.collect.Lists;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the various methods provided by the {@link Navigation} class.
- * 
- * @author Jeroen Roosen 
- * 
+ *
+ * @author Jeroen Roosen
+ *
  */
-@SuppressWarnings({"magicnumber", "PMD.AvoidDuplicateLiterals", "PMD.TooManyStaticImports"})
-public class NavigationTest {
+@SuppressWarnings({"magicnumber", "PMD.AvoidDuplicateLiterals"})
+class NavigationTest {
 
 	/**
 	 * Map parser used to construct boards.
@@ -42,8 +39,8 @@ public class NavigationTest {
 	/**
 	 * Set up the map parser.
 	 */
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		PacManSprites sprites = new PacManSprites();
 		parser = new MapParser(new LevelFactory(sprites, new GhostFactory(
 				sprites)), new BoardFactory(sprites));
@@ -53,20 +50,20 @@ public class NavigationTest {
 	 * Verifies that the path to the same square is empty.
 	 */
 	@Test
-	public void testShortestPathEmpty() {
+	void testShortestPathEmpty() {
 		Board b = parser.parseMap(Lists.newArrayList(" ")).getBoard();
 		Square s1 = b.squareAt(0, 0);
 		Square s2 = b.squareAt(0, 0);
 		List<Direction> path = Navigation
 				.shortestPath(s1, s2, mock(Unit.class));
-		assertEquals(0, path.size());
+		assertThat(path).isEmpty();
 	}
 
 	/**
 	 * Verifies that if no path exists, the result is <code>null</code>.
 	 */
 	@Test
-	public void testNoShortestPath() {
+	void testNoShortestPath() {
 		Board b = parser
 				.parseMap(Lists.newArrayList("#####", "# # #", "#####"))
 				.getBoard();
@@ -74,92 +71,89 @@ public class NavigationTest {
 		Square s2 = b.squareAt(3, 1);
 		List<Direction> path = Navigation
 				.shortestPath(s1, s2, mock(Unit.class));
-		assertNull(path);
+		assertThat(path).isNull();
 	}
 
 	/**
 	 * Verifies that having no traveller ignores terrain.
 	 */
 	@Test
-	public void testNoTraveller() {
+	void testNoTraveller() {
 		Board b = parser
 				.parseMap(Lists.newArrayList("#####", "# # #", "#####"))
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(3, 1);
 		List<Direction> path = Navigation.shortestPath(s1, s2, null);
-		assertArrayEquals(new Direction[] { Direction.EAST, Direction.EAST },
-				path.toArray(new Direction[] {}));
+		assertThat(path).containsExactly(Direction.EAST, Direction.EAST);
 	}
 
 	/**
 	 * Tests if the algorithm can find a path in a straight line.
 	 */
 	@Test
-	public void testSimplePath() {
+	void testSimplePath() {
 		Board b = parser.parseMap(Lists.newArrayList("####", "#  #", "####"))
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(2, 1);
 		List<Direction> path = Navigation
 				.shortestPath(s1, s2, mock(Unit.class));
-		assertArrayEquals(new Direction[] { Direction.EAST },
-				path.toArray(new Direction[] {}));
+        assertThat(path).containsExactly(Direction.EAST);
 	}
 
 	/**
 	 * Verifies that the algorithm can find a path when it has to take corners.
 	 */
 	@Test
-	public void testCornerPath() {
+	void testCornerPath() {
 		Board b = parser.parseMap(
 				Lists.newArrayList("####", "#  #", "## #", "####")).getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(2, 2);
 		List<Direction> path = Navigation
 				.shortestPath(s1, s2, mock(Unit.class));
-		assertArrayEquals(new Direction[] { Direction.EAST, Direction.SOUTH },
-				path.toArray(new Direction[] {}));
+        assertThat(path).containsExactly(Direction.EAST, Direction.SOUTH);
 	}
 
 	/**
 	 * Verifies that the nearest object is detected.
 	 */
 	@Test
-	public void testNearestUnit() {
+	void testNearestUnit() {
 		Board b = parser
 				.parseMap(Lists.newArrayList("#####", "# ..#", "#####"))
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(2, 1);
 		Square result = Navigation.findNearest(Pellet.class, s1).getSquare();
-		assertEquals(s2, result);
+		assertThat(result).isEqualTo(s2);
 	}
 
 	/**
 	 * Verifies that there is no such location if there is no nearest object.
 	 */
 	@Test
-	public void testNoNearestUnit() {
+	void testNoNearestUnit() {
 		Board b = parser.parseMap(Lists.newArrayList(" ")).getBoard();
 		Square s1 = b.squareAt(0, 0);
 		Unit unit = Navigation.findNearest(Pellet.class, s1);
-		assertNull(unit);
+		assertThat(unit).isNull();
 	}
-	
+
 	/**
 	 * Verifies that there is ghost on the default board
 	 * next to cell [1, 1].
-	 *  
+	 *
 	 * @throws IOException if board reading fails.
 	 */
 	@Test
-	public void testFullSizedLevel() throws IOException {
+	void testFullSizedLevel() throws IOException {
 		try (InputStream i = getClass().getResourceAsStream("/board.txt")) {
 			Board b = parser.parseMap(i).getBoard();
 			Square s1 = b.squareAt(1, 1);
 			Unit unit = Navigation.findNearest(Ghost.class, s1);
-			assertNotNull(unit);
+			assertThat(unit).isNotNull();
 		}
 	}
 }

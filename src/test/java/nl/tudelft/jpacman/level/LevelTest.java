@@ -1,7 +1,7 @@
 package nl.tudelft.jpacman.level;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -10,19 +10,18 @@ import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import com.google.common.collect.Lists;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests various aspects of level.
  * 
  * @author Jeroen Roosen 
  */
-// The four suppresswarnings ignore the same rule, which results in 4 same string literals
+// The four suppress warnings ignore the same rule, which results in 4 same string literals
 @SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyStaticImports"})
-public class LevelTest {
+class LevelTest {
 
 	/**
 	 * The level under test.
@@ -58,8 +57,8 @@ public class LevelTest {
 	 * Sets up the level with the default board, a single NPC and a starting
 	 * square.
 	 */
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		final long defaultInterval = 100L;
 		level = new Level(board, Lists.newArrayList(ghost), Lists.newArrayList(
 				square1, square2), collisions);
@@ -70,36 +69,36 @@ public class LevelTest {
 	 * Validates the state of the level when it isn't started yet.
 	 */
 	@Test
-	public void noStart() {
-		assertFalse(level.isInProgress());
+	void noStart() {
+		assertThat(level.isInProgress()).isFalse();
 	}
 
 	/**
 	 * Validates the state of the level when it is stopped without starting.
 	 */
 	@Test
-	public void stop() {
+	void stop() {
 		level.stop();
-		assertFalse(level.isInProgress());
+		assertThat(level.isInProgress()).isFalse();
 	}
 
 	/**
 	 * Validates the state of the level when it is started.
 	 */
 	@Test
-	public void start() {
+	void start() {
 		level.start();
-		assertTrue(level.isInProgress());
+		assertThat(level.isInProgress()).isTrue();
 	}
 
 	/**
 	 * Validates the state of the level when it is started then stopped.
 	 */
 	@Test
-	public void startStop() {
+	void startStop() {
 		level.start();
 		level.stop();
-		assertFalse(level.isInProgress());
+		assertThat(level.isInProgress()).isFalse();
 	}
 
 	/**
@@ -108,7 +107,7 @@ public class LevelTest {
 	 */
 	@Test
 	@SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
-	public void registerPlayer() {
+	void registerPlayer() {
 		Player p = mock(Player.class);
 		level.registerPlayer(p);
 		verify(p).occupy(square1);
@@ -119,7 +118,7 @@ public class LevelTest {
 	 */
 	@Test
 	@SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
-	public void registerPlayerTwice() {
+	void registerPlayerTwice() {
 		Player p = mock(Player.class);
 		level.registerPlayer(p);
 		level.registerPlayer(p);
@@ -132,7 +131,7 @@ public class LevelTest {
 	 */
 	@Test
 	@SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
-	public void registerSecondPlayer() {
+	void registerSecondPlayer() {
 		Player p1 = mock(Player.class);
 		Player p2 = mock(Player.class);
 		level.registerPlayer(p1);
@@ -146,7 +145,7 @@ public class LevelTest {
 	 */
 	@Test
 	@SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
-	public void registerThirdPlayer() {
+	void registerThirdPlayer() {
 		Player p1 = mock(Player.class);
 		Player p2 = mock(Player.class);
 		Player p3 = mock(Player.class);
