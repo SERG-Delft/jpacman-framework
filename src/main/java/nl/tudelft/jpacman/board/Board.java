@@ -1,7 +1,5 @@
 package nl.tudelft.jpacman.board;
 
-import org.checkerframework.checker.initialization.qual.UnderInitialization;
-
 /**
  * A top-down view of a matrix of {@link Square}s.
  * 
