@@ -77,7 +77,7 @@ public abstract class Unit {
 		if (square != null) {
 			square.remove(this);
 		}
-		square = target;
+		square = null;
 		target.put(this);
 		assert invariant();
 	}
