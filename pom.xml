@@ -271,6 +271,7 @@
 				</dependencies>
 				<configuration>
 					<trimStackTrace>false</trimStackTrace>
+					<enableAssertions>false</enableAssertions>
 				</configuration>
 			</plugin>
 

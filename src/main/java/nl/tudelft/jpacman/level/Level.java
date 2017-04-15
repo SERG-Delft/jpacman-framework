@@ -301,7 +301,7 @@ public class Level {
 		int pellets = 0;
 		for (int x = 0; x < b.getWidth(); x++) {
 			for (int y = 0; y < b.getHeight(); y++) {
-				for (Unit u : b.squareAt(x, y).getOccupants()) {
+				for (Unit u : b.squareAt(x+1, y).getOccupants()) {
 					if (u instanceof Pellet) {
 						pellets++;
 					}
