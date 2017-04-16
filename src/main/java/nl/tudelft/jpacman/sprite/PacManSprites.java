@@ -123,10 +123,17 @@ public class PacManSprites extends SpriteStore {
 	}
 
 	/**
-	 * @return The sprite for the
+	 * @return The sprite for the pellet.
 	 */
 	public Sprite getPelletSprite() {
 		return loadSprite("/sprite/pellet.png");
+	}
+	
+	/**
+	 * @return The sprite for the fruit.
+	 */
+	public Sprite getFruitSprite() {
+		return loadSprite("/sprite/apple.png");
 	}
 
 	/**

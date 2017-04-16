@@ -51,6 +51,16 @@ public class DefaultPlayerInteractionMap implements CollisionMap {
 						player.addPoints(pellet.getValue());
 					}
 				});
+		
+		collisionMap.onCollision(Player.class, Fruit.class,
+				new CollisionHandler<Player, Fruit>() {
+					
+					@Override
+					public void handleCollision(Player player, Fruit fruit) {
+						fruit.leaveSquare();
+						player.addPoints(fruit.getValue());
+					}
+				});
 		return collisionMap;
 	}
 }

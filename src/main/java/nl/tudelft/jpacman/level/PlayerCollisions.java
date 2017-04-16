@@ -38,6 +38,10 @@ public class PlayerCollisions implements CollisionMap {
 		if (collidedOn instanceof Pellet) {
 			playerVersusPellet(player, (Pellet) collidedOn);
 		}		
+		
+		if (collidedOn instanceof Fruit) {
+			playerVersusFruit(player, (Fruit) collidedOn);
+		}
 	}
 	
 	private void ghostColliding(Ghost ghost, Unit collidedOn) {
@@ -74,4 +78,11 @@ public class PlayerCollisions implements CollisionMap {
 		player.addPoints(pellet.getValue());		
 	}
 
+	/**
+	 * Actual case of player consuming a fruit.
+	 */
+	private void playerVersusFruit(Player player, Fruit fruit) {
+		fruit.leaveSquare();
+		player.addPoints(fruit.getValue());		
+	}
 }
