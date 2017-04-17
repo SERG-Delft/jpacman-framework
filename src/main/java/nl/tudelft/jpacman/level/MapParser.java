@@ -85,7 +85,18 @@ public class MapParser {
 		}
 	}
 
-	private void addSquare(Square[][] grid, List<NPC> ghosts,
+	/**
+	 * Adds a square with contents to the grid.
+	 * @param grid the grid the square will be added to.
+	 * @param ghosts The list of ghosts that keeps track of all the ghosts that have been added to the map.
+	 * if c is not equal to 'G' this should be ignored.
+	 * @param startPositions The list of squares players will eventually start the game at.
+	 * If c is not equal to 'P'  this should be ignored
+	 * @param x the x coordinate where the new square will be put.
+	 * @param y the y coordinate where the new square will be put.
+	 * @param c the character that indicates what kind of square is to be added. see {@link parseMap} for details.
+	 */
+	protected void addSquare(Square[][] grid, List<NPC> ghosts,
 			List<Square> startPositions, int x, int y, char c) {
 		switch (c) {
 		case ' ':
