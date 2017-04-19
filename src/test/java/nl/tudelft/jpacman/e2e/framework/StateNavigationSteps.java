@@ -1,4 +1,4 @@
-package nl.tudelft.jpacman.cucumber;
+package nl.tudelft.jpacman.e2e.framework;
 
 import static org.junit.Assert.assertTrue;
 
@@ -68,7 +68,7 @@ public class StateNavigationSteps {
 	/**
 	 * Close the UI after all tests are finished.
 	 */
-	@After
+	@After("@framework")
 	public void tearDownUI() {
 		launcher.dispose();
 	}

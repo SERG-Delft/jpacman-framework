@@ -1,4 +1,4 @@
-package nl.tudelft.jpacman.cucumber;
+package nl.tudelft.jpacman.e2e.framework;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.SnippetType;
@@ -13,7 +13,8 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
 	plugin = {"pretty"}, 
-	snippets = SnippetType.CAMELCASE, 
+	snippets = SnippetType.CAMELCASE,
+	glue = {"nl.tudelft.jpacman.e2e.framework"},
 	features = "classpath:features")
 public class CucumberTest {
 
