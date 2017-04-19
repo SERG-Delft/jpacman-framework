@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
  * @author Jeroen Roosen 
  * 
  */
+@SuppressWarnings("initialization")
 class OccupantTest {
 
 	/**
@@ -31,7 +32,7 @@ class OccupantTest {
 	 */
 	@Test
 	void noStartSquare() {
-		assertThat(unit.getSquare()).isNull();
+		assertThat(unit.hasSquare()).isFalse();
 	}
 
 	/**

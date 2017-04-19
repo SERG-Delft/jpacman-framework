@@ -57,6 +57,8 @@
 
         <assembly.plugin.version>2.6</assembly.plugin.version>
 		<checkstyle.plugin.version>2.17</checkstyle.plugin.version>
+		<compiler.plugin.version>3.3</compiler.plugin.version>
+		<dependency.plugin.version>2.3</dependency.plugin.version>
 		<findbugs.plugin.version>3.0.3</findbugs.plugin.version>
 		<guava.plugin.version>21.0</guava.plugin.version>
 		<jacoco.plugin.version>0.7.6.201602180812</jacoco.plugin.version>
@@ -67,6 +69,11 @@
 		<pmd.plugin.version>3.6</pmd.plugin.version>
 		<shade.plugin.version>2.4.3</shade.plugin.version>
 		<surefire.plugin.version>2.19.1</surefire.plugin.version>
+
+		<checkerframework.plugin.version>2.1.10</checkerframework.plugin.version>
+		<!-- IntelliJ will warn about this line, but the maven-dependency-plugin
+		     does correctly resolve this, so there is nothing to worry about. -->
+		<annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
 	</properties>
 
 	<dependencies>
@@ -81,7 +88,33 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit.jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<version>${junit.vintage.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-runner</artifactId>
+			<version>${junit.platform.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-launcher</artifactId>
+			<version>${junit.platform.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
@@ -112,10 +145,62 @@
 			<version>${cucumber.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- annotations from the Checker Framework: nullness, interning, locking, ... -->
+		<dependency>
+			<groupId>org.checkerframework</groupId>
+			<artifactId>checker-qual</artifactId>
+			<version>${checkerframework.plugin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.checkerframework</groupId>
+			<artifactId>checker</artifactId>
+			<version>${checkerframework.plugin.version}</version>
+		</dependency>
+		<!-- The annotated JDK to use (change to jdk7 if using Java 7). -->
+		<dependency>
+			<groupId>org.checkerframework</groupId>
+			<artifactId>jdk8</artifactId>
+			<version>${checkerframework.plugin.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
+			<plugin>
+				<!-- This plugin will set properties values using dependency information -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${dependency.plugin.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>properties</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${compiler.plugin.version}</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+					<fork>true</fork>
+					<annotationProcessors>
+						<annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+					</annotationProcessors>
+					<compilerArgs>
+						<arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+						<arg>-AskipUses=^java</arg>
+						<arg>-AassumeAssertionsAreEnabled</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+
+
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>${assembly.plugin.version}</version>

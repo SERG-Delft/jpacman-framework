@@ -12,6 +12,7 @@ import nl.tudelft.jpacman.npc.ghost.GhostColor;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Factory that creates levels and units.
@@ -134,7 +135,7 @@ public class LevelFactory {
 		}
 
 		@Override
-		public Direction nextMove() {
+		@Nullable public Direction nextMove() {
 			return randomMove();
 		}
 	}

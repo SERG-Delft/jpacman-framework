@@ -19,6 +19,7 @@ public class Board {
 	 *            The grid of squares with grid[x][y] being the square at column
 	 *            x, row y.
 	 */
+	@SuppressWarnings("initialization") // invariant uses fields set in constructor.
 	Board(Square[][] grid) {
 		assert grid != null;
 		this.board = grid;
@@ -60,6 +61,9 @@ public class Board {
 
 	/**
 	 * Returns the square at the given <code>x,y</code> position.
+	 *
+	 * Precondition: The <code>(x, y)</code> coordinates are within the
+	 * width and height of the board.
 	 * 
 	 * @param x
 	 *            The <code>x</code> position (column) of the requested square.

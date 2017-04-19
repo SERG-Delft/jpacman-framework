@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * The default JPacMan UI frame. The PacManUI consists of the following
@@ -64,8 +65,9 @@ public class PacManUI extends JFrame {
 	 * @param sf
 	 *            The formatter used to display the current score. 
 	 */
+	@SuppressWarnings("initialization") // Due to extension of a JFrame.
 	public PacManUI(final Game game, final Map<String, Action> buttons,
-			final Map<Integer, Action> keyMappings, ScoreFormatter sf) {
+			final Map<Integer, Action> keyMappings, @Nullable ScoreFormatter sf) {
 		super("JPac-Man");
 		assert game != null;
 		assert buttons != null;

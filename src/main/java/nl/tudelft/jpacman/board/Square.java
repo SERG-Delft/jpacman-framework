@@ -30,6 +30,7 @@ public abstract class Square {
 	/**
 	 * Creates a new, empty square.
 	 */
+	@SuppressWarnings("initialization")
 	protected Square() {
 		this.occupants = new ArrayList<>();
 		this.neighbours = new EnumMap<>(Direction.class);
@@ -105,7 +106,7 @@ public abstract class Square {
 	 */
 	protected final boolean invariant() {
 		for (Unit occupant : occupants) {
-			if (occupant.getSquare() != this) {
+			if (occupant.hasSquare() && occupant.getSquare() != this) {
 				return false;
 			}
 		}

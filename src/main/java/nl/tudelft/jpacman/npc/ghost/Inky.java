@@ -8,6 +8,7 @@ import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.sprite.Sprite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * <p>
@@ -92,17 +93,20 @@ public class Inky extends Ghost {
 	 * </p>
 	 */
 	// CHECKSTYLE:OFF To keep this more readable.
-	@Override
+	@Override @Nullable
 	public Direction nextMove() {
+		assert hasSquare();
+
 		Unit blinky = Navigation.findNearest(Blinky.class, getSquare());
 		if (blinky == null) {
 			return randomMove();
 		}
 
-		Unit player = Navigation.findNearest(Player.class, getSquare());
+		@Nullable Unit player = Navigation.findNearest(Player.class, getSquare());
 		if (player == null) {
 			return randomMove();
 		}
+		assert player.hasSquare();
 
 		Direction targetDirection = player.getDirection();
 		Square playerDestination = player.getSquare();
@@ -111,7 +115,7 @@ public class Inky extends Ghost {
 		}
 
 		Square destination = playerDestination;
-		List<Direction> firstHalf = Navigation.shortestPath(blinky.getSquare(),
+		@Nullable List<Direction> firstHalf = Navigation.shortestPath(blinky.getSquare(),
 				playerDestination, null);
 		if (firstHalf == null) {
 			return randomMove();
@@ -121,7 +125,7 @@ public class Inky extends Ghost {
 			destination = playerDestination.getSquareAt(d);
 		}
 
-		List<Direction> path = Navigation.shortestPath(getSquare(),
+		@Nullable List<Direction> path = Navigation.shortestPath(getSquare(),
 				destination, this);
 		if (path != null && !path.isEmpty()) {
 			return path.get(0);

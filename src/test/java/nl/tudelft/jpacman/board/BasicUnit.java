@@ -17,6 +17,7 @@ class BasicUnit extends Unit {
 	}
 
 	@Override
+	@SuppressWarnings("return.type.incompatible")
 	public Sprite getSprite() {
 		return null;
 	}

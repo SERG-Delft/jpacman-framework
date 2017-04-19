@@ -19,6 +19,7 @@ import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.ui.Action;
 import nl.tudelft.jpacman.ui.PacManUI;
 import nl.tudelft.jpacman.ui.PacManUiBuilder;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /**
  * Creates and launches the JPacMan UI.
@@ -33,14 +34,15 @@ public class Launcher {
 	public static final String DEFAULT_MAP = "/board.txt";
 	private String levelMap = DEFAULT_MAP;
 
-	private PacManUI pacManUI;
-	private Game game;
+	@MonotonicNonNull private PacManUI pacManUI;
+	@MonotonicNonNull private Game game;
 
 	/**
 	 * @return The game object this launcher will start when {@link #launch()}
 	 *         is called.
 	 */
 	public Game getGame() {
+		assert game != null;
 		return game;
 	}
 
@@ -73,7 +75,8 @@ public class Launcher {
 	public Game makeGame() {
 		GameFactory gf = getGameFactory();
 		Level level = makeLevel();
-		return gf.createSinglePlayerGame(level);
+		game = gf.createSinglePlayerGame(level);
+		return game;
 	}
 
 	/**
@@ -84,10 +87,15 @@ public class Launcher {
 	 */
 	public Level makeLevel() {
 		MapParser parser = getMapParser();
-		try (InputStream boardStream = Launcher.class.getResourceAsStream(getLevelMap())) {
-			return parser.parseMap(boardStream);
+		String mapName = getLevelMap();
+		try (InputStream boardStream = Launcher.class.getResourceAsStream(mapName)) {
+			if (boardStream != null) {
+				return parser.parseMap(boardStream);
+			} else {
+				throw new PacmanConfigurationException("Could not get resource for: " + mapName);
+			}
 		} catch (IOException e) {
-			throw new PacmanConfigurationException("Unable to create level.", e);
+			throw new PacmanConfigurationException("Unable to create level, name = " + mapName, e);
 		}
 	}
 
@@ -148,24 +156,20 @@ public class Launcher {
 	 * 
 	 * @param builder
 	 *            The {@link PacManUiBuilder} that will provide the UI.
-	 * @param game
-	 *            The game that will process the events.
 	 */
-	protected void addSinglePlayerKeys(final PacManUiBuilder builder, final Game game) {
-		final Player p1 = getSinglePlayer(game);
-
-		builder.addKey(KeyEvent.VK_UP, moveTowardsDirection(game, p1, Direction.NORTH))
-				.addKey(KeyEvent.VK_DOWN, moveTowardsDirection(game, p1, Direction.SOUTH))
-				.addKey(KeyEvent.VK_LEFT, moveTowardsDirection(game, p1, Direction.WEST))
-				.addKey(KeyEvent.VK_RIGHT, moveTowardsDirection(game, p1, Direction.EAST));
+	protected void addSinglePlayerKeys(final PacManUiBuilder builder) {
+		builder.addKey(KeyEvent.VK_UP, moveTowardsDirection(Direction.NORTH))
+				.addKey(KeyEvent.VK_DOWN, moveTowardsDirection(Direction.SOUTH))
+				.addKey(KeyEvent.VK_LEFT, moveTowardsDirection(Direction.WEST))
+				.addKey(KeyEvent.VK_RIGHT, moveTowardsDirection(Direction.EAST));
 	}
 
-	private Action moveTowardsDirection(final Game game, final Player p1, Direction direction) {
+	private Action moveTowardsDirection(Direction direction) {
 		return new Action() {
 
 			@Override
 			public void doAction() {
-				game.move(p1, direction);
+				getGame().move(getSinglePlayer(getGame()), direction);
 			}
 		};
 	}
@@ -182,18 +186,21 @@ public class Launcher {
 	 * Creates and starts a JPac-Man game.
 	 */
 	public void launch() {
-		game = makeGame();
+		makeGame();
 		PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
-		addSinglePlayerKeys(builder, game);
-		pacManUI = builder.build(game);
+		addSinglePlayerKeys(builder);
+		pacManUI = builder.build(getGame());
 		pacManUI.start();
 	}
 
 	/**
 	 * Disposes of the UI. For more information see
 	 * {@link javax.swing.JFrame#dispose()}.
+	 *
+	 * Precondition: The game was launched first.
 	 */
 	public void dispose() {
+		assert pacManUI != null;
 		pacManUI.dispose();
 	}
 
