@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
 	plugin = {"pretty"}, 
 	snippets = SnippetType.CAMELCASE,
 	glue = {"nl.tudelft.jpacman.e2e.framework"},
-	features = "classpath:features")
+	features = "classpath:frameworkfeatures")
 public class CucumberTest {
 
 	/**
