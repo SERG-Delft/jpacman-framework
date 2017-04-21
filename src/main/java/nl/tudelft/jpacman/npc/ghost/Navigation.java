@@ -39,7 +39,7 @@ public final class Navigation {
 	 *         such path could be found. When the destination is the current
 	 *         square, an empty list is returned.
 	 */
-	@Nullable public static List<Direction> shortestPath(Square from, Square to,
+	public @Nullable static List<Direction> shortestPath(Square from, Square to,
 			@Nullable  Unit traveller) {
 		if (from.equals(to)) {
 			return new ArrayList<>();
@@ -84,7 +84,7 @@ public final class Navigation {
 	 * @return The nearest unit of the given type, or <code>null</code> if no
 	 *         such unit could be found.
 	 */
-	@Nullable public static Unit findNearest(Class<? extends Unit> type,
+	public @Nullable static Unit findNearest(Class<? extends Unit> type,
 			Square currentLocation) {
 		List<Square> toDo = new ArrayList<>();
 		Set<Square> visited = new HashSet<>();
@@ -119,7 +119,7 @@ public final class Navigation {
 	 * @return A unit of type T, iff such a unit occupies this square, or
 	 *         <code>null</code> of none does.
 	 */
-	@Nullable public static Unit findUnit(Class<? extends Unit> type, Square square) {
+	public @Nullable static Unit findUnit(Class<? extends Unit> type, Square square) {
 		for (Unit u : square.getOccupants()) {
 			if (type.isInstance(u)) {
 				assert u.hasSquare();
@@ -140,12 +140,12 @@ public final class Navigation {
 		 * The direction for this node, which is <code>null</code> for the root
 		 * node.
 		 */
-		@Nullable private final Direction direction;
+		private @Nullable final Direction direction;
 
 		/**
 		 * The parent node, which is <code>null</code> for the root node.
 		 */
-		@Nullable private final Node parent;
+		private @Nullable final Node parent;
 
 		/**
 		 * The square associated with this node.
@@ -174,7 +174,7 @@ public final class Navigation {
 		 * @return The direction for this node, or <code>null</code> if this
 		 *         node is a root node.
 		 */
-		@Nullable private Direction getDirection() {
+		private @Nullable Direction getDirection() {
 			return direction;
 		}
 
@@ -189,7 +189,7 @@ public final class Navigation {
 		 * @return The parent node, or <code>null</code> if this node is a root
 		 *         node.
 		 */
-		@Nullable private Node getParent() {
+		private @Nullable Node getParent() {
 			return parent;
 		}
 

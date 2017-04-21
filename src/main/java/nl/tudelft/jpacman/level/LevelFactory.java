@@ -135,7 +135,7 @@ public class LevelFactory {
 		}
 
 		@Override
-		@Nullable public Direction nextMove() {
+		public @Nullable Direction nextMove() {
 			return randomMove();
 		}
 	}
