@@ -97,8 +97,8 @@ public class Clyde extends Ghost {
 	 * move in the opposite direction when he gets within 8 cells of Pac-Man.
 	 * </p>
 	 */
-	@Override @Nullable
-	public Direction nextMove() {
+	@Override
+	public @Nullable Direction nextMove() {
 		assert hasSquare();
 
 		Unit nearest = Navigation.findNearest(Player.class, getSquare());

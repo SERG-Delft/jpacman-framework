@@ -77,8 +77,8 @@ public class Blinky extends Ghost {
 	 * Blinky, he'll try to move up towards Pac-Man before he moves to the left.
 	 * </p>
 	 */
-	@Override @Nullable
-	public Direction nextMove() {
+	@Override
+	public @Nullable Direction nextMove() {
 		assert hasSquare();
 
 		// TODO Blinky should patrol his corner every once in a while

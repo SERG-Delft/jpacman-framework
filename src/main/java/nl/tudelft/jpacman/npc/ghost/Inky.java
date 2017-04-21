@@ -93,8 +93,8 @@ public class Inky extends Ghost {
 	 * </p>
 	 */
 	// CHECKSTYLE:OFF To keep this more readable.
-	@Override @Nullable
-	public Direction nextMove() {
+	@Override
+	public @Nullable Direction nextMove() {
 		assert hasSquare();
 
 		Unit blinky = Navigation.findNearest(Blinky.class, getSquare());

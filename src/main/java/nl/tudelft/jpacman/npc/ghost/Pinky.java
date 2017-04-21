@@ -86,8 +86,8 @@ public class Pinky extends Ghost {
 	 * spaces.
 	 * </p>
 	 */
-	@Override @Nullable
-	public Direction nextMove() {
+	@Override
+	public @Nullable Direction nextMove() {
 		assert hasSquare();
 
 		Unit player = Navigation.findNearest(Player.class, getSquare());
