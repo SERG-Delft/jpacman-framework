@@ -1,6 +1,6 @@
 package nl.tudelft.jpacman.e2e.framework;
 
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
@@ -54,7 +54,7 @@ public class StateNavigationSteps {
 	 */
 	@When("^the user presses the \"Start\" button$")
 	public void theUserPressesStart() {
-		getGame().start();
+		launcher.getGame().start();
 	}	
 
 	/**
@@ -62,7 +62,7 @@ public class StateNavigationSteps {
 	 */
 	@Then("^the game is running$")
 	public void theGameShouldStart() {
-		assertTrue(getGame().isInProgress());
+		assertThat(launcher.getGame().isInProgress()).isTrue();
 	}
 
 	/**
