@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Jeroen Roosen 
  */
-@SuppressWarnings({"magicnumber", "initialization.fields.uninitialized"})
+@SuppressWarnings("magicnumber")
 public class SpriteTest {
 
     private Sprite sprite;

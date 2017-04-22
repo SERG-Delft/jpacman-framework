@@ -22,7 +22,6 @@ class BasicSquare extends Square {
 	}
 
 	@Override
-	@SuppressWarnings("return.type.incompatible")
 	public Sprite getSprite() {
 		return null;
 	}

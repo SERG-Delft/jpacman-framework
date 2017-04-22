@@ -14,7 +14,6 @@ import java.util.Arrays;
  * 
  * @author Jeroen Roosen 
  */
-@SuppressWarnings("initialization.fields.uninitialized")
 class BoardFactoryTest {
 
 	/**

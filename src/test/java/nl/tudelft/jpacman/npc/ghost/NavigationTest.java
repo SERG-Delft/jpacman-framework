@@ -28,8 +28,7 @@ import org.junit.jupiter.api.Test;
  * @author Jeroen Roosen
  *
  */
-@SuppressWarnings({"magicnumber", "PMD.AvoidDuplicateLiterals",
-"initialization.fields.uninitialized", "argument.type.incompatible"})
+@SuppressWarnings({"magicnumber", "PMD.AvoidDuplicateLiterals"})
 class NavigationTest {
 
 	/**
@@ -121,16 +120,14 @@ class NavigationTest {
 	 * Verifies that the nearest object is detected.
 	 */
 	@Test
-	@SuppressWarnings("dereference.of.nullable")
 	void testNearestUnit() {
 		Board b = parser
 				.parseMap(Lists.newArrayList("#####", "# ..#", "#####"))
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(2, 1);
-		Unit nearestPellet = Navigation.findNearest(Pellet.class, s1);
-		assertThat(nearestPellet).isNotNull();
-		assertThat(nearestPellet.getSquare()).isEqualTo(s2);
+		Square result = Navigation.findNearest(Pellet.class, s1).getSquare();
+		assertThat(result).isEqualTo(s2);
 	}
 
 	/**

@@ -20,8 +20,7 @@ import org.junit.jupiter.api.Test;
  * @author Jeroen Roosen 
  */
 // The four suppress warnings ignore the same rule, which results in 4 same string literals
-@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyStaticImports",
-	"initialization.fields.uninitialized"})
+@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyStaticImports"})
 class LevelTest {
 
 	/**

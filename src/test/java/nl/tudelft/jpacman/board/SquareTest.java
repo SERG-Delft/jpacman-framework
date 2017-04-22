@@ -11,7 +11,6 @@ import static org.mockito.Mockito.mock;
  * 
  * @author Jeroen Roosen 
  */
-@SuppressWarnings("initialization.fields.uninitialized")
 class SquareTest {
 
 	/**
