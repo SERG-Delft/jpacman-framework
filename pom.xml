@@ -57,6 +57,7 @@
 
         <assembly.plugin.version>2.6</assembly.plugin.version>
 		<checkstyle.plugin.version>2.17</checkstyle.plugin.version>
+		<checkstyle.version>7.6.1</checkstyle.version>
 		<compiler.plugin.version>3.3</compiler.plugin.version>
 		<dependency.plugin.version>2.3</dependency.plugin.version>
 		<findbugs.plugin.version>3.0.3</findbugs.plugin.version>
@@ -255,6 +256,13 @@
 					<configLocation>${basedir}/checkstyle.xml</configLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>${checkstyle.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 
 			<plugin>
