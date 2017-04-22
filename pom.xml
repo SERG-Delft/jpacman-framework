@@ -195,6 +195,7 @@
 					<compilerArgs>
 						<arg>-Xbootclasspath/p:${annotatedJdk}</arg>
 						<arg>-AskipUses=^java</arg>
+						<arg>-AskipDefs=Test$|cucumber</arg>
 						<arg>-AassumeAssertionsAreEnabled</arg>
 					</compilerArgs>
 				</configuration>

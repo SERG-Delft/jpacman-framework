@@ -17,7 +17,6 @@ import nl.tudelft.jpacman.game.Game;
  *
  * @author Jan-Willem Gmelig Meyling, Arie van Deursen
  */
-@SuppressWarnings("initialization.fields.uninitialized")
 public class StateNavigationSteps {
 	
 	private static Game theGame;

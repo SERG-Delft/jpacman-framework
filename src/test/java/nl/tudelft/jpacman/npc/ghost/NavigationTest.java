@@ -19,7 +19,6 @@ import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 
 import com.google.common.collect.Lists;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,8 +28,7 @@ import org.junit.jupiter.api.Test;
  * @author Jeroen Roosen
  *
  */
-@SuppressWarnings({"magicnumber", "PMD.AvoidDuplicateLiterals",
-"initialization.fields.uninitialized", "argument.type.incompatible"})
+@SuppressWarnings({"magicnumber", "PMD.AvoidDuplicateLiterals"})
 class NavigationTest {
 
 	/**
@@ -128,10 +126,8 @@ class NavigationTest {
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(2, 1);
-		@SuppressWarnings("nullness")
-		@NonNull Unit nearestPellet = Navigation.findNearest(Pellet.class, s1);
-		assertThat(nearestPellet).isNotNull();
-		assertThat(nearestPellet.getSquare()).isEqualTo(s2);
+		Square result = Navigation.findNearest(Pellet.class, s1).getSquare();
+		assertThat(result).isEqualTo(s2);
 	}
 
 	/**
