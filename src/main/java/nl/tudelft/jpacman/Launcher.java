@@ -19,7 +19,9 @@ import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.ui.Action;
 import nl.tudelft.jpacman.ui.PacManUI;
 import nl.tudelft.jpacman.ui.PacManUiBuilder;
+import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.RequiresNonNull;
 
 /**
  * Creates and launches the JPacMan UI.
@@ -41,8 +43,8 @@ public class Launcher {
 	 * @return The game object this launcher will start when {@link #launch()}
 	 *         is called.
 	 */
+	@RequiresNonNull("game")
 	public Game getGame() {
-		assert game != null;
 		return game;
 	}
 
@@ -72,6 +74,7 @@ public class Launcher {
 	 * 
 	 * @return a new Game.
 	 */
+	@EnsuresNonNull("game")
 	public Game makeGame() {
 		GameFactory gf = getGameFactory();
 		Level level = makeLevel();
@@ -169,6 +172,7 @@ public class Launcher {
 
 			@Override
 			public void doAction() {
+				assert game != null;
 				getGame().move(getSinglePlayer(getGame()), direction);
 			}
 		};
@@ -185,6 +189,7 @@ public class Launcher {
 	/**
 	 * Creates and starts a JPac-Man game.
 	 */
+	@EnsuresNonNull("game")
 	public void launch() {
 		makeGame();
 		PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();

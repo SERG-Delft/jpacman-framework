@@ -13,7 +13,7 @@ public abstract class Unit {
 	/**
 	 * The square this unit is currently occupying.
 	 */
-	@Nullable private Square square;
+	private @Nullable Square square;
 	
 	/**
 	 * The direction this unit is facing.

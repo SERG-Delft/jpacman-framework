@@ -27,6 +27,6 @@ public abstract class NPC extends Unit {
 	 * @return The direction to move in, or <code>null</code> if no move could
 	 *         be devised.
 	 */
-	@Nullable public abstract Direction nextMove();
+	public abstract @Nullable Direction nextMove();
 
 }

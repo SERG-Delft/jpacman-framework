@@ -65,7 +65,7 @@ public class PacManUI extends JFrame {
 	 * @param sf
 	 *            The formatter used to display the current score. 
 	 */
-	@SuppressWarnings("initialization") // Due to extension of a JFrame.
+	@SuppressWarnings("initialization") // this.requestFocusInWindow() is called before initialization completes
 	public PacManUI(final Game game, final Map<String, Action> buttons,
 			final Map<Integer, Action> keyMappings, @Nullable ScoreFormatter sf) {
 		super("JPac-Man");

@@ -19,6 +19,7 @@ import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 
 import com.google.common.collect.Lists;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -121,14 +122,14 @@ class NavigationTest {
 	 * Verifies that the nearest object is detected.
 	 */
 	@Test
-	@SuppressWarnings("dereference.of.nullable")
 	void testNearestUnit() {
 		Board b = parser
 				.parseMap(Lists.newArrayList("#####", "# ..#", "#####"))
 				.getBoard();
 		Square s1 = b.squareAt(1, 1);
 		Square s2 = b.squareAt(2, 1);
-		Unit nearestPellet = Navigation.findNearest(Pellet.class, s1);
+		@SuppressWarnings("nullness")
+		@NonNull Unit nearestPellet = Navigation.findNearest(Pellet.class, s1);
 		assertThat(nearestPellet).isNotNull();
 		assertThat(nearestPellet.getSquare()).isEqualTo(s2);
 	}
