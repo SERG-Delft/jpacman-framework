@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
  * @author Jeroen Roosen 
  * 
  */
-@SuppressWarnings("initialization")
 class OccupantTest {
 
 	/**
