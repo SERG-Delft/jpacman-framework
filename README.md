@@ -31,7 +31,9 @@ Getting Started
 2. If you use Eclipse:
 	1. Import
 	2. Right Click -> Configure -> Convert to Maven Project
-3. To see JPacman in action: run `nl.tudelft.jpacman.Launcher`
+3. To see JPacman in action: run `nl.tudelft.jpacman.Launcher`.  From the
+command line, run
+```java -classpath target/jpacman-framework-7.0.0-SNAPSHOT.jar nl.tudelft.jpacman.Launcher```
 4. To run the test suite in maven: `mvn test`
 5. To run the test suite in Eclipse: right click -> run as -> JUnit Test.
 	 
