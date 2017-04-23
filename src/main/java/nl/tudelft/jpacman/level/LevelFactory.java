@@ -90,16 +90,16 @@ public class LevelFactory {
 		ghostIndex++;
 		ghostIndex %= GHOSTS;
 		switch (ghostIndex) {
-		case BLINKY:
-			return ghostFact.createBlinky();
-		case INKY:
-			return ghostFact.createInky();
-		case PINKY:
-			return ghostFact.createPinky();
-		case CLYDE:
-			return ghostFact.createClyde();
-		default:
-			return new RandomGhost(sprites.getGhostSprite(GhostColor.RED));
+			case BLINKY:
+				return ghostFact.createBlinky();
+			case INKY:
+				return ghostFact.createInky();
+			case PINKY:
+				return ghostFact.createPinky();
+			case CLYDE:
+				return ghostFact.createClyde();
+			default:
+				return new RandomGhost(sprites.getGhostSprite(GhostColor.RED));
 		}
 	}
 
