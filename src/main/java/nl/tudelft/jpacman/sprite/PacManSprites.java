@@ -19,8 +19,12 @@ public class PacManSprites extends SpriteStore {
 	 * The sprite files are vertically stacked series for each direction, this
 	 * array denotes the order.
 	 */
-	private static final Direction[] DIRECTIONS = { Direction.NORTH,
-			Direction.EAST, Direction.SOUTH, Direction.WEST };
+	private static final Direction[] DIRECTIONS = {
+			Direction.NORTH,
+			Direction.EAST,
+			Direction.SOUTH,
+			Direction.WEST
+	};
 
 	/**
 	 * The image size in pixels.
