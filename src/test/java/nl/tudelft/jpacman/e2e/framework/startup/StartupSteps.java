@@ -1,6 +1,6 @@
-package nl.tudelft.jpacman.cucumber;
+package nl.tudelft.jpacman.e2e.framework.startup;
 
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
@@ -17,24 +17,14 @@ import nl.tudelft.jpacman.game.Game;
  *
  * @author Jan-Willem Gmelig Meyling, Arie van Deursen
  */
-public class StateNavigationSteps {
-	
-	private static Game theGame;
-	
-	private Launcher launcher;
-	
-	/**
-	 * The Game created by the tests.
-	 * 
-	 * @return Game created when starting up the game. Null if game has not been launched.
-	 */
-	public static Game getGame() {
-		return theGame;
-	}
+public class StartupSteps {
 
-	private static void setGame(Game game) {
-		theGame = game;
+	private Launcher launcher;
+
+	private Game getGame() {
+		return launcher.getGame();
 	}
+	
 
 	/**
 	 * Launch the game. This makes the game available via
@@ -44,8 +34,6 @@ public class StateNavigationSteps {
 	public void theUserHasLaunchedTheJPacmanGUI() {
 		launcher = new Launcher();
 		launcher.launch();
-
-		setGame(launcher.getGame());
 	}
 
 	/**
@@ -61,13 +49,13 @@ public class StateNavigationSteps {
 	 */
 	@Then("^the game is running$")
 	public void theGameShouldStart() {
-		assertTrue(getGame().isInProgress());
+		assertThat(getGame().isInProgress()).isTrue();
 	}
 
 	/**
 	 * Close the UI after all tests are finished.
 	 */
-	@After
+	@After("@framework")
 	public void tearDownUI() {
 		launcher.dispose();
 	}
