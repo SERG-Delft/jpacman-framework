@@ -102,7 +102,7 @@ public class Inky extends Ghost {
 			return randomMove();
 		}
 
-		@Nullable Unit player = Navigation.findNearest(Player.class, getSquare());
+		Unit player = Navigation.findNearest(Player.class, getSquare());
 		if (player == null) {
 			return randomMove();
 		}
@@ -115,7 +115,7 @@ public class Inky extends Ghost {
 		}
 
 		Square destination = playerDestination;
-		@Nullable List<Direction> firstHalf = Navigation.shortestPath(blinky.getSquare(),
+		List<Direction> firstHalf = Navigation.shortestPath(blinky.getSquare(),
 				playerDestination, null);
 		if (firstHalf == null) {
 			return randomMove();
@@ -125,7 +125,7 @@ public class Inky extends Ghost {
 			destination = playerDestination.getSquareAt(d);
 		}
 
-		@Nullable List<Direction> path = Navigation.shortestPath(getSquare(),
+		List<Direction> path = Navigation.shortestPath(getSquare(),
 				destination, this);
 		if (path != null && !path.isEmpty()) {
 			return path.get(0);

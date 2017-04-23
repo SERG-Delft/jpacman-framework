@@ -102,7 +102,7 @@ public class Pinky extends Ghost {
 			destination = destination.getSquareAt(targetDirection);
 		}
 
-		@Nullable List<Direction> path = Navigation.shortestPath(getSquare(),
+		List<Direction> path = Navigation.shortestPath(getSquare(),
 				destination, this);
 		if (path != null && !path.isEmpty()) {
 			return path.get(0);
