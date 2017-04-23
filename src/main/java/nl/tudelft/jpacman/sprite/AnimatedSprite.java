@@ -72,8 +72,7 @@ public class AnimatedSprite implements Sprite {
 	 * @param isAnimating
 	 *            Whether or not this sprite is animating from the start.
 	 */
-	public AnimatedSprite(Sprite[] frames, int delay, boolean loop,
-			boolean isAnimating) {
+	public AnimatedSprite(Sprite[] frames, int delay, boolean loop, boolean isAnimating) {
 		assert frames.length > 0;
 
 		this.animationFrames = frames.clone();
@@ -118,9 +117,9 @@ public class AnimatedSprite implements Sprite {
 	}
 
 	@Override
-	public void draw(Graphics g, int x, int y, int width, int height) {
+	public void draw(Graphics graphics, int x, int y, int width, int height) {
 		update();
-		currentSprite().draw(g, x, y, width, height);
+		currentSprite().draw(graphics, x, y, width, height);
 	}
 
 	@Override

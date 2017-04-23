@@ -27,18 +27,18 @@ public class SinglePlayerGame extends Game {
 	/**
 	 * Create a new single player game for the provided level and player.
 	 * 
-	 * @param p
+	 * @param player
 	 *            The player.
-	 * @param l
+	 * @param level
 	 *            The level.
 	 */
-	protected SinglePlayerGame(Player p, Level l) {
-		assert p != null;
-		assert l != null;
+	protected SinglePlayerGame(Player player, Level level) {
+		assert player != null;
+		assert level != null;
 
-		this.player = p;
-		this.level = l;
-		level.registerPlayer(p);
+		this.player = player;
+		this.level = level;
+		this.level.registerPlayer(player);
 	}
 
 	@Override

@@ -31,13 +31,13 @@ public enum Direction {
 	 * The delta x (width difference) to an element in the direction in a grid
 	 * with 0,0 (x,y) as its top-left element.
 	 */
-	private final int dx;
+	private final int deltaX;
 
 	/**
 	 * The delta y (height difference) to an element in the direction in a grid
 	 * with 0,0 (x,y) as its top-left element.
 	 */
-	private final int dy;
+	private final int deltaY;
 
 	/**
 	 * Creates a new Direction with the given parameters.
@@ -50,8 +50,8 @@ public enum Direction {
 	 *            in a matrix with 0,0 (x,y) as its top-left element.
 	 */
 	Direction(int deltaX, int deltaY) {
-		this.dx = deltaX;
-		this.dy = deltaY;
+		this.deltaX = deltaX;
+		this.deltaY = deltaY;
 	}
 
 	/**
@@ -59,7 +59,7 @@ public enum Direction {
 	 *         direction, in a matrix with 0,0 (x,y) as its top-left element.
 	 */
 	public int getDeltaX() {
-		return dx;
+		return deltaX;
 	}
 
 	/**
@@ -67,6 +67,6 @@ public enum Direction {
 	 *         direction, in a matrix with 0,0 (x,y) as its top-left element.
 	 */
 	public int getDeltaY() {
-		return dy;
+		return deltaY;
 	}
 }

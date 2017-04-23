@@ -148,13 +148,13 @@ public class PacManUiBuilder {
 	/**
 	 * Provide formatter for the score.
 	 * 
-	 * @param sf
+	 * @param scoreFormatter
 	 *         The score formatter to be used.
 	 * 
 	 * @return The builder.
 	 */
-	public PacManUiBuilder withScoreFormatter(ScoreFormatter sf) {
-		scoreFormatter = sf;
+	public PacManUiBuilder withScoreFormatter(ScoreFormatter scoreFormatter) {
+		this.scoreFormatter = scoreFormatter;
 		return this;
 	}
 }

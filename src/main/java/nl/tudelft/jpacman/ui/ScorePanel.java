@@ -56,9 +56,9 @@ public class ScorePanel extends JPanel {
 			add(new JLabel("Player " + i, JLabel.CENTER));
 		}
 		scoreLabels = new LinkedHashMap<>();
-		for (Player p : players) {
+		for (Player player : players) {
 			JLabel scoreLabel = new JLabel("0", JLabel.CENTER);
-			scoreLabels.put(p, scoreLabel);
+			scoreLabels.put(player, scoreLabel);
 			add(scoreLabel);
 		}
 	}
@@ -68,12 +68,12 @@ public class ScorePanel extends JPanel {
 	 */
 	protected void refresh() {
 		for (Map.Entry<Player, JLabel> entry : scoreLabels.entrySet()) {
-			Player p = entry.getKey();
+			Player player = entry.getKey();
 			String score = "";
-			if (!p.isAlive()) {
+			if (!player.isAlive()) {
 				score = "You died. ";
 			}
-			score += scoreFormatter.format(p);
+			score += scoreFormatter.format(player);
 			entry.getValue().setText(score);
 		}
 	}
@@ -85,18 +85,18 @@ public class ScorePanel extends JPanel {
 		
 		/**
 		 * Format the score of a given player.
-		 * @param p The player and its score
+		 * @param player The player and its score
 		 * @return Formatted score.
 		 */
-		String format(Player p);
+		String format(Player player);
 	}
 	
 	/**
 	 * Let the score panel use a dedicated score formatter.
-	 * @param sf Score formatter to be used.
+	 * @param scoreFormatter Score formatter to be used.
 	 */
-	public void setScoreFormatter(ScoreFormatter sf) {
-		assert sf != null;
-		scoreFormatter = sf;
+	public void setScoreFormatter(ScoreFormatter scoreFormatter) {
+		assert scoreFormatter != null;
+		this.scoreFormatter = scoreFormatter;
 	}
 }

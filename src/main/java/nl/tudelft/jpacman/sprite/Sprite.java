@@ -12,7 +12,7 @@ public interface Sprite {
 	/**
 	 * Draws the sprite on the provided graphics context.
 	 * 
-	 * @param g
+	 * @param graphics
 	 *            The graphics context to draw.
 	 * @param x
 	 *            The destination x coordinate to start drawing.
@@ -23,7 +23,7 @@ public interface Sprite {
 	 * @param height
 	 *            The height of the destination draw area.
 	 */
-	void draw(Graphics g, int x, int y, int width, int height);
+	void draw(Graphics graphics, int x, int y, int width, int height);
 
 	/**
 	 * Returns a portion of this sprite as a new Sprite.

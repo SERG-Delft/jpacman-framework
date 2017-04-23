@@ -72,24 +72,24 @@ class BoardPanel extends JPanel {
 	 * 
 	 * @param board
 	 *            The board to render.
-	 * @param g
+	 * @param graphics
 	 *            The graphics context to draw on.
 	 * @param window
 	 *            The dimensions to scale the rendered board to.
 	 */
-	private void render(Board board, Graphics g, Dimension window) {
+	private void render(Board board, Graphics graphics, Dimension window) {
 		int cellW = window.width / board.getWidth();
 		int cellH = window.height / board.getHeight();
 
-		g.setColor(BACKGROUND_COLOR);
-		g.fillRect(0, 0, window.width, window.height);
+		graphics.setColor(BACKGROUND_COLOR);
+		graphics.fillRect(0, 0, window.width, window.height);
 
 		for (int y = 0; y < board.getHeight(); y++) {
 			for (int x = 0; x < board.getWidth(); x++) {
 				int cellX = x * cellW;
 				int cellY = y * cellH;
 				Square square = board.squareAt(x, y);
-				render(square, g, cellX, cellY, cellW, cellH);
+				render(square, graphics, cellX, cellY, cellW, cellH);
 			}
 		}
 	}
@@ -100,21 +100,21 @@ class BoardPanel extends JPanel {
 	 * 
 	 * @param square
 	 *            The square to render.
-	 * @param g
+	 * @param graphics
 	 *            The graphics context to draw on.
 	 * @param x
 	 *            The x position to start drawing.
 	 * @param y
 	 *            The y position to start drawing.
-	 * @param w
+	 * @param width
 	 *            The width of this square (in pixels.)
-	 * @param h
+	 * @param height
 	 *            The height of this square (in pixels.)
 	 */
-	private void render(Square square, Graphics g, int x, int y, int w, int h) {
-		square.getSprite().draw(g, x, y, w, h);
+	private void render(Square square, Graphics graphics, int x, int y, int width, int height) {
+		square.getSprite().draw(graphics, x, y, width, height);
 		for (Unit unit : square.getOccupants()) {
-			unit.getSprite().draw(g, x, y, w, h);
+			unit.getSprite().draw(graphics, x, y, width, height);
 		}
 	}
 }

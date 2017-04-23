@@ -30,8 +30,8 @@ public class ImageSprite implements Sprite {
 	}
 
 	@Override
-	public void draw(Graphics g, int x, int y, int width, int height) {
-		g.drawImage(image, x, y, x + width, y + height, 0, 0,
+	public void draw(Graphics graphics, int x, int y, int width, int height) {
+		graphics.drawImage(image, x, y, x + width, y + height, 0, 0,
 				image.getWidth(null), image.getHeight(null), null);
 	}
 

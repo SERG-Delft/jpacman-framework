@@ -90,8 +90,7 @@ public class Blinky extends Ghost {
 		assert nearest.hasSquare();
 		Square target = nearest.getSquare();
 
-		List<Direction> path = Navigation.shortestPath(getSquare(), target,
-				this);
+		List<Direction> path = Navigation.shortestPath(getSquare(), target, this);
 		if (path != null && !path.isEmpty()) {
 			return path.get(0);
 		}

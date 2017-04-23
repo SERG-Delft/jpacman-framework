@@ -11,7 +11,7 @@ import java.awt.Graphics;
 public class EmptySprite implements Sprite {
 
 	@Override
-	public void draw(Graphics g, int x, int y, int width, int height) {
+	public void draw(Graphics graphics, int x, int y, int width, int height) {
 		// nothing to draw.
 	}
 
