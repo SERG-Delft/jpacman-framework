@@ -13,7 +13,7 @@ public class GameFactory {
 	/**
 	 * The factory providing the player objects.
 	 */
-	private final PlayerFactory playerFact;
+	private final PlayerFactory playerFactory;
 
 	/**
 	 * Creates a new game factory.
@@ -22,7 +22,7 @@ public class GameFactory {
 	 *            The factory providing the player objects.
 	 */
 	public GameFactory(PlayerFactory playerFactory) {
-		this.playerFact = playerFactory;
+		this.playerFactory = playerFactory;
 	}
 
 	/**
@@ -33,14 +33,15 @@ public class GameFactory {
 	 * @return A new single player game.
 	 */
 	public Game createSinglePlayerGame(Level level) {
-		return new SinglePlayerGame(playerFact.createPacMan(), level);
+		return new SinglePlayerGame(playerFactory.createPacMan(), level);
 	}
 
 	/**
 	 * Returns the player factory associated with this game factory.
-	 * @return the player factory associated with this game factory.
+	 *
+	 * @return The player factory associated with this game factory.
 	 */
 	protected PlayerFactory getPlayerFactory() {
-		return playerFact;
+		return playerFactory;
 	}
 }
