@@ -109,7 +109,7 @@ public class BoardFactory {
 	}
 
 	/**
-	 * A wall is a square that is accessible to anyone.
+	 * A ground square is a square that is accessible to anyone.
 	 * 
 	 * @author Jeroen Roosen 
 	 */
