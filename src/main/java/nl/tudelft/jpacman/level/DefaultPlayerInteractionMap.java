@@ -1,7 +1,6 @@
 package nl.tudelft.jpacman.level;
 
 import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.level.CollisionInteractionMap.CollisionHandler;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 /**
@@ -34,23 +33,13 @@ public class DefaultPlayerInteractionMap implements CollisionMap {
 		CollisionInteractionMap collisionMap = new CollisionInteractionMap();
 
 		collisionMap.onCollision(Player.class, Ghost.class,
-				new CollisionHandler<Player, Ghost>() {
-
-					@Override
-					public void handleCollision(Player player, Ghost ghost) {
-						player.setAlive(false);
-					}
-				});
+				(player, ghost) -> player.setAlive(false));
 
 		collisionMap.onCollision(Player.class, Pellet.class,
-				new CollisionHandler<Player, Pellet>() {
-
-					@Override
-					public void handleCollision(Player player, Pellet pellet) {
-						pellet.leaveSquare();
-						player.addPoints(pellet.getValue());
-					}
-				});
+				(player, pellet) -> {
+                    pellet.leaveSquare();
+                    player.addPoints(pellet.getValue());
+                });
 		return collisionMap;
 	}
 }

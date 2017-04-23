@@ -18,7 +18,7 @@ import org.junit.runner.RunWith;
 	features = "classpath:frameworkfeatures/startup")
 public class StartupTest {
 
-	/**
+	/*
 	 * This class should be empty, step definitions should be in separate classes.
 	 */
 

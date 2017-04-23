@@ -81,12 +81,7 @@ public class PacManUiBuilder {
 	private void addStopButton(final Game game) {
 		assert game != null;
 
-		buttons.put(STOP_CAPTION, new Action() {
-			@Override
-			public void doAction() {
-				game.stop();
-			}
-		});
+		buttons.put(STOP_CAPTION, game::stop);
 	}
 
 	/**
@@ -99,12 +94,7 @@ public class PacManUiBuilder {
 	private void addStartButton(final Game game) {
 		assert game != null;
 
-		buttons.put(START_CAPTION, new Action() {
-			@Override
-			public void doAction() {
-				game.start();
-			}
-		});
+		buttons.put(START_CAPTION, game::start);
 	}
 
 	/**
