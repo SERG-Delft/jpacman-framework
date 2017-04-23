@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
@@ -65,7 +66,7 @@ public class PacManUI extends JFrame {
 	 * @param sf
 	 *            The formatter used to display the current score. 
 	 */
-	@SuppressWarnings("initialization") // this.requestFocusInWindow() is called before initialization completes
+	@SuppressWarnings("initialization") // requestFocusInWindow called before initialization ends
 	public PacManUI(final Game game, final Map<String, Action> buttons,
 			final Map<Integer, Action> keyMappings, @Nullable ScoreFormatter sf) {
 		super("JPac-Man");
@@ -73,7 +74,7 @@ public class PacManUI extends JFrame {
 		assert buttons != null;
 		assert keyMappings != null;
 		
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		PacKeyListener keys = new PacKeyListener(keyMappings);
 		addKeyListener(keys);
@@ -102,18 +103,8 @@ public class PacManUI extends JFrame {
 	 */
 	public void start() {
 		setVisible(true);
-
-		ScheduledExecutorService service = Executors
-				.newSingleThreadScheduledExecutor();
-
-		service.scheduleAtFixedRate(new Runnable() {
-
-			@Override
-			public void run() {
-				nextFrame();
-			}
-		}, 0, FRAME_INTERVAL, TimeUnit.MILLISECONDS);
-
+		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+		service.scheduleAtFixedRate(this::nextFrame, 0, FRAME_INTERVAL, TimeUnit.MILLISECONDS);
 	}
 
 	/**

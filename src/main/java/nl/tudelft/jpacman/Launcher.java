@@ -168,14 +168,10 @@ public class Launcher {
 	}
 
 	private Action moveTowardsDirection(Direction direction) {
-		return new Action() {
-
-			@Override
-			public void doAction() {
-				assert game != null;
-				getGame().move(getSinglePlayer(getGame()), direction);
-			}
-		};
+		return () -> {
+            assert game != null;
+            getGame().move(getSinglePlayer(getGame()), direction);
+        };
 	}
 
 	private Player getSinglePlayer(final Game game) {
