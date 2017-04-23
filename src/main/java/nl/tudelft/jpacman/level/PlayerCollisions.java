@@ -18,7 +18,6 @@ public class PlayerCollisions implements CollisionMap {
 
 	@Override
 	public void collide(Unit mover, Unit collidedOn) {
-		
 		if (mover instanceof Player) {
 			playerColliding((Player) mover, collidedOn);
 		}
@@ -34,7 +33,6 @@ public class PlayerCollisions implements CollisionMap {
 		if (collidedOn instanceof Ghost) {
 			playerVersusGhost(player, (Ghost) collidedOn);
 		}
-		
 		if (collidedOn instanceof Pellet) {
 			playerVersusPellet(player, (Pellet) collidedOn);
 		}		
