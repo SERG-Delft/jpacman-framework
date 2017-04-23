@@ -1,4 +1,4 @@
-package nl.tudelft.jpacman.e2e.framework;
+package nl.tudelft.jpacman.e2e.framework.startup;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,24 +17,14 @@ import nl.tudelft.jpacman.game.Game;
  *
  * @author Jan-Willem Gmelig Meyling, Arie van Deursen
  */
-public class StateNavigationSteps {
-	
-	private static Game theGame;
-	
-	private Launcher launcher;
-	
-	/**
-	 * The Game created by the tests.
-	 * 
-	 * @return Game created when starting up the game. Null if game has not been launched.
-	 */
-	public static Game getGame() {
-		return theGame;
-	}
+public class StartupSteps {
 
-	private static void setGame(Game game) {
-		theGame = game;
+	private Launcher launcher;
+
+	private Game getGame() {
+		return launcher.getGame();
 	}
+	
 
 	/**
 	 * Launch the game. This makes the game available via
@@ -44,8 +34,6 @@ public class StateNavigationSteps {
 	public void theUserHasLaunchedTheJPacmanGUI() {
 		launcher = new Launcher();
 		launcher.launch();
-
-		setGame(launcher.getGame());
 	}
 
 	/**
@@ -53,7 +41,7 @@ public class StateNavigationSteps {
 	 */
 	@When("^the user presses the \"Start\" button$")
 	public void theUserPressesStart() {
-		launcher.getGame().start();
+		getGame().start();
 	}	
 
 	/**
@@ -61,7 +49,7 @@ public class StateNavigationSteps {
 	 */
 	@Then("^the game is running$")
 	public void theGameShouldStart() {
-		assertThat(launcher.getGame().isInProgress()).isTrue();
+		assertThat(getGame().isInProgress()).isTrue();
 	}
 
 	/**
