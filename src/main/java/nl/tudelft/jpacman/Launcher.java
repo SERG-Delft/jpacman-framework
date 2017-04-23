@@ -156,7 +156,7 @@ public class Launcher {
 
 	/**
 	 * Adds key events UP, DOWN, LEFT and RIGHT to a game.
-	 * 
+	 *
 	 * @param builder
 	 *            The {@link PacManUiBuilder} that will provide the UI.
 	 */
