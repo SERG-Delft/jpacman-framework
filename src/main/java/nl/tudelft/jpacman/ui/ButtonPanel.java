@@ -1,7 +1,5 @@
 package nl.tudelft.jpacman.ui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -32,14 +30,10 @@ class ButtonPanel extends JPanel {
 		
 		for (final String caption : buttons.keySet()) {
 			JButton button = new JButton(caption);
-			button.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					buttons.get(caption).doAction();
-					parent.requestFocusInWindow();
-				}
-			});
+			button.addActionListener(e -> {
+                buttons.get(caption).doAction();
+                parent.requestFocusInWindow();
+            });
 			add(button);
 		}
 	}
