@@ -82,7 +82,7 @@ public class Level {
 	/**
 	 * Creates a new level for the board.
 	 * 
-	 * @param b
+	 * @param board
 	 *            The board for the level.
 	 * @param ghosts
 	 *            The ghosts on the board.
@@ -91,17 +91,17 @@ public class Level {
 	 * @param collisionMap
 	 *            The collection of collisions that should be handled.
 	 */
-	public Level(Board b, List<NPC> ghosts, List<Square> startPositions,
+	public Level(Board board, List<NPC> ghosts, List<Square> startPositions,
 			CollisionMap collisionMap) {
-		assert b != null;
+		assert board != null;
 		assert ghosts != null;
 		assert startPositions != null;
 
-		this.board = b;
+		this.board = board;
 		this.inProgress = false;
 		this.npcs = new HashMap<>();
-		for (NPC g : ghosts) {
-			npcs.put(g, null);
+		for (NPC ghost : ghosts) {
+			npcs.put(ghost, null);
 		}
 		this.startSquares = startPositions;
 		this.startSquareIndex = 0;
@@ -135,19 +135,19 @@ public class Level {
 	 * player can only be registered once, registering a player again will have
 	 * no effect.
 	 * 
-	 * @param p
+	 * @param player
 	 *            The player to register.
 	 */
-	public void registerPlayer(Player p) {
-		assert p != null;
+	public void registerPlayer(Player player) {
+		assert player != null;
 		assert !startSquares.isEmpty();
 
-		if (players.contains(p)) {
+		if (players.contains(player)) {
 			return;
 		}
-		players.add(p);
+		players.add(player);
 		Square square = startSquares.get(startSquareIndex);
-		p.occupy(square);
+		player.occupy(square);
 		startSquareIndex++;
 		startSquareIndex %= startSquares.size();
 	}
@@ -229,10 +229,11 @@ public class Level {
 	 */
 	private void startNPCs() {
 		for (final NPC npc : npcs.keySet()) {
-			ScheduledExecutorService service = Executors
-					.newSingleThreadScheduledExecutor();
+			ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+
 			service.schedule(new NpcMoveTask(service, npc),
 					npc.getInterval() / 2, TimeUnit.MILLISECONDS);
+
 			npcs.put(npc, service);
 		}
 	}
@@ -242,8 +243,8 @@ public class Level {
 	 * executed.
 	 */
 	private void stopNPCs() {
-		for (Entry<NPC, @Nullable ScheduledExecutorService> e : npcs.entrySet()) {
-			ScheduledExecutorService schedule = e.getValue();
+		for (Entry<NPC, @Nullable ScheduledExecutorService> entry : npcs.entrySet()) {
+			ScheduledExecutorService schedule = entry.getValue();
 			assert schedule != null;
 			schedule.shutdownNow();
 		}
@@ -264,13 +265,13 @@ public class Level {
 	 */
 	private void updateObservers() {
 		if (!isAnyPlayerAlive()) {
-			for (LevelObserver o : observers) {
-				o.levelLost();
+			for (LevelObserver observer : observers) {
+				observer.levelLost();
 			}
 		}
 		if (remainingPellets() == 0) {
-			for (LevelObserver o : observers) {
-				o.levelWon();
+			for (LevelObserver observer : observers) {
+				observer.levelWon();
 			}
 		}
 	}
@@ -283,8 +284,8 @@ public class Level {
 	 *         alive.
 	 */
 	public boolean isAnyPlayerAlive() {
-		for (Player p : players) {
-			if (p.isAlive()) {
+		for (Player player : players) {
+			if (player.isAlive()) {
 				return true;
 			}
 		}
@@ -297,12 +298,12 @@ public class Level {
 	 * @return The amount of pellets remaining on the board.
 	 */
 	public int remainingPellets() {
-		Board b = getBoard();
+		Board board = getBoard();
 		int pellets = 0;
-		for (int x = 0; x < b.getWidth(); x++) {
-			for (int y = 0; y < b.getHeight(); y++) {
-				for (Unit u : b.squareAt(x, y).getOccupants()) {
-					if (u instanceof Pellet) {
+		for (int x = 0; x < board.getWidth(); x++) {
+			for (int y = 0; y < board.getHeight(); y++) {
+				for (Unit unit : board.squareAt(x, y).getOccupants()) {
+					if (unit instanceof Pellet) {
 						pellets++;
 					}
 				}
@@ -332,14 +333,14 @@ public class Level {
 		/**
 		 * Creates a new task.
 		 * 
-		 * @param s
+		 * @param service
 		 *            The service that executes the task.
-		 * @param n
+		 * @param npc
 		 *            The NPC to move.
 		 */
-		NpcMoveTask(ScheduledExecutorService s, NPC n) {
-			this.service = s;
-			this.npc = n;
+		NpcMoveTask(ScheduledExecutorService service, NPC npc) {
+			this.service = service;
+			this.npc = npc;
 		}
 
 		@Override

@@ -26,21 +26,21 @@ class PacKeyListener implements KeyListener {
 	}
 	
 	@Override
-	public void keyPressed(KeyEvent e) {
-		assert e != null;
-		Action action = mappings.get(e.getKeyCode());
+	public void keyPressed(KeyEvent event) {
+		assert event != null;
+		Action action = mappings.get(event.getKeyCode());
 		if (action != null) {
 			action.doAction();
 		}
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
+	public void keyTyped(KeyEvent event) {
 		// do nothing
 	}
 	
 	@Override
-	public void keyReleased(KeyEvent e) {
+	public void keyReleased(KeyEvent event) {
 		// do nothing
 	}
 }

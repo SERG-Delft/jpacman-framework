@@ -49,8 +49,7 @@ public class CollisionInteractionMap implements CollisionMap {
 	 *            The handler that handles the collision.
 	 */
 	public <C1 extends Unit, C2 extends Unit> void onCollision(
-			Class<C1> collider, Class<C2> collidee,
-			CollisionHandler<C1, C2> handler) {
+			Class<C1> collider, Class<C2> collidee, CollisionHandler<C1, C2> handler) {
 		onCollision(collider, collidee, true, handler);
 	}
 
@@ -78,8 +77,7 @@ public class CollisionInteractionMap implements CollisionMap {
 			CollisionHandler<C1, C2> handler) {
 		addHandler(collider, collidee, handler);
 		if (symetric) {
-			addHandler(collidee, collider, new InverseCollisionHandler<>(
-					handler));
+			addHandler(collidee, collider, new InverseCollisionHandler<>(handler));
 		}
 	}
 
@@ -96,13 +94,10 @@ public class CollisionInteractionMap implements CollisionMap {
 	private void addHandler(Class<? extends Unit> collider,
 			Class<? extends Unit> collidee, CollisionHandler<?, ?> handler) {
 		if (!handlers.containsKey(collider)) {
-			handlers.put(
-					collider,
-					new HashMap<>());
+			handlers.put(collider, new HashMap<>());
 		}
 
-		Map<Class<? extends Unit>, CollisionHandler<?, ?>> map = handlers
-				.get(collider);
+		Map<Class<? extends Unit>, CollisionHandler<?, ?>> map = handlers.get(collider);
 		map.put(collidee, handler);
 	}
 
@@ -124,22 +119,18 @@ public class CollisionInteractionMap implements CollisionMap {
 	@Override
 	public <C1 extends Unit, C2 extends Unit> void collide(C1 collider,
 			C2 collidee) {
-		Class<? extends Unit> colliderKey = getMostSpecificClass(handlers,
-				collider.getClass());
+		Class<? extends Unit> colliderKey = getMostSpecificClass(handlers, collider.getClass());
 		if (colliderKey == null) {
 			return;
 		}
 
-		Map<Class<? extends Unit>, CollisionHandler<?, ?>> map = handlers
-				.get(colliderKey);
-		Class<? extends Unit> collideeKey = getMostSpecificClass(map,
-				collidee.getClass());
+		Map<Class<? extends Unit>, CollisionHandler<?, ?>> map = handlers.get(colliderKey);
+		Class<? extends Unit> collideeKey = getMostSpecificClass(map, collidee.getClass());
 		if (collideeKey == null) {
 			return;
 		}
 
-		CollisionHandler<C1, C2> collisionHandler = (CollisionHandler<C1, C2>) map
-				.get(collideeKey);
+		CollisionHandler<C1, C2> collisionHandler = (CollisionHandler<C1, C2>) map.get(collideeKey);
 		if (collisionHandler == null) {
 			return;
 		}

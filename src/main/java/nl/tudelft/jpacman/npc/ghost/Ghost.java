@@ -68,9 +68,9 @@ public abstract class Ghost extends NPC {
 	@Nullable protected Direction randomMove() {
 		Square square = getSquare();
 		List<Direction> directions = new ArrayList<>();
-		for (Direction d : Direction.values()) {
-			if (square.getSquareAt(d).isAccessibleTo(this)) {
-				directions.add(d);
+		for (Direction direction : Direction.values()) {
+			if (square.getSquareAt(direction).isAccessibleTo(this)) {
+				directions.add(direction);
 			}
 		}
 		if (directions.isEmpty()) {

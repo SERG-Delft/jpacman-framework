@@ -61,8 +61,7 @@ public class Clyde extends Ghost {
 	/**
 	 * A map of opposite directions.
 	 */
-	private static final Map<Direction, Direction> OPPOSITES = new EnumMap<>(
-			Direction.class);
+	private static final Map<Direction, Direction> OPPOSITES = new EnumMap<>(Direction.class);
 	static {
 		OPPOSITES.put(Direction.NORTH, Direction.SOUTH);
 		OPPOSITES.put(Direction.SOUTH, Direction.NORTH);
@@ -108,14 +107,13 @@ public class Clyde extends Ghost {
 		assert nearest.hasSquare();
 		Square target = nearest.getSquare();
 
-		List<Direction> path = Navigation.shortestPath(getSquare(), target,
-				this);
+		List<Direction> path = Navigation.shortestPath(getSquare(), target, this);
 		if (path != null && !path.isEmpty()) {
-			Direction d = path.get(0);
+			Direction direction = path.get(0);
 			if (path.size() <= SHYNESS) {
-				return OPPOSITES.get(d);
+				return OPPOSITES.get(direction);
 			}
-			return d;
+			return direction;
 		}
 		return randomMove();
 	}

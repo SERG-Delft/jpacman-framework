@@ -40,7 +40,7 @@ public final class Navigation {
 	 *         square, an empty list is returned.
 	 */
 	public @Nullable static List<Direction> shortestPath(Square from, Square to,
-			@Nullable  Unit traveller) {
+			@Nullable Unit traveller) {
 		if (from.equals(to)) {
 			return new ArrayList<>();
 		}
@@ -49,25 +49,24 @@ public final class Navigation {
 		Set<Square> visited = new HashSet<>();
 		targets.add(new Node(null, from, null));
 		while (!targets.isEmpty()) {
-			Node n = targets.remove(0);
-			Square s = n.getSquare();
-			if (s.equals(to)) {
-				return n.getPath();
+			Node node = targets.remove(0);
+			Square square = node.getSquare();
+			if (square.equals(to)) {
+				return node.getPath();
 			}
-			visited.add(s);
-			addNewTargets(traveller, targets, visited, n, s);
+			visited.add(square);
+			addNewTargets(traveller, targets, visited, node, square);
 		}
 		return null;
 	}
 
 	private static void addNewTargets(@Nullable Unit traveller, List<Node> targets,
-			Set<Square> visited, Node n, Square s) {
-		for (Direction d : Direction.values()) {
-			Square target = s.getSquareAt(d);
+			Set<Square> visited, Node node, Square square) {
+		for (Direction direction : Direction.values()) {
+			Square target = square.getSquareAt(direction);
 			if (!visited.contains(target)
-					&& (traveller == null || target
-							.isAccessibleTo(traveller))) {
-				targets.add(new Node(d, target, n));
+					&& (traveller == null || target.isAccessibleTo(traveller))) {
+				targets.add(new Node(direction, target, node));
 			}
 		}
 	}
@@ -99,8 +98,8 @@ public final class Navigation {
 				return unit;
 			}
 			visited.add(square);
-			for (Direction d : Direction.values()) {
-				Square newTarget = square.getSquareAt(d);
+			for (Direction direction : Direction.values()) {
+				Square newTarget = square.getSquareAt(direction);
 				if (!visited.contains(newTarget) && !toDo.contains(newTarget)) {
 					toDo.add(newTarget);
 				}
@@ -120,10 +119,10 @@ public final class Navigation {
 	 *         <code>null</code> of none does.
 	 */
 	public @Nullable static Unit findUnit(Class<? extends Unit> type, Square square) {
-		for (Unit u : square.getOccupants()) {
-			if (type.isInstance(u)) {
-				assert u.hasSquare();
-				return u;
+		for (Unit unit : square.getOccupants()) {
+			if (type.isInstance(unit)) {
+				assert unit.hasSquare();
+				return unit;
 			}
 		}
 		return null;
@@ -155,19 +154,19 @@ public final class Navigation {
 		/**
 		 * Creates a new node.
 		 * 
-		 * @param d
+		 * @param direction
 		 *            The direction, which is <code>null</code> for the root
 		 *            node.
-		 * @param s
+		 * @param square
 		 *            The square.
-		 * @param p
+		 * @param parent
 		 *            The parent node, which is <code>null</code> for the root
 		 *            node.
 		 */
-		Node(@Nullable Direction d, Square s, @Nullable Node p) {
-			this.direction = d;
-			this.square = s;
-			this.parent = p;
+		Node(@Nullable Direction direction, Square square, @Nullable Node parent) {
+			this.direction = direction;
+			this.square = square;
+			this.parent = parent;
 		}
 
 		/**

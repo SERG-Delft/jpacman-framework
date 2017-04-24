@@ -63,12 +63,12 @@ public class PacManUI extends JFrame {
 	 * @param keyMappings
 	 *            The map of keyCode-to-action entries that will be added as key
 	 *            listeners to the interface.
-	 * @param sf
+	 * @param scoreFormatter
 	 *            The formatter used to display the current score. 
 	 */
 	@SuppressWarnings("initialization") // requestFocusInWindow called before initialization ends
 	public PacManUI(final Game game, final Map<String, Action> buttons,
-			final Map<Integer, Action> keyMappings, @Nullable ScoreFormatter sf) {
+			final Map<Integer, Action> keyMappings, @Nullable ScoreFormatter scoreFormatter) {
 		super("JPac-Man");
 		assert game != null;
 		assert buttons != null;
@@ -82,8 +82,8 @@ public class PacManUI extends JFrame {
 		JPanel buttonPanel = new ButtonPanel(buttons, this);
 
 		scorePanel = new ScorePanel(game.getPlayers());
-		if (sf != null) {
-			scorePanel.setScoreFormatter(sf);
+		if (scoreFormatter != null) {
+			scorePanel.setScoreFormatter(scoreFormatter);
 		}
 		
 		boardPanel = new BoardPanel(game);
