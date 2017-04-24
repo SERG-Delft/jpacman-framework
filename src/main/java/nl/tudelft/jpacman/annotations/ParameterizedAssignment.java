@@ -10,7 +10,6 @@ import java.lang.annotation.RetentionPolicy;
  *
  * <pre class="code"><code class="java">
  * &#064;ParameterizedAssignment
- * &#064;RunWith(Parameterized.class)
  * public class WithinBordersTest {
  *     //tests
  * }

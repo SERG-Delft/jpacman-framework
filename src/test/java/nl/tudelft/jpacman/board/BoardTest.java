@@ -1,13 +1,10 @@
 package nl.tudelft.jpacman.board;
 
-import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestFactory;
-
-import java.util.Arrays;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -43,28 +40,17 @@ class BoardTest {
     }
 
     /**
-     * Test at various places that the board returns the correct square.
-     * @return Tests for the various places.
+     * Verify that squares at key positions are properly set.
+     * @param x Horizontal coordinate of relevant cell.
+     * @param y Vertical coordinate of relevant cell.
      */
-    @TestFactory
-    Iterable<DynamicTest> verifySquares() {
-        return Arrays.asList(
-                testSquareAt(0, 0),
-                testSquareAt(1, 2),
-                testSquareAt(0, 1)
-        );
-    }
-
-    /**
-     * Create a test that board returns correct square.
-     * @param x x-coordinate
-     * @param y y-coordinate
-     * @return Test checking that (x,y) yields correct square.
-     */
-    private DynamicTest testSquareAt(int x, int y) {
-        return dynamicTest(
-                x + "," + y,
-                () -> assertThat(board.squareAt(x, y)).isEqualTo(grid[x][y])
-        );
+    @ParameterizedTest
+    @CsvSource({
+            "0, 0",
+            "1, 2",
+            "0, 1"
+    })
+    void testSquareAt(int x, int y) {
+        assertThat(board.squareAt(x, y)).isEqualTo(grid[x][y]);
     }
 }
