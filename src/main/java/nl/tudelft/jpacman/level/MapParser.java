@@ -200,4 +200,23 @@ public class MapParser {
             return parseMap(lines);
         }
     }
+
+    /**
+     * Parses the provided input stream as a character stream and passes it
+     * result to {@link #parseMap(List)}.
+     *
+     * @param mapName
+     *            Name of a resource that will be read.
+     * @return The parsed level as represented by the text on the input stream.
+     * @throws IOException
+     *             when the resource could not be read.
+     */
+    public Level parseMap(String mapName) throws IOException {
+        try (InputStream boardStream = MapParser.class.getResourceAsStream(mapName)) {
+            if (boardStream == null) {
+                throw new PacmanConfigurationException("Could not get resource for: " + mapName);
+            }
+            return parseMap(boardStream);
+        }
+    }
 }
