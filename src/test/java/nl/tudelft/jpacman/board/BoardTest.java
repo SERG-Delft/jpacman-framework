@@ -18,8 +18,8 @@ class BoardTest {
     private static final int MAX_HEIGHT = 3;
 
     private final Square[][] grid = {
-            { mock(Square.class), mock(Square.class), mock(Square.class) },
-            { mock(Square.class), mock(Square.class), mock(Square.class) },
+        { mock(Square.class), mock(Square.class), mock(Square.class) },
+        { mock(Square.class), mock(Square.class), mock(Square.class) },
     };
     private final Board board = new Board(grid);
 
@@ -48,7 +48,7 @@ class BoardTest {
     @CsvSource({
             "0, 0",
             "1, 2",
-            "0, 1"
+        "0, 1"
     })
     void testSquareAt(int x, int y) {
         assertThat(board.squareAt(x, y)).isEqualTo(grid[x][y]);

@@ -15,7 +15,7 @@ import nl.tudelft.jpacman.npc.NPC;
 
 /**
  * Creates new {@link Level}s from text representations.
- * 
+ *
  * @author Jeroen Roosen 
  */
 public class MapParser {
@@ -76,7 +76,7 @@ public class MapParser {
     }
 
     private void makeGrid(char[][] map, int width, int height,
-            Square[][] grid, List<NPC> ghosts, List<Square> startPositions) {
+                          Square[][] grid, List<NPC> ghosts, List<Square> startPositions) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 char c = map[x][y];
@@ -86,7 +86,7 @@ public class MapParser {
     }
 
     protected void addSquare(Square[][] grid, List<NPC> ghosts,
-            List<Square> startPositions, int x, int y, char c) {
+                             List<Square> startPositions, int x, int y, char c) {
         switch (c) {
             case ' ':
                 grid[x][y] = boardCreator.createGround();
@@ -157,12 +157,12 @@ public class MapParser {
     private void checkMapFormat(List<String> text) {
         if (text == null) {
             throw new PacmanConfigurationException(
-                    "Input text cannot be null.");
+                "Input text cannot be null.");
         }
 
         if (text.isEmpty()) {
             throw new PacmanConfigurationException(
-                    "Input text must consist of at least 1 row.");
+                "Input text must consist of at least 1 row.");
         }
 
         int width = text.get(0).length();
@@ -192,7 +192,7 @@ public class MapParser {
      */
     public Level parseMap(InputStream source) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                source, "UTF-8"))) {
+            source, "UTF-8"))) {
             List<String> lines = new ArrayList<>();
             while (reader.ready()) {
                 lines.add(reader.readLine());

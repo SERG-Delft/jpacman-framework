@@ -25,39 +25,39 @@ import org.junit.jupiter.api.Test;
  * @author Arie van Deursen, March 2014.
  */
 public class LauncherSmokeTest {
-	
-	private Launcher launcher;
-	
-	/**
-	 * Launch the user interface.
-	 */
-	@BeforeEach
-	void setUpPacman() {
-		launcher = new Launcher();
-		launcher.launch();
-	}
-	
-	/**
-	 * Quit the user interface when we're done.
-	 */
-	@AfterEach
-	void tearDown() {
-		launcher.dispose();
-	}
+
+    private Launcher launcher;
+
+    /**
+     * Launch the user interface.
+     */
+    @BeforeEach
+    void setUpPacman() {
+        launcher = new Launcher();
+        launcher.launch();
+    }
+
+    /**
+     * Quit the user interface when we're done.
+     */
+    @AfterEach
+    void tearDown() {
+        launcher.dispose();
+    }
 
     /**
      * Launch the game, and imitate what would happen in a typical game.
      * The test is only a smoke test, and not a focused small test.
      * Therefore it is OK that the method is a bit too long.
-     * 
+     *
      * @throws InterruptedException Since we're sleeping in this test.
      */
     @SuppressWarnings({"magicnumber", "methodlength", "PMD.JUnitTestContainsTooManyAsserts"})
     @Test
     void smokeTest() throws InterruptedException {
-        Game game = launcher.getGame();        
+        Game game = launcher.getGame();
         Player player = game.getPlayers().get(0);
- 
+
         // start cleanly.
         assertThat(game.isInProgress()).isFalse();
         game.start();
@@ -85,11 +85,11 @@ public class LauncherSmokeTest {
         assertThat(player.getScore()).isEqualTo(120);
 
         move(game, Direction.NORTH, 2);
-        
+
         // Sleeping in tests is generally a bad idea.
         // Here we do it just to let the monsters move.
         Thread.sleep(500L);
-      
+
         // we're close to monsters, this will get us killed.
         move(game, Direction.WEST, 10);
         move(game, Direction.EAST, 10);
@@ -97,7 +97,7 @@ public class LauncherSmokeTest {
 
         game.stop();
         assertThat(game.isInProgress()).isFalse();
-     }
+    }
 
     /**
      * Make number of moves in given direction.
