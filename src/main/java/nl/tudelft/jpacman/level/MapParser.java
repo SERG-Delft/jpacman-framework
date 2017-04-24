@@ -85,6 +85,26 @@ public class MapParser {
         }
     }
 
+    /**
+     * Adds a square to the grid based on a given character. These
+     * character come from the map files and describe the type
+     * of square.
+     *
+     * @param grid
+     *            The grid of squares with board[x][y] being the
+     *            square at column x, row y.
+     * @param ghosts
+     *            List of all ghosts that were added to the map.
+     * @param startPositions
+     *            List of all start positions that were added
+     *            to the map.
+     * @param x
+     *            x coordinate of the square.
+     * @param y
+     *            y coordinate of the square.
+     * @param c
+     *            Character describing the square type.
+     */
     protected void addSquare(Square[][] grid, List<NPC> ghosts,
                              List<Square> startPositions, int x, int y, char c) {
         switch (c) {
