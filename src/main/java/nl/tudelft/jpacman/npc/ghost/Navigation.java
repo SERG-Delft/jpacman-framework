@@ -12,198 +12,198 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Navigation provides utility to nagivate on {@link Square}s.
- * 
+ *
  * @author Jeroen Roosen 
  */
 public final class Navigation {
 
-	private Navigation() {
-	}
-	
-	/**
-	 * Calculates the shortest path. This is done by BFS. This search ensures
-	 * the traveller is allowed to occupy the squares on the way, or returns the
-	 * shortest path to the square regardless of terrain if no traveller is
-	 * specified.
-	 * 
-	 * @param from
-	 *            The starting square.
-	 * @param to
-	 *            The destination.
-	 * @param traveller
-	 *            The traveller attempting to reach the destination. If
-	 *            traveller is set to <code>null</code>, this method will ignore
-	 *            terrain and find the shortest path whether it can actually be
-	 *            reached or not.
-	 * @return The shortest path to the destination or <code>null</code> if no
-	 *         such path could be found. When the destination is the current
-	 *         square, an empty list is returned.
-	 */
-	public @Nullable static List<Direction> shortestPath(Square from, Square to,
-			@Nullable Unit traveller) {
-		if (from.equals(to)) {
-			return new ArrayList<>();
-		}
+    private Navigation() {
+    }
 
-		List<Node> targets = new ArrayList<>();
-		Set<Square> visited = new HashSet<>();
-		targets.add(new Node(null, from, null));
-		while (!targets.isEmpty()) {
-			Node node = targets.remove(0);
-			Square square = node.getSquare();
-			if (square.equals(to)) {
-				return node.getPath();
-			}
-			visited.add(square);
-			addNewTargets(traveller, targets, visited, node, square);
-		}
-		return null;
-	}
+    /**
+     * Calculates the shortest path. This is done by BFS. This search ensures
+     * the traveller is allowed to occupy the squares on the way, or returns the
+     * shortest path to the square regardless of terrain if no traveller is
+     * specified.
+     *
+     * @param from
+     *            The starting square.
+     * @param to
+     *            The destination.
+     * @param traveller
+     *            The traveller attempting to reach the destination. If
+     *            traveller is set to <code>null</code>, this method will ignore
+     *            terrain and find the shortest path whether it can actually be
+     *            reached or not.
+     * @return The shortest path to the destination or <code>null</code> if no
+     *         such path could be found. When the destination is the current
+     *         square, an empty list is returned.
+     */
+    public @Nullable static List<Direction> shortestPath(Square from, Square to,
+                                                         @Nullable Unit traveller) {
+        if (from.equals(to)) {
+            return new ArrayList<>();
+        }
 
-	private static void addNewTargets(@Nullable Unit traveller, List<Node> targets,
-			Set<Square> visited, Node node, Square square) {
-		for (Direction direction : Direction.values()) {
-			Square target = square.getSquareAt(direction);
-			if (!visited.contains(target)
-					&& (traveller == null || target.isAccessibleTo(traveller))) {
-				targets.add(new Node(direction, target, node));
-			}
-		}
-	}
+        List<Node> targets = new ArrayList<>();
+        Set<Square> visited = new HashSet<>();
+        targets.add(new Node(null, from, null));
+        while (!targets.isEmpty()) {
+            Node node = targets.remove(0);
+            Square square = node.getSquare();
+            if (square.equals(to)) {
+                return node.getPath();
+            }
+            visited.add(square);
+            addNewTargets(traveller, targets, visited, node, square);
+        }
+        return null;
+    }
 
-	/**
-	 * Finds the nearest unit of the given type and returns its location. This
-	 * method will perform a breadth first search starting from the given
-	 * square.
-	 * 
-	 * @param type
-	 *            The type of unit to search for.
-	 * @param currentLocation
-	 *            The starting location for the search.
-	 * @return The nearest unit of the given type, or <code>null</code> if no
-	 *         such unit could be found.
-	 */
-	public @Nullable static Unit findNearest(Class<? extends Unit> type,
-			Square currentLocation) {
-		List<Square> toDo = new ArrayList<>();
-		Set<Square> visited = new HashSet<>();
+    private static void addNewTargets(@Nullable Unit traveller, List<Node> targets,
+                                      Set<Square> visited, Node node, Square square) {
+        for (Direction direction : Direction.values()) {
+            Square target = square.getSquareAt(direction);
+            if (!visited.contains(target)
+                && (traveller == null || target.isAccessibleTo(traveller))) {
+                targets.add(new Node(direction, target, node));
+            }
+        }
+    }
 
-		toDo.add(currentLocation);
+    /**
+     * Finds the nearest unit of the given type and returns its location. This
+     * method will perform a breadth first search starting from the given
+     * square.
+     *
+     * @param type
+     *            The type of unit to search for.
+     * @param currentLocation
+     *            The starting location for the search.
+     * @return The nearest unit of the given type, or <code>null</code> if no
+     *         such unit could be found.
+     */
+    public @Nullable static Unit findNearest(Class<? extends Unit> type,
+                                             Square currentLocation) {
+        List<Square> toDo = new ArrayList<>();
+        Set<Square> visited = new HashSet<>();
 
-		while (!toDo.isEmpty()) {
-			Square square = toDo.remove(0);
-			Unit unit = findUnit(type, square);
-			if (unit != null) {
-				assert unit.hasSquare();
-				return unit;
-			}
-			visited.add(square);
-			for (Direction direction : Direction.values()) {
-				Square newTarget = square.getSquareAt(direction);
-				if (!visited.contains(newTarget) && !toDo.contains(newTarget)) {
-					toDo.add(newTarget);
-				}
-			}
-		}
-		return null;
-	}
+        toDo.add(currentLocation);
 
-	/**
-	 * Determines whether a square has an occupant of a certain type.
-	 * 
-	 * @param type
-	 *            The type to search for.
-	 * @param square
-	 *            The square to search.
-	 * @return A unit of type T, iff such a unit occupies this square, or
-	 *         <code>null</code> of none does.
-	 */
-	public @Nullable static Unit findUnit(Class<? extends Unit> type, Square square) {
-		for (Unit unit : square.getOccupants()) {
-			if (type.isInstance(unit)) {
-				assert unit.hasSquare();
-				return unit;
-			}
-		}
-		return null;
-	}
+        while (!toDo.isEmpty()) {
+            Square square = toDo.remove(0);
+            Unit unit = findUnit(type, square);
+            if (unit != null) {
+                assert unit.hasSquare();
+                return unit;
+            }
+            visited.add(square);
+            for (Direction direction : Direction.values()) {
+                Square newTarget = square.getSquareAt(direction);
+                if (!visited.contains(newTarget) && !toDo.contains(newTarget)) {
+                    toDo.add(newTarget);
+                }
+            }
+        }
+        return null;
+    }
 
-	/**
-	 * Helper class to keep track of the path.
-	 * 
-	 * @author Jeroen Roosen 
-	 */
-	private static final class Node {
+    /**
+     * Determines whether a square has an occupant of a certain type.
+     *
+     * @param type
+     *            The type to search for.
+     * @param square
+     *            The square to search.
+     * @return A unit of type T, iff such a unit occupies this square, or
+     *         <code>null</code> of none does.
+     */
+    public @Nullable static Unit findUnit(Class<? extends Unit> type, Square square) {
+        for (Unit unit : square.getOccupants()) {
+            if (type.isInstance(unit)) {
+                assert unit.hasSquare();
+                return unit;
+            }
+        }
+        return null;
+    }
 
-		/**
-		 * The direction for this node, which is <code>null</code> for the root
-		 * node.
-		 */
-		private @Nullable final Direction direction;
+    /**
+     * Helper class to keep track of the path.
+     *
+     * @author Jeroen Roosen
+     */
+    private static final class Node {
 
-		/**
-		 * The parent node, which is <code>null</code> for the root node.
-		 */
-		private @Nullable final Node parent;
+        /**
+         * The direction for this node, which is <code>null</code> for the root
+         * node.
+         */
+        private @Nullable final Direction direction;
 
-		/**
-		 * The square associated with this node.
-		 */
-		private final Square square;
+        /**
+         * The parent node, which is <code>null</code> for the root node.
+         */
+        private @Nullable final Node parent;
 
-		/**
-		 * Creates a new node.
-		 * 
-		 * @param direction
-		 *            The direction, which is <code>null</code> for the root
-		 *            node.
-		 * @param square
-		 *            The square.
-		 * @param parent
-		 *            The parent node, which is <code>null</code> for the root
-		 *            node.
-		 */
-		Node(@Nullable Direction direction, Square square, @Nullable Node parent) {
-			this.direction = direction;
-			this.square = square;
-			this.parent = parent;
-		}
+        /**
+         * The square associated with this node.
+         */
+        private final Square square;
 
-		/**
-		 * @return The direction for this node, or <code>null</code> if this
-		 *         node is a root node.
-		 */
-		private @Nullable Direction getDirection() {
-			return direction;
-		}
+        /**
+         * Creates a new node.
+         *
+         * @param direction
+         *            The direction, which is <code>null</code> for the root
+         *            node.
+         * @param square
+         *            The square.
+         * @param parent
+         *            The parent node, which is <code>null</code> for the root
+         *            node.
+         */
+        Node(@Nullable Direction direction, Square square, @Nullable Node parent) {
+            this.direction = direction;
+            this.square = square;
+            this.parent = parent;
+        }
 
-		/**
-		 * @return The square for this node.
-		 */
-		private Square getSquare() {
-			return square;
-		}
+        /**
+         * @return The direction for this node, or <code>null</code> if this
+         *         node is a root node.
+         */
+        private @Nullable Direction getDirection() {
+            return direction;
+        }
 
-		/**
-		 * @return The parent node, or <code>null</code> if this node is a root
-		 *         node.
-		 */
-		private @Nullable Node getParent() {
-			return parent;
-		}
+        /**
+         * @return The square for this node.
+         */
+        private Square getSquare() {
+            return square;
+        }
 
-		/**
-		 * Returns the list of values from the root of the tree to this node.
-		 * 
-		 * @return The list of values from the root of the tree to this node.
-		 */
-		private List<Direction> getPath() {
-			if (parent == null) {
-				return new ArrayList<>();
-			}
-			List<Direction> path = parent.getPath();
-			path.add(getDirection());
-			return path;
-		}
-	}
+        /**
+         * @return The parent node, or <code>null</code> if this node is a root
+         *         node.
+         */
+        private @Nullable Node getParent() {
+            return parent;
+        }
+
+        /**
+         * Returns the list of values from the root of the tree to this node.
+         *
+         * @return The list of values from the root of the tree to this node.
+         */
+        private List<Direction> getPath() {
+            if (parent == null) {
+                return new ArrayList<>();
+            }
+            List<Direction> path = parent.getPath();
+            path.add(getDirection());
+            return path;
+        }
+    }
 }
