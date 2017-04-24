@@ -85,7 +85,7 @@ public class MapParser {
         }
     }
 
-    private void addSquare(Square[][] grid, List<NPC> ghosts,
+    protected void addSquare(Square[][] grid, List<NPC> ghosts,
             List<Square> startPositions, int x, int y, char c) {
         switch (c) {
             case ' ':
