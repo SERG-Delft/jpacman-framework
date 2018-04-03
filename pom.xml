@@ -45,33 +45,33 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <junit.jupiter.version>5.0.0-M4</junit.jupiter.version>
-        <junit.platform.version>1.0.0-M4</junit.platform.version>
+        <junit.jupiter.version>5.1.0</junit.jupiter.version>
+        <junit.platform.version>1.1.0</junit.platform.version>
 
         <junit.version>4.12</junit.version>
-        <junit.vintage.version>${junit.version}.0-M4</junit.vintage.version>
+        <junit.vintage.version>5.1.0</junit.vintage.version>
 
         <cucumber.version>1.2.5</cucumber.version>
-        <assertj.version>3.6.2</assertj.version>
-        <mockito.version>2.7.19</mockito.version>
+        <assertj.version>3.9.1</assertj.version>
+        <mockito.version>2.16.0</mockito.version>
 
-        <assembly.plugin.version>2.6</assembly.plugin.version>
-		<checkstyle.plugin.version>2.17</checkstyle.plugin.version>
-		<checkstyle.version>7.6.1</checkstyle.version>
-		<compiler.plugin.version>3.6.1</compiler.plugin.version>
-		<dependency.plugin.version>2.3</dependency.plugin.version>
-		<findbugs.plugin.version>3.0.3</findbugs.plugin.version>
-		<guava.plugin.version>21.0</guava.plugin.version>
-		<jacoco.plugin.version>0.7.6.201602180812</jacoco.plugin.version>
-		<jar.plugin.version>2.6</jar.plugin.version>
+        <assembly.plugin.version>3.1.0</assembly.plugin.version>
+		<checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
+		<checkstyle.version>8.8</checkstyle.version>
+		<compiler.plugin.version>3.7.0</compiler.plugin.version>
+		<dependency.plugin.version>3.0.2</dependency.plugin.version>
+		<findbugs.plugin.version>3.0.5</findbugs.plugin.version>
+		<guava.plugin.version>24.1-jre</guava.plugin.version>
+		<jacoco.plugin.version>0.8.1</jacoco.plugin.version>
+		<jar.plugin.version>3.0.2</jar.plugin.version>
 		<jxr.plugin.version>2.5</jxr.plugin.version>
-		<javadoc.plugin.version>2.10.3</javadoc.plugin.version>
+		<javadoc.plugin.version>3.0.0</javadoc.plugin.version>
 		<projectinfo.plugin.version>2.9</projectinfo.plugin.version>
-		<pmd.plugin.version>3.6</pmd.plugin.version>
-		<shade.plugin.version>2.4.3</shade.plugin.version>
+		<pmd.plugin.version>3.9.0</pmd.plugin.version>
+		<shade.plugin.version>3.1.0</shade.plugin.version>
 		<surefire.plugin.version>2.19.1</surefire.plugin.version>
 
-		<checkerframework.plugin.version>2.1.10</checkerframework.plugin.version>
+		<checkerframework.plugin.version>2.4.0</checkerframework.plugin.version>
 		<!-- IntelliJ will warn about this line, but the maven-dependency-plugin
 		     does correctly resolve this, so there is nothing to worry about. -->
 		<annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
