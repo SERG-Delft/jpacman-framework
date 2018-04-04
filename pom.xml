@@ -325,6 +325,8 @@
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>${pmd.plugin.version}</version>
 				<configuration>
+					<!-- not yet ready for jdk 1.9 -->
+					<targetJdk>1.8</targetJdk>
 					<skipEmptyReport>false</skipEmptyReport>
 					<includeTests>true</includeTests>
 					<rulesets>
@@ -498,6 +500,9 @@
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>${pmd.plugin.version}</version>
 				<configuration>
+					<!-- not yet ready for jdk 1.9 -->
+					<targetJdk>1.8</targetJdk>
+					<analysisCache>true</analysisCache>
 					<skipEmptyReport>false</skipEmptyReport>
 					<includeTests>true</includeTests>
 					<rulesets>
