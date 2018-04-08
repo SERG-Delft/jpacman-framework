@@ -132,7 +132,7 @@
 		<checkstyle.version>8.8</checkstyle.version>
 		<compiler.plugin.version>3.7.0</compiler.plugin.version>
 		<dependency.plugin.version>3.0.2</dependency.plugin.version>
-		<findbugs.plugin.version>3.0.5</findbugs.plugin.version>
+		<spotbugs.plugin.version>3.1.0</spotbugs.plugin.version>
 		<guava.plugin.version>24.1-jre</guava.plugin.version>
 		<jacoco.plugin.version>0.8.1</jacoco.plugin.version>
 		<jar.plugin.version>3.0.2</jar.plugin.version>
@@ -299,7 +299,7 @@
 				</executions>
 			</plugin>
 
-			<!-- The checkstyle, findbugs and PMD plugins have configurations, for
+			<!-- The checkstyle, spotbugs and PMD plugins have configurations, for
 				the checkstyle:checkstyle and pmd:pmd to work properly, the plugins should
 				also be specified under the build section. See: https://github.com/sevntu-checkstyle/checkstyle-samples/blob/master/maven-project/pom.xml -->
 
@@ -337,14 +337,16 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>${findbugs.plugin.version}</version>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs.plugin.version}</version>
 				<configuration>
 					<xmlOutput>true</xmlOutput>
 					<includeTests>true</includeTests>
+					<onlyAnalyze>nl.tudelft.jpacman.*</onlyAnalyze>
 				</configuration>
 			</plugin>
+
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -491,9 +493,9 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>${findbugs.plugin.version}</version>
+		        <groupId>com.github.spotbugs</groupId>
+		        <artifactId>spotbugs-maven-plugin</artifactId>
+		        <version>3.1.0</version>
 			</plugin>
 
 			<plugin>
@@ -513,12 +515,13 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>${findbugs.plugin.version}</version>
-				<configuration>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs.plugin.version}</version>
+                <configuration>
 					<xmlOutput>true</xmlOutput>
 					<includeTests>true</includeTests>
+					<onlyAnalyze>nl.tudelft.jpacman.*</onlyAnalyze>
 				</configuration>
 			</plugin>
 		</plugins>
