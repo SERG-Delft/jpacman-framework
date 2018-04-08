@@ -45,9 +45,9 @@ public abstract class Unit {
 
     /**
      * Returns the square this unit is currently occupying.
+     * Precondition: <code>hasSquare()</code>.
      *
-     * @return The square this unit is currently occupying, or <code>null</code>
-     *         if this unit is not on a square.
+     * @return The square this unit is currently occupying.
      */
     public Square getSquare() {
         assert invariant();
