@@ -303,19 +303,15 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>${jar.plugin.version}</version>
 				<configuration>
-					<useDefaultManifestFile>true</useDefaultManifestFile>
+                    <archive>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
 				</configuration>
 				<executions>
 					<execution>
 						<id>test-files</id>
 						<goals>
 							<goal>test-jar</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>src-files</id>
-						<goals>
-							<goal>jar</goal>
 						</goals>
 					</execution>
 				</executions>
