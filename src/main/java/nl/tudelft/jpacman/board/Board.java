@@ -21,6 +21,7 @@ public class Board {
      *            The grid of squares with grid[x][y] being the square at column
      *            x, row y.
      */
+    @SuppressWarnings("PMD.ArrayIsStoredDirectly")
     Board(Square[][] grid) {
         assert grid != null;
         this.board = grid;

@@ -34,9 +34,80 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<prerequisites>
-		<maven>3.0.1</maven>
-	</prerequisites>
+	<profiles>
+		<profile>
+			<id>java9</id>
+			<activation>
+				<jdk>9.0</jdk>
+			</activation>
+			<properties>
+				<maven.compiler.source>1.9</maven.compiler.source>
+				<maven.compiler.target>1.9</maven.compiler.target>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${surefire.plugin.version}</version>
+						<configuration>
+							<trimStackTrace>false</trimStackTrace>
+	                        <argLine>
+	                            --add-opens java.base/java.util=ALL-UNNAMED
+                                --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+                                --add-opens java.base/java.text=ALL-UNNAMED
+                                --add-opens java.desktop/java.awt.font=ALL-UNNAMED
+                            </argLine>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>java8</id>
+			<activation>
+				<jdk>1.8</jdk>
+			</activation>
+			<properties>
+				<maven.compiler.source>1.8</maven.compiler.source>
+				<maven.compiler.target>1.8</maven.compiler.target>
+				<!-- IntelliJ will warn about this line, but the maven-dependency-plugin
+		             does correctly resolve this, so there is nothing to worry about. -->
+				<annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
+			</properties>
+			<dependencies>
+				<!-- The annotated JDK to use (change to jdk7 if using Java 7). -->
+				<dependency>
+					<groupId>org.checkerframework</groupId>
+					<artifactId>jdk8</artifactId>
+					<version>${checkerframework.plugin.version}</version>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>${compiler.plugin.version}</version>
+						<configuration>
+							<source>${maven.compiler.source}</source>
+							<target>${maven.compiler.target}</target>
+							<fork>true</fork>
+							<annotationProcessors>
+								<annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+							</annotationProcessors>
+							<compilerArgs>
+								<arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+								<arg>-AskipUses=^java</arg>
+								<arg>-AskipDefs=Test$|e2e</arg>
+								<arg>-AassumeAssertionsAreEnabled</arg>
+							</compilerArgs>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -45,36 +116,33 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <junit.jupiter.version>5.0.0-M4</junit.jupiter.version>
-        <junit.platform.version>1.0.0-M4</junit.platform.version>
+        <junit.jupiter.version>5.1.1</junit.jupiter.version>
+        <junit.platform.version>1.1.1</junit.platform.version>
 
         <junit.version>4.12</junit.version>
-        <junit.vintage.version>${junit.version}.0-M4</junit.vintage.version>
+        <junit.vintage.version>5.1.0</junit.vintage.version>
 
         <cucumber.version>1.2.5</cucumber.version>
-        <assertj.version>3.6.2</assertj.version>
-        <mockito.version>2.7.19</mockito.version>
+        <assertj.version>3.9.1</assertj.version>
+        <mockito.version>2.18.0</mockito.version>
 
-        <assembly.plugin.version>2.6</assembly.plugin.version>
-		<checkstyle.plugin.version>2.17</checkstyle.plugin.version>
-		<checkstyle.version>7.6.1</checkstyle.version>
-		<compiler.plugin.version>3.6.1</compiler.plugin.version>
-		<dependency.plugin.version>2.3</dependency.plugin.version>
-		<findbugs.plugin.version>3.0.3</findbugs.plugin.version>
-		<guava.plugin.version>21.0</guava.plugin.version>
-		<jacoco.plugin.version>0.7.6.201602180812</jacoco.plugin.version>
-		<jar.plugin.version>2.6</jar.plugin.version>
+        <assembly.plugin.version>3.1.0</assembly.plugin.version>
+		<checkerframework.plugin.version>2.5.0</checkerframework.plugin.version>
+		<checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
+		<checkstyle.version>8.9</checkstyle.version>
+		<compiler.plugin.version>3.7.0</compiler.plugin.version>
+		<dependency.plugin.version>3.0.2</dependency.plugin.version>
+		<spotbugs.plugin.version>3.1.3</spotbugs.plugin.version>
+		<guava.plugin.version>24.1-jre</guava.plugin.version>
+		<jacoco.plugin.version>0.8.1</jacoco.plugin.version>
+		<jar.plugin.version>3.0.2</jar.plugin.version>
 		<jxr.plugin.version>2.5</jxr.plugin.version>
-		<javadoc.plugin.version>2.10.3</javadoc.plugin.version>
+		<javadoc.plugin.version>3.0.0</javadoc.plugin.version>
 		<projectinfo.plugin.version>2.9</projectinfo.plugin.version>
-		<pmd.plugin.version>3.6</pmd.plugin.version>
-		<shade.plugin.version>2.4.3</shade.plugin.version>
+		<pmd.plugin.version>3.9.0</pmd.plugin.version>
+		<shade.plugin.version>3.1.0</shade.plugin.version>
 		<surefire.plugin.version>2.19.1</surefire.plugin.version>
 
-		<checkerframework.plugin.version>2.1.10</checkerframework.plugin.version>
-		<!-- IntelliJ will warn about this line, but the maven-dependency-plugin
-		     does correctly resolve this, so there is nothing to worry about. -->
-		<annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
 	</properties>
 
 	<dependencies>
@@ -162,17 +230,32 @@
 			<artifactId>checker</artifactId>
 			<version>${checkerframework.plugin.version}</version>
 		</dependency>
-		<!-- The annotated JDK to use (change to jdk7 if using Java 7). -->
-		<dependency>
-			<groupId>org.checkerframework</groupId>
-			<artifactId>jdk8</artifactId>
-			<version>${checkerframework.plugin.version}</version>
-		</dependency>
-
 	</dependencies>
 
 	<build>
 		<plugins>
+
+		    <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-enforcer-plugin</artifactId>
+		        <version>3.0.0-M1</version>
+		        <executions>
+		            <execution>
+		                <id>enforce-maven</id>
+			            <goals>
+   			                <goal>enforce</goal>
+			            </goals>
+			            <configuration>
+			                <rules>
+			                    <requireMavenVersion>
+			                        <version>3.1.1</version>
+			                    </requireMavenVersion>
+			                </rules>    
+			            </configuration>
+		            </execution>
+		        </executions>
+		    </plugin>
+
 			<plugin>
 				<!-- This plugin will set properties values using dependency information -->
 				<groupId>org.apache.maven.plugins</groupId>
@@ -193,16 +276,6 @@
 				<configuration>
 					<source>${maven.compiler.source}</source>
 					<target>${maven.compiler.target}</target>
-					<fork>true</fork>
-					<annotationProcessors>
-						<annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
-					</annotationProcessors>
-					<compilerArgs>
-						<arg>-Xbootclasspath/p:${annotatedJdk}</arg>
-						<arg>-AskipUses=^java</arg>
-						<arg>-AskipDefs=Test$|e2e</arg>
-						<arg>-AassumeAssertionsAreEnabled</arg>
-					</compilerArgs>
 				</configuration>
 			</plugin>
 
@@ -230,7 +303,9 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>${jar.plugin.version}</version>
 				<configuration>
-					<useDefaultManifestFile>true</useDefaultManifestFile>
+                    <archive>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
 				</configuration>
 				<executions>
 					<execution>
@@ -239,16 +314,10 @@
 							<goal>test-jar</goal>
 						</goals>
 					</execution>
-					<execution>
-						<id>src-files</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
 				</executions>
 			</plugin>
 
-			<!-- The checkstyle, findbugs and PMD plugins have configurations, for
+			<!-- The checkstyle, spotbugs and PMD plugins have configurations, for
 				the checkstyle:checkstyle and pmd:pmd to work properly, the plugins should
 				also be specified under the build section. See: https://github.com/sevntu-checkstyle/checkstyle-samples/blob/master/maven-project/pom.xml -->
 
@@ -274,6 +343,9 @@
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>${pmd.plugin.version}</version>
 				<configuration>
+					<!-- not yet ready for jdk 1.9 -->
+					<targetJdk>1.8</targetJdk>
+					<analysisCache>true</analysisCache>
 					<skipEmptyReport>false</skipEmptyReport>
 					<includeTests>true</includeTests>
 					<rulesets>
@@ -283,14 +355,16 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>${findbugs.plugin.version}</version>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs.plugin.version}</version>
 				<configuration>
 					<xmlOutput>true</xmlOutput>
 					<includeTests>true</includeTests>
+					<onlyAnalyze>nl.tudelft.jpacman.*</onlyAnalyze>
 				</configuration>
 			</plugin>
+
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -437,9 +511,9 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>${findbugs.plugin.version}</version>
+		        <groupId>com.github.spotbugs</groupId>
+		        <artifactId>spotbugs-maven-plugin</artifactId>
+		        <version>3.1.0</version>
 			</plugin>
 
 			<plugin>
@@ -447,6 +521,9 @@
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>${pmd.plugin.version}</version>
 				<configuration>
+					<!-- not yet ready for jdk 1.9 -->
+					<targetJdk>1.8</targetJdk>
+					<analysisCache>true</analysisCache>
 					<skipEmptyReport>false</skipEmptyReport>
 					<includeTests>true</includeTests>
 					<rulesets>
@@ -456,12 +533,13 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>${findbugs.plugin.version}</version>
-				<configuration>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs.plugin.version}</version>
+                <configuration>
 					<xmlOutput>true</xmlOutput>
 					<includeTests>true</includeTests>
+					<onlyAnalyze>nl.tudelft.jpacman.*</onlyAnalyze>
 				</configuration>
 			</plugin>
 		</plugins>

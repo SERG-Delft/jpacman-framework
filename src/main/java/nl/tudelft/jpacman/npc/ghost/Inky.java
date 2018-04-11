@@ -92,7 +92,7 @@ public class Inky extends Ghost {
      * destination.
      * </p>
      */
-    // CHECKSTYLE:OFF To keep this more readable.
+    @SuppressWarnings("checkstyle:methodlength")
     @Override
     public @Nullable Direction nextMove() {
         assert hasSquare();
@@ -132,6 +132,4 @@ public class Inky extends Ghost {
         }
         return randomMove();
     }
-    // CHECKSTYLE:ON
-
 }
