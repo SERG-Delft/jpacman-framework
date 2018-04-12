@@ -41,8 +41,8 @@
 				<jdk>9.0</jdk>
 			</activation>
 			<properties>
-				<maven.compiler.source>1.9</maven.compiler.source>
-				<maven.compiler.target>1.9</maven.compiler.target>
+				<maven.compiler.source>9</maven.compiler.source>
+				<maven.compiler.target>9</maven.compiler.target>
 			</properties>
 			<build>
 				<plugins>
@@ -343,8 +343,6 @@
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>${pmd.plugin.version}</version>
 				<configuration>
-					<!-- not yet ready for jdk 1.9 -->
-					<targetJdk>1.8</targetJdk>
 					<analysisCache>true</analysisCache>
 					<skipEmptyReport>false</skipEmptyReport>
 					<includeTests>true</includeTests>
@@ -521,8 +519,6 @@
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>${pmd.plugin.version}</version>
 				<configuration>
-					<!-- not yet ready for jdk 1.9 -->
-					<targetJdk>1.8</targetJdk>
 					<analysisCache>true</analysisCache>
 					<skipEmptyReport>false</skipEmptyReport>
 					<includeTests>true</includeTests>
