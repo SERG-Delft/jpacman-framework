@@ -1,0 +1,17 @@
+image: tudsqte/ci-image
+
+stages:
+    - test
+    - static-analysis
+
+test:
+  stage: test
+  script: "mvn test"
+  
+warnings:
+    stage: static-analysis
+    script:
+        - "mvn checkstyle:check"
+        - "mvn spotbugs:check"
+        - "mvn pmd:check"
+
