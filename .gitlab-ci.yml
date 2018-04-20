@@ -6,7 +6,7 @@ stages:
 
 test:
   stage: test
-  script: "mvn test"
+  script: "xvfb-run mvn test"
   
 warnings:
     stage: static-analysis
