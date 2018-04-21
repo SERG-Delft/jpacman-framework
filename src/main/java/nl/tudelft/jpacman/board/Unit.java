@@ -1,7 +1,6 @@
 package nl.tudelft.jpacman.board;
 
 import nl.tudelft.jpacman.sprite.Sprite;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A unit that can be placed on a {@link Square}.
@@ -13,7 +12,7 @@ public abstract class Unit {
     /**
      * The square this unit is currently occupying.
      */
-    private @Nullable Square square;
+    private Square square;
 
     /**
      * The direction this unit is facing.

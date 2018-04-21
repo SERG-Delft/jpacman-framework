@@ -1,6 +1,5 @@
 package nl.tudelft.jpacman.board;
 
-import org.checkerframework.checker.initialization.qual.UnderInitialization;
 
 /**
  * A top-down view of a matrix of {@link Square}s.
@@ -36,7 +35,7 @@ public class Board {
      * so that it can be annotated for the Checker Framework to indicate that it
      * is called from the constructor, i.e., that the object "this" is still in the making.
      */
-    protected final boolean invariant(@UnderInitialization(Board.class) Board this) {
+    protected final boolean invariant(Board this) {
         for (Square[] row : board) {
             for (Square square : row) {
                 if (square == null) {

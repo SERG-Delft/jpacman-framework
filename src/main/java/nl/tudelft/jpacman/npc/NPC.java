@@ -2,7 +2,6 @@ package nl.tudelft.jpacman.npc;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Unit;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A non-player unit.
@@ -27,6 +26,6 @@ public abstract class NPC extends Unit {
      * @return The direction to move in, or <code>null</code> if no move could
      *         be devised.
      */
-    public abstract @Nullable Direction nextMove();
+    public abstract Direction nextMove();
 
 }

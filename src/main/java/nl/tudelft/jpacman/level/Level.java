@@ -16,7 +16,6 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.NPC;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A level of Pac-Man. A level consists of the board with the players and the
@@ -46,7 +45,7 @@ public class Level {
     /**
      * The NPCs of this level and, if they are running, their schedules.
      */
-    private final Map<NPC, @Nullable ScheduledExecutorService> npcs;
+    private final Map<NPC, ScheduledExecutorService> npcs;
 
     /**
      * <code>true</code> iff this level is currently in progress, i.e. players
@@ -243,7 +242,7 @@ public class Level {
      * executed.
      */
     private void stopNPCs() {
-        for (Entry<NPC, @Nullable ScheduledExecutorService> entry : npcs.entrySet()) {
+        for (Entry<NPC, ScheduledExecutorService> entry : npcs.entrySet()) {
             ScheduledExecutorService schedule = entry.getValue();
             assert schedule != null;
             schedule.shutdownNow();
