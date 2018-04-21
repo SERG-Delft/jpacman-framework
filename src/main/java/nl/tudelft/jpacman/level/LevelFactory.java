@@ -2,6 +2,7 @@ package nl.tudelft.jpacman.level;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
@@ -134,8 +135,8 @@ public class LevelFactory {
         }
 
         @Override
-        public Direction nextMove() {
-            return randomMove();
+        public Optional<Direction> nextAiMove() {
+            return Optional.empty();
         }
     }
 }

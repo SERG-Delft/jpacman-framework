@@ -3,6 +3,7 @@ package nl.tudelft.jpacman.npc.ghost;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
@@ -36,8 +37,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * Source: http://strategywiki.org/wiki/Pac-Man/Getting_Started
  * </p>
  *
- * @author Jeroen Roosen 
- *
+ * @author Jeroen Roosen
  */
 public class Clyde extends Ghost {
 
@@ -61,6 +61,7 @@ public class Clyde extends Ghost {
      * A map of opposite directions.
      */
     private static final Map<Direction, Direction> OPPOSITES = new EnumMap<>(Direction.class);
+
     static {
         OPPOSITES.put(Direction.NORTH, Direction.SOUTH);
         OPPOSITES.put(Direction.SOUTH, Direction.NORTH);
@@ -71,8 +72,7 @@ public class Clyde extends Ghost {
     /**
      * Creates a new "Clyde", a.k.a. "Pokey".
      *
-     * @param spriteMap
-     *            The sprites for this ghost.
+     * @param spriteMap The sprites for this ghost.
      */
     public Clyde(Map<Direction, Sprite> spriteMap) {
         super(spriteMap, MOVE_INTERVAL, INTERVAL_VARIATION);
@@ -96,12 +96,12 @@ public class Clyde extends Ghost {
      * </p>
      */
     @Override
-    public Direction nextMove() {
+    public Optional<Direction> nextAiMove() {
         assert hasSquare();
 
         Unit nearest = Navigation.findNearest(Player.class, getSquare());
         if (nearest == null) {
-            return randomMove();
+            return Optional.empty();
         }
         assert nearest.hasSquare();
         Square target = nearest.getSquare();
@@ -110,10 +110,10 @@ public class Clyde extends Ghost {
         if (path != null && !path.isEmpty()) {
             Direction direction = path.get(0);
             if (path.size() <= SHYNESS) {
-                return OPPOSITES.get(direction);
+                return Optional.ofNullable(OPPOSITES.get(direction));
             }
-            return direction;
+            return Optional.of(direction);
         }
-        return randomMove();
+        return Optional.empty();
     }
 }

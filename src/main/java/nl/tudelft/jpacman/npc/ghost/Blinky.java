@@ -2,6 +2,7 @@ package nl.tudelft.jpacman.npc.ghost;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
@@ -77,22 +78,22 @@ public class Blinky extends Ghost {
      * </p>
      */
     @Override
-    public Direction nextMove() {
+    public Optional<Direction> nextAiMove() {
         assert hasSquare();
 
         // TODO Blinky should patrol his corner every once in a while
         // TODO Implement his actual behaviour instead of simply chasing.
         Unit nearest = Navigation.findNearest(Player.class, getSquare());
         if (nearest == null) {
-            return randomMove();
+            return Optional.empty();
         }
         assert nearest.hasSquare();
         Square target = nearest.getSquare();
 
         List<Direction> path = Navigation.shortestPath(getSquare(), target, this);
         if (path != null && !path.isEmpty()) {
-            return path.get(0);
+            return Optional.ofNullable(path.get(0));
         }
-        return randomMove();
+        return Optional.empty();
     }
 }

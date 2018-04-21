@@ -2,6 +2,7 @@ package nl.tudelft.jpacman.npc.ghost;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
@@ -86,12 +87,12 @@ public class Pinky extends Ghost {
      * </p>
      */
     @Override
-    public Direction nextMove() {
+    public Optional<Direction> nextAiMove() {
         assert hasSquare();
 
         Unit player = Navigation.findNearest(Player.class, getSquare());
         if (player == null) {
-            return randomMove();
+            return Optional.empty();
         }
         assert player.hasSquare();
 
@@ -103,8 +104,8 @@ public class Pinky extends Ghost {
 
         List<Direction> path = Navigation.shortestPath(getSquare(), destination, this);
         if (path != null && !path.isEmpty()) {
-            return path.get(0);
+            return Optional.ofNullable(path.get(0));
         }
-        return randomMove();
+        return Optional.empty();
     }
 }
