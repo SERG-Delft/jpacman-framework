@@ -52,7 +52,7 @@
         <mockito.version>2.18.0</mockito.version>
 
         <assembly.plugin.version>3.1.0</assembly.plugin.version>
-		<checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
+		<checkstyle.plugin.version>2.17</checkstyle.plugin.version>
 		<checkstyle.version>8.9</checkstyle.version>
 		<compiler.plugin.version>3.7.0</compiler.plugin.version>
 		<dependency.plugin.version>3.0.2</dependency.plugin.version>
@@ -240,6 +240,9 @@
 				<configuration>
 					<configLocation>${basedir}/checkstyle.xml</configLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					<failOnViolation>true</failOnViolation>
+					<violationSeverity>warning</violationSeverity>
+					<consoleOutput>true</consoleOutput>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -260,6 +263,8 @@
 					<analysisCache>true</analysisCache>
 					<skipEmptyReport>false</skipEmptyReport>
 					<includeTests>true</includeTests>
+					<failOnViolation>true</failOnViolation>
+					<printFailingErrors>true</printFailingErrors>
 					<rulesets>
 						<ruleset>pmd-rules.xml</ruleset>
 					</rulesets>
@@ -271,9 +276,8 @@
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <version>${spotbugs.plugin.version}</version>
 				<configuration>
-					<xmlOutput>true</xmlOutput>
 					<includeTests>true</includeTests>
-					<onlyAnalyze>nl.tudelft.jpacman.*</onlyAnalyze>
+					<failOnError>true</failOnError>
 				</configuration>
 			</plugin>
 
@@ -423,12 +427,6 @@
 			</plugin>
 
 			<plugin>
-		        <groupId>com.github.spotbugs</groupId>
-		        <artifactId>spotbugs-maven-plugin</artifactId>
-		        <version>3.1.0</version>
-			</plugin>
-
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>${pmd.plugin.version}</version>
@@ -451,7 +449,7 @@
                 <configuration>
 					<xmlOutput>true</xmlOutput>
 					<includeTests>true</includeTests>
-					<onlyAnalyze>nl.tudelft.jpacman.*</onlyAnalyze>
+					<!--<onlyAnalyze>nl.tudelft.jpacman.*</onlyAnalyze>-->
 				</configuration>
 			</plugin>
 		</plugins>

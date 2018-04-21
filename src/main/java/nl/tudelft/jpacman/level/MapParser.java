@@ -12,11 +12,12 @@ import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
+import org.graalvm.compiler.core.common.SuppressFBWarnings;
 
 /**
  * Creates new {@link Level}s from text representations.
  *
- * @author Jeroen Roosen 
+ * @author Jeroen Roosen
  */
 public class MapParser {
 
@@ -231,6 +232,8 @@ public class MapParser {
      * @throws IOException
      *             when the resource could not be read.
      */
+    @SuppressFBWarnings(value = "OBL_UNSATISFIED_OBLIGATION",
+                        justification = "try with resources always cleans up")
     public Level parseMap(String mapName) throws IOException {
         try (InputStream boardStream = MapParser.class.getResourceAsStream(mapName)) {
             if (boardStream == null) {
