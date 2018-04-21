@@ -449,7 +449,7 @@
                 <configuration>
 					<xmlOutput>true</xmlOutput>
 					<includeTests>true</includeTests>
-					<onlyAnalyze>nl.tudelft.jpacman.*</onlyAnalyze>
+					<!--<onlyAnalyze>nl.tudelft.jpacman.*</onlyAnalyze>-->
 				</configuration>
 			</plugin>
 		</plugins>
