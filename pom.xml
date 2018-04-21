@@ -4,7 +4,7 @@
 
 	<groupId>nl.tudelft.jpacman</groupId>
 	<artifactId>jpacman-framework</artifactId>
-	<version>7.0.0</version>
+	<version>7.1.0-SNAPSHOT</version>
 	<url>https://github.com/serg-delft/jpacman-framework</url>
 	<description>
 		Pacman-inspired game, for teaching testing purposes.
@@ -142,6 +142,12 @@
 			<version>${cucumber.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.github.spotbugs</groupId>
+			<artifactId>spotbugs-annotations</artifactId>
+			<version>${spotbugs.plugin.version}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -258,8 +264,6 @@
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>${pmd.plugin.version}</version>
 				<configuration>
-					<!-- not yet ready for jdk 1.9 -->
-					<targetJdk>1.8</targetJdk>
 					<analysisCache>true</analysisCache>
 					<skipEmptyReport>false</skipEmptyReport>
 					<includeTests>true</includeTests>
@@ -431,8 +435,6 @@
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>${pmd.plugin.version}</version>
 				<configuration>
-					<!-- not yet ready for jdk 1.9 -->
-					<targetJdk>1.8</targetJdk>
 					<analysisCache>true</analysisCache>
 					<skipEmptyReport>false</skipEmptyReport>
 					<includeTests>true</includeTests>
