@@ -11,7 +11,7 @@ test:
 warnings:
     stage: static-analysis
     script:
-        - "mvn -B checkstyle:check"
+        - "mvn -B test-compile checkstyle:check"
         - "mvn -B spotbugs:check"
-        - "mvn -B test-compile pmd:check"
+        - "mvn -B pmd:check"
 
