@@ -9,7 +9,6 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.sprite.Sprite;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An antagonist in the game of Pac-Man, a ghost.
@@ -65,7 +64,7 @@ public abstract class Ghost extends NPC {
      * @return A direction in which the ghost can move, or <code>null</code> if
      *         the ghost is shut in by inaccessible squares.
      */
-    @Nullable protected Direction randomMove() {
+    protected Direction randomMove() {
         Square square = getSquare();
         List<Direction> directions = new ArrayList<>();
         for (Direction direction : Direction.values()) {

@@ -8,7 +8,6 @@ import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.sprite.Sprite;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * <p>
@@ -94,7 +93,7 @@ public class Inky extends Ghost {
      */
     @SuppressWarnings("checkstyle:methodlength")
     @Override
-    public @Nullable Direction nextMove() {
+    public Direction nextMove() {
         assert hasSquare();
 
         Unit blinky = Navigation.findNearest(Blinky.class, getSquare());

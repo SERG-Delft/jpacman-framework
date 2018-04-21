@@ -6,7 +6,6 @@ import java.util.Map;
 
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Builder for the JPac-Man UI.
@@ -43,7 +42,7 @@ public class PacManUiBuilder {
     /**
      * Way to format the score.
      */
-    private @Nullable ScoreFormatter scoreFormatter = null;
+    private ScoreFormatter scoreFormatter = null;
 
     /**
      * Creates a new Pac-Man UI builder without any mapped keys or buttons.

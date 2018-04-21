@@ -13,7 +13,6 @@ import javax.swing.WindowConstants;
 
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * The default JPacMan UI frame. The PacManUI consists of the following
@@ -69,7 +68,7 @@ public class PacManUI extends JFrame {
     @SuppressWarnings("initialization") // requestFocusInWindow called before initialization ends
     public PacManUI(final Game game, final Map<String, Action> buttons,
                     final Map<Integer, Action> keyMappings,
-                    @Nullable ScoreFormatter scoreFormatter) {
+                    ScoreFormatter scoreFormatter) {
         super("JPac-Man");
         assert game != null;
         assert buttons != null;

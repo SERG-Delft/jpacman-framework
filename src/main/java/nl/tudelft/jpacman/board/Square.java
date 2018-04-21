@@ -8,9 +8,6 @@ import java.util.Map;
 import com.google.common.collect.ImmutableList;
 
 import nl.tudelft.jpacman.sprite.Sprite;
-
-import org.checkerframework.checker.initialization.qual.UnknownInitialization;
-
 /**
  * A square on a {@link Board}, which can (or cannot, depending on the type) be
  * occupied by units.
@@ -105,7 +102,7 @@ public abstract class Square {
      * @return <code>true</code> iff all occupants of this square have this
      *         square listed as the square they are currently occupying.
      */
-    protected final boolean invariant(@UnknownInitialization(Square.class) Square this) {
+    protected final boolean invariant(Square this) {
         for (Unit occupant : occupants) {
             if (occupant.hasSquare() && occupant.getSquare() != this) {
                 return false;
