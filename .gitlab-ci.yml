@@ -6,12 +6,12 @@ stages:
 
 test:
   stage: test
-  script: "xvfb-run mvn test"
+  script: "xvfb-run mvn -B test"
   
 warnings:
     stage: static-analysis
     script:
-        - "mvn checkstyle:check"
-        - "mvn spotbugs:check"
-        - "mvn pmd:check"
+        - "mvn -B checkstyle:check"
+        - "mvn -B spotbugs:check"
+        - "mvn -B test-compile pmd:check"
 
