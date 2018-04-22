@@ -10,8 +10,6 @@ import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.sprite.Sprite;
 
-import javax.swing.text.html.Option;
-
 /**
  * <p>
  * An implementation of the classic Pac-Man ghost Bashful.
