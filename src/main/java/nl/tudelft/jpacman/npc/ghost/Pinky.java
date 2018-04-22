@@ -96,12 +96,7 @@ public class Pinky extends Ghost {
             return Optional.empty();
         }
         assert player.hasSquare();
-
-        Direction targetDirection = player.getDirection();
-        Square destination = player.getSquare();
-        for (int i = 0; i < SQUARES_AHEAD; i++) {
-            destination = destination.getSquareAt(targetDirection);
-        }
+        Square destination = player.squaresAheadOf(SQUARES_AHEAD);
 
         List<Direction> path = Navigation.shortestPath(getSquare(), destination, this);
         if (path != null && !path.isEmpty()) {

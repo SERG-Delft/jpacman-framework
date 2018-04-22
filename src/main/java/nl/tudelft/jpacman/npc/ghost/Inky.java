@@ -1,15 +1,15 @@
 package nl.tudelft.jpacman.npc.ghost;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.npc.Ghost;
 import nl.tudelft.jpacman.sprite.Sprite;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * <p>
@@ -39,8 +39,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * Source: http://strategywiki.org/wiki/Pac-Man/Getting_Started
  * </p>
  *
- * @author Jeroen Roosen 
- *
+ * @author Jeroen Roosen
  */
 public class Inky extends Ghost {
 
@@ -60,8 +59,7 @@ public class Inky extends Ghost {
     /**
      * Creates a new "Inky", a.k.a. Bashful.
      *
-     * @param spriteMap
-     *            The sprites for this ghost.
+     * @param spriteMap The sprites for this ghost.
      */
     public Inky(Map<Direction, Sprite> spriteMap) {
         super(spriteMap, MOVE_INTERVAL, INTERVAL_VARIATION);
@@ -93,44 +91,44 @@ public class Inky extends Ghost {
      * destination.
      * </p>
      */
-    @SuppressWarnings("checkstyle:methodlength")
     @Override
     public Optional<Direction> nextAiMove() {
         assert hasSquare();
-
         Unit blinky = Navigation.findNearest(Blinky.class, getSquare());
-        if (blinky == null) {
-            return Optional.empty();
-        }
-
         Unit player = Navigation.findNearest(Player.class, getSquare());
-        if (player == null) {
+
+        if (blinky == null || player == null) {
             return Optional.empty();
         }
+
         assert player.hasSquare();
+        Square playerDestination = player.squaresAheadOf(SQUARES_AHEAD);
 
-        Direction targetDirection = player.getDirection();
-        Square playerDestination = player.getSquare();
-        for (int i = 0; i < SQUARES_AHEAD; i++) {
-            playerDestination = playerDestination.getSquareAt(targetDirection);
-        }
-
-        Square destination = playerDestination;
         List<Direction> firstHalf = Navigation.shortestPath(blinky.getSquare(),
             playerDestination, null);
+
         if (firstHalf == null) {
             return Optional.empty();
         }
 
-        for (Direction d : firstHalf) {
-            destination = playerDestination.getSquareAt(d);
-        }
-
+        Square destination = followPath(firstHalf, playerDestination);
         List<Direction> path = Navigation.shortestPath(getSquare(),
             destination, this);
+
         if (path != null && !path.isEmpty()) {
             return Optional.ofNullable(path.get(0));
         }
         return Optional.empty();
+    }
+
+
+    private Square followPath(List<Direction> directions, Square start) {
+        Square destination = start;
+
+        for (Direction d : directions) {
+            destination = destination.getSquareAt(d);
+        }
+
+        return destination;
     }
 }
