@@ -23,12 +23,12 @@
 
 	<distributionManagement>
 		<repository>
-			<id>jpacman-deployment</id>
-			<url>https://devhub.ewi.tudelft.nl/nexus/content/repositories/releases/</url>
+			<id>courses-ewi</id>
+			<url>https://courses.ewi.tudelft.nl/nexus/repository/maven-releases</url>
 		</repository>
 		<snapshotRepository>
-			<id>jpacman-deployment</id>
-			<url>https://devhub.ewi.tudelft.nl/nexus/content/repositories/snapshots/</url>
+			<id>courses-ewi</id>
+			<url>https://courses.ewi.tudelft.nl/nexus/repository/maven-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
