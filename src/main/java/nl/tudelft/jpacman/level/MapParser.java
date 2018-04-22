@@ -11,7 +11,7 @@ import nl.tudelft.jpacman.PacmanConfigurationException;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.Ghost;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -67,7 +67,7 @@ public class MapParser {
 
         Square[][] grid = new Square[width][height];
 
-        List<NPC> ghosts = new ArrayList<>();
+        List<Ghost> ghosts = new ArrayList<>();
         List<Square> startPositions = new ArrayList<>();
 
         makeGrid(map, width, height, grid, ghosts, startPositions);
@@ -77,7 +77,7 @@ public class MapParser {
     }
 
     private void makeGrid(char[][] map, int width, int height,
-                          Square[][] grid, List<NPC> ghosts, List<Square> startPositions) {
+                          Square[][] grid, List<Ghost> ghosts, List<Square> startPositions) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 char c = map[x][y];
@@ -106,7 +106,7 @@ public class MapParser {
      * @param c
      *            Character describing the square type.
      */
-    protected void addSquare(Square[][] grid, List<NPC> ghosts,
+    protected void addSquare(Square[][] grid, List<Ghost> ghosts,
                              List<Square> startPositions, int x, int y, char c) {
         switch (c) {
             case ' ':
@@ -135,9 +135,9 @@ public class MapParser {
         }
     }
 
-    private Square makeGhostSquare(List<NPC> ghosts) {
+    private Square makeGhostSquare(List<Ghost> ghosts) {
         Square ghostSquare = boardCreator.createGround();
-        NPC ghost = levelCreator.createGhost();
+        Ghost ghost = levelCreator.createGhost();
         ghosts.add(ghost);
         ghost.occupy(ghostSquare);
         return ghostSquare;

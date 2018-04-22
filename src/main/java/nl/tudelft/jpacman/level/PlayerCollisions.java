@@ -1,7 +1,7 @@
 package nl.tudelft.jpacman.level;
 
 import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.npc.Ghost;
 
 /**
  * A simple implementation of a collision map for the JPacman player.
