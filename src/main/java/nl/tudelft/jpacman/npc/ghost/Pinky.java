@@ -8,6 +8,7 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.npc.Ghost;
 import nl.tudelft.jpacman.sprite.Sprite;
 
 /**
@@ -95,12 +96,7 @@ public class Pinky extends Ghost {
             return Optional.empty();
         }
         assert player.hasSquare();
-
-        Direction targetDirection = player.getDirection();
-        Square destination = player.getSquare();
-        for (int i = 0; i < SQUARES_AHEAD; i++) {
-            destination = destination.getSquareAt(targetDirection);
-        }
+        Square destination = player.squaresAheadOf(SQUARES_AHEAD);
 
         List<Direction> path = Navigation.shortestPath(getSquare(), destination, this);
         if (path != null && !path.isEmpty()) {

@@ -15,7 +15,7 @@ import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.Ghost;
 
 /**
  * A level of Pac-Man. A level consists of the board with the players and the
@@ -45,7 +45,7 @@ public class Level {
     /**
      * The NPCs of this level and, if they are running, their schedules.
      */
-    private final Map<NPC, ScheduledExecutorService> npcs;
+    private final Map<Ghost, ScheduledExecutorService> npcs;
 
     /**
      * <code>true</code> iff this level is currently in progress, i.e. players
@@ -90,7 +90,7 @@ public class Level {
      * @param collisionMap
      *            The collection of collisions that should be handled.
      */
-    public Level(Board board, List<NPC> ghosts, List<Square> startPositions,
+    public Level(Board board, List<Ghost> ghosts, List<Square> startPositions,
                  CollisionMap collisionMap) {
         assert board != null;
         assert ghosts != null;
@@ -99,7 +99,7 @@ public class Level {
         this.board = board;
         this.inProgress = false;
         this.npcs = new HashMap<>();
-        for (NPC ghost : ghosts) {
+        for (Ghost ghost : ghosts) {
             npcs.put(ghost, null);
         }
         this.startSquares = startPositions;
@@ -227,7 +227,7 @@ public class Level {
      * Starts all NPC movement scheduling.
      */
     private void startNPCs() {
-        for (final NPC npc : npcs.keySet()) {
+        for (final Ghost npc : npcs.keySet()) {
             ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
 
             service.schedule(new NpcMoveTask(service, npc),
@@ -242,7 +242,7 @@ public class Level {
      * executed.
      */
     private void stopNPCs() {
-        for (Entry<NPC, ScheduledExecutorService> entry : npcs.entrySet()) {
+        for (Entry<Ghost, ScheduledExecutorService> entry : npcs.entrySet()) {
             ScheduledExecutorService schedule = entry.getValue();
             assert schedule != null;
             schedule.shutdownNow();
@@ -327,7 +327,7 @@ public class Level {
         /**
          * The NPC to move.
          */
-        private final NPC npc;
+        private final Ghost npc;
 
         /**
          * Creates a new task.
@@ -337,7 +337,7 @@ public class Level {
          * @param npc
          *            The NPC to move.
          */
-        NpcMoveTask(ScheduledExecutorService service, NPC npc) {
+        NpcMoveTask(ScheduledExecutorService service, Ghost npc) {
             this.service = service;
             this.npc = npc;
         }

@@ -8,7 +8,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.Ghost;
 
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +31,7 @@ class LevelTest {
     /**
      * An NPC on this level.
      */
-    private final NPC ghost = mock(NPC.class);
+    private final Ghost ghost = mock(Ghost.class);
 
     /**
      * Starting position 1.

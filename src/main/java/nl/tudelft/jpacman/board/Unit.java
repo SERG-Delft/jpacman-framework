@@ -111,4 +111,19 @@ public abstract class Unit {
      */
     public abstract Sprite getSprite();
 
+    /**
+     * A utility method for implementing the ghost AI.
+     *
+     * @param amountToLookAhead the amount of squares to follow this units direction in.
+     * @return The square amountToLookAhead spaces in front of this unit.
+     */
+    public Square squaresAheadOf(int amountToLookAhead) {
+        Direction targetDirection = this.getDirection();
+        Square playerDestination = this.getSquare();
+        for (int i = 0; i < amountToLookAhead; i++) {
+            playerDestination = playerDestination.getSquareAt(targetDirection);
+        }
+
+        return playerDestination;
+    }
 }
