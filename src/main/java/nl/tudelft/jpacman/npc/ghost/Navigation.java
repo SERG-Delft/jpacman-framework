@@ -117,11 +117,12 @@ public final class Navigation {
      * @return A unit of type T, iff such a unit occupies this square, or
      *         <code>null</code> of none does.
      */
-    public static Unit findUnit(Class<? extends Unit> type, Square square) {
+    @SuppressWarnings("unchecked")
+    public static <T extends Unit> T findUnit(Class<? extends Unit> type, Square square) {
         for (Unit unit : square.getOccupants()) {
             if (type.isInstance(unit)) {
                 assert unit.hasSquare();
-                return unit;
+                return (T) unit;
             }
         }
         return null;
