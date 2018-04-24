@@ -20,10 +20,10 @@ import java.util.Optional;
  * line from Blinky to the spot that is two squares in front of Pac-Man and
  * extends that line twice as far. Therefore, if Inky is alongside Blinky
  * when they are behind Pac-Man, Inky will usually follow Blinky the whole
- * time. But if Bashful is in front of Pac-Man when Blinky is far behind him,
- * Bashful tends to want to move away from Pac-Man (in reality, to a point very
- * far ahead of Pac-Man). Bashful is affected by a similar targeting bug that
- * affects Speedy. When Pac-Man is moving or facing up, the spot Bashful uses to
+ * time. But if Inky is in front of Pac-Man when Blinky is far behind him,
+ * Inky tends to want to move away from Pac-Man (in reality, to a point very
+ * far ahead of Pac-Man). Inky is affected by a similar targeting bug that
+ * affects Speedy. When Pac-Man is moving or facing up, the spot Inky uses to
  * draw the line is two squares above and left of Pac-Man.
  * <p>
  * Source: http://strategywiki.org/wiki/Pac-Man/Getting_Started
@@ -47,7 +47,7 @@ public class Inky extends Ghost {
     private static final int MOVE_INTERVAL = 250;
 
     /**
-     * Creates a new "Inky", a.k.a. Bashful.
+     * Creates a new "Inky".
      *
      * @param spriteMap The sprites for this ghost.
      */
@@ -66,9 +66,9 @@ public class Inky extends Ghost {
      * alongside Blinky when they are behind Pac-Man, Inky will usually
      * follow Blinky the whole time. But if Inky is in front of Pac-Man when
      * Blinky is far behind him, Inky tends to want to move away from Pac-Man
-     * (in reality, to a point very far ahead of Pac-Man). Bashful is affected
+     * (in reality, to a point very far ahead of Pac-Man). Inky is affected
      * by a similar targeting bug that affects Speedy. When Pac-Man is moving or
-     * facing up, the spot Bashful uses to draw the line is two squares above
+     * facing up, the spot Inky uses to draw the line is two squares above
      * and left of Pac-Man.
      * </p>
      *
