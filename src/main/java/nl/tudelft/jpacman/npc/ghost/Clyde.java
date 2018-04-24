@@ -27,8 +27,8 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * </p>
  * <p>
  * <b>AI:</b> Clyde has two basic AIs, one for when he's far from Pac-Man, and
- * one for when he is near to Pac-Man. When the ghosts are not patrolling their
- * home corners, and Clyde is far away from Pac-Man (beyond eight grid spaces),
+ * one for when he is near to Pac-Man. 
+ * When Clyde is far away from Pac-Man (beyond eight grid spaces),
  * Clyde behaves very much like Blinky, trying to move to Pac-Man's exact
  * location. However, when Clyde gets within eight grid spaces of Pac-Man, he
  * automatically changes his behavior and runs away.
@@ -83,8 +83,8 @@ public class Clyde extends Ghost {
      *
      * <p>
      * Clyde has two basic AIs, one for when he's far from Pac-Man, and one for
-     * when he is near to Pac-Man. When the ghosts are not patrolling their home
-     * corners, and Clyde is far away from Pac-Man (beyond eight grid spaces),
+     * when he is near to Pac-Man. 
+     * When Clyde is far away from Pac-Man (beyond eight grid spaces),
      * Clyde behaves very much like Blinky, trying to move to Pac-Man's exact
      * location. However, when Clyde gets within eight grid spaces of Pac-Man,
      * he automatically changes his behavior and runs away

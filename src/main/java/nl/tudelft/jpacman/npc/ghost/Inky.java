@@ -15,8 +15,7 @@ import java.util.Optional;
  * <p>
  * An implementation of the classic Pac-Man ghost Inky.
  * </p>
- * <b>AI:</b> Inky has the most complicated AI of all. When the ghosts are
- * not patrolling their home corners, Inky considers two things: Blinky's
+ * <b>AI:</b> Inky has the most complicated AI of all. Inky considers two things: Blinky's
  * location, and the location two grid spaces ahead of Pac-Man. Inky draws a
  * line from Blinky to the spot that is two squares in front of Pac-Man and
  * extends that line twice as far. Therefore, if Inky is alongside Blinky
@@ -60,8 +59,7 @@ public class Inky extends Ghost {
      * {@inheritDoc}
      *
      * <p>
-     * Inky has the most complicated AI of all. When the ghosts are not
-     * patrolling their home corners, Inky considers two things: Blinky's
+     * Inky has the most complicated AI of all. Inky considers two things: Blinky's
      * location, and the location two grid spaces ahead of Pac-Man. Inky
      * draws a line from Blinky to the spot that is two squares in front of
      * Pac-Man and extends that line twice as far. Therefore, if Inky is
