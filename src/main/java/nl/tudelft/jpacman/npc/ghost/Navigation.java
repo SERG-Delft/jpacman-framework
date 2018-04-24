@@ -114,6 +114,9 @@ public final class Navigation {
      *            The type to search for.
      * @param square
      *            The square to search.
+     * @param <T>
+     *           the type of unit we searched for.
+     *
      * @return A unit of type T, iff such a unit occupies this square, or
      *         <code>null</code> of none does.
      */
