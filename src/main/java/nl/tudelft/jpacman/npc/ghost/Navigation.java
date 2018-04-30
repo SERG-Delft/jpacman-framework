@@ -118,7 +118,7 @@ public final class Navigation {
      *
      * @return the first unit found of type clazz, or null.
      */
-    public <T extends Unit> T findUnitInBoard(Class<T> clazz, Board board) {
+    public static <T extends Unit> T findUnitInBoard(Class<T> clazz, Board board) {
         for (int y = 0; y < board.getHeight(); y++) {
             for (int x = 0; x < board.getWidth(); x++) {
                 final T ghost = Navigation.findUnit(clazz, board.squareAt(x, y));
