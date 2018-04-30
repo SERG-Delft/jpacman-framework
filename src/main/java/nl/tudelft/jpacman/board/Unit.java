@@ -119,11 +119,11 @@ public abstract class Unit {
      */
     public Square squaresAheadOf(int amountToLookAhead) {
         Direction targetDirection = this.getDirection();
-        Square playerDestination = this.getSquare();
+        Square destination = this.getSquare();
         for (int i = 0; i < amountToLookAhead; i++) {
-            playerDestination = playerDestination.getSquareAt(targetDirection);
+            destination = destination.getSquareAt(targetDirection);
         }
 
-        return playerDestination;
+        return destination;
     }
 }
