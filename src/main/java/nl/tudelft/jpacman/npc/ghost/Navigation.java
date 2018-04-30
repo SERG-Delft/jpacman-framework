@@ -5,9 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.level.Level;
 
 /**
  * Navigation provides utility to nagivate on {@link Square}s.
@@ -108,6 +110,29 @@ public final class Navigation {
     }
 
     /**
+     *  Finds a subtype of Unit in a level.
+     *  This method is very useful for finding the ghosts in the parsed map.
+     *
+     * @param clazz the type to search for.
+     * @param board the board to find the unit in.
+     * @param <T> the return type, same as the type in clazz.
+     *
+     * @return the first unit found of type clazz, or null.
+     */
+    public <T extends Unit> T findUnitInBoard(Class<T> clazz, Board board) {
+        for (int y = 0; y < board.getHeight(); y++) {
+            for (int x = 0; x < board.getWidth(); x++) {
+                final T ghost = Navigation.findUnit(clazz, board.squareAt(x, y));
+                if (ghost != null) {
+                    return ghost;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Determines whether a square has an occupant of a certain type.
      *
      * @param type
@@ -121,7 +146,7 @@ public final class Navigation {
      *         <code>null</code> of none does.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Unit> T findUnit(Class<? extends Unit> type, Square square) {
+    public static <T extends Unit> T findUnit(Class<T> type, Square square) {
         for (Unit unit : square.getOccupants()) {
             if (type.isInstance(unit)) {
                 assert unit.hasSquare();
