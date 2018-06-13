@@ -142,7 +142,7 @@ Given the game has started;
 When  the player clicks the "Stop" button;
 Then  all moves from ghosts and the player are suspended.
 
-Scenario S4.2: Restart the game.
+Scenario S4.2: Resume the game.
 Given the game is suspended;
 When  the player hits the "Start" button;
 Then  the game is resumed.
