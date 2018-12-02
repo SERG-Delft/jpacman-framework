@@ -1,11 +1,10 @@
 JPacman Scenarios
 =================
 
-Arie van Deursen, Delft University of Technology, 2011-today.
+Arie van Deursen, Delft University of Technology.
 
 
-1. Background
--------------
+## 1. Background
 
 This document describes a series of JPacman user scenarios, following the format of [behavior-driven development](http://dannorth.net/whats-in-a-story/).
 
@@ -31,16 +30,14 @@ Thus, each scenario is of the form:
 ----
 
 
-2. JPacman Overview
--------------------
+## 2. JPacman Overview
 
 JPacman is a very simple JPacman derivative, to be used for educational purposes. Essential features such as multiple levels and multiple players, energizers and different ghost types are postponed for later releases (and may be implemented by students as an exercise).  Furthermore, to give the game a somewhat different flavor, JPacman deviates from standard Pacman behavior in several ways.  This document describes the requirements as a series of use cases, and explains what the GUI should look like.
 
 The JPacman game is played on a rectangular board.  A square on the board can be empty, or can contain the Pacman itself, one of the several ghosts, a pellet (worth 10 points), or a wall. Moveable characters such as the Pacman and the ghosts can make single-step horizontal or vertical moves.  Tunnels on the border make it possible to move from one border to the opposite border.  When the Pacman moves over a square containing a pellet, the player earns points and the pellet disappears. If a player and a ghost meet at the same square, the the game is over. The player wins the game once he or she has eaten all pellets.
 
 
-3. User Stories
----------------
+## 3. User Stories
 
 #### Story 1: Startup
 
@@ -148,8 +145,7 @@ When  the player hits the "Start" button;
 Then  the game is resumed.
 ```
 
-3. User Interface
------------------
+## 3. User Interface
 
 The user interface for JPacman is relatively simple.  The game is
 rectangular board, which can be read from a special text file with
@@ -162,8 +158,7 @@ GUI), as well as an indicator for the amount of food eaten and the
 game's overall state (playing, game won, player died, ready to start
 the play). 
 
-4. Development Requirements
----------------------------
+## 4. Development Requirements
 
 JPacman should be developed in Java. It should be set up so that it
 can easily be used by (the latest versions of) standard (open source) Java development tools, such as maven, JUnit, Eclipse/IntelliJ, cobertura, etc. To allow for working with maven, the maven standard directory structure should be used.  Since the educational purposes include testing, JPacman should be delivered with an extensive test suite.
